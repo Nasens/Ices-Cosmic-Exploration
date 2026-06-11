@@ -16,9 +16,9 @@ namespace ICE.Ui.DebugWindowTabs
             var missionList = CosmicHandler.All_AvailableMissions();
             var tabInfo = HudInfo();
 
-            ImGui.Text($"Selected Job Index {tabInfo.SelectedJobIndex}");
-            ImGui.Text($"Selected Tab Index {tabInfo.SelectedTabIndex}");
-            ImGui.Text($"Selected Filter Index {tabInfo.SelectedFilterIndex}");
+            ImGui.Text($"选中职业索引 {tabInfo.SelectedJobIndex}");
+            ImGui.Text($"选中标签索引 {tabInfo.SelectedTabIndex}");
+            ImGui.Text($"选中筛选索引 {tabInfo.SelectedFilterIndex}");
 
             if (GenericHelpers.TryGetAddonMaster<WKSMission>("WKSMission", out var x) && x.IsAddonReady)
             {
@@ -36,10 +36,10 @@ namespace ICE.Ui.DebugWindowTabs
 
             if (ImGui.BeginTable("CS: Missions Avaialble", 4, ImGuiTableFlags.SizingFixedFit | ImGuiTableFlags.RowBg | ImGuiTableFlags.Borders))
             {
-                ImGui.TableSetupColumn("Job");
-                ImGui.TableSetupColumn("Id");
-                ImGui.TableSetupColumn("Name");
-                ImGui.TableSetupColumn("Flag");
+                ImGui.TableSetupColumn("职业");
+                ImGui.TableSetupColumn("ID");
+                ImGui.TableSetupColumn("名称");
+                ImGui.TableSetupColumn("标志");
 
                 ImGui.TableHeadersRow();
 
@@ -62,7 +62,7 @@ namespace ICE.Ui.DebugWindowTabs
                         ImGui.Text($"{sheetInfo.Name}");
 
                         ImGui.TableNextColumn();
-                        ImGui.Text($"Rank {sheetInfo.Rank}");
+                        ImGui.Text($"评级 {sheetInfo.Rank}");
                     }
                 }
 

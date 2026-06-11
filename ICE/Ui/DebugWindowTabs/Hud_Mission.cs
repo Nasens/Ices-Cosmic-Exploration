@@ -18,47 +18,47 @@ namespace ICE.Ui.DebugWindowTabs
         {
             if (GenericHelpers.TryGetAddonMaster<WKSMission>("WKSMission", out var x) && x.IsAddonReady)
             {
-                ImGui.Text("List of Visible Missions");
-                ImGui.Text($"Selected Mission Name: {x.SelectedMissionName}");
-                ImGui.Text($"Selected Mission ID: {x.SelectedMissionId}");
+                ImGui.Text("可见任务列表");
+                ImGui.Text($"已选任务名称: {x.SelectedMissionName}");
+                ImGui.Text($"已选任务 ID: {x.SelectedMissionId}");
                 ImGui.Text($"{AgentWKSMissionEx.selectedTab()}");
 
-                if (ImGui.Button("Help"))
+                if (ImGui.Button("帮助"))
                 {
                     x.Help();
                 }
                 ImGui.SameLine();
 
-                if (ImGui.Button("Mission Selection"))
+                if (ImGui.Button("任务选择"))
                 {
                     x.MissionSelection();
                 }
                 ImGui.SameLine();
 
-                if (ImGui.Button("Mission Log"))
+                if (ImGui.Button("任务日志"))
                 {
                     x.MissionLog();
                 }
                 ImGui.SameLine();
 
-                if (ImGui.Button("Basic Missions"))
+                if (ImGui.Button("基础任务"))
                 {
                     x.BasicMissions();
                 }
                 ImGui.SameLine();
 
-                if (ImGui.Button("Provisional Missions"))
+                if (ImGui.Button("临时任务"))
                 {
                     x.ProvisionalMissions();
                 }
                 ImGui.SameLine();
 
-                if (ImGui.Button("Critical Missions"))
+                if (ImGui.Button("紧急任务"))
                 {
                     x.CriticalMissions();
                 }
 
-                if (ImGui.Button("Test Mission List"))
+                if (ImGui.Button("测试任务列表"))
                 {
                     Mission_Settings.SelectedJob = (uint)Player.Job;
                     Mission_Settings.Mode = C.SelectedMode;
@@ -66,7 +66,7 @@ namespace ICE.Ui.DebugWindowTabs
                 }
 
                 bool EnableDummyXp = C.UseDummyXp;
-                if (ImGui.Checkbox("Enable Dummy XP", ref EnableDummyXp))
+                if (ImGui.Checkbox("启用虚拟 XP", ref EnableDummyXp))
                 {
                     C.UseDummyXp = EnableDummyXp;
                     C.Save();
@@ -90,18 +90,18 @@ namespace ICE.Ui.DebugWindowTabs
 
                 bool IgnoreManual = C.XPRelicIgnoreManual;
                 bool onlyEnabled = C.XPRelicOnlyEnabled;
-                if (ImGui.Checkbox("Ignore Manual Mode", ref IgnoreManual))
+                if (ImGui.Checkbox("忽略指南模式", ref IgnoreManual))
                 {
                     C.XPRelicIgnoreManual = IgnoreManual;
                     C.Save();
                 }
-                if (ImGui.Checkbox("Only Enabled Missions", ref onlyEnabled))
+                if (ImGui.Checkbox("仅启用的任务", ref onlyEnabled))
                 {
                     C.XPRelicOnlyEnabled = onlyEnabled;
                     C.Save();
                 }
 
-                if (ImGui.Button("Update Dummy XP"))
+                if (ImGui.Button("更新虚拟 XP"))
                 {
                     foreach (var kind in XpKinds)
                     {
@@ -128,14 +128,14 @@ namespace ICE.Ui.DebugWindowTabs
                     int neededXP = xp.NeededXP;
 
                     ImGui.SetNextItemWidth(100);
-                    if (ImGui.InputInt("Current XP", ref currentXP))
+                    if (ImGui.InputInt("当前 XP", ref currentXP))
                     {
                         xp.CurrentXP = currentXP;
                         C.Save();
                     }
 
                     ImGui.SetNextItemWidth(100);
-                    if (ImGui.InputInt("Needed XP", ref neededXP))
+                    if (ImGui.InputInt("需求 XP", ref neededXP))
                     {
                         xp.NeededXP = neededXP;
                         C.Save();
@@ -151,23 +151,23 @@ namespace ICE.Ui.DebugWindowTabs
                     ImGui.AlignTextToFramePadding();
                     ImGui.Text($"[{m.MissionId}] {m.Name}");
                     ImGui.SameLine();
-                    if (ImGui.Button($"Select###Select + {m.Name}"))
+                    if (ImGui.Button($"选择###Select + {m.Name}"))
                     {
                         m.Select();
                     }
                     ImGui.SameLine();
-                    if (ImGui.Button($"Initiate##Initiate + {m.Name}"))
+                    if (ImGui.Button($"启动##Initiate + {m.Name}"))
                     {
                         m.Initiate();
                     }
                 }
 
-                ImGui.Text($"Best Relic Mission: {BestMission} | {MissionName}");
-                if (ImGui.Button("Update Best Mission"))
+                ImGui.Text($"最佳 Relic 任务: {BestMission} | {MissionName}");
+                if (ImGui.Button("更新最佳任务"))
                 {
                     BestMission = (int)RelicMissionFinder();
                     if (BestMission < 1)
-                        MissionName = "None";
+                        MissionName = "无";
                     else
                     {
                         MissionName = CosmicHelper.SheetMissionDict[(uint)BestMission].Name;
@@ -178,7 +178,7 @@ namespace ICE.Ui.DebugWindowTabs
             }
             else
             {
-                ImGui.Text("Waiting for \"WKSMission\" to be visible");
+                ImGui.Text("等待 \"WKSMission\" 可见");
             }
         }
 

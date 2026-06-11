@@ -28,9 +28,9 @@ namespace ICE.Ui.DebugWindowTabs
 
         public static void Draw()
         {
-            ImGui.Text($"Selected Food: [{SelectedFood.Id}] {SelectedFood.Name}");
+            ImGui.Text($"已选食物: [{SelectedFood.Id}] {SelectedFood.Name}");
             ImGui.SameLine();
-            if (ImGui.Button("Select Food"))
+            if (ImGui.Button("选择食物"))
             {
                 PotentialCrafterFood.Clear();
                 foreach (var food in ConsumableInfo.CrafterFood)
@@ -53,9 +53,9 @@ namespace ICE.Ui.DebugWindowTabs
                 ImGui.EndPopup();
             }
 
-            ImGui.Text($"Selected Pot: [{SelectedPot.Id}] {SelectedPot.Name}");
+            ImGui.Text($"已选药水: [{SelectedPot.Id}] {SelectedPot.Name}");
             ImGui.SameLine();
-            if (ImGui.Button("Select Pot"))
+            if (ImGui.Button("选择药水"))
             {
                 PotentialPots.Clear();
                 foreach (var pot in ConsumableInfo.Pots)
@@ -78,9 +78,9 @@ namespace ICE.Ui.DebugWindowTabs
                 ImGui.EndPopup();
             }
 
-            ImGui.Text($"Selected Manual: [{SelectedManual.Id}] {SelectedManual.Name}");
+            ImGui.Text($"已选指南: [{SelectedManual.Id}] {SelectedManual.Name}");
             ImGui.SameLine();
-            if (ImGui.Button("Select Manual"))
+            if (ImGui.Button("选择指南"))
             {
                 PotentialManuals.Clear();
                 foreach (var manual in ConsumableInfo.Manuals)
@@ -103,9 +103,9 @@ namespace ICE.Ui.DebugWindowTabs
                 ImGui.EndPopup();
             }
 
-            ImGui.Text($"Selected Squadron Manual: [{SelectedSquadronManual.Id}] {SelectedSquadronManual.Name}");
+            ImGui.Text($"已选军用指南: [{SelectedSquadronManual.Id}] {SelectedSquadronManual.Name}");
             ImGui.SameLine();
-            if (ImGui.Button("Select Squadron Manual"))
+            if (ImGui.Button("选择军用指南"))
             {
                 PotentialSquadronManuals.Clear();
                 foreach (var manual in ConsumableInfo.SquadronManuals)
@@ -129,9 +129,9 @@ namespace ICE.Ui.DebugWindowTabs
             }
 
             ImGui.Separator();
-            ImGui.InputUInt("Recipe Id", ref RecipeId);
+            ImGui.InputUInt("配方 ID", ref RecipeId);
 
-            if (ImGui.Button("Reset Temp"))
+            if (ImGui.Button("重置临时"))
             {
                 P.Artisan.SetTempFoodBackToNormal(RecipeId);
                 P.Artisan.SetTempPotionBackToNormal(RecipeId);
@@ -139,32 +139,32 @@ namespace ICE.Ui.DebugWindowTabs
                 P.Artisan.SetTempSquadronManualBackToNormal(RecipeId);
             }
 
-            if (ImGui.Button("Food [HQ]"))
+            if (ImGui.Button("食物 [HQ]"))
             {
                 P.Artisan.ChangeFood(RecipeId, SelectedFood.Id, true, true);
             }
             ImGui.SameLine();
-            if (ImGui.Button("Food [NQ]"))
+            if (ImGui.Button("食物 [NQ]"))
             {
                 P.Artisan.ChangeFood(RecipeId, SelectedFood.Id, false, true);
             }
 
-            if (ImGui.Button("Potion [HQ]"))
+            if (ImGui.Button("药水 [HQ]"))
             {
                 P.Artisan.ChangePotion(RecipeId, SelectedPot.Id, true, true);
             }
             ImGui.SameLine();
-            if (ImGui.Button("Potion [NQ]"))
+            if (ImGui.Button("药水 [NQ]"))
             {
                 P.Artisan.ChangePotion(RecipeId, SelectedPot.Id, false, true);
             }
 
-            if (ImGui.Button("Manual"))
+            if (ImGui.Button("指南"))
             {
                 P.Artisan.ChangeManual(RecipeId, SelectedManual.Id, true);
             }
             ImGui.SameLine();
-            if (ImGui.Button("Squad Manual"))
+            if (ImGui.Button("军用指南"))
             {
                 P.Artisan.ChangeSquadronManual(RecipeId, SelectedSquadronManual.Id, true);
             }
@@ -186,8 +186,8 @@ namespace ICE.Ui.DebugWindowTabs
                     ImGui.SameLine();
                     ImGui.Text($"{name}");
 
-                    ImGui.SliderUInt("Max Usage", ref MaxSkillUsage, 0, 2);
-                    if (ImGui.Button("Apply Temp"))
+                    ImGui.SliderUInt("最大使用次数", ref MaxSkillUsage, 0, 2);
+                    if (ImGui.Button("应用临时"))
                     {
                         if (sheetInfo.TemporaryActionId == 41269)
                         {

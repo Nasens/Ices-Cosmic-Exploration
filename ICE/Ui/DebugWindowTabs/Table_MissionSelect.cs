@@ -24,12 +24,12 @@ namespace ICE.Ui.DebugWindowTabs
             }
         }
 
-        private static string[] jobLabels = { "All Jobs", "CRP", "BSM", "ARM", "GSM", 
+        private static string[] jobLabels = { "所有职业", "CRP", "BSM", "ARM", "GSM", 
                                               "LTW", "WVR", "ALC", "CUL", "MIN", "BTN", "FSH" };
 
         public static void Draw()
         {
-            if (ImGui.Button("Copy Selected"))
+            if (ImGui.Button("复制所选"))
             {
                 var ordered = MissionList.OrderBy(x => x);
                 var c = string.Join(", ", ordered);
@@ -38,13 +38,13 @@ namespace ICE.Ui.DebugWindowTabs
             }
 
             ImGui.SameLine();
-            if (ImGui.Button("Clear"))
+            if (ImGui.Button("清除"))
             {
                 MissionList.Clear();
             }
 
             ImGui.SetNextItemWidth(200);
-            ImGui.SliderInt("Filter##JobFilter", ref sliderIndex, 0, 11, jobLabels[sliderIndex]);
+            ImGui.SliderInt("筛选##JobFilter", ref sliderIndex, 0, 11, jobLabels[sliderIndex]);
 
             ImGui.Text($"1, 2, 3, 4, 5");
             ImGui.Text("2, 3, 5, 6, 7");
@@ -57,10 +57,10 @@ namespace ICE.Ui.DebugWindowTabs
                 if (ImGui.BeginTable("Quick Mission Add", 5, ImGuiTableFlags.RowBg | ImGuiTableFlags.Borders | ImGuiTableFlags.SizingFixedFit))
                 {
                     ImGui.TableSetupColumn("ID");
-                    ImGui.TableSetupColumn("Job");
-                    ImGui.TableSetupColumn("Added");
-                    ImGui.TableSetupColumn("Level");
-                    ImGui.TableSetupColumn("Name");
+                    ImGui.TableSetupColumn("职业");
+                    ImGui.TableSetupColumn("已添加");
+                    ImGui.TableSetupColumn("等级");
+                    ImGui.TableSetupColumn("名称");
 
                     ImGui.TableHeadersRow();
 

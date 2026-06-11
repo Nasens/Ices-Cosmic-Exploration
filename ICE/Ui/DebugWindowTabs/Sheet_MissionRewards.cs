@@ -48,11 +48,11 @@ namespace ICE.Ui.DebugWindowTabs
 
                 // Column 0: Mission ID
                 ImGui.TableSetColumnIndex(0);
-                ImGui.TableHeader("Mission ID");
+                ImGui.TableHeader("任务 ID");
                 if (ImGui.IsItemHovered())
                 {
                     ImGui.BeginTooltip();
-                    ImGui.Text("Row ID");
+                    ImGui.Text("行 ID");
                     ImGui.EndTooltip();
                 }
 
@@ -78,7 +78,7 @@ namespace ICE.Ui.DebugWindowTabs
 
                 // Column 3
                 ImGui.TableSetColumnIndex(3);
-                ImGui.TableHeader("Reward [0]");
+                ImGui.TableHeader("奖励 [0]");
                 if (ImGui.IsItemHovered())
                 {
                     ImGui.BeginTooltip();
@@ -88,7 +88,7 @@ namespace ICE.Ui.DebugWindowTabs
 
                 // Column 4
                 ImGui.TableSetColumnIndex(4);
-                ImGui.TableHeader("Reward [1]");
+                ImGui.TableHeader("奖励 [1]");
                 if (ImGui.IsItemHovered())
                 {
                     ImGui.BeginTooltip();
@@ -98,7 +98,7 @@ namespace ICE.Ui.DebugWindowTabs
 
                 // Column 5
                 ImGui.TableSetColumnIndex(5);
-                ImGui.TableHeader("Reward [2]");
+                ImGui.TableHeader("奖励 [2]");
                 if (ImGui.IsItemHovered())
                 {
                     ImGui.BeginTooltip();
@@ -108,7 +108,7 @@ namespace ICE.Ui.DebugWindowTabs
 
                 // Column 6
                 ImGui.TableSetColumnIndex(6);
-                ImGui.TableHeader("Reward Amount");
+                ImGui.TableHeader("奖励数量");
                 if (ImGui.IsItemHovered())
                 {
                     ImGui.BeginTooltip();
@@ -118,7 +118,7 @@ namespace ICE.Ui.DebugWindowTabs
 
                 // Column 7
                 ImGui.TableSetColumnIndex(7);
-                ImGui.TableHeader("Tool [0]");
+                ImGui.TableHeader("工具 [0]");
                 if (ImGui.IsItemHovered())
                 {
                     ImGui.BeginTooltip();
@@ -128,7 +128,7 @@ namespace ICE.Ui.DebugWindowTabs
 
                 // Column 8
                 ImGui.TableSetColumnIndex(8);
-                ImGui.TableHeader("Tool [1]");
+                ImGui.TableHeader("工具 [1]");
                 if (ImGui.IsItemHovered())
                 {
                     ImGui.BeginTooltip();
@@ -138,7 +138,7 @@ namespace ICE.Ui.DebugWindowTabs
 
                 // Column 9
                 ImGui.TableSetColumnIndex(9);
-                ImGui.TableHeader("Tool [2]");
+                ImGui.TableHeader("工具 [2]");
                 if (ImGui.IsItemHovered())
                 {
                     ImGui.BeginTooltip();
@@ -148,7 +148,7 @@ namespace ICE.Ui.DebugWindowTabs
 
                 // Column 10
                 ImGui.TableSetColumnIndex(10);
-                ImGui.TableHeader("Exp Type [0]");
+                ImGui.TableHeader("经验类型 [0]");
                 if (ImGui.IsItemHovered())
                 {
                     ImGui.BeginTooltip();
@@ -158,7 +158,7 @@ namespace ICE.Ui.DebugWindowTabs
 
                 // Column 11
                 ImGui.TableSetColumnIndex(11);
-                ImGui.TableHeader("Exp Type [1]");
+                ImGui.TableHeader("经验类型 [1]");
                 if (ImGui.IsItemHovered())
                 {
                     ImGui.BeginTooltip();
@@ -168,7 +168,7 @@ namespace ICE.Ui.DebugWindowTabs
 
                 // Column 12
                 ImGui.TableSetColumnIndex(12);
-                ImGui.TableHeader("Exp Type [2]");
+                ImGui.TableHeader("经验类型 [2]");
                 if (ImGui.IsItemHovered())
                 {
                     ImGui.BeginTooltip();
@@ -178,7 +178,7 @@ namespace ICE.Ui.DebugWindowTabs
 
                 // Column 13
                 ImGui.TableSetColumnIndex(13);
-                ImGui.TableHeader("Reward ItemID");
+                ImGui.TableHeader("奖励物品ID");
                 if (ImGui.IsItemHovered())
                 {
                     ImGui.BeginTooltip();
@@ -188,7 +188,7 @@ namespace ICE.Ui.DebugWindowTabs
 
                 // Column 14
                 ImGui.TableSetColumnIndex(14);
-                ImGui.TableHeader("ExpModifier [0]");
+                ImGui.TableHeader("经验修正 [0]");
                 if (ImGui.IsItemHovered())
                 {
                     ImGui.BeginTooltip();
@@ -198,7 +198,7 @@ namespace ICE.Ui.DebugWindowTabs
 
                 // Column 15
                 ImGui.TableSetColumnIndex(15);
-                ImGui.TableHeader("ExpModifier [1]");
+                ImGui.TableHeader("经验修正 [1]");
                 if (ImGui.IsItemHovered())
                 {
                     ImGui.BeginTooltip();
@@ -208,7 +208,7 @@ namespace ICE.Ui.DebugWindowTabs
 
                 // Column 16
                 ImGui.TableSetColumnIndex(16);
-                ImGui.TableHeader("ExpModifier [2]");
+                ImGui.TableHeader("经验修正 [2]");
                 if (ImGui.IsItemHovered())
                 {
                     ImGui.BeginTooltip();

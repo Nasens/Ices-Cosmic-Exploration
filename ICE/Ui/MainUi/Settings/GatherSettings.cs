@@ -30,19 +30,19 @@ namespace ICE.Ui.MainUi.Settings
         private static string newProfileName = "";
         private static string[] MissionTypes = 
         [
-            "Limited Nodes", 
-            "Gather x Amount", 
-            "Time Attack", 
-            "Chained Scoring", 
-            "Boon Scoring", 
-            "Chain + Boon Scoring", 
-            "Dual Class",
-            "Greater Reach [Gather X]",
-            "Greater Reach [Boon]",
-            "Greater Reach [Chain]",
-            "Greater Reach [Boon + Chain]",
+            "限定采集点", 
+            "采集 x 个", 
+            "限时挑战", 
+            "连锁计分", 
+            "恩惠计分", 
+            "连锁 + 恩惠计分", 
+            "双职业",
+            "更远触及 [采集 X]",
+            "更远触及 [恩惠]",
+            "更远触及 [连锁]",
+            "更远触及 [恩惠 + 连锁]",
         ];
-        private static readonly string[] RankLabels = ["All Missions", "D and above", "C and above", "B and above", "A and above", "EX and above", "EX+ only"];
+        private static readonly string[] RankLabels = ["所有任务", "D 级及以上", "C 级及以上", "B 级及以上", "A 级及以上", "EX 级及以上", "仅 EX+"];
         private static MissionKinds _selectedMission = MissionKinds.LimitedNodes;
 
         private static readonly string PROFILE_PREFIX = "IceGatherProfile_";
@@ -71,7 +71,7 @@ namespace ICE.Ui.MainUi.Settings
                 // Check for and remove the prefix
                 if (!importString.StartsWith(PROFILE_PREFIX))
                 {
-                    errorMessage = "Invalid import string: Missing prefix";
+                    errorMessage = "导入字符串无效：缺少前缀";
                     return false;
                 }
 
@@ -83,7 +83,7 @@ namespace ICE.Ui.MainUi.Settings
                 var profile = JsonSerializer.Deserialize<GatherProfile>(json);
                 if (profile == null)
                 {
-                    errorMessage = "Failed to deserialize profile";
+                    errorMessage = "配置反序列化失败";
                     return false;
                 }
 
@@ -102,12 +102,12 @@ namespace ICE.Ui.MainUi.Settings
             }
             catch (FormatException)
             {
-                errorMessage = "Invalid import string: Not valid base64";
+                errorMessage = "导入字符串无效：不是有效的 base64";
                 return false;
             }
             catch (Exception ex)
             {
-                errorMessage = $"Import failed: {ex.Message}";
+                errorMessage = $"导入失败：{ex.Message}";
                 return false;
             }
         }
@@ -119,7 +119,7 @@ namespace ICE.Ui.MainUi.Settings
             {
                 if (!importString.StartsWith(PROFILE_PREFIX))
                 {
-                    errorMessage = "Invalid import string: Missing prefix";
+                    errorMessage = "导入字符串无效：缺少前缀";
                     return false;
                 }
 
@@ -130,7 +130,7 @@ namespace ICE.Ui.MainUi.Settings
                 var profile = JsonSerializer.Deserialize<GatherProfile>(json);
                 if (profile == null)
                 {
-                    errorMessage = "Failed to deserialize profile";
+                    errorMessage = "配置反序列化失败";
                     return false;
                 }
 
@@ -160,12 +160,12 @@ namespace ICE.Ui.MainUi.Settings
             }
             catch (FormatException)
             {
-                errorMessage = "Invalid import string: Not valid base64";
+                errorMessage = "导入字符串无效：不是有效的 base64";
                 return false;
             }
             catch (Exception ex)
             {
-                errorMessage = $"Import failed: {ex.Message}";
+                errorMessage = $"导入失败：{ex.Message}";
                 return false;
             }
         }
@@ -176,7 +176,7 @@ namespace ICE.Ui.MainUi.Settings
             int maxGp = 1200;
 
             bool SelfSpiritbondGather = C.SelfSpiritbondGather;
-            if (ImGui.Checkbox("Extract Spiritbond on Gather", ref SelfSpiritbondGather))
+            if (ImGui.Checkbox("采集时萃取精炼度", ref SelfSpiritbondGather))
             {
                 if (C.SelfSpiritbondGather != SelfSpiritbondGather)
                 {
@@ -184,21 +184,21 @@ namespace ICE.Ui.MainUi.Settings
                     C.Save();
                 }
             }
-            ImGuiEx.HelpMarker("Enabling this will make it to where pandora's cordial feature won't be auto-paused.");
+            ImGuiEx.HelpMarker("启用此项后，Pandora 的醒神药功能将不会被自动暂停。");
 
             bool AutoCordial = C.AutoCordial;
-            if (ImGui.Checkbox("Auto Cordial", ref AutoCordial))
+            if (ImGui.Checkbox("自动醒神药", ref AutoCordial))
             {
                 C.AutoCordial = AutoCordial;
                 C.Save();
             }
-            ImGuiEx.HelpMarker("Will only work while using ICE and not manual mode\n" +
-                               "Will also pause pandora cordial usage while on the moon");
-            if (ImGui.CollapsingHeader("Cordial Settings"))
+            ImGuiEx.HelpMarker("仅在使用 ICE 而非手动模式时生效\n" +
+                               "在月球上时还会暂停 Pandora 的醒神药使用");
+            if (ImGui.CollapsingHeader("醒神药设置"))
             {
                 int cordialMinRank = C.CordialMinRank;
                 ImGui.SetNextItemWidth(150);
-                if (ImGui.Combo("Min mission rank for cordials", ref cordialMinRank, RankLabels, RankLabels.Length))
+                if (ImGui.Combo("使用醒神药的最低任务等级", ref cordialMinRank, RankLabels, RankLabels.Length))
                 {
                     C.CordialMinRank = cordialMinRank;
                     C.Save();
@@ -208,45 +208,45 @@ namespace ICE.Ui.MainUi.Settings
                 bool PreventOvercap = C.PreventOvercap;
                 int CordialMinGp = C.CordialMinGp;
 
-                if (ImGui.Checkbox("Inverse Priority (Watered -> Regular -> Hi)", ref InverseCordialPrio))
+                if (ImGui.Checkbox("反向优先级（稀释 -> 普通 -> 高级）", ref InverseCordialPrio))
                 {
                     C.inverseCordialPrio = InverseCordialPrio;
                     C.Save();
                 }
-                if (ImGui.Checkbox("Prevent Overcap", ref PreventOvercap))
+                if (ImGui.Checkbox("防止溢出", ref PreventOvercap))
                 {
                     C.PreventOvercap = PreventOvercap;
                     C.Save();
                 }
                 ImGui.SetNextItemWidth(200);
-                if (ImGui.SliderInt("Use cordial when below the following GP", ref CordialMinGp, 0, maxGp))
+                if (ImGui.SliderInt("当 GP 低于以下数值时使用醒神药", ref CordialMinGp, 0, maxGp))
                 {
                     C.CordialMinGp = CordialMinGp;
                     C.SaveDebounced();
                 }
                 ImGui.SameLine();
-                ImGuiEx.HelpMarker("What's the minimum gp you can have before it uses a cordial.\n" +
-                                   "If set to 0, it'll never use a cordial even with it enabled (because... you'll never have 0 gp)");
+                ImGuiEx.HelpMarker("在使用醒神药之前你可以持有的最低 GP 是多少。\n" +
+                                   "如果设为 0，即使启用也永远不会使用醒神药（因为……你的 GP 永远不会是 0）");
             }
 
-            if (ImGui.CollapsingHeader("Food Settings"))
+            if (ImGui.CollapsingHeader("食物设置"))
             {
                 int foodMinRank = C.FoodMinRank;
                 ImGui.SetNextItemWidth(150);
-                if (ImGui.Combo("Min mission rank for food", ref foodMinRank, RankLabels, RankLabels.Length))
+                if (ImGui.Combo("使用食物的最低任务等级", ref foodMinRank, RankLabels, RankLabels.Length))
                 {
                     C.FoodMinRank = foodMinRank;
                     C.Save();
                 }
 
                 bool useFood = C.UseGatheringFood;
-                if (ImGui.Checkbox("Use food on gathering missions", ref useFood))
+                if (ImGui.Checkbox("在采集任务中使用食物", ref useFood))
                 {
                     C.UseGatheringFood = useFood;
                     C.Save();
                 }
 
-                if (ImGui.Button("Select Gathering Food"))
+                if (ImGui.Button("选择采集食物"))
                 {
                     foreach (var item in ConsumableInfo.GatherFood)
                     {
@@ -259,7 +259,7 @@ namespace ICE.Ui.MainUi.Settings
                 ImGui.SameLine();
                 if (C.GatheringFood == 0)
                 {
-                    ImGui.Text("No Food Selected");
+                    ImGui.Text("未选择食物");
                 }
                 else
                 {
@@ -277,7 +277,7 @@ namespace ICE.Ui.MainUi.Settings
                         // First Column, pretty much giving an option for "None" if they want none
                         ImGui.TableNextRow();
                         ImGui.TableSetColumnIndex(0);
-                        if (ImGui.Selectable("Use no gathering food"))
+                        if (ImGui.Selectable("不使用采集食物"))
                         {
                             C.GatheringFood = 0;
                             C.Save();
@@ -328,10 +328,10 @@ namespace ICE.Ui.MainUi.Settings
 
                 ImGui.TableSetColumnIndex(0);
                 ImGui.SetNextItemWidth(200);
-                ImGui.InputText("New Profile Name", ref newProfileName, 64);
+                ImGui.InputText("新配置名称", ref newProfileName, 64);
                 using (ImRaii.Disabled(newProfileName == ""))
                 {
-                    if (ImGui.Button("Add Profile") && !string.IsNullOrWhiteSpace(newProfileName))
+                    if (ImGui.Button("添加配置") && !string.IsNullOrWhiteSpace(newProfileName))
                     {
                         var newId = C.GatherProfiles.Keys.Max() + 1;
                         C.GatherProfiles[newId] = new()
@@ -349,12 +349,12 @@ namespace ICE.Ui.MainUi.Settings
 
                 #region Profile Selection
 
-                ImGui.Text("Gather Profiles");
+                ImGui.Text("采集配置");
 
                 bool canDelete = C.GatherProfiles.Count > 1 && C.SelectedGatherIndex != 0;
                 using (ImRaii.Disabled(!canDelete))
                 {
-                    if (ImGui.Button("Delete Selected Profile"))
+                    if (ImGui.Button("删除所选配置"))
                     {
                         int deletedId = C.SelectedGatherIndex;
 
@@ -408,9 +408,9 @@ namespace ICE.Ui.MainUi.Settings
                 }
 
                 var missionIndex = (int)_selectedMission;
-                if (ImGui.Combo("Mission Type", ref missionIndex, MissionTypes, MissionTypes.Length))
+                if (ImGui.Combo("任务类型", ref missionIndex, MissionTypes, MissionTypes.Length))
                     _selectedMission = (MissionKinds)missionIndex;
-                if (ImGui.Button("Apply to Mission Types"))
+                if (ImGui.Button("应用到任务类型"))
                 {
                     foreach (var mission in C.MissionConfig)
                     {
@@ -439,13 +439,13 @@ namespace ICE.Ui.MainUi.Settings
 
                 int minGP = entry.MinimumGp;
                 ImGui.SetNextItemWidth(100);
-                if (ImGui.SliderInt("Minimum GP to start mission", ref minGP, -1, maxGp))
+                if (ImGui.SliderInt("开始任务的最低 GP", ref minGP, -1, maxGp))
                 {
                     entry.MinimumGp = minGP;
                     C.SaveDebounced();
                 }
 
-                ImGui.Text("Where'd the dual craft amount go?");
+                ImGui.Text("双职业制作数量去哪了？");
                 ImGui.SameLine();
                 ImGui.Dummy(new(5, 0));
                 ImGui.SameLine();
@@ -455,14 +455,14 @@ namespace ICE.Ui.MainUi.Settings
                     ImGui.SetNextWindowSize(new(400.0f, 0.0f)); // Fixed width, auto height
                     ImGui.BeginTooltip();
 
-                    ImGui.TextWrapped("Short answer: It's built in now\n" +
-                     "Long answer: Honestly, this was a cumbersome system in itself. And with square deciding to not continue on with dual crafting missions going into the 2nd moon, I figured it would be better to just tie it into the scoring system. You realistically only need:\n" +
-                     "Gold: 3 Items\n" +
-                     "Silver: 2 Items\n" +
-                     "Bronze: 1 Item\n" +
-                     "to be able to hit the threshold. And even then, if you manage to not hit it on the first attempt, it'll just keep gathering. Plus. This makes it to where I can not have to worry about profile managing on fishing for... 4 missions? Seemed minorly reduntant in my eyes.\n" +
-                     "So now how it'll work. Select the turnin option (Gold/Any both work the same) and it will now gather up to the necessary amount -> turnin when it's ready.\n" +
-                     "NOW NONE OF YOU CAN TELL IT TO CRAFT 27 ITEMS. STOP IT. IT SAID CRAFT (╯°Д°)╯︵/(.□ . \\)");
+                    ImGui.TextWrapped("简短回答：现在已经内置了\n" +
+                     "详细回答：老实说，这个系统本身就很繁琐。再加上 Square 决定从第二个月球开始不再延续双职业制作任务，我觉得不如直接把它接入计分系统。实际上你只需要：\n" +
+                     "金牌：3 个物品\n" +
+                     "银牌：2 个物品\n" +
+                     "铜牌：1 个物品\n" +
+                     "就能达到阈值。即便如此，如果你第一次没能达到，它也会继续采集。而且，这样我就不用担心钓鱼那……4 个任务的配置管理了？在我看来略显多余。\n" +
+                     "现在的工作方式是：选择交付选项（金牌/任意 效果相同），它就会采集到所需数量 -> 准备好后交付。\n" +
+                     "现在你们谁都别想让它制作 27 个物品。停下。它说的是采集 (╯°Д°)╯︵/(.□ . \\)");
                     ImGui.EndTooltip();
                 }
 
@@ -480,26 +480,26 @@ namespace ICE.Ui.MainUi.Settings
                     int minUseGp = entry.GatherBuffs.Buffs[buffName].MinGp;
                     int minActionGp = GatheringUtil.GathActionDict[buffName].RequiredGp;
                     int maxActionUsage = entry.GatherBuffs.Buffs[buffName].MaxUse;
-                    string ActionInfo = "Apply a 30% buff to your boon chance.";
+                    string ActionInfo = "为你的恩惠几率施加 30% 的增益。";
 
-                    ImGui.Text($"Action Info: ");
+                    ImGui.Text($"动作信息：");
                     ImGuiEx.HelpMarker(ActionInfo);
 
-                    if (ImGui.Checkbox("Enable", ref currentlyEnabled))
+                    if (ImGui.Checkbox("启用", ref currentlyEnabled))
                     {
                         entry.GatherBuffs.Buffs[buffName].Enabled = currentlyEnabled;
                         C.Save();
                     }
 
                     ImGui.SetNextItemWidth(200);
-                    if (ImGui.SliderInt("Minimum Gp for Usage", ref minUseGp, minActionGp, maxGp))
+                    if (ImGui.SliderInt("使用所需最低 GP", ref minUseGp, minActionGp, maxGp))
                     {
                         entry.GatherBuffs.Buffs[buffName].MinGp = minUseGp;
                         C.SaveDebounced();
                     }
 
                     ImGui.SetNextItemWidth(200);
-                    if (ImGui.InputInt("Max Use", ref maxActionUsage))
+                    if (ImGui.InputInt("最大使用次数", ref maxActionUsage))
                     {
                         entry.GatherBuffs.Buffs[buffName].MaxUse = maxActionUsage;
                         C.SaveDebounced();
@@ -522,32 +522,32 @@ namespace ICE.Ui.MainUi.Settings
                     int minUseGp = entry.GatherBuffs.Buffs[buffName].MinGp;
                     int minActionGp = GatheringUtil.GathActionDict[buffName].RequiredGp;
                     int maxActionUsage = entry.GatherBuffs.Buffs[buffName].MaxUse;
-                    string ActionInfo = "Apply a 10% buff to your boon chance.";
+                    string ActionInfo = "为你的恩惠几率施加 10% 的增益。";
 
-                    ImGui.Text($"Action Info: ");
+                    ImGui.Text($"动作信息：");
                     ImGuiEx.HelpMarker(ActionInfo);
 
-                    if (ImGui.Checkbox("Enable", ref currentlyEnabled))
+                    if (ImGui.Checkbox("启用", ref currentlyEnabled))
                     {
                         entry.GatherBuffs.Buffs[buffName].Enabled = currentlyEnabled;
                         C.Save();
                     }
 
                     ImGui.SetNextItemWidth(200);
-                    if (ImGui.SliderInt("Minimum Gp for Usage", ref minUseGp, minActionGp, maxGp))
+                    if (ImGui.SliderInt("使用所需最低 GP", ref minUseGp, minActionGp, maxGp))
                     {
                         entry.GatherBuffs.Buffs[buffName].MinGp = minUseGp;
                         C.SaveDebounced();
                     }
 
                     ImGui.SetNextItemWidth(200);
-                    if (ImGui.InputInt("Max Use", ref maxActionUsage))
+                    if (ImGui.InputInt("最大使用次数", ref maxActionUsage))
                     {
                         entry.GatherBuffs.Buffs[buffName].MaxUse = maxActionUsage;
                         C.SaveDebounced();
                     }
-                    ImGuiEx.HelpMarker("Set to -1 to allow for infinite uses \n" +
-                                       "Set to 1-> X to set maximum amount of uses per mission");
+                    ImGuiEx.HelpMarker("设为 -1 表示允许无限次使用 \n" +
+                                       "设为 1-> X 表示设置每个任务的最大使用次数");
 
                     ImGui.PopID();
                 }
@@ -566,32 +566,32 @@ namespace ICE.Ui.MainUi.Settings
                     int minUseGp = entry.GatherBuffs.Buffs[buffName].MinGp;
                     int minActionGp = GatheringUtil.GathActionDict[buffName].RequiredGp;
                     int maxActionUsage = entry.GatherBuffs.Buffs[buffName].MaxUse;
-                    string ActionInfo = "Increases item yield from Gatherer's Boon by 1";
+                    string ActionInfo = "将采集者恩惠的物品产出增加 1";
 
-                    ImGui.Text($"Action Info: ");
+                    ImGui.Text($"动作信息：");
                     ImGuiEx.HelpMarker(ActionInfo);
 
-                    if (ImGui.Checkbox("Enable", ref currentlyEnabled))
+                    if (ImGui.Checkbox("启用", ref currentlyEnabled))
                     {
                         entry.GatherBuffs.Buffs[buffName].Enabled = currentlyEnabled;
                         C.Save();
                     }
 
                     ImGui.SetNextItemWidth(200);
-                    if (ImGui.SliderInt("Minimum Gp for Usage", ref minUseGp, minActionGp, maxGp))
+                    if (ImGui.SliderInt("使用所需最低 GP", ref minUseGp, minActionGp, maxGp))
                     {
                         entry.GatherBuffs.Buffs[buffName].MinGp = minUseGp;
                         C.SaveDebounced();
                     }
 
                     ImGui.SetNextItemWidth(200);
-                    if (ImGui.InputInt("Max Use", ref maxActionUsage))
+                    if (ImGui.InputInt("最大使用次数", ref maxActionUsage))
                     {
                         entry.GatherBuffs.Buffs[buffName].MaxUse = maxActionUsage;
                         C.SaveDebounced();
                     }
-                    ImGuiEx.HelpMarker("Set to -1 to allow for infinite uses \n" +
-                                       "Set to 1-> X to set maximum amount of uses per mission");
+                    ImGuiEx.HelpMarker("设为 -1 表示允许无限次使用 \n" +
+                                       "设为 1-> X 表示设置每个任务的最大使用次数");
 
                     ImGui.PopID();
                 }
@@ -611,43 +611,43 @@ namespace ICE.Ui.MainUi.Settings
                     int minUsableDurability = entry.GatherBuffs.Buffs[buffName].MinUsableDurability;
                     int minActionGp = GatheringUtil.GathActionDict[buffName].RequiredGp;
                     int maxActionUsage = entry.GatherBuffs.Buffs[buffName].MaxUse;
-                    string ActionInfo = "Increases the number of items obtained when gathering by 2\n" +
-                                        "Will only apply when the gathering node has full durability";
+                    string ActionInfo = "采集时获得的物品数量增加 2\n" +
+                                        "仅在采集点耐久全满时生效";
 
-                    ImGui.Text($"Action Info: ");
+                    ImGui.Text($"动作信息：");
                     ImGuiEx.HelpMarker(ActionInfo);
 
-                    if (ImGui.Checkbox("Enable", ref currentlyEnabled))
+                    if (ImGui.Checkbox("启用", ref currentlyEnabled))
                     {
                         entry.GatherBuffs.Buffs[buffName].Enabled = currentlyEnabled;
                         C.Save();
                     }
 
                     ImGui.SetNextItemWidth(200);
-                    if (ImGui.SliderInt("Minimum Gp for Usage", ref minUseGp, minActionGp, maxGp))
+                    if (ImGui.SliderInt("使用所需最低 GP", ref minUseGp, minActionGp, maxGp))
                     {
                         entry.GatherBuffs.Buffs[buffName].MinGp = minUseGp;
                         C.SaveDebounced();
                     }
 
                     ImGui.SetNextItemWidth(200);
-                    if (ImGui.SliderInt("Node Durability For Usage", ref minUsableDurability, 0, 8))
+                    if (ImGui.SliderInt("使用所需采集点耐久", ref minUsableDurability, 0, 8))
                     {
                         entry.GatherBuffs.Buffs[buffName].MinUsableDurability = minUsableDurability;
                         C.SaveDebounced();
                     }
                     ImGui_Ice.IconWithTooltip(Dalamud.Interface.FontAwesomeIcon.InfoCircle,
-                        "What's the minimum durability a node can have before this action is activated?\n" +
-                        "Mainly used for missions where you can chain durability refresh");
+                        "在激活此动作之前，采集点的最低耐久是多少？\n" +
+                        "主要用于可以连锁刷新耐久的任务");
 
                     ImGui.SetNextItemWidth(200);
-                    if (ImGui.InputInt("Max Use", ref maxActionUsage))
+                    if (ImGui.InputInt("最大使用次数", ref maxActionUsage))
                     {
                         entry.GatherBuffs.Buffs[buffName].MaxUse = maxActionUsage;
                         C.SaveDebounced();
                     }
-                    ImGuiEx.HelpMarker("Set to -1 to allow for infinite uses \n" +
-                                       "Set to 1-> X to set maximum amount of uses per mission");
+                    ImGuiEx.HelpMarker("设为 -1 表示允许无限次使用 \n" +
+                                       "设为 1-> X 表示设置每个任务的最大使用次数");
 
                     ImGui.PopID();
                 }
@@ -667,43 +667,43 @@ namespace ICE.Ui.MainUi.Settings
                     int minUsableDurability = entry.GatherBuffs.Buffs[buffName].MinUsableDurability;
                     int minActionGp = GatheringUtil.GathActionDict[buffName].RequiredGp;
                     int maxActionUsage = entry.GatherBuffs.Buffs[buffName].MaxUse;
-                    string ActionInfo = "Increases the number of items obtained when gathering by 1\n" +
-                                        "Will only apply when the gathering node has full durability";
+                    string ActionInfo = "采集时获得的物品数量增加 1\n" +
+                                        "仅在采集点耐久全满时生效";
 
-                    ImGui.Text($"Action Info: ");
+                    ImGui.Text($"动作信息：");
                     ImGuiEx.HelpMarker(ActionInfo);
 
-                    if (ImGui.Checkbox("Enable", ref currentlyEnabled))
+                    if (ImGui.Checkbox("启用", ref currentlyEnabled))
                     {
                         entry.GatherBuffs.Buffs[buffName].Enabled = currentlyEnabled;
                         C.Save();
                     }
 
                     ImGui.SetNextItemWidth(200);
-                    if (ImGui.SliderInt("Minimum Gp for Usage", ref minUseGp, minActionGp, maxGp))
+                    if (ImGui.SliderInt("使用所需最低 GP", ref minUseGp, minActionGp, maxGp))
                     {
                         entry.GatherBuffs.Buffs[buffName].MinGp = minUseGp;
                         C.SaveDebounced();
                     }
 
                     ImGui.SetNextItemWidth(200);
-                    if (ImGui.SliderInt("Node Durability For Usage", ref minUsableDurability, 0, 8))
+                    if (ImGui.SliderInt("使用所需采集点耐久", ref minUsableDurability, 0, 8))
                     {
                         entry.GatherBuffs.Buffs[buffName].MinUsableDurability = minUsableDurability;
                         C.SaveDebounced();
                     }
                     ImGui_Ice.IconWithTooltip(Dalamud.Interface.FontAwesomeIcon.InfoCircle,
-                        "What's the minimum durability a node can have before this action is activated?\n" +
-                        "Mainly used for missions where you can chain durability refresh");
+                        "在激活此动作之前，采集点的最低耐久是多少？\n" +
+                        "主要用于可以连锁刷新耐久的任务");
 
                     ImGui.SetNextItemWidth(200);
-                    if (ImGui.InputInt("Max Use", ref maxActionUsage))
+                    if (ImGui.InputInt("最大使用次数", ref maxActionUsage))
                     {
                         entry.GatherBuffs.Buffs[buffName].MaxUse = maxActionUsage;
                         C.SaveDebounced();
                     }
-                    ImGuiEx.HelpMarker("Set to -1 to allow for infinite uses \n" +
-                                       "Set to 1-> X to set maximum amount of uses per mission");
+                    ImGuiEx.HelpMarker("设为 -1 表示允许无限次使用 \n" +
+                                       "设为 1-> X 表示设置每个任务的最大使用次数");
 
                     ImGui.PopID();
                 }
@@ -723,40 +723,40 @@ namespace ICE.Ui.MainUi.Settings
                     int minUsableDurability = entry.GatherBuffs.Buffs[buffName].MinUsableDurability;
                     int minActionGp = GatheringUtil.GathActionDict[buffName].RequiredGp;
                     int maxActionUsage = entry.GatherBuffs.Buffs[buffName].MaxUse;
-                    string ActionInfo = "Increase the Integrity by 1\n" +
-                                        "50% chance to grant Eureka Moment";
+                    string ActionInfo = "将完整度增加 1\n" +
+                                        "有 50% 几率赋予灵光乍现";
 
-                    ImGui.Text($"Action Info: ");
+                    ImGui.Text($"动作信息：");
                     ImGuiEx.HelpMarker(ActionInfo);
 
-                    if (ImGui.Checkbox("Enable", ref currentlyEnabled))
+                    if (ImGui.Checkbox("启用", ref currentlyEnabled))
                     {
                         entry.GatherBuffs.Buffs[buffName].Enabled = currentlyEnabled;
                         C.Save();
                     }
 
                     ImGui.SetNextItemWidth(200);
-                    if (ImGui.SliderInt("Minimum Gp for Usage", ref minUseGp, minActionGp, maxGp))
+                    if (ImGui.SliderInt("使用所需最低 GP", ref minUseGp, minActionGp, maxGp))
                     {
                         entry.GatherBuffs.Buffs[buffName].MinGp = minUseGp;
                         C.SaveDebounced();
                     }
 
                     ImGui.SetNextItemWidth(200);
-                    if (ImGui.SliderInt("Minimum Node Durability for Usage", ref minUsableDurability, 0, 8))
+                    if (ImGui.SliderInt("使用所需最低采集点耐久", ref minUsableDurability, 0, 8))
                     {
                         entry.GatherBuffs.Buffs[buffName].MinUsableDurability = minUsableDurability;
                         C.SaveDebounced();
                     }
 
                     ImGui.SetNextItemWidth(200);
-                    if (ImGui.InputInt("Max Use", ref maxActionUsage))
+                    if (ImGui.InputInt("最大使用次数", ref maxActionUsage))
                     {
                         entry.GatherBuffs.Buffs[buffName].MaxUse = maxActionUsage;
                         C.SaveDebounced();
                     }
-                    ImGuiEx.HelpMarker("Set to -1 to allow for infinite uses \n" +
-                                       "Set to 1-> X to set maximum amount of uses per mission");
+                    ImGuiEx.HelpMarker("设为 -1 表示允许无限次使用 \n" +
+                                       "设为 1-> X 表示设置每个任务的最大使用次数");
 
                     ImGui.PopID();
                 }
@@ -775,35 +775,35 @@ namespace ICE.Ui.MainUi.Settings
                     int minUseGp = entry.GatherBuffs.Buffs[buffName].MinGp;
                     int minActionGp = GatheringUtil.GathActionDict[buffName].RequiredGp;
                     int maxActionUsage = entry.GatherBuffs.Buffs[buffName].MaxUse;
-                    string ActionInfo = "Increases the number of items obtained when gathering by 2\n" +
-                                        "Will only apply when the gathering node has full durability";
+                    string ActionInfo = "采集时获得的物品数量增加 2\n" +
+                                        "仅在采集点耐久全满时生效";
 
-                    ImGui.Text($"Action Info: ");
+                    ImGui.Text($"动作信息：");
                     ImGuiEx.HelpMarker(ActionInfo);
 
-                    if (ImGui.Checkbox("Enable", ref currentlyEnabled))
+                    if (ImGui.Checkbox("启用", ref currentlyEnabled))
                     {
                         entry.GatherBuffs.Buffs[buffName].Enabled = currentlyEnabled;
                         C.Save();
                     }
 
                     ImGui.SetNextItemWidth(200);
-                    if (ImGui.SliderInt("Minimum Gp for Usage", ref minUseGp, minActionGp, maxGp))
+                    if (ImGui.SliderInt("使用所需最低 GP", ref minUseGp, minActionGp, maxGp))
                     {
                         entry.GatherBuffs.Buffs[buffName].MinGp = minUseGp;
                         C.SaveDebounced();
                     }
 
                     ImGui.SetNextItemWidth(200);
-                    if (ImGui.InputInt("Max Use", ref maxActionUsage))
+                    if (ImGui.InputInt("最大使用次数", ref maxActionUsage))
                     {
                         entry.GatherBuffs.Buffs[buffName].MaxUse = maxActionUsage;
                         C.SaveDebounced();
                     }
-                    ImGuiEx.HelpMarker("Set to -1 to allow for infinite uses \n" +
-                                       "Set to 1-> X to set maximum amount of uses per mission");
+                    ImGuiEx.HelpMarker("设为 -1 表示允许无限次使用 \n" +
+                                       "设为 1-> X 表示设置每个任务的最大使用次数");
 
-                    ImGui.Text("Minumum Items To Gather");
+                    ImGui.Text("最少采集物品数");
                     ImGui.SameLine();
                     int minItems = entry.GatherBuffs.BountifulMinItem;
                     if (ImGui.DragInt("##MinItemsGather", ref minItems, 1, 2, 4))
@@ -831,34 +831,34 @@ namespace ICE.Ui.MainUi.Settings
                     int minUseGp = entry.GatherBuffs.Buffs[buffName].MinGp;
                     int minActionGp = GatheringUtil.GathActionDict[buffName].RequiredGp;
                     int maxActionUsage = entry.GatherBuffs.Buffs[buffName].MaxUse;
-                    string ActionInfo = "Increases the gather chance by 50%\n" +
-                                        "Please note: You can have multiple enabled, but only the one that will get you the closest to " +
-                                        "100% the cheapest will be applied";
+                    string ActionInfo = "将采集几率提高 50%\n" +
+                                        "请注意：你可以同时启用多个，但只会应用其中能以最低消耗使你最接近 " +
+                                        "100% 的那一个";
 
-                    ImGui.Text($"Action Info: ");
+                    ImGui.Text($"动作信息：");
                     ImGuiEx.HelpMarker(ActionInfo);
 
-                    if (ImGui.Checkbox("Enable", ref currentlyEnabled))
+                    if (ImGui.Checkbox("启用", ref currentlyEnabled))
                     {
                         entry.GatherBuffs.Buffs[buffName].Enabled = currentlyEnabled;
                         C.Save();
                     }
 
                     ImGui.SetNextItemWidth(200);
-                    if (ImGui.SliderInt("Minimum Gp for Usage", ref minUseGp, minActionGp, maxGp))
+                    if (ImGui.SliderInt("使用所需最低 GP", ref minUseGp, minActionGp, maxGp))
                     {
                         entry.GatherBuffs.Buffs[buffName].MinGp = minUseGp;
                         C.SaveDebounced();
                     }
 
                     ImGui.SetNextItemWidth(200);
-                    if (ImGui.InputInt("Max Use", ref maxActionUsage))
+                    if (ImGui.InputInt("最大使用次数", ref maxActionUsage))
                     {
                         entry.GatherBuffs.Buffs[buffName].MaxUse = maxActionUsage;
                         C.SaveDebounced();
                     }
-                    ImGuiEx.HelpMarker("Set to -1 to allow for infinite uses \n" +
-                                       "Set to 1-> X to set maximum amount of uses per mission");
+                    ImGuiEx.HelpMarker("设为 -1 表示允许无限次使用 \n" +
+                                       "设为 1-> X 表示设置每个任务的最大使用次数");
 
                     ImGui.PopID();
                 }
@@ -877,34 +877,34 @@ namespace ICE.Ui.MainUi.Settings
                     int minUseGp = entry.GatherBuffs.Buffs[buffName].MinGp;
                     int minActionGp = GatheringUtil.GathActionDict[buffName].RequiredGp;
                     int maxActionUsage = entry.GatherBuffs.Buffs[buffName].MaxUse;
-                    string ActionInfo = "Increases the gather chance by 15%\n" +
-                                        "Please note: You can have multiple enabled, but only the one that will get you the closest to " +
-                                        "100% the cheapest will be applied";
+                    string ActionInfo = "将采集几率提高 15%\n" +
+                                        "请注意：你可以同时启用多个，但只会应用其中能以最低消耗使你最接近 " +
+                                        "100% 的那一个";
 
-                    ImGui.Text($"Action Info: ");
+                    ImGui.Text($"动作信息：");
                     ImGuiEx.HelpMarker(ActionInfo);
 
-                    if (ImGui.Checkbox("Enable", ref currentlyEnabled))
+                    if (ImGui.Checkbox("启用", ref currentlyEnabled))
                     {
                         entry.GatherBuffs.Buffs[buffName].Enabled = currentlyEnabled;
                         C.Save();
                     }
 
                     ImGui.SetNextItemWidth(200);
-                    if (ImGui.SliderInt("Minimum Gp for Usage", ref minUseGp, minActionGp, maxGp))
+                    if (ImGui.SliderInt("使用所需最低 GP", ref minUseGp, minActionGp, maxGp))
                     {
                         entry.GatherBuffs.Buffs[buffName].MinGp = minUseGp;
                         C.SaveDebounced();
                     }
 
                     ImGui.SetNextItemWidth(200);
-                    if (ImGui.InputInt("Max Use", ref maxActionUsage))
+                    if (ImGui.InputInt("最大使用次数", ref maxActionUsage))
                     {
                         entry.GatherBuffs.Buffs[buffName].MaxUse = maxActionUsage;
                         C.SaveDebounced();
                     }
-                    ImGuiEx.HelpMarker("Set to -1 to allow for infinite uses \n" +
-                                       "Set to 1-> X to set maximum amount of uses per mission");
+                    ImGuiEx.HelpMarker("设为 -1 表示允许无限次使用 \n" +
+                                       "设为 1-> X 表示设置每个任务的最大使用次数");
 
                     ImGui.PopID();
                 }
@@ -923,34 +923,34 @@ namespace ICE.Ui.MainUi.Settings
                     int minUseGp = entry.GatherBuffs.Buffs[buffName].MinGp;
                     int minActionGp = GatheringUtil.GathActionDict[buffName].RequiredGp;
                     int maxActionUsage = entry.GatherBuffs.Buffs[buffName].MaxUse;
-                    string ActionInfo = "Increases the gather chance by 5%\n" +
-                                        "Please note: You can have multiple enabled, but only the one that will get you the closest to " +
-                                        "100% the cheapest will be applied";
+                    string ActionInfo = "将采集几率提高 5%\n" +
+                                        "请注意：你可以同时启用多个，但只会应用其中能以最低消耗使你最接近 " +
+                                        "100% 的那一个";
 
-                    ImGui.Text($"Action Info: ");
+                    ImGui.Text($"动作信息：");
                     ImGuiEx.HelpMarker(ActionInfo);
 
-                    if (ImGui.Checkbox("Enable", ref currentlyEnabled))
+                    if (ImGui.Checkbox("启用", ref currentlyEnabled))
                     {
                         entry.GatherBuffs.Buffs[buffName].Enabled = currentlyEnabled;
                         C.Save();
                     }
 
                     ImGui.SetNextItemWidth(200);
-                    if (ImGui.SliderInt("Minimum Gp for Usage", ref minUseGp, minActionGp, maxGp))
+                    if (ImGui.SliderInt("使用所需最低 GP", ref minUseGp, minActionGp, maxGp))
                     {
                         entry.GatherBuffs.Buffs[buffName].MinGp = minUseGp;
                         C.SaveDebounced();
                     }
 
                     ImGui.SetNextItemWidth(200);
-                    if (ImGui.InputInt("Max Use", ref maxActionUsage))
+                    if (ImGui.InputInt("最大使用次数", ref maxActionUsage))
                     {
                         entry.GatherBuffs.Buffs[buffName].MaxUse = maxActionUsage;
                         C.SaveDebounced();
                     }
-                    ImGuiEx.HelpMarker("Set to -1 to allow for infinite uses \n" +
-                                       "Set to 1-> X to set maximum amount of uses per mission");
+                    ImGuiEx.HelpMarker("设为 -1 表示允许无限次使用 \n" +
+                                       "设为 1-> X 表示设置每个任务的最大使用次数");
 
                     ImGui.PopID();
                 }
@@ -969,33 +969,33 @@ namespace ICE.Ui.MainUi.Settings
                     int minUseGp = entry.GatherBuffs.Buffs[buffName].MinGp;
                     int minActionGp = GatheringUtil.GathActionDict[buffName].RequiredGp;
                     int maxActionUsage = entry.GatherBuffs.Buffs[buffName].MaxUse;
-                    string ActionInfo = "Increases the gather chance by 15%\n" +
-                                        "This can be applied with normal field mastery, but will only apply per hit";
+                    string ActionInfo = "将采集几率提高 15%\n" +
+                                        "这可以与普通的识别力叠加，但仅按每次命中生效";
 
-                    ImGui.Text($"Action Info: ");
+                    ImGui.Text($"动作信息：");
                     ImGuiEx.HelpMarker(ActionInfo);
 
-                    if (ImGui.Checkbox("Enable", ref currentlyEnabled))
+                    if (ImGui.Checkbox("启用", ref currentlyEnabled))
                     {
                         entry.GatherBuffs.Buffs[buffName].Enabled = currentlyEnabled;
                         C.Save();
                     }
 
                     ImGui.SetNextItemWidth(200);
-                    if (ImGui.SliderInt("Minimum Gp for Usage", ref minUseGp, minActionGp, maxGp))
+                    if (ImGui.SliderInt("使用所需最低 GP", ref minUseGp, minActionGp, maxGp))
                     {
                         entry.GatherBuffs.Buffs[buffName].MinGp = minUseGp;
                         C.SaveDebounced();
                     }
 
                     ImGui.SetNextItemWidth(200);
-                    if (ImGui.InputInt("Max Use", ref maxActionUsage))
+                    if (ImGui.InputInt("最大使用次数", ref maxActionUsage))
                     {
                         entry.GatherBuffs.Buffs[buffName].MaxUse = maxActionUsage;
                         C.SaveDebounced();
                     }
-                    ImGuiEx.HelpMarker("Set to -1 to allow for infinite uses \n" +
-                                       "Set to 1-> X to set maximum amount of uses per mission");
+                    ImGuiEx.HelpMarker("设为 -1 表示允许无限次使用 \n" +
+                                       "设为 1-> X 表示设置每个任务的最大使用次数");
 
                     ImGui.PopID();
                 }
@@ -1010,13 +1010,13 @@ namespace ICE.Ui.MainUi.Settings
             }
 
             ImGui.Separator();
-            if (ImGui.Button("Copy Selected Profile"))
+            if (ImGui.Button("复制所选配置"))
             {
                 string export = ExportGatherProfile(C.SelectedGatherIndex);
                 ImGui.SetClipboardText(export);
             }
 
-            if (ImGui.Button("Import Selected Profile"))
+            if (ImGui.Button("导入所选配置"))
             {
                 string importProfile = ImGui.GetClipboardText();
                 string errorMessage = "";
@@ -1036,17 +1036,17 @@ namespace ICE.Ui.MainUi.Settings
 
             using (ImRaii.Disabled(!ImGui.IsKeyDown(ImGuiKey.LeftShift)))
             {
-                if (ImGui.Button("Setup Gathering Profiles"))
+                if (ImGui.Button("设置采集配置"))
                 {
                     SetupAllProfiles();
 
                     C.Save();
                 }
             }
-            ImGuiEx.HelpMarker("PLEASE NOTE:\n" +
-                               "This will wipe out all your current profiles, and apply what I would suggest for each one.\n" +
-                               "For most of you this would be fine, this is really only here if you don't know what to apply for each one." +
-                               "If you're okay with this, hold left shift and apply");
+            ImGuiEx.HelpMarker("请注意：\n" +
+                               "这会清除你当前所有的配置，并为每一种类型应用我建议的设置。\n" +
+                               "对大多数人来说这没问题，此功能主要是给不知道每种类型该如何设置的人准备的。" +
+                               "如果你能接受，请按住左 Shift 并应用");
         }
 
         private static MissionKinds GetMissionKind(MissionAttributes attrs)

@@ -58,7 +58,7 @@ namespace ICE.Ui.DebugWindowTabs
 
         public static void Draw()
         {
-            if (ImGui.Button("Get Active List"))
+            if (ImGui.Button("获取激活列表"))
             {
                 TeleportList();
             }

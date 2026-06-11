@@ -201,16 +201,16 @@ namespace ICE.Ui.DebugWindowTabs
 
         public static unsafe void Draw()
         {
-            ImGui.Text($"Current Mission: {CosmicHelper.CurrentLunarMission}");
-            ImGui.Text($"Artisan Endurance: {P.Artisan.GetEnduranceStatus()}");
+            ImGui.Text($"当前任务：{CosmicHelper.CurrentLunarMission}");
+            ImGui.Text($"Artisan Endurance：{P.Artisan.GetEnduranceStatus()}");
 
-            if (ImGui.Button($"Set Location: {WorldPos}##SetPositionForDraw"))
+            if (ImGui.Button($"设置位置：{WorldPos}##SetPositionForDraw"))
             {
                 var pos = Player.Position;
                 WorldPos = pos;
             }
-            ImGui.DragFloat("Height", ref Height, 0.1f, 0, 10);
-            ImGui.DragFloat("Scale", ref Scale);
+            ImGui.DragFloat("高度", ref Height, 0.1f, 0, 10);
+            ImGui.DragFloat("缩放", ref Scale);
 
             if (WorldPos != Vector3.Zero)
             {
@@ -244,28 +244,28 @@ namespace ICE.Ui.DebugWindowTabs
 
             ImGui.Text($"{WKSManager.Instance()->State.CurrentMission.MissionUnitRowId}");
 
-            if (ImGui.Button("Test Drone Buy"))
+            if (ImGui.Button("测试无人机购买"))
             {
                 Task_ArtifactSearch.EnqueueBuy();
             }
 
-            if (ImGui.Button("Find Mission"))
+            if (ImGui.Button("查找任务"))
             {
                 // TaskMissionFind.Enqueue();
             }
-            if (ImGui.Button("Clear Task"))
+            if (ImGui.Button("清除任务"))
             {
                 P.TaskManager.Abort();
             }
-            if (ImGui.Button("Artisan Craft"))
+            if (ImGui.Button("Artisan 制作"))
             {
                 P.Artisan.CraftItem(36176, 1);
             }
-            if (ImGui.Button("RecipeNote"))
+            if (ImGui.Button("配方笔记"))
             {
                 AddonHelper.OpenRecipeNote();
             }
-            if (ImGui.TreeNode("All Current objects"))
+            if (ImGui.TreeNode("所有当前对象"))
             {
                 if (Player.Available)
                 {
@@ -273,11 +273,11 @@ namespace ICE.Ui.DebugWindowTabs
                     {
                         if (ffObjects.BaseId == 2014616 || ffObjects.BaseId == 2014618)
                         {
-                            ImGui.Text($"--> Name: {ffObjects.Name} | ID: {ffObjects.BaseId}");
+                            ImGui.Text($"--> 名称：{ffObjects.Name} | ID：{ffObjects.BaseId}");
                         }
                         else
                         {
-                            ImGui.Text($"Name: {ffObjects.Name} | ID: {ffObjects.BaseId}");
+                            ImGui.Text($"名称：{ffObjects.Name} | ID：{ffObjects.BaseId}");
                         }
                     }
                 }
@@ -288,27 +288,27 @@ namespace ICE.Ui.DebugWindowTabs
             float gameObjectDistance = 0;
             if (gameObject is not null)
                 gameObjectDistance = Player.DistanceTo(gameObject);
-            if (ImGui.Button("Click Nearest EventObject"))
+            if (ImGui.Button("点击最近的 EventObject"))
             {
                 Utils.TargetgameObjectTask(gameObject);
                 Utils.InteractWithObject(gameObject);
             }
             ImGui.SameLine();
-            ImGui.Text($"Distance to nearest: {gameObjectDistance}");
+            ImGui.Text($"到最近的距离：{gameObjectDistance}");
 
             var collectionPoint = Utils.TryGetObjectCollectionPoint();
             float collectionPointDistance = 0;
             if (collectionPoint is not null)
                 collectionPointDistance = Player.DistanceTo(collectionPoint);
-            if (ImGui.Button("Click Nearest Collection Point"))
+            if (ImGui.Button("点击最近的采集点"))
             {
                 Utils.TargetgameObjectTask(collectionPoint);
                 Utils.InteractWithObject(collectionPoint);
             }
             ImGui.SameLine();
-            ImGui.Text($"Distance to nearest: {collectionPointDistance}");
+            ImGui.Text($"到最近的距离：{collectionPointDistance}");
 
-            if (ImGui.Button("Print GatheringPoint Info"))
+            if (ImGui.Button("打印 GatheringPoint 信息"))
             {
                 var gatheringPoint = Player.Object?.TargetObject;
                 if (gatheringPoint is not null)
@@ -331,29 +331,29 @@ namespace ICE.Ui.DebugWindowTabs
                 }
                 else
                 {
-                    Svc.Chat.Print("No GatheringPoint targeted.");
+                    Svc.Chat.Print("未选中 GatheringPoint。");
                 }
             }
 
-            if (ImGui.Button("Switch class to CRP"))
+            if (ImGui.Button("切换职业到 CRP"))
             {
                 GearsetHandler.TaskClassChange(Job.CRP);
             }
-            if (ImGui.Button("Switch class to MIN"))
+            if (ImGui.Button("切换职业到 MIN"))
             {
                 GearsetHandler.TaskClassChange(Job.MIN);
             }
-            if (ImGui.Button("Relic Turnin"))
+            if (ImGui.Button("Relic 上交"))
             {
                 Task_RelicTurnin.Enqueue();
             }
 
-            if (ImGui.CollapsingHeader("Square custom font"))
+            if (ImGui.CollapsingHeader("方形自定义字体"))
             {
                 DrawIconSelector();
             }
 
-            if (ImGui.CollapsingHeader("Font Test"))
+            if (ImGui.CollapsingHeader("字体测试"))
             {
                 for (int i = 0xE000; i <= 0xE0FF; i++)
                 {
@@ -378,15 +378,15 @@ namespace ICE.Ui.DebugWindowTabs
                 DrawExportWindow();
             }
 
-            if (ImGui.CollapsingHeader("View All SE Custom Fonts (That's known"))
+            if (ImGui.CollapsingHeader("查看所有已知的 SE 自定义字体"))
             {
                 foreach (var fontIcon in Icons)
                 {
                     ImGui.Text($"{fontIcon.Key} -> {fontIcon.Value}");
                 }
             }
-            ImGui.Text($"Mission Timer: {AddonHelper.GetNodeText("WKSMissionInfomation", 24)}");
-            if (ImGui.Button("Move Item"))
+            ImGui.Text($"任务计时器：{AddonHelper.GetNodeText("WKSMissionInfomation", 24)}");
+            if (ImGui.Button("移动物品"))
             {
                 MoveItem();
             }
@@ -394,21 +394,21 @@ namespace ICE.Ui.DebugWindowTabs
 
         private static void DrawIconSelector()
         {
-            if (ImGui.Button("Export Selected to Dictionary"))
+            if (ImGui.Button("导出所选到字典"))
             {
                 ExportSelectedIcons();
                 showExportWindow = true;
             }
 
             ImGui.SameLine();
-            if (ImGui.Button("Clear All Selections"))
+            if (ImGui.Button("清除所有选择"))
             {
                 selectedIcons.Clear();
                 iconNames.Clear();
             }
 
             ImGui.SameLine();
-            ImGui.Text($"Selected: {selectedIcons.Count(kvp => kvp.Value)} icons");
+            ImGui.Text($"已选择：{selectedIcons.Count(kvp => kvp.Value)} 个图标");
 
             ImGui.Separator();
 
@@ -454,11 +454,11 @@ namespace ICE.Ui.DebugWindowTabs
                         iconNames[i] = name;
                     }
                     ImGui.SameLine();
-                    ImGui.TextDisabled("(optional custom name)");
+                    ImGui.TextDisabled("（可选自定义名称）");
                 }
                 else
                 {
-                    ImGui.TextDisabled("(select to add optional name)");
+                    ImGui.TextDisabled("（选择以添加可选名称）");
                 }
             }
 
@@ -495,12 +495,12 @@ namespace ICE.Ui.DebugWindowTabs
 
         private static void DrawExportWindow()
         {
-            ImGui.Begin("Exported Icon Dictionary", ref showExportWindow);
+            ImGui.Begin("已导出的图标字典", ref showExportWindow);
 
-            if (ImGui.Button("Copy to Clipboard"))
+            if (ImGui.Button("复制到剪贴板"))
             {
                 ImGui.SetClipboardText(exportedCode);
-                Svc.Chat.Print("Dictionary code copied to clipboard!");
+                Svc.Chat.Print("字典代码已复制到剪贴板！");
             }
 
             ImGui.Separator();

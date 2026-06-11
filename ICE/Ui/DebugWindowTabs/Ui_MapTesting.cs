@@ -14,11 +14,11 @@ namespace ICE.Ui.DebugWindowTabs
 
         public static unsafe void Draw()
         {
-            ImGui.InputInt("TableId", ref TableRow);
+            ImGui.InputInt("表格 ID", ref TableRow);
 
             var MapInfo = ExcelHelper.MarkerSheet;
 
-            if (ImGui.Button($"Test Radius"))
+            if (ImGui.Button($"测试半径"))
             {
                 var agent = AgentMap.Instance();
 
@@ -34,14 +34,14 @@ namespace ICE.Ui.DebugWindowTabs
                 Utils.SetGatheringRing(territoryId, _x, _y, _radius);
             }
             ImGui.SetNextItemWidth(125);
-            ImGui.InputInt("Map X (Sheet)", ref posX);
+            ImGui.InputInt("地图 X（表格）", ref posX);
             ImGui.SameLine();
             ImGui.SetNextItemWidth(125);
-            ImGui.InputInt("Map Y (Sheet)", ref posY);
+            ImGui.InputInt("地图 Y（表格）", ref posY);
             ImGui.SameLine();
             ImGui.SetNextItemWidth(125);
-            ImGui.InputInt("Map Radius", ref posRadius);
-            if (ImGui.Button($"Test Map Marker from coords"))
+            ImGui.InputInt("地图半径", ref posRadius);
+            if (ImGui.Button($"根据坐标测试地图标记"))
             {
                 var agent = AgentMap.Instance();
                 int _x = posX - 1024;

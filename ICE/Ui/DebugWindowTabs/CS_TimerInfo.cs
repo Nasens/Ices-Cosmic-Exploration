@@ -10,13 +10,13 @@ namespace ICE.Ui.DebugWindowTabs
     {
         public static void Draw()
         {
-            ImGui.Text("All world timers:");
+            ImGui.Text("所有世界计时器：");
             TimerUpdate();
 
             if (CosmicHandler.EventInfo() is { } info)
             {
-                ImGui.Text($"State: {info.wksEvent}");
-                ImGui.Text($"Timer: {info.timer:N0}");
+                ImGui.Text($"状态：{info.wksEvent}");
+                ImGui.Text($"计时器：{info.timer:N0}");
             }
         }
 

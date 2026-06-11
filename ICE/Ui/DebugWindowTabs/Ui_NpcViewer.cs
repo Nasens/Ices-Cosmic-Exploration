@@ -20,8 +20,8 @@ namespace ICE.Ui.DebugWindowTabs
             var territoryid = Player.Territory.RowId;
             if (NpcData.MoonNpcs.TryGetValue(territoryid, out var moonNpcs))
             {
-                ImGui.Text($"Territory Id: {territoryid}");
-                ImGui.Text($"Valid Moon NPC Info: {moonNpcs != null}");
+                ImGui.Text($"区域 ID: {territoryid}");
+                ImGui.Text($"有效月球 NPC 信息: {moonNpcs != null}");
                 if (moonNpcs != null)
                 {
                     List<Vector3> pictoCircles = new();
@@ -29,11 +29,11 @@ namespace ICE.Ui.DebugWindowTabs
 
                     if (ImGui.BeginTable("NPC Info Debugger", 5, ImGuiTableFlags.SizingFixedFit | ImGuiTableFlags.RowBg | ImGuiTableFlags.Borders))
                     {
-                        ImGui.TableSetupColumn("Name");
-                        ImGui.TableSetupColumn("Position");
-                        ImGui.TableSetupColumn("MoveTo Spot");
-                        ImGui.TableSetupColumn("Move To");
-                        ImGui.TableSetupColumn("Set To Current");
+                        ImGui.TableSetupColumn("名称");
+                        ImGui.TableSetupColumn("位置");
+                        ImGui.TableSetupColumn("移动目标点");
+                        ImGui.TableSetupColumn("移动至");
+                        ImGui.TableSetupColumn("设为当前");
 
                         foreach (var npcEntry in moonNpcs.Values)
                         {
@@ -43,26 +43,26 @@ namespace ICE.Ui.DebugWindowTabs
 
                             ImGui.TableNextColumn();
                             ImGui.Text($"{npcEntry.Location_Npc:N2}");
-                            ImGui.Text($"Distance: {Player.DistanceTo(npcEntry.Location_Npc):N2}");
+                            ImGui.Text($"距离: {Player.DistanceTo(npcEntry.Location_Npc):N2}");
 
                             ImGui.TableNextColumn();
                             ImGui.Text($"{npcEntry.Location_Circle:N2}");
                             pictoCircles.Add(npcEntry.Location_Circle);
 
                             ImGui.TableNextColumn();
-                            if (ImGui.Button($"Move to##MoveTo_{npcEntry.NpcId}"))
+                            if (ImGui.Button($"移动至##MoveTo_{npcEntry.NpcId}"))
                             {
                                 Vector3 moveLoc = NpcData.GetRandomPointInCircle(npcEntry.Location_Circle, radius);
                                 Task_NavmeshMove.Task_NavTo(moveLoc, distance: 5, npcLoc: npcEntry.Location_Npc);
                             }
 
                             ImGui.TableNextColumn();
-                            if (ImGui.Button($"Set to Current##SetCurrent_{npcEntry.NpcId}"))
+                            if (ImGui.Button($"设为当前##SetCurrent_{npcEntry.NpcId}"))
                             {
                                 Vector3 currentPos = Player.Position;
                                 npcEntry.Location_Circle = currentPos;
                             }
-                            if (ImGui.Button($"Copy current set##CopyCurrent_{npcEntry.NpcId}"))
+                            if (ImGui.Button($"复制当前设置##CopyCurrent_{npcEntry.NpcId}"))
                             {
                                 ImGui.SetClipboardText($"{npcEntry.Location_Circle.X:N2}f, {npcEntry.Location_Circle.Y:N2}f, {npcEntry.Location_Circle.Z:N2}f");
                             }

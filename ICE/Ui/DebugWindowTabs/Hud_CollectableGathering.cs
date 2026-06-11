@@ -11,12 +11,12 @@ namespace ICE.Ui.DebugWindowTabs
         {
             if (GenericHelpers.TryGetAddonMaster<GatheringMasterpiece>("GatheringMasterpiece", out var gatherCollect) && gatherCollect.IsAddonReady)
             {
-                if (ImGui.Button("TryGather"))
+                if (ImGui.Button("尝试采集"))
                 {
                     Task_Gather.CollectableGather(gatherCollect);
                 }
                 ImGui.SameLine();
-                if (ImGui.Button("Reset Buff Check"))
+                if (ImGui.Button("重置增益检查"))
                 {
                     Mission_Settings.Collectable_BuffCount = GatheringUtil.CollectStandardCharges();
                 }
@@ -36,7 +36,7 @@ namespace ICE.Ui.DebugWindowTabs
                     // Row 1
                     ImGui.TableNextRow();
                     ImGui.TableSetColumnIndex(0);
-                    ImGui.Text("Item Name: ");
+                    ImGui.Text("物品名称：");
 
                     ImGui.TableNextColumn();
                     ImGui.Text($"{gatherCollect.ItemName}");
@@ -44,7 +44,7 @@ namespace ICE.Ui.DebugWindowTabs
                     // Row 2
                     ImGui.TableNextRow();
                     ImGui.TableSetColumnIndex(0);
-                    ImGui.Text("Item ID: ");
+                    ImGui.Text("物品 ID：");
 
                     ImGui.TableNextColumn();
                     ImGui.Text($"{gatherCollect.ItemID}");
@@ -52,7 +52,7 @@ namespace ICE.Ui.DebugWindowTabs
                     // Row 3
                     ImGui.TableNextRow();
                     ImGui.TableSetColumnIndex(0);
-                    ImGui.Text("Current Collectability: ");
+                    ImGui.Text("当前收藏价值：");
 
                     ImGui.TableNextColumn();
                     ImGui.Text($"{gatherCollect.CurrentCollectability}");
@@ -60,7 +60,7 @@ namespace ICE.Ui.DebugWindowTabs
                     // Row 4
                     ImGui.TableNextRow();
                     ImGui.TableSetColumnIndex(0);
-                    ImGui.Text("Item Integrity: ");
+                    ImGui.Text("物品完整度：");
 
                     ImGui.TableNextColumn();
                     ImGui.Text($"{gatherCollect.CurrentIntegrity} / {gatherCollect.TotalIntegrity}");
@@ -68,7 +68,7 @@ namespace ICE.Ui.DebugWindowTabs
                     // Row 5
                     ImGui.TableNextRow();
                     ImGui.TableSetColumnIndex(0);
-                    ImGui.Text("Min Collectibility: ");
+                    ImGui.Text("最低收藏价值：");
 
                     ImGui.TableNextColumn();
                     ImGui.Text($"{gatherCollect.MinCollectability}");
@@ -76,7 +76,7 @@ namespace ICE.Ui.DebugWindowTabs
                     // Row 6
                     ImGui.TableNextRow();
                     ImGui.TableSetColumnIndex(0);
-                    ImGui.Text("Mid Collectibility: ");
+                    ImGui.Text("中等收藏价值：");
 
                     ImGui.TableNextColumn();
                     ImGui.Text($"{gatherCollect.MidCollectability}");
@@ -84,7 +84,7 @@ namespace ICE.Ui.DebugWindowTabs
                     // Row 7
                     ImGui.TableNextRow();
                     ImGui.TableSetColumnIndex(0);
-                    ImGui.Text("High Collectibility: ");
+                    ImGui.Text("高等收藏价值：");
 
                     ImGui.TableNextColumn();
                     ImGui.Text($"{gatherCollect.HighCollectability}");
@@ -92,28 +92,28 @@ namespace ICE.Ui.DebugWindowTabs
                     // Row 8
                     ImGui.TableNextRow();
                     ImGui.TableSetColumnIndex(0);
-                    ImGui.Text("Max Collectibility: ");
+                    ImGui.Text("最高收藏价值：");
 
                     ImGui.TableNextColumn();
                     ImGui.Text($"{gatherCollect.MaxCollectability}");
 
                     ImGui.TableNextRow();
                     ImGui.TableSetColumnIndex(0);
-                    ImGui.Text($"Scour Amount");
+                    ImGui.Text($"Scour 数值");
 
                     ImGui.TableNextColumn();
                     ImGui.Text($"{gatherCollect.ScourPower}");
 
                     ImGui.TableNextRow();
                     ImGui.TableSetColumnIndex(0);
-                    ImGui.Text($"Brazen Power");
+                    ImGui.Text($"Brazen 数值");
 
                     ImGui.TableNextColumn();
                     ImGui.Text($"{gatherCollect.BrazenPowerMin} | {gatherCollect.BrazenPowerMax}");
 
                     ImGui.TableNextRow();
                     ImGui.TableSetColumnIndex(0);
-                    ImGui.Text($"Meticulous Power");
+                    ImGui.Text($"Meticulous 数值");
 
                     ImGui.TableNextColumn();
                     ImGui.Text($"{gatherCollect.MeticulousPower}");
@@ -123,7 +123,7 @@ namespace ICE.Ui.DebugWindowTabs
             }
             else if (GenericHelpers.TryGetAddonMaster<Gathering>("Gathering", out var gather) && gather.IsAddonReady)
             {
-                if (ImGui.Button("Increase collectability"))
+                if (ImGui.Button("提升收藏价值"))
                 {
                     foreach (var item in gather.GatheredItems)
                     {
@@ -139,7 +139,7 @@ namespace ICE.Ui.DebugWindowTabs
             }
             else
             {
-                ImGui.Text("Waiting for Gather Collectable window to be visible");
+                ImGui.Text("等待采集收藏品窗口显示");
             }
         }
     }

@@ -10,21 +10,21 @@ namespace ICE.Ui.MainUi.Settings
         {
             if (ImGui.BeginTabBar("Mission Priority Settings"))
             {
-                if (ImGui.BeginTabItem("Mission Priority Order"))
+                if (ImGui.BeginTabItem("任务优先级顺序"))
                 {
                     MissionTypeOrderUi();
 
                     ImGui.EndTabItem();
                 }
 
-                if (ImGui.BeginTabItem("Provisional: Type Order"))
+                if (ImGui.BeginTabItem("临时任务：类型顺序"))
                 {
                     TypePriorityUi();
 
                     ImGui.EndTabItem();
                 }
 
-                if (ImGui.BeginTabItem("Provisional: Job Order"))
+                if (ImGui.BeginTabItem("临时任务：职业顺序"))
                 {
                     JobPriorityUi();
 
@@ -83,9 +83,9 @@ namespace ICE.Ui.MainUi.Settings
                     ImGui.AlignTextToFramePadding();
                     string type = entry switch
                     {
-                        ProvisionalTypes.ProvisionalTimed => "Timed",
-                        ProvisionalTypes.ProvisionalSequential => "Sequence",
-                        ProvisionalTypes.ProvisionalWeather => "Weather",
+                        ProvisionalTypes.ProvisionalTimed => "限时",
+                        ProvisionalTypes.ProvisionalSequential => "序列",
+                        ProvisionalTypes.ProvisionalWeather => "天气",
                         _ => entry.ToString()
                     };
                     ImGui.Text($"{type}");
@@ -103,11 +103,11 @@ namespace ICE.Ui.MainUi.Settings
 
         private static void MissionTypeOrderUi()
         {
-            ImGui.Text("Mission Search Priority");
+            ImGui.Text("任务搜索优先级");
             ImGui_Ice.IconWithTooltip(
                 FontAwesomeIcon.InfoCircle, 
-                "Order you would like to do the actions. It will work from the top down.\n" +
-                "So if you Have Red Arert -> Drone Search, if a red alert isn't available, it will proceed to use a drone box if it can");
+                "你希望执行操作的顺序。它会从上往下依次执行。\n" +
+                "所以如果你设置了 红色警报 -> 无人机搜寻，当没有红色警报时，它会在可能的情况下转去使用无人机箱");
 
             _dragDrop_MissionType ??= new ImGuiEx.RealtimeDragDrop<MissionTypes>(
                 "MissionTypeDragDrop",
@@ -154,10 +154,10 @@ namespace ICE.Ui.MainUi.Settings
                     ImGui.AlignTextToFramePadding();
                     string name = entry switch
                     {
-                        MissionTypes.DroneSearch => "Drone Search",
-                        MissionTypes.Critical => "Red Alert",
-                        MissionTypes.Provisional => "Provisional Missions [Weather/Timed/Sequence]",
-                        MissionTypes.Standard => "Standard Missions [A->D]",
+                        MissionTypes.DroneSearch => "无人机搜寻",
+                        MissionTypes.Critical => "红色警报",
+                        MissionTypes.Provisional => "临时任务 [天气/限时/序列]",
+                        MissionTypes.Standard => "标准任务 [A->D]",
                         _ => $"{entry}"
                     };
                     ImGui.Text($"{name}");
@@ -165,7 +165,7 @@ namespace ICE.Ui.MainUi.Settings
                     {
                         ImGui.SameLine();
                         ImGui_Ice.IconWithTooltip(FontAwesomeIcon.ExclamationTriangle,
-                            "Finding drone locations is turned off, so we're just going to ignore this. If you want to run this, please enable it");
+                            "无人机位置搜寻已关闭，所以我们会直接忽略此项。如果你想运行它，请先启用");
                     }
 
                     ImGui.PopID();
@@ -181,12 +181,12 @@ namespace ICE.Ui.MainUi.Settings
 
         private static void JobPriorityUi()
         {
-            ImGui.Text("Provisional Job Priority");
+            ImGui.Text("临时任务职业优先级");
             ImGui_Ice.IconWithTooltip(FontAwesomeIcon.InfoCircle,
-                "Order you would like to do the provisional mission in, if multiple are selected and the option to do multiple classes is enabled");
+                "当选择了多个临时任务且启用了执行多职业的选项时，你希望执行临时任务的顺序");
 
             bool provisionalAllJobs = C.GrindAllProvisionals;
-            if (ImGui_Ice.SliderButton("##Provisional_AllJobsToggle", "Allow for all Provisional Jobs", ref provisionalAllJobs))
+            if (ImGui_Ice.SliderButton("##Provisional_AllJobsToggle", "允许所有临时任务职业", ref provisionalAllJobs))
             {
                 C.GrindAllProvisionals = provisionalAllJobs;
                 C.Save();
@@ -244,18 +244,18 @@ namespace ICE.Ui.MainUi.Settings
         {
             return jobId switch
             {
-                8 => "Carpenter",
-                9 => "Blacksmith",
-                10 => "Armorer",
-                11 => "Goldsmith",
-                12 => "Leatherworker",
-                13 => "Weaver",
-                14 => "Alchemist",
-                15 => "Culinarian",
-                16 => "Miner",
-                17 => "Botanist",
-                18 => "Fisher",
-                _ => "Unknown Job"
+                8 => "刻木匠",
+                9 => "锻铁匠",
+                10 => "铸甲匠",
+                11 => "雕金匠",
+                12 => "制革匠",
+                13 => "裁衣匠",
+                14 => "炼金术士",
+                15 => "烹调师",
+                16 => "采矿工",
+                17 => "园艺工",
+                18 => "捕鱼人",
+                _ => "未知职业"
             };
         }
     }

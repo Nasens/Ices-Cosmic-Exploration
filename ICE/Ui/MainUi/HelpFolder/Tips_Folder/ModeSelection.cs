@@ -9,24 +9,24 @@ namespace ICE.Ui.MainUi.HelpFolder.Tips_Folder
     {
         public static void Draw()
         {
-            ImGui.TextWrapped("There is 5 different modes that exist currently (as of writing this) that all serve minorly differently functions.");
-            ImGui.TextWrapped("Depending on what you want / what your goal is, these all serve all different functions.");
+            ImGui.TextWrapped("目前（截至撰写本文时）共有 5 种不同的模式，它们的功能略有差异。");
+            ImGui.TextWrapped("根据你的需求/目标不同，这些模式各自有不同的用途。");
 
             if (ImGui.BeginTabBar("Mode Selection Info"))
             {
-                if (ImGui.BeginTabItem("Standard"))
+                if (ImGui.BeginTabItem("标准"))
                 {
                     StandardMode();
                     ImGui.EndTabItem();
                 }
 
-                if (ImGui.BeginTabItem("Relic Grind"))
+                if (ImGui.BeginTabItem("Relic 刷取"))
                 {
                     RelicGrind();
                     ImGui.EndTabItem();
                 }
 
-                if (ImGui.BeginTabItem("Agenda Mode"))
+                if (ImGui.BeginTabItem("日程模式"))
                 {
                     ImGui.EndTabItem();
                 }
@@ -38,36 +38,36 @@ namespace ICE.Ui.MainUi.HelpFolder.Tips_Folder
         private static void StandardMode()
         {
             ImGui.Dummy(new(0, 5));
-            ImGuiEx.IconWithText(FontAwesomeIcon.List, "Standard");
+            ImGuiEx.IconWithText(FontAwesomeIcon.List, "标准");
             ImGui.TextWrapped(
-                "The most straightforward mode. Standard runs only the missions you have enabled " +
-                "for your current class — you pick what you want done, and it handles the rest.");
-            ImGui.TextWrapped("This gives you full control over what missions to run, making it ideal for:");
-            ImGui.BulletText("Score Farming — select specific high-value missions");
-            ImGui.BulletText("Exp Grinding");
-            ImGui.BulletText("Credit / Planetary Credits / Token farming");
+                "最直接的模式。标准模式只运行你为当前职业启用的任务——" +
+                "你来挑选想完成的任务，剩下的交给它处理。");
+            ImGui.TextWrapped("这让你能够完全掌控要运行哪些任务，因此特别适合：");
+            ImGui.BulletText("评分刷取——选择特定的高价值任务");
+            ImGui.BulletText("经验刷取");
+            ImGui.BulletText("点数 / 星球点数 / 代币刷取");
             ImGui.TextWrapped(
-                "Basic missions (Ranks D→A) will only pull from the class you started on. " +
-                "Provisional missions (Weather, Timed, and Sequence) and Red Alerts will be picked up " +
-                "between missions — enable the multi-class setting to allow switching classes for these as well.");
+                "基础任务（D→A 级）只会从你开始时所用的职业中选取。" +
+                "临时任务（天气、限时和序列）以及红色警报会在任务之间被选取——" +
+                "启用多职业设置即可允许为这些任务切换职业。");
         }
 
         private static void RelicGrind()
         {
             ImGui.Dummy(new(0, 5));
-            ImGuiEx.IconWithText(FontAwesomeIcon.ArrowUpRightDots, "Relic Grind");
+            ImGuiEx.IconWithText(FontAwesomeIcon.ArrowUpRightDots, "Relic 刷取");
 
             ImGui.TextWrapped(
-                "A mode designed to automate mission selection for relic progression with minimal intervention. " +
-                "It scans all available missions, evaluates the experience each one provides, and picks whichever " +
-                "yields the most for your current level.");
+                "一个旨在以最少干预自动选择任务以推进 Relic 进度的模式。" +
+                "它会扫描所有可用任务，评估每个任务提供的经验，并选取" +
+                "对你当前等级收益最高的那个。");
             ImGui.TextWrapped(
-                "If you're high enough level to need the next rank category but haven't unlocked it yet " +
-                "(e.g. Rank D completed but Rank C not yet unlocked), make sure to unlock it manually before starting.");
-            ImGui.TextWrapped("Note: this mode does not swap planets for you. Each planet also has an exp cap:");
-            ImGui.BulletText("Sinus   — Rank IV Max");
-            ImGui.BulletText("Phaenna — Rank V Max");
-            ImGui.BulletText("Oizys   — Rank VI Max");
+                "如果你的等级已经足够高，需要下一个等级类别但尚未解锁它" +
+                "（例如已完成 D 级但 C 级尚未解锁），请务必在开始前手动解锁它。");
+            ImGui.TextWrapped("注意：此模式不会替你切换星球。每个星球还有经验上限：");
+            ImGui.BulletText("Sinus   — 最高 IV 级");
+            ImGui.BulletText("Phaenna — 最高 V 级");
+            ImGui.BulletText("Oizys   — 最高 VI 级");
         }
 
         public static void GoldCompletion()

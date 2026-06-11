@@ -10,33 +10,33 @@ namespace ICE.Ui.DebugWindowTabs
             {
                 ImGui.Text(x.SelectedCraftingItem);
 
-                if (ImGui.Button("Fill NQ"))
+                if (ImGui.Button("填充 NQ"))
                 {
                     x.NQItemInput();
                 }
                 ImGui.SameLine();
 
-                if (ImGui.Button("Fill HQ"))
+                if (ImGui.Button("填充 HQ"))
                 {
                     x.HQItemInput();
                 }
                 ImGui.SameLine();
 
-                if (ImGui.Button("Fill Both"))
+                if (ImGui.Button("填充全部"))
                 {
                     x.NQItemInput();
                     x.HQItemInput();
                 }
                 ImGui.SameLine();
 
-                if (ImGui.Button("Synthesize"))
+                if (ImGui.Button("制作"))
                 {
                     x.Synthesize();
                 }
 
                 foreach (var m in x.CraftingItems)
                 {
-                    if (ImGui.Button($"Select ###Select + {m.Name}"))
+                    if (ImGui.Button($"选择###Select + {m.Name}"))
                     {
                         m.Select();
                     }
@@ -46,7 +46,7 @@ namespace ICE.Ui.DebugWindowTabs
             }
             else
             {
-                ImGui.Text("Waiting for \"WKSRecipeNotebook\" to be visible");
+                ImGui.Text("等待 \"WKSRecipeNotebook\" 显示");
             }
         }
     }

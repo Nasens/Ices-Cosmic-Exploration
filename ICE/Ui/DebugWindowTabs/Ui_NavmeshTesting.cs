@@ -24,9 +24,9 @@ namespace ICE.Ui.DebugWindowTabs
             else
                 currentPos = new Vector3(0, 0, 0);
 
-            ImGui.Text($"Current pos: {currentPos.X:N2} | {currentPos.Y:N2} | {currentPos.Z:N2}");
+            ImGui.Text($"当前位置：{currentPos.X:N2} | {currentPos.Y:N2} | {currentPos.Z:N2}");
 
-            if (ImGui.Button("Add Position"))
+            if (ImGui.Button("添加位置"))
             {
                 finalPath.Add(currentPos);
             }
@@ -36,12 +36,12 @@ namespace ICE.Ui.DebugWindowTabs
 
                 ImGui.Text($"X: {entry.X:N2}, Y: {entry.Y:N2}, Z: {entry.Z:N2}");
                 ImGui.SameLine();
-                if (ImGui.Button($"Adjust###Adjust_{entry}_{i}"))
+                if (ImGui.Button($"调整###Adjust_{entry}_{i}"))
                 {
                     entry = currentPos;
                 }
                 ImGui.SameLine();
-                if (ImGui.Button($"Remove###Remove_{entry}_{i}"))
+                if (ImGui.Button($"移除###Remove_{entry}_{i}"))
                 {
                     finalPath.Remove(entry);
                     i--;

@@ -8,14 +8,14 @@ namespace ICE.Ui.MainUi.HelpFolder.Tips_Folder
     {
         public static void Draw()
         {
-            ImGui.TextWrapped($"Welcome! This is probably the most complicated plugin I've created so far.");
-            ImGui.TextWrapped($"This plugin is designed for specifically for the use of Cosmic Exploration, and is kinda hefty. So I'm going to try and go through all the different tips / tricks");
+            ImGui.TextWrapped($"欢迎！这大概是我目前为止做过的最复杂的插件。");
+            ImGui.TextWrapped($"这个插件是专门为 Cosmic Exploration 设计的，内容相当庞杂。所以我会尽量把各种提示/技巧都讲一遍");
 
             ImGui.Dummy(new(0, 5));
 
-            ImGui.TextWrapped("To the side you'll find a couple of different tabs that will *try* and answer any question that you migth have.");
-            ImGui.TextWrapped("PLEASE MAKE SURE TO CHECK THE REQUIREMENTS SECTION TO SEE WHAT YOU NEED FOR WHAT");
-            ImGui.TextWrapped("Or just read a specific tab to find out. Probably would answer a lot of questions");
+            ImGui.TextWrapped("在侧边栏你会看到几个不同的标签页，它们会*尝试*解答你可能有的任何问题。");
+            ImGui.TextWrapped("请务必查看依赖项部分，了解哪些功能需要哪些插件");
+            ImGui.TextWrapped("或者直接阅读某个具体的标签页来了解。这大概能解答很多问题");
         }
     }
 }

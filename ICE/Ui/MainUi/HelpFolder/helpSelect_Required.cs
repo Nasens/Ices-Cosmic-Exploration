@@ -13,26 +13,26 @@ namespace ICE.Ui.MainUi.HelpFolder
     {
         public static void Draw()
         {
-            ImGui.TextWrapped("These are a list of the following plugins that are required for the plugin to function. If you don't have these installed, it will not function properly");
+            ImGui.TextWrapped("以下是插件正常运行所需的依赖插件列表。如果你没有安装这些插件，本插件将无法正常工作");
 
             ImGui.Separator();
-            ImGuiEx.IconWithText(FontAwesomeIcon.Hammer, "Crafting");
+            ImGuiEx.IconWithText(FontAwesomeIcon.Hammer, "制作");
             HasPlugin("https://love.puni.sh/ment.json", "Artisan");
 
             ImGui.Separator();
-            ImGuiEx.IconWithText(FontAwesomeIcon.Feather, "Gathering");
-            ImGui.Text("For botanist/miner/fisher");
+            ImGuiEx.IconWithText(FontAwesomeIcon.Feather, "采集");
+            ImGui.Text("适用于园艺工/采矿工/捕鱼人");
             HasPlugin("https://puni.sh/api/repository/veyn", "vnavmesh");
             ImGui.Dummy(new Vector2(0, 10));
-            ImGui.Text("For fisher only");
+            ImGui.Text("仅适用于捕鱼人");
             HasPlugin("https://love.puni.sh/ment.json", "AutoHook");
 
             ImGui.Separator();
-            ImGuiEx.IconWithText(FontAwesomeIcon.Running, "Automating Hub Activities");
+            ImGuiEx.IconWithText(FontAwesomeIcon.Running, "自动化中心活动");
             HasPlugin("https://puni.sh/api/repository/veyn", "vnavmesh");
 
             ImGui.Separator();
-            ImGui.TextWrapped("This isn't required, but highly recommended for leveling up characters. It will auto equip gear from your armory/inventory, and swap it out when running Leveling Grind Mode");
+            ImGui.TextWrapped("这个不是必需的，但强烈建议用于角色练级。它会自动从你的军械库/物品栏装备装备，并在运行练级刷取模式时进行替换");
             ImGuiEx.IconWithText(FontAwesomeIcon.Leaf, "Stylist");
             HasPlugin("https://raw.githubusercontent.com/NightmareXIV/MyDalamudPlugins/main/pluginmaster.json", "Stylist");
         }
@@ -44,13 +44,13 @@ namespace ICE.Ui.MainUi.HelpFolder
             {
                 FontAwesome.Print(EColor.Green, FontAwesome.Check);
                 ImGui.SameLine();
-                ImGui.Text($"{pluginName} Repo is Installed");
+                ImGui.Text($"{pluginName} 仓库已安装");
             }
             else
             {
                 FontAwesome.Print(EColor.Red, FontAwesome.Cross);
                 ImGui.SameLine();
-                if (ImGui.Button($"Install {pluginName} Repo"))
+                if (ImGui.Button($"安装 {pluginName} 仓库"))
                 {
                     DalamudReflector.AddRepo(repo, true);
                     DalamudReflector.SaveDalamudConfig();
@@ -63,7 +63,7 @@ namespace ICE.Ui.MainUi.HelpFolder
             {
                 FontAwesome.Print(EColor.Green, FontAwesome.Check);
                 ImGui.SameLine();
-                ImGui.Text($"{pluginName} is installed");
+                ImGui.Text($"{pluginName} 已安装");
             }
             else
             {
@@ -71,7 +71,7 @@ namespace ICE.Ui.MainUi.HelpFolder
                 ImGui.SameLine();
                 using (ImRaii.Disabled(installingPlugin))
                 {
-                    if (ImGui.Button($"Install {pluginName}"))
+                    if (ImGui.Button($"安装 {pluginName}"))
                     {
                         _ = InstallPlugin(repo, pluginName);
                     }

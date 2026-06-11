@@ -8,49 +8,49 @@ namespace ICE.Ui.DebugWindowTabs
         {
             if (GenericHelpers.TryGetAddonMaster<WKSHud>("WKSHud", out var HudAddon))
             {
-                if (ImGui.Button("Mission"))
+                if (ImGui.Button("任务"))
                 {
                     HudAddon.Mission();
                 }
 
                 ImGui.SameLine();
 
-                if (ImGui.Button("Mech"))
+                if (ImGui.Button("机械"))
                 {
                     HudAddon.Mech();
                 }
 
                 ImGui.SameLine();
 
-                if (ImGui.Button("Steller"))
+                if (ImGui.Button("星象"))
                 {
                     HudAddon.Steller();
                 }
 
                 ImGui.SameLine();
 
-                if (ImGui.Button("Infrastructor"))
+                if (ImGui.Button("基建"))
                 {
                     HudAddon.Infrastructor();
                 }
 
                 ImGui.SameLine();
 
-                if (ImGui.Button("Research"))
+                if (ImGui.Button("研究"))
                 {
                     HudAddon.Research();
                 }
 
                 ImGui.SameLine();
 
-                if (ImGui.Button("ClassTracker"))
+                if (ImGui.Button("职业追踪"))
                 {
                     HudAddon.ClassTracker();
                 }
             }
             else
             {
-                ImGui.Text("Waiting for \"WKSHud\" to be visible");
+                ImGui.Text("等待 \"WKSHud\" 可见");
             }
         }
     }

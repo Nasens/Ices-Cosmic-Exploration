@@ -76,29 +76,29 @@ namespace ICE.Ui.MainUi.ModeSelect_Modes
 
 
                 if (standard)
-                    modeType = "Standard";
+                    modeType = "标准";
                 else if (relicMode)
                 {
-                    modeType = "Relic Grind";
+                    modeType = "Relic 刷取";
                     modeIcon = FontAwesomeIcon.ArrowUpRightDots;
                 }
                 else if (xpLeveling)
                 {
-                    modeType = "Leveling Grind";
+                    modeType = "练级刷取";
                     modeIcon = FontAwesomeIcon.Leaf;
                 }
                 else if (goldMode)
                 {
-                    modeType = "Gold Completion Grind";
+                    modeType = "金牌完成刷取";
                     modeIcon = FontAwesomeIcon.Trophy;
                 }
                 else if (agendaMode)
                 {
-                    modeType = "Cosmic Agenda";
+                    modeType = "Cosmic 日程";
                     modeIcon = FontAwesomeIcon.ClipboardList;
                 }
 
-                ImGuiEx.IconWithText(modeIcon, $"{modeType} Mode");
+                ImGuiEx.IconWithText(modeIcon, $"{modeType} 模式");
 
                 ImGui.SameLine(0, 10 * scale);
 
@@ -108,7 +108,7 @@ namespace ICE.Ui.MainUi.ModeSelect_Modes
                 float yOffset = (textHeight - buttonHeight) / 2f;
                 ImGui.SetCursorPosY(ImGui.GetCursorPosY() + yOffset);
 
-                if (ImGuiEx.IconButtonWithText(FontAwesomeIcon.Play, "Mode Selection"))
+                if (ImGuiEx.IconButtonWithText(FontAwesomeIcon.Play, "模式选择"))
                 {
                     ImGui.OpenPopup("Mode Select | Select Mode Window");
                 }
@@ -136,19 +136,19 @@ namespace ICE.Ui.MainUi.ModeSelect_Modes
                     {
                         ImGui.BeginTooltip();
 
-                        ImGui.Text("It appears that you have on of the following enabled");
+                        ImGui.Text("看起来你启用了以下其中一项");
                         if (C.StopOnceHitCosmicScore)
-                            ImGui.BulletText($"Stop at Cosmic Score [{C.CosmicScoreCap:N0}]");
+                            ImGui.BulletText($"在 Cosmic 评分达到 [{C.CosmicScoreCap:N0}] 时停止");
                         if (C.StopWhenLevel)
-                            ImGui.BulletText($"Stop When Level [{C.TargetLevel:N0}]");
+                            ImGui.BulletText($"在等级达到 [{C.TargetLevel:N0}] 时停止");
                         if (C.StopOnceHitCosmoCredits)
-                            ImGui.BulletText($"Stop once cosmo credit hit [{C.CosmoCreditsCap:N0}]");
+                            ImGui.BulletText($"在 Cosmo 点数达到 [{C.CosmoCreditsCap:N0}] 时停止");
                         if (C.StopOnceHitLunarCredits)
-                            ImGui.BulletText($"Stop once planetary credit hit [{C.LunarCreditsCap:N0}]");
+                            ImGui.BulletText($"在星球点数达到 [{C.LunarCreditsCap:N0}] 时停止");
                         if (C.StopOnceRelicFinished)
-                            ImGui.BulletText($"Stop once relic completed");
+                            ImGui.BulletText($"Relic 完成后停止");
 
-                        ImGui.Text("So if you stop and you're unsure why... this might be why");
+                        ImGui.Text("所以如果它停止了而你不清楚原因……这可能就是原因");
 
                         ImGui.EndTooltip();
                     }
@@ -165,7 +165,7 @@ namespace ICE.Ui.MainUi.ModeSelect_Modes
                 // Leveling on a hub requires QuickLevelList entries; gathering still needs route YAML per territory
                 using (ImRaii.Disabled(SchedulerMain.State != IceState.Idle || !usingSupportedJob || unsupportedMoon))
                 {
-                    if (ImGui.Button("Start", new Vector2(150 * scale, 0)))
+                    if (ImGui.Button("开始", new Vector2(150 * scale, 0)))
                     {
                         SchedulerMain.EnablePlugin();
                     }
@@ -179,7 +179,7 @@ namespace ICE.Ui.MainUi.ModeSelect_Modes
                     if (ImGui.IsItemHovered())
                     {
                         ImGui.BeginTooltip();
-                        ImGui.Text("Hey! You need to update artisan to use this mode, please update to at minimum:");
+                        ImGui.Text("嘿！你需要更新 Artisan 才能使用此模式，请至少更新到：");
                         ImGui.Text("4.0.4.29");
                         ImGui.EndTooltip();
                     }
@@ -192,14 +192,14 @@ namespace ICE.Ui.MainUi.ModeSelect_Modes
                     if (ImGui.IsItemHovered())
                     {
                         ImGui.BeginTooltip();
-                        ImGui.Text($"Hey! {unsupportedHub.DisplayName} is not supported for leveling yet.");
+                        ImGui.Text($"嘿！{unsupportedHub.DisplayName} 暂不支持练级。");
                         var missing = new List<string>();
                         if (!CosmicMoonRegistry.HasLevelingContent(unsupportedHub))
-                            missing.Add("QuickLevelList missions");
+                            missing.Add("QuickLevelList 任务");
                         if (!CosmicMoonContent.HasGatheringRoutes(unsupportedHub.TerritoryId))
-                            missing.Add("gathering routes");
+                            missing.Add("采集路线");
                         if (missing.Count > 0)
-                            ImGui.Text($"Still needed: {string.Join(", ", missing)}.");
+                            ImGui.Text($"仍需：{string.Join(", ", missing)}。");
                         ImGui.EndTooltip();
                     }
                 }
@@ -211,9 +211,9 @@ namespace ICE.Ui.MainUi.ModeSelect_Modes
                     if (ImGui.IsItemHovered())
                     {
                         ImGui.BeginTooltip();
-                        ImGui.Text($"Hey! Your version of autohook is not currently supported on this planet");
-                        ImGui.Text($"You need to (currently) be on the testing version to be able fish automated here");
-                        ImGui.Text($"There will be another warning to pop up if you try and run this still and it selects a fishing mission...");
+                        ImGui.Text($"嘿！你当前版本的 AutoHook 暂不支持在这个星球上使用");
+                        ImGui.Text($"你（目前）需要使用测试版本才能在这里自动钓鱼");
+                        ImGui.Text($"如果你仍然继续运行并且它选中了钓鱼任务，将会再弹出一个警告……");
                         ImGui.EndTooltip();
                     }
                 }
@@ -227,7 +227,7 @@ namespace ICE.Ui.MainUi.ModeSelect_Modes
                     using (ImRaii.PushColor(ImGuiCol.ButtonHovered, new Vector4(0.9f, 0.3f, 0.3f, 1.0f)))
                     using (ImRaii.PushColor(ImGuiCol.ButtonActive, new Vector4(0.7f, 0.1f, 0.1f, 1.0f)))
                     {
-                        if (ImGui.Button("Stop", new Vector2(150 * scale, 0)))
+                        if (ImGui.Button("停止", new Vector2(150 * scale, 0)))
                         {
                             SchedulerMain.DisablePlugin();
                         }
@@ -237,7 +237,7 @@ namespace ICE.Ui.MainUi.ModeSelect_Modes
                 ImGui.SameLine(0, 10 * scale);
                 ImGui.SetCursorPosY(ImGui.GetCursorPosY() + yOffset);
 
-                if (ImGui.Button("Mission Settings"))
+                if (ImGui.Button("任务设置"))
                 {
                     ImGui.OpenPopup("Mission Settings: Popup");
                 }
@@ -245,26 +245,26 @@ namespace ICE.Ui.MainUi.ModeSelect_Modes
                 {
                     // TODO: Mission Settings
                     bool grindAllProvisionals = C.GrindAllProvisionals;
-                    if (ImGui.Checkbox("Provisional: Allow All Classes", ref grindAllProvisionals))
+                    if (ImGui.Checkbox("临时任务：允许所有职业", ref grindAllProvisionals))
                     {
                         C.GrindAllProvisionals = grindAllProvisionals;
                         C.Save();
                     }
-                    ImGuiEx.HelpMarker("Enabling this will show you all weather/timed/sequence missions that you can grind,\n" +
-                                       "ON TOP OF doing the normal missions for whichever class you start on.\n" +
-                                       "If you just want to focus one specific class, set this to false");
+                    ImGuiEx.HelpMarker("启用此项后，会在你开始时所用职业的常规任务之外，\n" +
+                                       "额外显示所有你可以刷取的天气/限时/序列任务。\n" +
+                                       "如果你只想专注于某一个特定职业，请将其设为关闭");
 
                     bool allowCriticalsAllClass = C.GrindOffClassRedAlert;
-                    if (ImGui.Checkbox("Critical: Allow All Classes", ref allowCriticalsAllClass))
+                    if (ImGui.Checkbox("紧急任务：允许所有职业", ref allowCriticalsAllClass))
                     {
                         C.GrindOffClassRedAlert = allowCriticalsAllClass;
                         C.Save();
                     }
-                    ImGuiEx.HelpMarker($"This will allow you to grind other classes for criticals/red alerts. " +
-                        $"(So if you're on crp, but a bsm red alert pops up)");
+                    ImGuiEx.HelpMarker($"这将允许你为紧急任务/红色警报刷取其他职业。" +
+                        $"（比如你正在玩 CRP，但弹出了一个 BSM 的红色警报）");
 
                     bool removeGold = C.RemoveAfterGold;
-                    if (ImGui.Checkbox("Remove Mission Upon Gold Completion", ref removeGold))
+                    if (ImGui.Checkbox("达成金牌后移除任务", ref removeGold))
                     {
                         C.RemoveAfterGold = removeGold;
                         C.Save();
@@ -272,16 +272,16 @@ namespace ICE.Ui.MainUi.ModeSelect_Modes
                     using (ImRaii.Disabled(!removeGold))
                     {
                         bool keepARanks = C.KeepARanks;
-                        if (ImGui.Checkbox("Keep \"A Rank\" missions and below", ref keepARanks))
+                        if (ImGui.Checkbox("保留\"A 级\"及以下任务", ref keepARanks))
                         {
                             C.KeepARanks = keepARanks;
                             C.Save();
                         }
                     }
 
-                    ImGui.Checkbox("Stop after current mission", ref Mission_Settings.StopAfterCurrent);
+                    ImGui.Checkbox("完成当前任务后停止", ref Mission_Settings.StopAfterCurrent);
                     bool relicTurnin = C.TurninRelic;
-                    if (ImGui.Checkbox($"Turnin if relic is complete##RelicTurnin_GeneralSetting", ref relicTurnin))
+                    if (ImGui.Checkbox($"Relic 完成时交付##RelicTurnin_GeneralSetting", ref relicTurnin))
                     {
                         C.TurninRelic = relicTurnin;
                         C.Save();
@@ -290,45 +290,45 @@ namespace ICE.Ui.MainUi.ModeSelect_Modes
                     ImGui.TextDisabled("?");
                     if (ImGui.IsItemHovered())
                     {
-                        ImGui.SetTooltip("THIS IS YOUR HEADS UP ON HOW THIS WORKS. If I change this in the future, this tooltip will also change.\n" +
-                                         "1: This will check for your current CLASS [not menu class, actual current class] for relic turnin.\n" +
-                                         "2: You must not have the tool eqipped for this to run full auto. \n" +
-                                         "\t- This is due to the fact that I cba coding this in at this time. (might change my mind in the future *shrugs*)\n" +
-                                         "3: This will take prio over \"Stop @ Relic Turnin\", in the sense that if you have both enabled, it will turnin vs stop. And continue about it's day\n" +
-                                         "4: If you're on a crafting class, it will return you back to the stop you were crafting post turnin. \n" +
-                                         "\t- This is optional, you can disable it at your own free will, I just like this so I can just go back to an isolated area of my choosing");
+                        ImGui.SetTooltip("这是关于它如何工作的提示。如果我以后修改了它，这个提示也会随之更新。\n" +
+                                         "1：这会检查你当前的职业 [不是菜单里选的职业，而是实际当前职业] 来进行 Relic 交付。\n" +
+                                         "2：你必须没有装备该工具，才能让它全自动运行。\n" +
+                                         "\t- 这是因为我现在懒得把这部分代码加进去。（以后也许会改主意 *耸肩*）\n" +
+                                         "3：这会优先于\"Relic 交付时停止\"，也就是说如果两者都启用，它会选择交付而不是停止，然后继续运行\n" +
+                                         "4：如果你在制作职业上，交付后它会把你带回到你之前制作的地点。\n" +
+                                         "\t- 这是可选的，你可以随意禁用，我只是喜欢这样，好让自己能回到所选的独立区域");
                     }
 
                     ImGui.Separator();
                     bool relic_AllowRedAlert = C.Relic_IncludeCriticals;
-                    if (ImGui.Checkbox("Relic Mode: Allow Red Alerts", ref relic_AllowRedAlert))
+                    if (ImGui.Checkbox("Relic 模式：允许红色警报", ref relic_AllowRedAlert))
                     {
                         C.Relic_IncludeCriticals = relic_AllowRedAlert;
                         C.Save();
                     }
 
                     bool OnlySelected = C.XPRelicOnlyEnabled;
-                    if (ImGui.Checkbox("Relic Mode: Only Enabled", ref OnlySelected))
+                    if (ImGui.Checkbox("Relic 模式：仅启用项", ref OnlySelected))
                     {
                         C.XPRelicOnlyEnabled = OnlySelected;
                         C.Save();
                     }
-                    if (ImGui.Button("Open Job Swap Settings"))
+                    if (ImGui.Button("打开职业切换设置"))
                     {
                         C.SelectedTab = WindowSelection.CharacterSettings;
                     }
 
-                    if (ImGui.Button("Save Current Mission Preset"))
+                    if (ImGui.Button("保存当前任务预设"))
                     {
                         ImGui.OpenPopup("Preset Save Editor");
                     }
 
                     if (ImGui.BeginPopup("Preset Save Editor"))
                     {
-                        ImGui.InputText($"Playlist Name", ref newListName);
+                        ImGui.InputText($"播放列表名称", ref newListName);
                         using (ImRaii.Disabled(string.IsNullOrEmpty(newListName)))
                         {
-                            if (ImGui.Button("Save New List"))
+                            if (ImGui.Button("保存新列表"))
                             {
                                 List<uint> new_Playlist = new();
                                 foreach (var mission in C.MissionConfig.Where(x => x.Value.Enabled))
@@ -353,14 +353,14 @@ namespace ICE.Ui.MainUi.ModeSelect_Modes
 
                     if (C.Mission_Playlist.Count > 0)
                     {
-                        if (ImGui.Button("View All Presets"))
+                        if (ImGui.Button("查看所有预设"))
                         {
                             ImGui.OpenPopup("Preset: List Viewer");
                         }
 
                         if (ImGui.BeginPopup("Preset: List Viewer"))
                         {
-                            ImGui.Text($"Load Mission Preset");
+                            ImGui.Text($"加载任务预设");
 
                             if (ImGui.BeginTable($"Preset: TableViewer", 3, ImGuiTableFlags.SizingFixedFit | ImGuiTableFlags.RowBg | ImGuiTableFlags.Borders))
                             {
@@ -372,7 +372,7 @@ namespace ICE.Ui.MainUi.ModeSelect_Modes
                                 ImGui.TableNextRow();
                                 ImGui.TableSetColumnIndex(0);
                                 ImGui.AlignTextToFramePadding();
-                                ImGui.Text($"Clear All");
+                                ImGui.Text($"全部清除");
                                 ImGui.SameLine();
                                 if (ImGuiEx.IconButton(FontAwesomeIcon.ArrowUpRightFromSquare, $"FreshPreset_Button"))
                                 {
@@ -405,7 +405,7 @@ namespace ICE.Ui.MainUi.ModeSelect_Modes
                                     }
                                     if (ImGui.IsItemHovered())
                                     {
-                                        ImGui.SetTooltip("Import Missions");
+                                        ImGui.SetTooltip("导入任务");
                                     }
 
                                     ImGui.TableNextColumn();
@@ -420,7 +420,7 @@ namespace ICE.Ui.MainUi.ModeSelect_Modes
                                     }
                                     if (ImGui.IsItemHovered())
                                     {
-                                        ImGui.SetTooltip("Remove from list");
+                                        ImGui.SetTooltip("从列表移除");
                                     }
                                 }
 
@@ -448,15 +448,15 @@ namespace ICE.Ui.MainUi.ModeSelect_Modes
                     if (!missionButtons.Success)
                         return;
 
-                    ImGui_Ice.DrawRankButton("Red Alert", MissionFilter.RedAlert, MissionTable);
-                    ImGui_Ice.DrawRankButton("Sequence", MissionFilter.Sequence, MissionTable);
-                    ImGui_Ice.DrawRankButton("Weather", MissionFilter.Weather, MissionTable);
-                    ImGui_Ice.DrawRankButton("Timed", MissionFilter.Timed, MissionTable);
-                    ImGui_Ice.DrawRankButton("Master", MissionFilter.Master, MissionTable);
-                    ImGui_Ice.DrawRankButton("A Rank", MissionFilter.ARank, MissionTable);
-                    ImGui_Ice.DrawRankButton("B Rank", MissionFilter.BRank, MissionTable);
-                    ImGui_Ice.DrawRankButton("C Rank", MissionFilter.CRank, MissionTable);
-                    ImGui_Ice.DrawRankButton("D Rank", MissionFilter.DRank, MissionTable);
+                    ImGui_Ice.DrawRankButton("红色警报", MissionFilter.RedAlert, MissionTable);
+                    ImGui_Ice.DrawRankButton("序列", MissionFilter.Sequence, MissionTable);
+                    ImGui_Ice.DrawRankButton("天气", MissionFilter.Weather, MissionTable);
+                    ImGui_Ice.DrawRankButton("限时", MissionFilter.Timed, MissionTable);
+                    ImGui_Ice.DrawRankButton("大师", MissionFilter.Master, MissionTable);
+                    ImGui_Ice.DrawRankButton("A 级", MissionFilter.ARank, MissionTable);
+                    ImGui_Ice.DrawRankButton("B 级", MissionFilter.BRank, MissionTable);
+                    ImGui_Ice.DrawRankButton("C 级", MissionFilter.CRank, MissionTable);
+                    ImGui_Ice.DrawRankButton("D 级", MissionFilter.DRank, MissionTable);
 
                     ImGui_Ice.EndCategoryButtonRow();
                 }
@@ -480,7 +480,7 @@ namespace ICE.Ui.MainUi.ModeSelect_Modes
                             MissionTable = new(TableItems);
                         }
                         var filterActive = MissionTable.FilteredItems.Count != 0 && MissionTable.FilteredItems.Count != ItemCount;
-                        var filterCount = filterActive ? $" (of {ItemCount})" : "";
+                        var filterCount = filterActive ? $" (共 {ItemCount})" : "";
                         var height = ImGui.GetFrameHeight();
                         MissionTable.Draw(height + 4f);
                     }

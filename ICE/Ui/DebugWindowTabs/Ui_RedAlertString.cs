@@ -23,7 +23,7 @@ namespace ICE.Ui.DebugWindowTabs
             }
             else
             {
-                ImGui.Text("Select string not visible");
+                ImGui.Text("选择字符串窗口不可见");
             }
         }
     }

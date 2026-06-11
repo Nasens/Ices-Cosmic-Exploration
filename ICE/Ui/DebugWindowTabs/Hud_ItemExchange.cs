@@ -20,7 +20,7 @@ namespace ICE.Ui.DebugWindowTabs
             if (GenericHelpers.TryGetAddonMaster<ECommons.UIHelpers.AddonMasterImplementations.AddonMaster.InclusionShop>("InclusionShop", out var itemExchange) && itemExchange.IsAddonReady)
             {
 
-                ImGui.Text($"Currency Amount: {itemExchange.CurrencyAmount}");
+                ImGui.Text($"货币数量：{itemExchange.CurrencyAmount}");
 
                 if (ImGui.BeginTable("Item Exchange Window", 3, tableFlags))
                 {
@@ -57,7 +57,7 @@ namespace ICE.Ui.DebugWindowTabs
                         }
                         ImGui.Text($"{cost}");
                         ImGui.SameLine();
-                        if (ImGui.Button("Buy Item"))
+                        if (ImGui.Button("购买物品"))
                         {
                             entry.Select();
                         }
@@ -72,8 +72,8 @@ namespace ICE.Ui.DebugWindowTabs
                 var currencyIcon = sheet.GetRow(shopExchange.CurrencyId).Icon;
                 Svc.Texture.TryGetFromGameIcon((int)currencyIcon, out var texture);
                 ImGui.Text($"{shopExchange.CurrencyAmount}");
-                ImGui.InputInt("Tab #", ref Tab);
-                if (ImGui.Button("Copy Item List"))
+                ImGui.InputInt("标签页 #", ref Tab);
+                if (ImGui.Button("复制物品列表"))
                 {
                     var sb = new StringBuilder();
                     for (int i = 0; i < shopExchange.NumEntries; i++)
@@ -93,7 +93,7 @@ namespace ICE.Ui.DebugWindowTabs
                     ImGui.SetClipboardText(sb.ToString());
                 }
 
-                ImGui.Text($"Number of entries: {shopExchange.NumEntries}");
+                ImGui.Text($"条目数量：{shopExchange.NumEntries}");
 
                 if (ImGui.BeginTable("Item Exchange Window", 5, tableFlags))
                 {
@@ -126,13 +126,13 @@ namespace ICE.Ui.DebugWindowTabs
                         ImGui.Text($"{entry.CostAmount}");
 
                         ImGui.TableNextColumn();
-                        if (ImGui.Button("Buy 1 Item"))
+                        if (ImGui.Button("购买 1 个"))
                         {
                             entry.Select();
                         }
 
                         ImGui.TableNextColumn();
-                        if (ImGui.Button("Buy Max"))
+                        if (ImGui.Button("购买最大数量"))
                         {
                             if (EzThrottler.Throttle("Buying from shop throttle"))
                             {
@@ -159,7 +159,7 @@ namespace ICE.Ui.DebugWindowTabs
                 ImGui.AlignTextToFramePadding();
                 ImGui.Text($"{amount}");
 
-                if (ImGui.Button("Copy Item List"))
+                if (ImGui.Button("复制物品列表"))
                 {
                     var sb = new StringBuilder();
                     for (int i = 0; i < Shop.NumEntries; i++)
@@ -208,13 +208,13 @@ namespace ICE.Ui.DebugWindowTabs
                         ImGui.Text($"{entry.CostAmount}");
 
                         ImGui.TableNextColumn();
-                        if (ImGui.Button("Buy 1 Item"))
+                        if (ImGui.Button("购买 1 个"))
                         {
                             entry.Select();
                         }
 
                         ImGui.TableNextColumn();
-                        if (ImGui.Button("Buy Max"))
+                        if (ImGui.Button("购买最大数量"))
                         {
                             if (EzThrottler.Throttle("Buying from shop throttle"))
                             {
@@ -230,7 +230,7 @@ namespace ICE.Ui.DebugWindowTabs
             }
             else
             {
-                ImGui.Text("Waiting for a shop exchange window to be open");
+                ImGui.Text("等待商店兑换窗口打开");
             }
         }
     }
