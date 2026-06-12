@@ -14,12 +14,18 @@ namespace ICE.Ui.DebugWindowTabs
 
             if (ImGui.BeginTable("Fishing Info", 6, ImGuiTableFlags.RowBg | ImGuiTableFlags.SizingFixedFit | ImGuiTableFlags.Borders))
             {
-                ImGui.TableSetupColumn("MissionID");
-                ImGui.TableSetupColumn("Mission Name");
-                ImGui.TableSetupColumn("Attribute");
-                ImGui.TableSetupColumn("Specific");
-                ImGui.TableSetupColumn("Total Req");
-                ImGui.TableSetupColumn("Variety Req", ImGuiTableColumnFlags.WidthStretch);
+                // ImGui.TableSetupColumn("MissionID");
+                ImGui.TableSetupColumn("任务 ID");
+                // ImGui.TableSetupColumn("Mission Name");
+                ImGui.TableSetupColumn("任务名称");
+                // ImGui.TableSetupColumn("Attribute");
+                ImGui.TableSetupColumn("属性");
+                // ImGui.TableSetupColumn("Specific");
+                ImGui.TableSetupColumn("指定");
+                // ImGui.TableSetupColumn("Total Req");
+                ImGui.TableSetupColumn("总需求");
+                // ImGui.TableSetupColumn("Variety Req", ImGuiTableColumnFlags.WidthStretch);
+                ImGui.TableSetupColumn("种类需求", ImGuiTableColumnFlags.WidthStretch);
 
                 ImGui.TableHeadersRow();
 

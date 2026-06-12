@@ -1,4 +1,4 @@
-﻿using ICE.Sounds;
+using ICE.Sounds;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,12 +17,14 @@ namespace ICE.Ui.MainUi.Settings
 
         public static void Draw()
         {
-            ImGui.Checkbox("Stop after current mission", ref Mission_Settings.StopAfterCurrent);
+            // ImGui.Checkbox("Stop after current mission", ref Mission_Settings.StopAfterCurrent);
+            ImGui.Checkbox("当前任务完成后停止", ref Mission_Settings.StopAfterCurrent);
 
             #region CosmoCredits
 
             bool stopCosmic = C.StopOnceHitCosmoCredits;
-            if (ImGui.Checkbox($"Stop at Cosmic Credits", ref stopCosmic))
+            // if (ImGui.Checkbox($"Stop at Cosmic Credits", ref stopCosmic))
+            if (ImGui.Checkbox($"达到宇宙点数时停止", ref stopCosmic))
             {
                 C.StopOnceHitCosmoCredits = stopCosmic;
                 C.Save();
@@ -47,7 +49,8 @@ namespace ICE.Ui.MainUi.Settings
             #region Planet Credits
 
             bool stopLunar = C.StopOnceHitLunarCredits;
-            if (ImGui.Checkbox($"Stop at Planetary Credit Amount", ref stopLunar))
+            // if (ImGui.Checkbox($"Stop at Planetary Credit Amount", ref stopLunar))
+            if (ImGui.Checkbox($"达到行星点数时停止", ref stopLunar))
             {
                 C.StopOnceHitLunarCredits = stopLunar;
                 C.Save();
@@ -68,7 +71,8 @@ namespace ICE.Ui.MainUi.Settings
             #region Cosmic Score
 
             bool stopScore = C.StopOnceHitCosmicScore;
-            if (ImGui.Checkbox($"Stop at Cosmic Score", ref stopScore))
+            // if (ImGui.Checkbox($"Stop at Cosmic Score", ref stopScore))
+            if (ImGui.Checkbox($"达到宇宙分数时停止", ref stopScore))
             {
                 C.StopOnceHitCosmicScore = stopScore;
                 C.BuyItems = false;
@@ -90,7 +94,8 @@ namespace ICE.Ui.MainUi.Settings
             #region Level
 
             bool stopWhenLevel = C.StopWhenLevel;
-            if (ImGui.Checkbox($"Stop at Level", ref stopWhenLevel))
+            // if (ImGui.Checkbox($"Stop at Level", ref stopWhenLevel))
+            if (ImGui.Checkbox($"达到等级时停止", ref stopWhenLevel))
             {
                 C.StopWhenLevel = stopWhenLevel;
                 C.Save();
@@ -111,7 +116,8 @@ namespace ICE.Ui.MainUi.Settings
             #region Relic Completed
 
             bool relicStop = C.StopOnceRelicFinished;
-            if (ImGui.Checkbox($"Stop @ Relic Complete", ref relicStop))
+            // if (ImGui.Checkbox($"Stop @ Relic Complete", ref relicStop))
+            if (ImGui.Checkbox($"Relic 完成时停止", ref relicStop))
             {
                 C.StopOnceRelicFinished = relicStop;
                 C.Save();
@@ -122,7 +128,8 @@ namespace ICE.Ui.MainUi.Settings
             #region Relic Level
 
             bool stopWhen = C.StopAtRelicLv;
-            if (ImGui.Checkbox("Stop At Relic Lv.", ref stopWhen))
+            // if (ImGui.Checkbox("Stop At Relic Lv.", ref stopWhen))
+            if (ImGui.Checkbox("达到 Relic 等级时停止", ref stopWhen))
             {
                 C.StopAtRelicLv = stopWhen;
                 C.Save();
@@ -141,7 +148,8 @@ namespace ICE.Ui.MainUi.Settings
             #region Sound Alert
 
             bool playSoundAlert = C.PlaySoundAlert;
-            if (ImGui.Checkbox("Play Sound Alert on Stop", ref playSoundAlert))
+            // if (ImGui.Checkbox("Play Sound Alert on Stop", ref playSoundAlert))
+            if (ImGui.Checkbox("停止时播放提示音", ref playSoundAlert))
             {
                 C.PlaySoundAlert = playSoundAlert;
                 C.Save();
@@ -149,14 +157,16 @@ namespace ICE.Ui.MainUi.Settings
             if (playSoundAlert)
             {
                 var soundVolume = C.SoundVolume;
-                ImGui.Text("Sound Volume");
+                // ImGui.Text("Sound Volume");
+                ImGui.Text("音量");
                 ImGui.SetNextItemWidth(200);
                 if (ImGui.SliderFloat("##Sound Volume", ref soundVolume, 0f, 1f, "%.2f"))
                 {
                     C.SoundVolume = soundVolume;
                     C.SaveDebounced();
                 }
-                if (ImGui.Button("Test Sound Alert"))
+                // if (ImGui.Button("Test Sound Alert"))
+                if (ImGui.Button("测试提示音"))
                 {
                     _ = SoundPlayer.PlaySoundAsync();
                 }

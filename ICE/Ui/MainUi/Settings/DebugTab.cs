@@ -15,10 +15,13 @@ namespace ICE.Ui.MainUi.Settings.Settings_Table
     {
         public static void Draw()
         {
-            ImGui.Checkbox("Force OOM Main", ref SchedulerMain.DebugOOMMain);
-            ImGui.Checkbox("Force OOM Sub", ref SchedulerMain.DebugOOMSub);
+            // ImGui.Checkbox("Force OOM Main", ref SchedulerMain.DebugOOMMain);
+            ImGui.Checkbox("强制 OOM 主线程", ref SchedulerMain.DebugOOMMain);
+            // ImGui.Checkbox("Force OOM Sub", ref SchedulerMain.DebugOOMSub);
+            ImGui.Checkbox("强制 OOM 子线程", ref SchedulerMain.DebugOOMSub);
 
-            if (ImGui.Button("Get current hub forecast"))
+            // if (ImGui.Button("Get current hub forecast"))
+            if (ImGui.Button("获取当前枢纽天气预报"))
             {
                 // Same fallback as other debug tabs: current hub, or Sinus when not in cosmic.
                 var territoryId = PlayerHelper.IsInCosmicZone()
@@ -45,27 +48,31 @@ namespace ICE.Ui.MainUi.Settings.Settings_Table
 
             using (ImRaii.Disabled(!PlayerHelper.IsInCosmicZone()))
             {
-                if (ImGui.Button("Refresh Forecast"))
+                // if (ImGui.Button("Refresh Forecast"))
+                if (ImGui.Button("刷新天气预报"))
                 {
                     WeatherForecastHandler.GetForecast();
                 }
             }
             bool gatherDebug = C.ShowDebugGatherInfo;
-            if (ImGui.Checkbox("Show Gather Debug Info", ref gatherDebug))
+            // if (ImGui.Checkbox("Show Gather Debug Info", ref gatherDebug))
+            if (ImGui.Checkbox("显示采集调试信息", ref gatherDebug))
             {
                 C.ShowDebugGatherInfo = gatherDebug;
                 C.Save();
             }
 
             bool highlightTable = C.HighlightVisibleMissions;
-            if (ImGui.Checkbox("Highlight Visible Missions", ref highlightTable))
+            // if (ImGui.Checkbox("Highlight Visible Missions", ref highlightTable))
+            if (ImGui.Checkbox("高亮可见任务", ref highlightTable))
             {
                 C.HighlightVisibleMissions = highlightTable;
                 C.Save();
             }
 
             bool onlyGrabMission = C.OnlyGrabMission_Debug;
-            if (ImGui.Checkbox($"Only grab mission", ref onlyGrabMission))
+            // if (ImGui.Checkbox($"Only grab mission", ref onlyGrabMission))
+            if (ImGui.Checkbox("仅接取任务", ref onlyGrabMission))
             {
                 C.OnlyGrabMission_Debug = onlyGrabMission;
                 C.Save();

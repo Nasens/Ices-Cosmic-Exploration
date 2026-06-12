@@ -29,7 +29,8 @@ namespace ICE.Ui.DebugWindowTabs
                 _fishingDebug = new FishingDebug();
             }
 
-            if (ImGui.Button("Add Missing Fishing Holes"))
+            // if (ImGui.Button("Add Missing Fishing Holes"))
+            if (ImGui.Button("添加缺失钓点"))
             {
                 foreach (var mission in CosmicHelper.SheetMissionDict.Where(x => x.Value.Jobs.Contains(18)))
                 {
@@ -53,7 +54,8 @@ namespace ICE.Ui.DebugWindowTabs
             }
 
             ImGui.SameLine();
-            if (ImGui.Button("Export All Fishing Data"))
+            // if (ImGui.Button("Export All Fishing Data"))
+            if (ImGui.Button("导出全部钓鱼数据"))
             {
                 var exportData = ExportAllFishingData();
                 ImGui.SetClipboardText(exportData);
@@ -63,7 +65,8 @@ namespace ICE.Ui.DebugWindowTabs
             ImGui.SameLine();
             using (ImRaii.Disabled(selectedFlag == Vector2.Zero))
             {
-                if (ImGui.Button("Export Selected Flag"))
+                // if (ImGui.Button("Export Selected Flag"))
+                if (ImGui.Button("导出所选标记"))
                 {
                     var exportData = ExportSingleFishingFlag(selectedZone, selectedFlag);
                     ImGui.SetClipboardText(exportData);
@@ -71,7 +74,8 @@ namespace ICE.Ui.DebugWindowTabs
                 }
             }
 
-            ImGui.Checkbox("Show fishing spot raycast", ref _fishingDebug.ShowFishRay);
+            // ImGui.Checkbox("Show fishing spot raycast", ref _fishingDebug.ShowFishRay);
+            ImGui.Checkbox("显示钓点射线检测", ref _fishingDebug.ShowFishRay);
             if (Player.Object is { } player && _fishingDebug.ShowFishRay)
             {
                 _fishingDebug.Draw();
@@ -81,18 +85,22 @@ namespace ICE.Ui.DebugWindowTabs
 
             if (ImGui.BeginTable("Fishing Editor Table", 2, ImGuiTableFlags.Resizable | ImGuiTableFlags.SizingFixedFit))
             {
-                ImGui.TableSetupColumn("Fishing Hole Selector", ImGuiTableColumnFlags.WidthFixed, 200);
-                ImGui.TableSetupColumn("Fishing Hole Editor", ImGuiTableColumnFlags.WidthStretch);
+                // ImGui.TableSetupColumn("Fishing Hole Selector", ImGuiTableColumnFlags.WidthFixed, 200);
+                ImGui.TableSetupColumn("钓点选择", ImGuiTableColumnFlags.WidthFixed, 200);
+                // ImGui.TableSetupColumn("Fishing Hole Editor", ImGuiTableColumnFlags.WidthStretch);
+                ImGui.TableSetupColumn("钓点编辑", ImGuiTableColumnFlags.WidthStretch);
 
                 ImGui.TableNextRow();
 
                 // First Column, Viewer for all the routes
                 ImGui.TableSetColumnIndex(0);
-                if (ImGui.BeginChild("Fishing Location Selector", new Vector2(200, 0), true))
+                // if (ImGui.BeginChild("Fishing Location Selector", new Vector2(200, 0), true))
+                if (ImGui.BeginChild("钓点位置选择", new Vector2(200, 0), true))
                 {
                     foreach (var moon in GatheringUtil.MoonFishingLocations)
                     {
-                        ImGui.Text($"Zone: {moon.Key}");
+                        // ImGui.Text($"Zone: {moon.Key}");
+                        ImGui.Text($"区域: {moon.Key}");
                         var sortedFlags = moon.Value.OrderBy(flag => flag.Key.X);
                         foreach (var flag in sortedFlags)
                         {
@@ -118,11 +126,13 @@ namespace ICE.Ui.DebugWindowTabs
 
                 // Second Column, Editor for that route
                 ImGui.TableNextColumn();
-                if (ImGui.BeginChild("Fishing Hole Editor", new Vector2(0, 0), true))
+                // if (ImGui.BeginChild("Fishing Hole Editor", new Vector2(0, 0), true))
+                if (ImGui.BeginChild("钓点编辑", new Vector2(0, 0), true))
                 {
                     if (selectedZone != 0 && selectedFlag != Vector2.Zero)
                     {
-                        if (ImGui.Button("Open map position"))
+                        // if (ImGui.Button("Open map position"))
+                        if (ImGui.Button("打开地图位置"))
                         {
                             var missionEntry = CosmicHelper.SheetMissionDict.Where(x => x.Value.MapPosition == selectedFlag
                                                                                  && x.Value.TerritoryId == selectedZone).FirstOrDefault();
@@ -132,7 +142,8 @@ namespace ICE.Ui.DebugWindowTabs
                                 Utils.SetGatheringRing(mission.TerritoryId, (int)mission.MapPosition.X, (int)mission.MapPosition.Y, mission.Radius, mission.Name);
                             }
                         }
-                        if (ImGui.CollapsingHeader("All Missions for this hole"))
+                        // if (ImGui.CollapsingHeader("All Missions for this hole"))
+                        if (ImGui.CollapsingHeader("此钓点全部任务"))
                         {
                             if (ImGui.BeginTable("Mission Viewer", 2, ImGuiTableFlags.SizingFixedFit | ImGuiTableFlags.Borders))
                             {
@@ -163,31 +174,38 @@ namespace ICE.Ui.DebugWindowTabs
                             }
                         }
 
-                        if (ImGui.Button("Move to Flag"))
+                        // if (ImGui.Button("Move to Flag"))
+                        if (ImGui.Button("移动至标记"))
                         {
                             Chat.SendMessage("/vnav moveflag");
                         }
                         ImGui.SameLine();
-                        if (ImGui.Button("Stop naving"))
+                        // if (ImGui.Button("Stop naving"))
+                        if (ImGui.Button("停止导航"))
                         {
                             P.Navmesh.Stop();
                         }
                         ImGui.SameLine();
-                        if (ImGui.Button("Mount"))
+                        // if (ImGui.Button("Mount"))
+                        if (ImGui.Button("上坐骑"))
                         {
                             Utils.MountAction();
                         }
                         ImGui.SameLine();
-                        if (ImGui.Button("Stop All Task"))
+                        // if (ImGui.Button("Stop All Task"))
+                        if (ImGui.Button("停止全部任务"))
                         {
                             P.TaskManager.Tasks.Clear();
                             P.TaskManager.Abort();
                         }
-                        ImGui.Text($"Viable fishing spot: {_fishingDebug.IsFishable()}");
+                        // ImGui.Text($"Viable fishing spot: {_fishingDebug.IsFishable()}");
+                        ImGui.Text($"可用钓点: {_fishingDebug.IsFishable()}");
                         if (_fishingDebug.FindFishableLocation(out var fishablePosition))
                         {
-                            ImGui.Text($"First Available Fishing Spot: {fishablePosition.Value.X:N2}, {fishablePosition.Value.Y:N2}, {fishablePosition.Value.Z:N2}");
-                            if (ImGui.Button("Face toward spot"))
+                            // ImGui.Text($"First Available Fishing Spot: {fishablePosition.Value.X:N2}, {fishablePosition.Value.Y:N2}, {fishablePosition.Value.Z:N2}");
+                            ImGui.Text($"首个可用钓点: {fishablePosition.Value.X:N2}, {fishablePosition.Value.Y:N2}, {fishablePosition.Value.Z:N2}");
+                            // if (ImGui.Button("Face toward spot"))
+                            if (ImGui.Button("面向钓点"))
                             {
                                 if (_fishingDebug.FindFishableLocation(out var fishPosition, searchSteps: 128))
                                 {
@@ -196,7 +214,8 @@ namespace ICE.Ui.DebugWindowTabs
                             }
                         }
 
-                        ImGui.Checkbox("View Fishing Spots", ref viewAllFishingSpots);
+                        // ImGui.Checkbox("View Fishing Spots", ref viewAllFishingSpots);
+                        ImGui.Checkbox("显示钓点", ref viewAllFishingSpots);
                         ImGui.SameLine();
                         Vector4 circleColor = Utils.FromUintABGR(C.PictoColor_Circle);
                         ImGui.SetNextItemWidth(200);
@@ -206,7 +225,8 @@ namespace ICE.Ui.DebugWindowTabs
                             C.Save();
                         }
 
-                        ImGui.Checkbox("View Nav Spots", ref viewNavSpot);
+                        // ImGui.Checkbox("View Nav Spots", ref viewNavSpot);
+                        ImGui.Checkbox("显示导航点", ref viewNavSpot);
                         ImGui.SameLine();
                         Vector4 dotColor = Utils.FromUintABGR(C.PictoColor_Dot);
                         ImGui.SetNextItemWidth(200);
@@ -218,7 +238,8 @@ namespace ICE.Ui.DebugWindowTabs
 
                         Vector4 coneColor = Utils.FromUintABGR(C.PictoColor_Cone);
                         ImGui.SetNextItemWidth(200);
-                        if (ImGui.ColorEdit4("Cone Color Editor##ConeColorEditor", ref coneColor))
+                        // if (ImGui.ColorEdit4("Cone Color Editor##ConeColorEditor", ref coneColor))
+                        if (ImGui.ColorEdit4("锥形颜色编辑##ConeColorEditor", ref coneColor))
                         {
                             C.PictoColor_Cone = Utils.ToUintABGR(coneColor);
                             C.Save();
@@ -226,9 +247,11 @@ namespace ICE.Ui.DebugWindowTabs
 
                         var fishingHole = GatheringUtil.MoonFishingLocations[selectedZone][selectedFlag];
 
-                        ImGui.Text($"Zone {selectedZone} - X:{selectedFlag.X} Z:{selectedFlag.Y}");
+                        // ImGui.Text($"Zone {selectedZone} - X:{selectedFlag.X} Z:{selectedFlag.Y}");
+                        ImGui.Text($"区域 {selectedZone} - X:{selectedFlag.X} Z:{selectedFlag.Y}");
 
-                        if (ImGui.Button("Add Fishing Spot"))
+                        // if (ImGui.Button("Add Fishing Spot"))
+                        if (ImGui.Button("添加钓点"))
                         {
                             fishingHole.Add(new FisherSpotInfo()
                             {
@@ -245,17 +268,21 @@ namespace ICE.Ui.DebugWindowTabs
                             ImGui.PushID(i);
 
                             bool isSelected = selectedSpotIndex == i;
-                            if (ImGui.Selectable($"Spot {i + 1}", isSelected))
+                            // if (ImGui.Selectable($"Spot {i + 1}", isSelected))
+                            if (ImGui.Selectable($"钓点 {i + 1}", isSelected))
                             {
                                 selectedSpotIndex = i;
                             }
                             if (ImGui.IsMouseClicked(ImGuiMouseButton.Right) && ImGui.IsItemHovered())
                             {
-                                ImGui.OpenPopup("Option to Delete");
+                                // ImGui.OpenPopup("Option to Delete");
+                                ImGui.OpenPopup("删除选项");
                             }
-                            if (ImGui.BeginPopup("Option to Delete"))
+                            // if (ImGui.BeginPopup("Option to Delete"))
+                            if (ImGui.BeginPopup("删除选项"))
                             {
-                                if (ImGui.MenuItem("Delete"))
+                                // if (ImGui.MenuItem("Delete"))
+                                if (ImGui.MenuItem("删除"))
                                 {
                                     fishingHole.RemoveAt(i);
                                     if (selectedSpotIndex >= i) selectedSpotIndex--;
@@ -270,30 +297,35 @@ namespace ICE.Ui.DebugWindowTabs
                         if (selectedSpotIndex >= 0 && selectedSpotIndex < fishingHole.Count)
                         {
                             ImGui.Separator();
-                            ImGui.Text($"Editing Spot {selectedSpotIndex + 1}:");
+                            // ImGui.Text($"Editing Spot {selectedSpotIndex + 1}:");
+                            ImGui.Text($"编辑钓点 {selectedSpotIndex + 1}:");
 
                             var spot = fishingHole[selectedSpotIndex];
 
                             var fish = spot.FishingSpot;
                             ImGui.SetNextItemWidth(200);
-                            if (ImGui.InputFloat3("Fishing Position", ref fish))
+                            // if (ImGui.InputFloat3("Fishing Position", ref fish))
+                            if (ImGui.InputFloat3("钓鱼位置", ref fish))
                             {
                                 spot.FishingSpot = fish;
                             }
                             ImGui.SameLine();
-                            if (ImGui.Button("Set fishing to current"))
+                            // if (ImGui.Button("Set fishing to current"))
+                            if (ImGui.Button("设为当前钓鱼位置"))
                             {
                                 spot.FishingSpot = Player.Position;
                             }
 
                             var nav = spot.FacePosition;
                             ImGui.SetNextItemWidth(200);
-                            if (ImGui.InputFloat3("Nav Position", ref nav))
+                            // if (ImGui.InputFloat3("Nav Position", ref nav))
+                            if (ImGui.InputFloat3("导航位置", ref nav))
                             {
                                 spot.FacePosition = nav;
                             }
                             ImGui.SameLine();
-                            if (ImGui.Button("Set Fishing Rotation"))
+                            // if (ImGui.Button("Set Fishing Rotation"))
+                            if (ImGui.Button("设置钓鱼朝向"))
                             {
                                 var currentRotation = Player.Rotation;
                                 spot.FacePosition = GetPositionInFrontOfPlayer(Player.Position, currentRotation);
@@ -302,12 +334,14 @@ namespace ICE.Ui.DebugWindowTabs
                             ImGui.Text($"{Player.Rotation}");
                             ImGui.SetNextItemWidth(200);
                             float toleranceDegrees = spot.RotationTolerance * (180f / (float)Math.PI);
-                            if (ImGui.SliderFloat("Rotation Tolerance (degrees)", ref toleranceDegrees, 1f, 45f))
+                            // if (ImGui.SliderFloat("Rotation Tolerance (degrees)", ref toleranceDegrees, 1f, 45f))
+                            if (ImGui.SliderFloat("旋转容差（度）", ref toleranceDegrees, 1f, 45f))
                             {
                                 spot.RotationTolerance = toleranceDegrees * ((float)Math.PI / 180f);
                             }
 
-                            if (ImGui.Button("Test Naving to [New]"))
+                            // if (ImGui.Button("Test Naving to [New]"))
+                            if (ImGui.Button("测试导航至 [新]"))
                             {
                                 Task_NavmeshMove.Enqueue_NavmeshTask(spot.FishingSpot);
                                 P.TaskManager.EnqueueDelay(200);

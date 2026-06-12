@@ -21,11 +21,13 @@ internal class Table_MissionsV3
 
         Vector2 size = new(ImGui.GetContentRegionAvail().X, ImGui.GetContentRegionAvail().Y - bottomSpace);
 
-        ImGui.Text($"Item Count: {ItemCount}");
+        // ImGui.Text($"Item Count: {ItemCount}");
+        ImGui.Text($"条目数量: {ItemCount}");
         if (ImGui.BeginChild("###MissionTableV3", size, false))
         {
             var showRedAlert = C.MissionFilter.HasFlag(MissionFilter.RedAlert);
-            if (ImGui.Checkbox("Red Alert", ref showRedAlert))
+            // if (ImGui.Checkbox("Red Alert", ref showRedAlert))
+            if (ImGui.Checkbox("红色警报", ref showRedAlert))
             {
                 C.MissionFilter = showRedAlert
                     ? C.MissionFilter | MissionFilter.RedAlert

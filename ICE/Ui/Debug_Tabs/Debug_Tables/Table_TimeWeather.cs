@@ -10,10 +10,14 @@ namespace ICE.Ui.Debug_Tabs.Debug_Tables
 
             if (ImGui.BeginTable($"WKSMission Time Sheet", 4, ImGuiTableFlags.SizingFixedFit))
             {
-                ImGui.TableSetupColumn("Key");
-                ImGui.TableSetupColumn("Weather Required");
-                ImGui.TableSetupColumn("Start Hour");
-                ImGui.TableSetupColumn("End Hour");
+                // ImGui.TableSetupColumn("Key");
+                ImGui.TableSetupColumn("键");
+                // ImGui.TableSetupColumn("Weather Required");
+                ImGui.TableSetupColumn("所需天气");
+                // ImGui.TableSetupColumn("Start Hour");
+                ImGui.TableSetupColumn("开始小时");
+                // ImGui.TableSetupColumn("End Hour");
+                ImGui.TableSetupColumn("结束小时");
 
                 ImGui.TableHeadersRow();
 

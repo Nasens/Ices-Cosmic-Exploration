@@ -1,4 +1,4 @@
-﻿using Dalamud.Interface;
+using Dalamud.Interface;
 using Dalamud.Interface.Utility.Raii;
 using ECommons.Reflection;
 using FFXIVClientStructs;
@@ -16,7 +16,8 @@ namespace ICE.Ui
 {
     internal class InfoWindow : Window
     {
-        public InfoWindow() : base($"Ice's Cosmic Exploration - Info")
+        // public InfoWindow() : base($"Ice's Cosmic Exploration - Info")
+        public InfoWindow() : base($"Ice's Cosmic Exploration - 说明")
         {
             Flags = ImGuiWindowFlags.None;
             SizeConstraints = new()
@@ -39,23 +40,29 @@ namespace ICE.Ui
 
         public override void Draw()
         {
-            ImGui.Text("Hi! Welcome to Ice's Cosmic Exploration [Short form, I.C.E.]");
+            // ImGui.Text("Hi! Welcome to Ice's Cosmic Exploration [Short form, I.C.E.]");
+            ImGui.Text("你好！欢迎使用 Ice's Cosmic Exploration [简称 I.C.E.]");
             ImGui.Bullet();
-            ImGui.TextWrapped("This plugin is meant to help you with your cosmic exploration needs, " +
-                              "from automating the gathering and crafting process, to the buying of shop items or spending those planetary credits away.");
+            // ImGui.TextWrapped("This plugin is meant to help you with your cosmic exploration needs, " +
+            //                   "from automating the gathering and crafting process, to the buying of shop items or spending those planetary credits away.");
+            ImGui.TextWrapped("本插件旨在帮助你完成宇宙探索相关需求，" +
+                              "从自动化采集与制作过程，到购买商店物品或消耗行星点数。");
 
             helpSelect_Required.Draw();
 
             ImGui.Separator();
 
-            ImGuiEx.IconWithText(FontAwesomeIcon.Feather, "Gathering Setup");
+            // ImGuiEx.IconWithText(FontAwesomeIcon.Feather, "Gathering Setup");
+            ImGuiEx.IconWithText(FontAwesomeIcon.Feather, "采集设置");
             ImGui.Dummy(new Vector2(0, 5));
 
-            ImGui.Text("If you would like to auto setup gathering to where all missions have their gathering buffs to what I would recommend");
+            // ImGui.Text("If you would like to auto setup gathering to where all missions have their gathering buffs to what I would recommend");
+            ImGui.Text("如需自动配置采集，使所有任务使用推荐的采集增益设置，请点击下方按钮");
 
             if (!HasGatheringSetup)
             {
-                if (ImGui.Button("Setup Gathering Profiles"))
+                // if (ImGui.Button("Setup Gathering Profiles"))
+                if (ImGui.Button("初始化采集配置"))
                 {
                     foreach (var profile in C.GatherProfiles)
                     {
@@ -96,7 +103,8 @@ namespace ICE.Ui
             }
             else
             {
-                ImGui.Text("All gathering profile have been updated/automatically applied");
+                // ImGui.Text("All gathering profile have been updated/automatically applied");
+                ImGui.Text("所有采集配置已更新/自动应用");
             }
         }
     }

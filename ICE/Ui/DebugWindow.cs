@@ -13,7 +13,8 @@ internal class DebugWindow : Window
     private bool _showSidebar = true;
 
     public DebugWindow() :
-        base($"ICE {P.GetType().Assembly.GetName().Version} Debugger ###IceCosmicDebug1")
+        // base($"ICE {P.GetType().Assembly.GetName().Version} Debugger ###IceCosmicDebug1")
+        base($"ICE {P.GetType().Assembly.GetName().Version} 调试器 ###IceCosmicDebug1")
     {
         Flags = ImGuiWindowFlags.None;
         SizeConstraints = new WindowSizeConstraints
@@ -28,7 +29,8 @@ internal class DebugWindow : Window
             Icon = FontAwesomeIcon.Bars,
             IconOffset = new Vector2(2, 1),
             Click = _ => _showSidebar = !_showSidebar,
-            ShowTooltip = () => ImGui.SetTooltip(_showSidebar ? "Hide tab list" : "Show tab list"),
+            // ShowTooltip = () => ImGui.SetTooltip(_showSidebar ? "Hide tab list" : "Show tab list"),
+            ShowTooltip = () => ImGui.SetTooltip(_showSidebar ? "隐藏标签列表" : "显示标签列表"),
         });
 
         P.windowSystem.AddWindow(this);
@@ -130,7 +132,8 @@ internal class DebugWindow : Window
             }
             else
             {
-                ImGui.Text("Unknown Debug View");
+                // ImGui.Text("Unknown Debug View");
+                ImGui.Text("未知调试视图");
             }
         }
         ImGui.EndChild();

@@ -16,6 +16,9 @@
 # Mono auto generated files
 mono_crash.*
 
+# Local build output (not for repo)
+dist/
+
 # Build results
 [Dd]ebug/
 [Dd]ebugPublic/

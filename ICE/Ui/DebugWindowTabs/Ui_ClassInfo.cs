@@ -17,7 +17,8 @@ namespace ICE.Ui.DebugWindowTabs
                 using var tabItem = ImRaii.TabItem($"Job {item.Key}");
                 if (!tabItem) continue;
 
-                ImGui.Text($"Score: {item.Value.Score}");
+                // ImGui.Text($"Score: {item.Value.Score}");
+                ImGui.Text($"分数: {item.Value.Score}");
                 ImGui.Separator();
 
                 using var table = ImRaii.Table($"ClassInfo_{item.Key}", 2,
@@ -25,21 +26,25 @@ namespace ICE.Ui.DebugWindowTabs
                 if (!table) continue;
 
                 // Set up columns
-                ImGui.TableSetupColumn("Property", ImGuiTableColumnFlags.WidthFixed, 150f);
-                ImGui.TableSetupColumn("Value", ImGuiTableColumnFlags.WidthStretch);
+                // ImGui.TableSetupColumn("Property", ImGuiTableColumnFlags.WidthFixed, 150f);
+                ImGui.TableSetupColumn("属性", ImGuiTableColumnFlags.WidthFixed, 150f);
+                // ImGui.TableSetupColumn("Value", ImGuiTableColumnFlags.WidthStretch);
+                ImGui.TableSetupColumn("数值", ImGuiTableColumnFlags.WidthStretch);
                 ImGui.TableHeadersRow();
 
                 // Current Stage
                 ImGui.TableNextRow();
                 ImGui.TableNextColumn();
-                ImGui.Text("Current Stage");
+                // ImGui.Text("Current Stage");
+                ImGui.Text("当前阶段");
                 ImGui.TableNextColumn();
                 ImGui.Text($"{item.Value.Stage_Current}");
 
                 // Next Stage
                 ImGui.TableNextRow();
                 ImGui.TableNextColumn();
-                ImGui.Text("Next Stage");
+                // ImGui.Text("Next Stage");
+                ImGui.Text("下一阶段");
                 ImGui.TableNextColumn();
                 ImGui.Text($"{item.Value.Stage_Next}");
 

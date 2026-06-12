@@ -13,7 +13,8 @@ namespace ICE.Ui.Debug_Tabs.Debug_Tables
         public static unsafe void Draw()
         {
             ImGui.SetNextItemWidth(250);
-            ImGui.InputText("Search by Name", ref MissionSearchText, 100);
+            // ImGui.InputText("Search by Name", ref MissionSearchText, 100);
+            ImGui.InputText("按名称搜索", ref MissionSearchText, 100);
 
             ImGuiTableFlags tableFlags = ImGuiTableFlags.RowBg |
                             ImGuiTableFlags.Borders |
@@ -24,15 +25,21 @@ namespace ICE.Ui.Debug_Tabs.Debug_Tables
 
             if (ImGui.BeginTable("Mission_GatheringInfo", 10, tableFlags))
             {
-                ImGui.TableSetupColumn("Key");
-                ImGui.TableSetupColumn("Mission Name");
+                // ImGui.TableSetupColumn("Key");
+                ImGui.TableSetupColumn("键");
+                // ImGui.TableSetupColumn("Mission Name");
+                ImGui.TableSetupColumn("任务名称");
                 for (int i = 1; i < 4; i++)
                 {
-                    ImGui.TableSetupColumn($"Gather Item [{i}]");
-                    ImGui.TableSetupColumn($"Amount [{i}]");
+                    // ImGui.TableSetupColumn($"Gather Item [{i}]");
+                    ImGui.TableSetupColumn($"采集物品 [{i}]");
+                    // ImGui.TableSetupColumn($"Amount [{i}]");
+                    ImGui.TableSetupColumn($"数量 [{i}]");
                 }
-                ImGui.TableSetupColumn("Mission Radius");
-                ImGui.TableSetupColumn("Critical Location");
+                // ImGui.TableSetupColumn("Mission Radius");
+                ImGui.TableSetupColumn("任务半径");
+                // ImGui.TableSetupColumn("Critical Location");
+                ImGui.TableSetupColumn("关键位置");
                 ImGui.TableHeadersRow();
 
                 foreach (var entry in CosmicHelper.SheetMissionDict.Where(x => x.Value.Jobs.Intersect(CosmicHelper.GatheringJobList).Any()))
@@ -85,7 +92,8 @@ namespace ICE.Ui.Debug_Tabs.Debug_Tables
                         if (ImGui.IsItemHovered())
                         {
                             ImGui.BeginTooltip();
-                            ImGui.Text($"World Cords: {criticalInfo.WorldCords.X:N2}, {criticalInfo.WorldCords.Y:N2}, {criticalInfo.WorldCords.Z:N2}");
+                            // ImGui.Text($"World Cords: {criticalInfo.WorldCords.X:N2}, {criticalInfo.WorldCords.Y:N2}, {criticalInfo.WorldCords.Z:N2}");
+                            ImGui.Text($"世界坐标: {criticalInfo.WorldCords.X:N2}, {criticalInfo.WorldCords.Y:N2}, {criticalInfo.WorldCords.Z:N2}");
                             ImGui.EndTooltip();
                         }
                         if (ImGui.IsItemClicked())

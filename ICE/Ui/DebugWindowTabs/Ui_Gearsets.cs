@@ -38,16 +38,20 @@ namespace ICE.Ui.DebugWindowTabs
 
         public static void Draw()
         {
-            if (ImGui.Button("Update Gearsets"))
+            // if (ImGui.Button("Update Gearsets"))
+            if (ImGui.Button("刷新套装列表"))
             {
                 UpdateGearsets();
             }
 
             if (ImGui.BeginTable("Gearset Viewer", 3, ImGuiTableFlags.SizingFixedFit | ImGuiTableFlags.RowBg | ImGuiTableFlags.Borders))
             {
+                // ImGui.TableSetupColumn("ID");
                 ImGui.TableSetupColumn("ID");
-                ImGui.TableSetupColumn("Name");
-                ImGui.TableSetupColumn("JobID");
+                // ImGui.TableSetupColumn("Name");
+                ImGui.TableSetupColumn("名称");
+                // ImGui.TableSetupColumn("JobID");
+                ImGui.TableSetupColumn("职业 ID");
 
                 ImGui.TableHeadersRow();
 

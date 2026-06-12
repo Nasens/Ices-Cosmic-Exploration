@@ -51,8 +51,10 @@ namespace ICE.Ui.MainUi.ModeSelect_Modes
         {
             if (ImGui.BeginTable("Class Selection Table", 2, ImGuiTableFlags.SizingFixedFit))
             {
-                ImGui.TableSetupColumn("Icon");
-                ImGui.TableSetupColumn("Name");
+                // ImGui.TableSetupColumn("Icon");
+                ImGui.TableSetupColumn("图标");
+                // ImGui.TableSetupColumn("Name");
+                ImGui.TableSetupColumn("名称");
 
                 foreach (var jobInfo in CosmicHelper.ClassInfoDict.OrderBy(x => x.Key))
                 {
@@ -76,7 +78,8 @@ namespace ICE.Ui.MainUi.ModeSelect_Modes
                 ImGui.Image(allClassTexture.Handle, new Vector2(20, 20));
 
                 ImGui.TableNextColumn();
-                if (ImGui.Selectable("All Classes", SelectedJob == 0, ImGuiSelectableFlags.SpanAllColumns))
+                // if (ImGui.Selectable("All Classes", SelectedJob == 0, ImGuiSelectableFlags.SpanAllColumns))
+                if (ImGui.Selectable("全部职业", SelectedJob == 0, ImGuiSelectableFlags.SpanAllColumns))
                 {
                     SelectedJob = 0;
                 }
@@ -100,12 +103,14 @@ namespace ICE.Ui.MainUi.ModeSelect_Modes
                 if (SelectedJob != 0)
                 {
                     var classIcon = CosmicHelper.ClassInfoDict[SelectedJob];
-                    DrawImageTabButton("Class Progress", ProgressTabId, ref selectedTabId, classIcon.JobIcon.GetWrapOrEmpty());
+                    // DrawImageTabButton("Class Progress", ProgressTabId, ref selectedTabId, classIcon.JobIcon.GetWrapOrEmpty());
+                    DrawImageTabButton("职业进度", ProgressTabId, ref selectedTabId, classIcon.JobIcon.GetWrapOrEmpty());
                 }
                 else
                 {
                     var allClassTexture = Svc.Texture.GetFromManifestResource(Assembly.GetExecutingAssembly(), "ICE.Resources.CosmicClassTracker.png").GetWrapOrEmpty();
-                    DrawImageTabButton("All Class progresses", ProgressTabId, ref selectedTabId, allClassTexture);
+                    // DrawImageTabButton("All Class progresses", ProgressTabId, ref selectedTabId, allClassTexture);
+                    DrawImageTabButton("全部职业进度", ProgressTabId, ref selectedTabId, allClassTexture);
                 }
 
                 foreach (var moon in CosmicMoonRegistry.All.OrderBy(m => m.ExpeditionTabIndex))
@@ -156,7 +161,8 @@ namespace ICE.Ui.MainUi.ModeSelect_Modes
             }
             else if (MissionList.TryGetValue(selectedTabId, out var missions))
             {
-                ImGui.Checkbox("Hide Completed", ref HideCompleted);
+                // ImGui.Checkbox("Hide Completed", ref HideCompleted);
+                ImGui.Checkbox("隐藏已完成", ref HideCompleted);
                 if (ImGui.BeginChild("Mission Completion Status Window", ImGui.GetContentRegionAvail()))
                 {
                     MissionTable(missions);
@@ -249,15 +255,24 @@ namespace ICE.Ui.MainUi.ModeSelect_Modes
 
                 if (ImGui.BeginTable($"ExpeditionLog_Table", 9, tableFlags))
                 {
-                    ImGui.TableSetupColumn("Enabled");
-                    ImGui.TableSetupColumn("Job");
-                    ImGui.TableSetupColumn("Kind");
+                    // ImGui.TableSetupColumn("Enabled");
+                    ImGui.TableSetupColumn("启用");
+                    // ImGui.TableSetupColumn("Job");
+                    ImGui.TableSetupColumn("职业");
+                    // ImGui.TableSetupColumn("Kind");
+                    ImGui.TableSetupColumn("类型");
+                    // ImGui.TableSetupColumn("ID");
                     ImGui.TableSetupColumn("ID");
+                    // ImGui.TableSetupColumn("✓");
                     ImGui.TableSetupColumn("✓");
-                    ImGui.TableSetupColumn("Mission Name");
-                    ImGui.TableSetupColumn("Turnin Mode");
-                    ImGui.TableSetupColumn("Profile Setting");
-                    ImGui.TableSetupColumn("Notes");
+                    // ImGui.TableSetupColumn("Mission Name");
+                    ImGui.TableSetupColumn("任务名称");
+                    // ImGui.TableSetupColumn("Turnin Mode");
+                    ImGui.TableSetupColumn("交付模式");
+                    // ImGui.TableSetupColumn("Profile Setting");
+                    ImGui.TableSetupColumn("配置设置");
+                    // ImGui.TableSetupColumn("Notes");
+                    ImGui.TableSetupColumn("备注");
 
                     // TODO: Make it to where type/rank is shown here instead of notes
 
@@ -338,7 +353,8 @@ namespace ICE.Ui.MainUi.ModeSelect_Modes
                         if (ImGui.IsItemHovered())
                         {
                             ImGui.SetMouseCursor(ImGuiMouseCursor.Hand);
-                            ImGui.SetTooltip("Open mission details");
+                            // ImGui.SetTooltip("Open mission details");
+                            ImGui.SetTooltip("打开任务详情");
                         }
                         if (missionInfo.MarkerId != 0)
                         {
@@ -370,7 +386,8 @@ namespace ICE.Ui.MainUi.ModeSelect_Modes
                         ImGui.TableNextColumn();
                         if (missionInfo.Attributes.HasFlag(MissionAttributes.Score_TimeRemaining))
                         {
-                            ImGui_Ice.Table_FullCenterText("Auto");
+                            // ImGui_Ice.Table_FullCenterText("Auto");
+                            ImGui_Ice.Table_FullCenterText("自动");
                             if (missionConfig.TurninGoal != TurninState.Gold)
                             {
                                 missionConfig.TurninGoal = TurninState.Gold;
@@ -419,17 +436,22 @@ namespace ICE.Ui.MainUi.ModeSelect_Modes
                                     ImGui.BeginTooltip();
                                     ImGuiEx.Icon(color, FontAwesomeIcon.Trophy);
                                     ImGui.SameLine();
-                                    ImGui.Text($"{tooltipLabel} — turn in at {state.ToString().ToLower()} or better");
-                                    ImGui.Text($"Right click to set minimum turnin to {state.ToString().ToLower()}");
+                                    // ImGui.Text($"{tooltipLabel} — turn in at {state.ToString().ToLower()} or better");
+                                    ImGui.Text($"{tooltipLabel} — 达到 {tooltipLabel} 或更高档位时交付");
+                                    // ImGui.Text($"Right click to set minimum turnin to {state.ToString().ToLower()}");
+                                    ImGui.Text($"右键设为最低交付档位：{tooltipLabel}");
                                     ImGui.EndTooltip();
                                 }
                             }
 
-                            DrawTurninButton("##Gold", TurninState.Gold, goldEnabled, GoldColor, "Gold");
+                            // DrawTurninButton("##Gold", TurninState.Gold, goldEnabled, GoldColor, "Gold");
+                            DrawTurninButton("##Gold", TurninState.Gold, goldEnabled, GoldColor, "金");
                             ImGui.SameLine();
-                            DrawTurninButton("##Silver", TurninState.Silver, silverEnabled, SilverColor, "Silver");
+                            // DrawTurninButton("##Silver", TurninState.Silver, silverEnabled, SilverColor, "Silver");
+                            DrawTurninButton("##Silver", TurninState.Silver, silverEnabled, SilverColor, "银");
                             ImGui.SameLine();
-                            DrawTurninButton("##Bronze", TurninState.Bronze, bronzeEnabled, BronzeColor, "Bronze");
+                            // DrawTurninButton("##Bronze", TurninState.Bronze, bronzeEnabled, BronzeColor, "Bronze");
+                            DrawTurninButton("##Bronze", TurninState.Bronze, bronzeEnabled, BronzeColor, "铜");
                             ImGui.SameLine();
                             ImGui.PushStyleColor(ImGuiCol.Text, timeExpired ? GoldColor : DisabledColor);
                             if (ImGuiEx.IconButton(FontAwesomeIcon.Clock, "##TimeExpired", buttonSize))
@@ -439,7 +461,8 @@ namespace ICE.Ui.MainUi.ModeSelect_Modes
                             }
                             ImGui.PopStyleColor();
                             if (ImGui.IsItemHovered())
-                                ImGui.SetTooltip("Only turn in when the mission timer expires (keep gathering for max score).");
+                                // ImGui.SetTooltip("Only turn in when the mission timer expires (keep gathering for max score).");
+                                ImGui.SetTooltip("仅在任务计时结束后交付（继续采集以获取最高分数）。");
                         }
 
                         ImGui.TableNextColumn();
@@ -465,12 +488,14 @@ namespace ICE.Ui.MainUi.ModeSelect_Modes
                             if (ImGui.IsItemHovered())
                             {
                                 ImGui.BeginTooltip();
-                                ImGui.Text("Select profile to use");
+                                // ImGui.Text("Select profile to use");
+                                ImGui.Text("选择要使用的配置");
                                 ImGui.EndTooltip();
                             }
                             if (ImGui.BeginPopup("Selecting Gathering Profile"))
                             {
-                                ImGui.Text($"Currently Selected: {profileName}");
+                                // ImGui.Text($"Currently Selected: {profileName}");
+                                ImGui.Text($"当前已选：{profileName}");
                                 ImGui.Separator();
 
                                 foreach (var profile in C.GatherProfiles)
@@ -491,31 +516,38 @@ namespace ICE.Ui.MainUi.ModeSelect_Modes
                         }
                         else if (gatherProfile && collectable)
                         {
-                            ImGui_Ice.Table_FullCenterText("Auto");
+                            // ImGui_Ice.Table_FullCenterText("Auto");
+                            ImGui_Ice.Table_FullCenterText("自动");
                         }
                         else if (missionInfo.Attributes.HasFlag(MissionAttributes.Fish))
                         {
-                            if (ImGui_Ice.Table_CenteredButton($"Select Profile"))
+                            // if (ImGui_Ice.Table_CenteredButton($"Select Profile"))
+                            if (ImGui_Ice.Table_CenteredButton($"选择配置"))
                             {
                                 ImGui.OpenPopup("Select Fishing Profile");
                             }
                             if (ImGui.BeginPopup("Select Fishing Profile"))
                             {
-                                ImGui.Text($"Fishing profile: {missionInfo.Name}");
+                                // ImGui.Text($"Fishing profile: {missionInfo.Name}");
+                                ImGui.Text($"捕鱼配置：{missionInfo.Name}");
                                 ImGui.Separator();
                                 bool builtInPreset = missionConfig.Use_BuildinPreset;
-                                if (ImGui.Checkbox("Use Built In Preset", ref builtInPreset))
+                                // if (ImGui.Checkbox("Use Built In Preset", ref builtInPreset))
+                                if (ImGui.Checkbox("使用内置预设", ref builtInPreset))
                                 {
                                     missionConfig.Use_BuildinPreset = builtInPreset;
                                     C.Save();
                                 }
-                                ImGuiEx.HelpMarker("Having this enabled means it will use the default preset that is included with the plugin for autohook. \n" +
-                                                   "If you would like to use one that you already have in autohook, you can un-checkmark this and type the name of it below");
+                                // ImGuiEx.HelpMarker("Having this enabled means it will use the default preset that is included with the plugin for autohook. \n" +
+                                //                    "If you would like to use one that you already have in autohook, you can un-checkmark this and type the name of it below");
+                                ImGuiEx.HelpMarker("启用后将使用插件自带的 AutoHook 默认预设。\n" +
+                                                   "若使用 AutoHook 中已有预设，请取消勾选并在下方输入名称。");
                                 using (ImRaii.Disabled(builtInPreset))
                                 {
                                     string presetName = missionConfig.AutoHookPresetName;
                                     ImGui.SetNextItemWidth(200);
-                                    if (ImGui.InputText("Preset Name", ref presetName))
+                                    // if (ImGui.InputText("Preset Name", ref presetName))
+                                    if (ImGui.InputText("预设名称", ref presetName))
                                     {
                                         missionConfig.AutoHookPresetName = presetName;
                                         C.Save();
@@ -527,7 +559,8 @@ namespace ICE.Ui.MainUi.ModeSelect_Modes
                         }
                         if (missionInfo.Attributes.HasFlag(MissionAttributes.Craft))
                         {
-                            if (ImGui.Button("Open Craft Settings"))
+                            // if (ImGui.Button("Open Craft Settings"))
+                            if (ImGui.Button("打开制作设置"))
                             {
                                 ImGui.OpenPopup("Craft Settings: Recipies");
                             }
@@ -536,7 +569,8 @@ namespace ICE.Ui.MainUi.ModeSelect_Modes
                             {
                                 ImGui.TextDisabled($"{entry}");
                                 ImGui.SameLine();
-                                ImGui.Text($"Mission: {missionInfo.Name}");
+                                // ImGui.Text($"Mission: {missionInfo.Name}");
+                                ImGui.Text($"任务：{missionInfo.Name}");
 
                                 Mission_Table.CrafterManagement(missionInfo, entry);
 
@@ -569,11 +603,13 @@ namespace ICE.Ui.MainUi.ModeSelect_Modes
                             if (ImGui.IsItemHovered())
                             {
                                 ImGui.BeginTooltip();
-                                ImGui.Text("Sequence Missions");
+                                // ImGui.Text("Sequence Missions");
+                                ImGui.Text("序列任务");
                                 if (missionInfo.SequenceMissions_Previous.Count() != 0)
                                 {
                                     ImGui.Separator();
-                                    ImGui.Text($"Previous Missions");
+                                    // ImGui.Text($"Previous Missions");
+                                    ImGui.Text($"前置任务");
                                     foreach (var prevMission in missionInfo.SequenceMissions_Previous)
                                     {
                                         ImGui.Text($"[{prevMission}] - {CosmicHelper.SheetMissionDict[prevMission].Name}");
@@ -583,7 +619,8 @@ namespace ICE.Ui.MainUi.ModeSelect_Modes
                                 if (missionInfo.SequenceMissions_Next.Count() != 0)
                                 {
                                     ImGui.Separator();
-                                    ImGui.Text($"Next Missions");
+                                    // ImGui.Text($"Next Missions");
+                                    ImGui.Text($"后续任务");
                                     foreach (var nextMission in missionInfo.SequenceMissions_Next)
                                     {
                                         ImGui.Text($"[{nextMission}] - {CosmicHelper.SheetMissionDict[nextMission].Name}");
@@ -612,7 +649,8 @@ namespace ICE.Ui.MainUi.ModeSelect_Modes
                             if (ImGui.IsItemHovered())
                             {
                                 ImGui.BeginTooltip();
-                                ImGui.Text($"Weather: {missionInfo.Weather}");
+                                // ImGui.Text($"Weather: {missionInfo.Weather}");
+                                ImGui.Text($"天气：{missionInfo.Weather}");
                                 ImGui.EndTooltip();
                             }
                             notesCount++;
@@ -632,7 +670,8 @@ namespace ICE.Ui.MainUi.ModeSelect_Modes
                             if (ImGui.IsItemHovered())
                             {
                                 ImGui.BeginTooltip();
-                                ImGui.Text("The following missions are required to have gold before you can do this one");
+                                // ImGui.Text("The following missions are required to have gold before you can do this one");
+                                ImGui.Text("需先完成以下任务的金牌才能接取此任务");
                                 foreach (var mission in unlock)
                                 {
                                     ImGui_Ice.CompletionStatusIcon(CosmicHelper.SheetMissionDict[mission]);
@@ -724,10 +763,14 @@ namespace ICE.Ui.MainUi.ModeSelect_Modes
 
                 if (ImGui.BeginTable("Class Progress: All", 5, ImGuiTableFlags.RowBg | ImGuiTableFlags.Borders | ImGuiTableFlags.SizingFixedFit))
                 {
-                    ImGui.TableSetupColumn("Job");
+                    // ImGui.TableSetupColumn("Job");
+                    ImGui.TableSetupColumn("职业");
+                    // ImGui.TableSetupColumn("Relic");
                     ImGui.TableSetupColumn("Relic");
+                    // ImGui.TableSetupColumn("##Relic_XPBar");
                     ImGui.TableSetupColumn("##Relic_XPBar");
-                    ImGui.TableSetupColumn("Score");
+                    // ImGui.TableSetupColumn("Score");
+                    ImGui.TableSetupColumn("分数");
                     ImGui.TableSetupColumn("##Score_XPBar");
 
                     ImGui.TableHeadersRow();
@@ -803,12 +846,15 @@ namespace ICE.Ui.MainUi.ModeSelect_Modes
                 var jobStatus = expInfo[SelectedJob];
                 if (ImGui.BeginTable("Specific Class Details", 2, ImGuiTableFlags.SizingFixedFit | ImGuiTableFlags.Borders))
                 {
-                    ImGui.TableSetupColumn("Info");
-                    ImGui.TableSetupColumn("ExpBar");
+                    // ImGui.TableSetupColumn("Info");
+                    ImGui.TableSetupColumn("信息");
+                    // ImGui.TableSetupColumn("ExpBar");
+                    ImGui.TableSetupColumn("经验条");
 
                     ImGui.TableNextRow();
                     ImGui.TableSetColumnIndex(0);
-                    ImGui_Ice.Table_FullCenterText($"Class Score");
+                    // ImGui_Ice.Table_FullCenterText($"Class Score");
+                    ImGui_Ice.Table_FullCenterText($"职业分数");
 
                     ImGui.TableNextRow();
                     ImGui.TableSetColumnIndex(0);
@@ -830,7 +876,8 @@ namespace ICE.Ui.MainUi.ModeSelect_Modes
 
                     ImGui.TableNextRow();
                     ImGui.TableSetColumnIndex(0);
-                    ImGui.Text($"Stage");
+                    // ImGui.Text($"Stage");
+                    ImGui.Text($"阶段");
 
                     ImGui.TableNextRow();
                     ImGui.TableSetColumnIndex(0);
@@ -878,7 +925,8 @@ namespace ICE.Ui.MainUi.ModeSelect_Modes
                 }
 
                 if (ImGui.IsItemHovered())
-                    DrawTooltip(() => ImGui.Text($"Weather: {missionInfo.Weather}"));
+                    // DrawTooltip(() => ImGui.Text($"Weather: {missionInfo.Weather}"));
+                    DrawTooltip(() => ImGui.Text($"天气：{missionInfo.Weather}"));
             }
             else if (missionInfo.IsTimed)
             {
@@ -895,12 +943,13 @@ namespace ICE.Ui.MainUi.ModeSelect_Modes
                 {
                     DrawTooltip(() =>
                     {
-                        ImGui.Text("Sequence Missions");
+                        ImGui.Text("序列任务");
 
                         if (missionInfo.SequenceMissions_Previous.Any())
                         {
                             ImGui.Separator();
-                            ImGui.Text("Previous Missions");
+                            // ImGui.Text("Previous Missions");
+                            ImGui.Text("前置任务");
                             foreach (var prev in missionInfo.SequenceMissions_Previous)
                                 ImGui.Text($"[{prev}] - {CosmicHelper.SheetMissionDict[prev].Name}");
                         }
@@ -908,7 +957,8 @@ namespace ICE.Ui.MainUi.ModeSelect_Modes
                         if (missionInfo.SequenceMissions_Next.Any())
                         {
                             ImGui.Separator();
-                            ImGui.Text("Next Missions");
+                            // ImGui.Text("Next Missions");
+                            ImGui.Text("后续任务");
                             foreach (var next in missionInfo.SequenceMissions_Next)
                                 ImGui.Text($"[{next}] - {CosmicHelper.SheetMissionDict[next].Name}");
                         }

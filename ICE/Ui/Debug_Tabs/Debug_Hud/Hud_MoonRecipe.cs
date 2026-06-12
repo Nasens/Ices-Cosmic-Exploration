@@ -10,33 +10,38 @@ namespace ICE.Ui.DebugWindowTabs
             {
                 ImGui.Text(x.SelectedCraftingItem);
 
-                if (ImGui.Button("Fill NQ"))
+                // if (ImGui.Button("Fill NQ"))
+                if (ImGui.Button("填入 NQ"))
                 {
                     x.NQItemInput();
                 }
                 ImGui.SameLine();
 
-                if (ImGui.Button("Fill HQ"))
+                // if (ImGui.Button("Fill HQ"))
+                if (ImGui.Button("填入 HQ"))
                 {
                     x.HQItemInput();
                 }
                 ImGui.SameLine();
 
-                if (ImGui.Button("Fill Both"))
+                // if (ImGui.Button("Fill Both"))
+                if (ImGui.Button("填入两者"))
                 {
                     x.NQItemInput();
                     x.HQItemInput();
                 }
                 ImGui.SameLine();
 
-                if (ImGui.Button("Synthesize"))
+                // if (ImGui.Button("Synthesize"))
+                if (ImGui.Button("合成"))
                 {
                     x.Synthesize();
                 }
 
                 foreach (var m in x.CraftingItems)
                 {
-                    if (ImGui.Button($"Select ###Select + {m.Name}"))
+                    // if (ImGui.Button($"Select ###Select + {m.Name}"))
+                    if (ImGui.Button($"选择 ###Select + {m.Name}"))
                     {
                         m.Select();
                     }
@@ -46,7 +51,8 @@ namespace ICE.Ui.DebugWindowTabs
             }
             else
             {
-                ImGui.Text("Waiting for \"WKSRecipeNotebook\" to be visible");
+                // ImGui.Text("Waiting for \"WKSRecipeNotebook\" to be visible");
+                ImGui.Text("等待 \"WKSRecipeNotebook\" 界面可见");
             }
         }
     }

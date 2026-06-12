@@ -33,11 +33,14 @@ namespace ICE.Ui.DebugWindowTabs
                 .Where(x => x.Value.JobId.Contains(16) || x.Value.JobId.Contains(17))
                 .Count();
 
-            ImGui.Text($"Total: {count}");
+            // ImGui.Text($"Total: {count}");
+            ImGui.Text($"总计: {count}");
             ImGui.SameLine();
-            if (ImGui.Button("Set Save Location"))
+            // if (ImGui.Button("Set Save Location"))
+            if (ImGui.Button("设置保存位置"))
             {
-                fileDialogManager.OpenFolderDialog("Select Export Folder", (success, path) =>
+                // fileDialogManager.OpenFolderDialog("Select Export Folder", (success, path) =>
+                fileDialogManager.OpenFolderDialog("选择导出文件夹", (success, path) =>
                 {
                     if (success && !string.IsNullOrEmpty(path))
                     {
@@ -63,8 +66,10 @@ namespace ICE.Ui.DebugWindowTabs
             
             if (ImGui.BeginTable("Gather Route Editor Table", 2, ImGuiTableFlags.BordersInnerV | ImGuiTableFlags.BordersOuter | ImGuiTableFlags.SizingFixedFit, ImGui.GetContentRegionAvail()))
             {
-                ImGui.TableSetupColumn("Route Selector", ImGuiTableColumnFlags.WidthFixed, 200);
-                ImGui.TableSetupColumn("Route Editor", ImGuiTableColumnFlags.WidthStretch);
+                // ImGui.TableSetupColumn("Route Selector", ImGuiTableColumnFlags.WidthFixed, 200);
+                ImGui.TableSetupColumn("路线选择", ImGuiTableColumnFlags.WidthFixed, 200);
+                // ImGui.TableSetupColumn("Route Editor", ImGuiTableColumnFlags.WidthStretch);
+                ImGui.TableSetupColumn("路线编辑", ImGuiTableColumnFlags.WidthStretch);
 
                 ImGui.TableNextRow();
                 ImGui.TableSetColumnIndex(0);
@@ -84,7 +89,8 @@ namespace ICE.Ui.DebugWindowTabs
             var planet = CosmicMoonRegistry.All[_selectedPlanetIndex];
 
             ImGui.SetNextItemWidth(-1);
-            ImGui.InputTextWithHint("##routeSearch", "Search...", ref _routeSearch, 64);
+            // ImGui.InputTextWithHint("##routeSearch", "Search...", ref _routeSearch, 64);
+            ImGui.InputTextWithHint("##routeSearch", "搜索...", ref _routeSearch, 64);
 
             var routes = GatheringUtil.GatherSpots
                 .Where(x => x.Value.TerritoryId == planet.TerritoryId)
@@ -138,13 +144,18 @@ namespace ICE.Ui.DebugWindowTabs
             }
             if (ImGui.IsItemHovered())
             {
+                // ImGui.BeginTooltip();
                 ImGui.BeginTooltip();
-                ImGui.Text($"Territory: {mapInfo.TerritoryId}");
-                ImGui.Text($"Location: {mapInfo.X}, {mapInfo.Y}");
-                ImGui.Text($"Radius: {mapInfo.Radius}");
+                // ImGui.Text($"Territory: {mapInfo.TerritoryId}");
+                ImGui.Text($"区域: {mapInfo.TerritoryId}");
+                // ImGui.Text($"Location: {mapInfo.X}, {mapInfo.Y}");
+                ImGui.Text($"位置: {mapInfo.X}, {mapInfo.Y}");
+                // ImGui.Text($"Radius: {mapInfo.Radius}");
+                ImGui.Text($"半径: {mapInfo.Radius}");
                 ImGui.EndTooltip();
             }
             ImGui.SameLine();
+            // if (ImGuiEx.IconButton(FontAwesomeIcon.Running, "Move To Navmesh"))
             if (ImGuiEx.IconButton(FontAwesomeIcon.Running, "Move To Navmesh"))
             {
                 Svc.Commands.ProcessCommand("/vnav moveflag");
@@ -172,12 +183,14 @@ namespace ICE.Ui.DebugWindowTabs
 
             if (GatheringRouteLoader.LoadedRoutes.TryGetValue(_selectedRoute, out var routeInfo))
             {
-                if (ImGui.Button("Save Route"))
+                // if (ImGui.Button("Save Route"))
+                if (ImGui.Button("保存路线"))
                 {
                     GatheringRouteLoader.SaveRoute(routeInfo);
                 }
 
-                if (ImGui.BeginChild("Node Selection", new(200, 200), true))
+                // if (ImGui.BeginChild("Node Selection", new(200, 200), true))
+                if (ImGui.BeginChild("节点选择", new(200, 200), true))
                 {
                     if (Player.Available)
                     {
@@ -186,7 +199,8 @@ namespace ICE.Ui.DebugWindowTabs
                             var lastTarget = Svc.Objects.LocalPlayer.TargetObject;
                             if (lastTarget.ObjectKind == ObjectKind.GatheringPoint)
                             {
-                                if (ImGui.Button($"Add Node: {lastTarget.BaseId}"))
+                                // if (ImGui.Button($"Add Node: {lastTarget.BaseId}"))
+                                if (ImGui.Button($"添加节点: {lastTarget.BaseId}"))
                                 {
                                     AddNode(routeInfo, lastTarget);
                                 }
@@ -212,7 +226,8 @@ namespace ICE.Ui.DebugWindowTabs
                 ImGui.EndChild();
 
                 ImGui.SameLine();
-                if (ImGui.BeginChild("Node Editor", new Vector2(200, 200), true))
+                // if (ImGui.BeginChild("Node Editor", new Vector2(200, 200), true))
+                if (ImGui.BeginChild("节点编辑", new Vector2(200, 200), true))
                 {
                     if (routeInfo.Nodes != null)
                     {
@@ -271,22 +286,26 @@ namespace ICE.Ui.DebugWindowTabs
                 var nodeInfo = routeInfo.Nodes?.FirstOrDefault(x => x == selectedNode);
                 if (nodeInfo is not null)
                 {
-                    ImGui.Text($"Node: {nodeInfo.NodeId}");
+                    // ImGui.Text($"Node: {nodeInfo.NodeId}");
+                    ImGui.Text($"节点: {nodeInfo.NodeId}");
                     ImGui.Text($"X: {nodeInfo.Position.X:N2} | Y: {nodeInfo.Position.Y:N2} | Z: {nodeInfo.Position.Z:N2}");
 
-                    if (ImGui.Button("Nav Move To"))
+                    // if (ImGui.Button("Nav Move To"))
+                    if (ImGui.Button("导航移动至"))
                     {
                         P.Navmesh.PathfindAndMoveTo(nodeInfo.LandZone, false);
                     }
                     ImGui.SameLine();
-                    if (ImGui.Button("Move To [Fan]"))
+                    // if (ImGui.Button("Move To [Fan]"))
+                    if (ImGui.Button("移动至 [扇形]"))
                     {
                         Task_NavmeshMove.ResetGatherMove();
                         P.TaskManager.Enqueue(() => Task_NavmeshMove.Task_GatherMove(nodeInfo, stayMounted: true));
                     }
 
                     ImGui.Dummy(new(0, 5));
-                    if (ImGui.Button($"Player Start: {nodeInfo.LandZone}"))
+                    // if (ImGui.Button($"Player Start: {nodeInfo.LandZone}"))
+                    if (ImGui.Button($"玩家起点: {nodeInfo.LandZone}"))
                     {
                         nodeInfo.LandZone = Player.Position;
                     }
@@ -299,7 +318,8 @@ namespace ICE.Ui.DebugWindowTabs
 
                     using (var disabled = ImRaii.Disabled(_isGeneratingFan || !ImGui.IsKeyDown(ImGuiKey.LeftShift)))
                     {
-                        if (ImGui.Button("Generate Fan from Navmesh"))
+                        // if (ImGui.Button("Generate Fan from Navmesh"))
+                        if (ImGui.Button("从 Navmesh 生成扇形"))
                         {
                             _ = GenerateFanForNode(nodeInfo);
                         }
@@ -307,32 +327,37 @@ namespace ICE.Ui.DebugWindowTabs
 
 
                     ImGui.SetNextItemWidth(100);
-                    if (ImGui.DragFloat("Fan Start", ref fanStart, 1, 0, 360))
+                    // if (ImGui.DragFloat("Fan Start", ref fanStart, 1, 0, 360))
+                    if (ImGui.DragFloat("扇形起始", ref fanStart, 1, 0, 360))
                     {
                         nodeInfo.RadiusStart = fanStart;
                     }
                     ImGui.SameLine();
                     ImGui.SetNextItemWidth(100);
-                    if (ImGui.DragFloat("Fan End", ref fanEnd, 1, 0, 360))
+                    // if (ImGui.DragFloat("Fan End", ref fanEnd, 1, 0, 360))
+                    if (ImGui.DragFloat("扇形结束", ref fanEnd, 1, 0, 360))
                     {
                         nodeInfo.RadiusEnd = fanEnd;
                     }
 
                     ImGui.SetNextItemWidth(100);
-                    if (ImGui.DragFloat("Min Distance", ref fanMin, 1, 1, 4))
+                    // if (ImGui.DragFloat("Min Distance", ref fanMin, 1, 1, 4))
+                    if (ImGui.DragFloat("最小距离", ref fanMin, 1, 1, 4))
                     {
                         nodeInfo.MinDistance = fanMin;
                     }
 
                     ImGui.SameLine();
                     ImGui.SetNextItemWidth(100);
-                    if (ImGui.DragFloat("Max Distance", ref fanMax, 1, 1, 4))
+                    // if (ImGui.DragFloat("Max Distance", ref fanMax, 1, 1, 4))
+                    if (ImGui.DragFloat("最大距离", ref fanMax, 1, 1, 4))
                     {
                         nodeInfo.MaxDistance = fanMax;
                     }
 
                     ImGui.SetNextItemWidth(100);
-                    if (ImGui.DragFloat("Fan Height", ref height, 0.1f, 0, 3))
+                    // if (ImGui.DragFloat("Fan Height", ref height, 0.1f, 0, 3))
+                    if (ImGui.DragFloat("扇形高度", ref height, 0.1f, 0, 3))
                     {
                         nodeInfo.FanHeight = height;
                     }
@@ -340,13 +365,15 @@ namespace ICE.Ui.DebugWindowTabs
 
                 ImGui.Text($"{_fanGenStatus}");
                 var gatherFan = C.Picto_GatherFan;
-                if (ImGui.ColorEdit4("Gather Fan", ref gatherFan))
+                // if (ImGui.ColorEdit4("Gather Fan", ref gatherFan))
+                if (ImGui.ColorEdit4("采集扇形", ref gatherFan))
                 {
                     C.Picto_GatherFan = gatherFan;
                     C.SaveDebounced();
                 }
                 var selectedFan = C.Picto_SelectedFan;
-                if (ImGui.ColorEdit4("Selected Fan", ref selectedFan))
+                // if (ImGui.ColorEdit4("Selected Fan", ref selectedFan))
+                if (ImGui.ColorEdit4("选中扇形", ref selectedFan))
                 {
                     C.Picto_SelectedFan = selectedFan;
                     C.SaveDebounced();
@@ -363,8 +390,10 @@ namespace ICE.Ui.DebugWindowTabs
             }
             else
             {
-                ImGui.Text("No route file exist. Do you want to create one?");
-                if (ImGui.Button("Create files"))
+                // ImGui.Text("No route file exist. Do you want to create one?");
+                ImGui.Text("路线文件不存在。是否创建？");
+                // if (ImGui.Button("Create files"))
+                if (ImGui.Button("创建文件"))
                 {
                     GatheringRouteLoader.CreateMissingStubs();
                 }

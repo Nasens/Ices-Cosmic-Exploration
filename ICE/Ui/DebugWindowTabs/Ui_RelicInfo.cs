@@ -29,15 +29,21 @@ namespace ICE.Ui.DebugWindowTabs
 
             if (ImGui.BeginTable("Relic Info", 15, ImGuiTableFlags.SizingFixedFit | ImGuiTableFlags.Borders))
             {
-                ImGui.TableSetupColumn("Class");
-                ImGui.TableSetupColumn("Stage");
+                // ImGui.TableSetupColumn("Class");
+                ImGui.TableSetupColumn("职业");
+                // ImGui.TableSetupColumn("Stage");
+                ImGui.TableSetupColumn("阶段");
                 for (int i = 0; i < XPtypes.Count; i++)
                 {
-                    ImGui.TableSetupColumn($"{XPtypes[i]} - Current");
-                    ImGui.TableSetupColumn($"{XPtypes[i]} - Need");
-                    ImGui.TableSetupColumn($"{XPtypes[i]} - Max");
+                    // ImGui.TableSetupColumn($"{XPtypes[i]} - Current");
+                    ImGui.TableSetupColumn($"{XPtypes[i]} - 当前");
+                    // ImGui.TableSetupColumn($"{XPtypes[i]} - Need");
+                    ImGui.TableSetupColumn($"{XPtypes[i]} - 需要");
+                    // ImGui.TableSetupColumn($"{XPtypes[i]} - Max");
+                    ImGui.TableSetupColumn($"{XPtypes[i]} - 上限");
                 }
-                ImGui.TableSetupColumn("Score");
+                // ImGui.TableSetupColumn("Score");
+                ImGui.TableSetupColumn("分数");
 
                 ImGui.TableHeadersRow();
 

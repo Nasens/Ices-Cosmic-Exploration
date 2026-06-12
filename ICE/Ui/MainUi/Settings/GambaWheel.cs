@@ -15,20 +15,26 @@ namespace ICE.Ui.MainUi.Settings
 
         public static unsafe void Draw_Old()
         {
-            if (ImGui.Checkbox("Enable Auto Gamba", ref gambaEnabled))
+            // if (ImGui.Checkbox("Enable Auto Gamba", ref gambaEnabled))
+            if (ImGui.Checkbox("启用自动赌博", ref gambaEnabled))
             {
                 C.GambaEnabled = gambaEnabled;
                 C.Save();
             }
-            ImGuiEx.HelpMarker("If you want to let it auto select the wheels and gamba, enable this. If you want to not auto run when you're running the gamble wheel, disable this.");
+            ImGuiEx.HelpMarker(
+                // "If you want to let it auto select the wheels and gamba, enable this. If you want to not auto run when you're running the gamble wheel, disable this."
+                "若需自动选择转盘并赌博，请启用此项。若不想在手动操作转盘时自动运行，请禁用此项。"
+            );
             ImGui.SetNextItemWidth(150);
-            if (ImGui.SliderInt("Mininum credits to keep", ref gambaCreditsMinimum, 0, 10000))
+            // if (ImGui.SliderInt("Mininum credits to keep", ref gambaCreditsMinimum, 0, 10000))
+            if (ImGui.SliderInt("最低保留点数", ref gambaCreditsMinimum, 0, 10000))
             {
                 C.GambaCreditsMinimum = gambaCreditsMinimum;
                 C.SaveDebounced();
             }
             bool gambaBetween = C.GambaBetweenRuns;
-            if (ImGui.Checkbox("Gamble Between Runs", ref gambaBetween))
+            // if (ImGui.Checkbox("Gamble Between Runs", ref gambaBetween))
+            if (ImGui.Checkbox("运行间隙赌博", ref gambaBetween))
             {
                 C.GambaBetweenRuns = gambaBetween;
                 C.Save();
@@ -36,18 +42,23 @@ namespace ICE.Ui.MainUi.Settings
             ImGui.SameLine();
             GambaSlider();
             ImGui.SetNextItemWidth(150);
-            if (ImGui.SliderInt("Gamba Delay", ref gambaDelay, 50, 2000))
+            // if (ImGui.SliderInt("Gamba Delay", ref gambaDelay, 50, 2000))
+            if (ImGui.SliderInt("赌博延迟", ref gambaDelay, 50, 2000))
             {
                 C.GambaDelay = gambaDelay;
                 C.SaveDebounced();
             }
 
-            if (ImGui.Checkbox("Prefer smaller wheel", ref gambaPreferSmallerWheel))
+            // if (ImGui.Checkbox("Prefer smaller wheel", ref gambaPreferSmallerWheel))
+            if (ImGui.Checkbox("优先较小转盘", ref gambaPreferSmallerWheel))
             {
                 C.GambaPreferSmallerWheel = gambaPreferSmallerWheel;
                 C.Save();
             }
-            ImGuiEx.HelpMarker("This will make the Gamba prefer wheels with less items.");
+            ImGuiEx.HelpMarker(
+                // "This will make the Gamba prefer wheels with less items."
+                "赌博时将优先选择物品较少的转盘。"
+            );
 
             if (PlayerHelper.IsInCosmicZone())
             {
@@ -55,12 +66,14 @@ namespace ICE.Ui.MainUi.Settings
                 if (CosmicMoonRegistry.TryGetPlanetCreditItemId(territory, out var itemId))
                 {
                     PlayerHelper.GetItemCount(itemId, out var credits);
-                    ImGui.Text($"Current location: {territory} | Currency Amount: {credits}");
+                    // ImGui.Text($"Current location: {territory} | Currency Amount: {credits}");
+                    ImGui.Text($"当前位置：{territory} | 货币数量：{credits}");
                 }
             }
 
             ImGui.Separator();
-            ImGui.TextUnformatted("Configure the weights for each item in the Gamba. Higher weight = more desirable.");
+            // ImGui.TextUnformatted("Configure the weights for each item in the Gamba. Higher weight = more desirable.");
+            ImGui.TextUnformatted("配置 Gamba 中各物品的权重。权重越高越优先。");
             ImGui.Spacing();
             foreach (GambaType type in Enum.GetValues(typeof(GambaType)))
             {
@@ -84,7 +97,8 @@ namespace ICE.Ui.MainUi.Settings
                     ImGui.TreePop();
                 }
             }
-            if (ImGui.Button("Reset Weights"))
+            // if (ImGui.Button("Reset Weights"))
+            if (ImGui.Button("重置权重"))
             {
                 Task_Gamba.EnsureGambaWeightsInitialized(true);
             }
@@ -93,38 +107,49 @@ namespace ICE.Ui.MainUi.Settings
         public static unsafe void Draw()
         {
             bool gambaEnabled = C.GambaEnabled;
-            if (ImGui.Checkbox("Enable Auto Gamba Wheel", ref gambaEnabled))
+            // if (ImGui.Checkbox("Enable Auto Gamba Wheel", ref gambaEnabled))
+            if (ImGui.Checkbox("启用自动赌博转盘", ref gambaEnabled))
             {
                 C.GambaEnabled = gambaEnabled;
                 C.Save();
             }
-            ImGuiEx.HelpMarker("If you want to let it auto select the wheels and gamba, enable this. If you want to not auto run when you're running the gamble wheel, disable this.");
+            ImGuiEx.HelpMarker(
+                // "If you want to let it auto select the wheels and gamba, enable this. If you want to not auto run when you're running the gamble wheel, disable this."
+                "若需自动选择转盘并赌博，请启用此项。若不想在手动操作转盘时自动运行，请禁用此项。"
+            );
             ImGui.SetNextItemWidth(150);
-            if (ImGui.SliderInt("Mininum credits to keep", ref gambaCreditsMinimum, 0, 10000))
+            // if (ImGui.SliderInt("Mininum credits to keep", ref gambaCreditsMinimum, 0, 10000))
+            if (ImGui.SliderInt("最低保留点数", ref gambaCreditsMinimum, 0, 10000))
             {
                 C.GambaCreditsMinimum = gambaCreditsMinimum;
                 C.SaveDebounced();
             }
             bool gambaBetween = C.GambaBetweenRuns;
-            if (ImGui.Checkbox("Gamble Between Runs", ref gambaBetween))
+            // if (ImGui.Checkbox("Gamble Between Runs", ref gambaBetween))
+            if (ImGui.Checkbox("运行间隙赌博", ref gambaBetween))
             {
                 C.GambaBetweenRuns = gambaBetween;
                 C.Save();
             }
             GambaSlider();
             ImGui.SetNextItemWidth(150);
-            if (ImGui.SliderInt("Gamba Delay", ref gambaDelay, 50, 2000))
+            // if (ImGui.SliderInt("Gamba Delay", ref gambaDelay, 50, 2000))
+            if (ImGui.SliderInt("赌博延迟", ref gambaDelay, 50, 2000))
             {
                 C.GambaDelay = gambaDelay;
                 C.SaveDebounced();
             }
 
-            if (ImGui.Checkbox("Prefer smaller wheel", ref gambaPreferSmallerWheel))
+            // if (ImGui.Checkbox("Prefer smaller wheel", ref gambaPreferSmallerWheel))
+            if (ImGui.Checkbox("优先较小转盘", ref gambaPreferSmallerWheel))
             {
                 C.GambaPreferSmallerWheel = gambaPreferSmallerWheel;
                 C.Save();
             }
-            ImGuiEx.HelpMarker("This will make the Gamba prefer wheels with less items.");
+            ImGuiEx.HelpMarker(
+                // "This will make the Gamba prefer wheels with less items."
+                "赌博时将优先选择物品较少的转盘。"
+            );
 
             if (PlayerHelper.IsInCosmicZone())
             {
@@ -132,14 +157,17 @@ namespace ICE.Ui.MainUi.Settings
                 if (CosmicMoonRegistry.TryGetPlanetCreditItemId(territory, out var itemId))
                 {
                     PlayerHelper.GetItemCount(itemId, out var credits);
-                    ImGui.Text($"Current location: {territory} | Currency Amount: {credits}");
+                    // ImGui.Text($"Current location: {territory} | Currency Amount: {credits}");
+                    ImGui.Text($"当前位置：{territory} | 货币数量：{credits}");
                 }
             }
 
             ImGui.Separator();
-            ImGui.TextUnformatted("Configure the weights for each item in the Gamba. Higher weight = more desirable.");
+            // ImGui.TextUnformatted("Configure the weights for each item in the Gamba. Higher weight = more desirable.");
+            ImGui.TextUnformatted("配置 Gamba 中各物品的权重。权重越高越优先。");
 
-            if (ImGui.Button("Reset Weights"))
+            // if (ImGui.Button("Reset Weights"))
+            if (ImGui.Button("重置权重"))
             {
                 Task_Gamba.EnsureGambaWeightsInitialized(true);
             }
@@ -155,10 +183,14 @@ namespace ICE.Ui.MainUi.Settings
                     {
                         if (ImGui.BeginTable($"{type.ToString()}_GambaItems", 4, ImGuiTableFlags.SizingFixedFit | ImGuiTableFlags.Borders | ImGuiTableFlags.RowBg))
                         {
-                            ImGui.TableSetupColumn("Icon");
-                            ImGui.TableSetupColumn("Unlocked");
-                            ImGui.TableSetupColumn("Name");
-                            ImGui.TableSetupColumn("Weight");
+                            // ImGui.TableSetupColumn("Icon");
+                            // ImGui.TableSetupColumn("Unlocked");
+                            // ImGui.TableSetupColumn("Name");
+                            // ImGui.TableSetupColumn("Weight");
+                            ImGui.TableSetupColumn("图标");
+                            ImGui.TableSetupColumn("已解锁");
+                            ImGui.TableSetupColumn("名称");
+                            ImGui.TableSetupColumn("权重");
 
                             ImGui.TableHeadersRow();
 
@@ -187,7 +219,8 @@ namespace ICE.Ui.MainUi.Settings
                                     }
 
                                     ImGui.TableNextColumn();
-                                    ImGui.TextUnformatted(UnlockState.IsItemUnlockable(itemInfo) ? UnlockState.IsItemUnlocked(itemInfo) ? "Yes" : "No" : "-");
+                                    // ImGui.TextUnformatted(UnlockState.IsItemUnlockable(itemInfo) ? UnlockState.IsItemUnlocked(itemInfo) ? "Yes" : "No" : "-");
+                                    ImGui.TextUnformatted(UnlockState.IsItemUnlockable(itemInfo) ? UnlockState.IsItemUnlocked(itemInfo) ? "是" : "否" : "-");
                                     
                                     ImGui.TableNextColumn();
                                     ImGui.Text($"{name}");
@@ -225,7 +258,8 @@ namespace ICE.Ui.MainUi.Settings
             }
 
             ImGui.SetNextItemWidth(150);
-            if (ImGui.SliderInt("Start Gambling @", ref currentIndex, 0, allowedValues.Length - 1,
+            // if (ImGui.SliderInt("Start Gambling @", ref currentIndex, 0, allowedValues.Length - 1,
+            if (ImGui.SliderInt("开始赌博 @", ref currentIndex, 0, allowedValues.Length - 1,
                 allowedValues[currentIndex].ToString()))
             {
                 C.GambaAtAmount = allowedValues[currentIndex];

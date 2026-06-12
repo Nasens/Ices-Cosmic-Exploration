@@ -11,12 +11,14 @@ namespace ICE.Ui.Debug_Tabs.Debug_Hud
         {
             if (GenericHelpers.TryGetAddonMaster<GatheringMasterpiece>("GatheringMasterpiece", out var gatherCollect) && gatherCollect.IsAddonReady)
             {
-                if (ImGui.Button("TryGather"))
+                // if (ImGui.Button("TryGather"))
+                if (ImGui.Button("尝试采集"))
                 {
                     Task_Gather.CollectableGather(gatherCollect);
                 }
                 ImGui.SameLine();
-                if (ImGui.Button("Reset Buff Check"))
+                // if (ImGui.Button("Reset Buff Check"))
+                if (ImGui.Button("重置 Buff 检查"))
                 {
                     Mission_Settings.Collectable_BuffCount = GatheringUtil.CollectStandardCharges();
                 }
@@ -36,7 +38,8 @@ namespace ICE.Ui.Debug_Tabs.Debug_Hud
                     // Row 1
                     ImGui.TableNextRow();
                     ImGui.TableSetColumnIndex(0);
-                    ImGui.Text("Item Name: ");
+                    // ImGui.Text("Item Name: ");
+                    ImGui.Text("物品名称: ");
 
                     ImGui.TableNextColumn();
                     ImGui.Text($"{gatherCollect.ItemName}");
@@ -44,7 +47,8 @@ namespace ICE.Ui.Debug_Tabs.Debug_Hud
                     // Row 2
                     ImGui.TableNextRow();
                     ImGui.TableSetColumnIndex(0);
-                    ImGui.Text("Item ID: ");
+                    // ImGui.Text("Item ID: ");
+                    ImGui.Text("物品 ID: ");
 
                     ImGui.TableNextColumn();
                     ImGui.Text($"{gatherCollect.ItemID}");
@@ -52,7 +56,8 @@ namespace ICE.Ui.Debug_Tabs.Debug_Hud
                     // Row 3
                     ImGui.TableNextRow();
                     ImGui.TableSetColumnIndex(0);
-                    ImGui.Text("Current Collectability: ");
+                    // ImGui.Text("Current Collectability: ");
+                    ImGui.Text("当前采集价值: ");
 
                     ImGui.TableNextColumn();
                     ImGui.Text($"{gatherCollect.CurrentCollectability}");
@@ -60,7 +65,8 @@ namespace ICE.Ui.Debug_Tabs.Debug_Hud
                     // Row 4
                     ImGui.TableNextRow();
                     ImGui.TableSetColumnIndex(0);
-                    ImGui.Text("Item Integrity: ");
+                    // ImGui.Text("Item Integrity: ");
+                    ImGui.Text("物品耐久: ");
 
                     ImGui.TableNextColumn();
                     ImGui.Text($"{gatherCollect.CurrentIntegrity} / {gatherCollect.TotalIntegrity}");
@@ -68,7 +74,8 @@ namespace ICE.Ui.Debug_Tabs.Debug_Hud
                     // Row 5
                     ImGui.TableNextRow();
                     ImGui.TableSetColumnIndex(0);
-                    ImGui.Text("Min Collectibility: ");
+                    // ImGui.Text("Min Collectibility: ");
+                    ImGui.Text("最低采集价值: ");
 
                     ImGui.TableNextColumn();
                     ImGui.Text($"{gatherCollect.MinCollectability}");
@@ -76,7 +83,8 @@ namespace ICE.Ui.Debug_Tabs.Debug_Hud
                     // Row 6
                     ImGui.TableNextRow();
                     ImGui.TableSetColumnIndex(0);
-                    ImGui.Text("Mid Collectibility: ");
+                    // ImGui.Text("Mid Collectibility: ");
+                    ImGui.Text("中等采集价值: ");
 
                     ImGui.TableNextColumn();
                     ImGui.Text($"{gatherCollect.MidCollectability}");
@@ -84,7 +92,8 @@ namespace ICE.Ui.Debug_Tabs.Debug_Hud
                     // Row 7
                     ImGui.TableNextRow();
                     ImGui.TableSetColumnIndex(0);
-                    ImGui.Text("High Collectibility: ");
+                    // ImGui.Text("High Collectibility: ");
+                    ImGui.Text("高采集价值: ");
 
                     ImGui.TableNextColumn();
                     ImGui.Text($"{gatherCollect.HighCollectability}");
@@ -92,28 +101,32 @@ namespace ICE.Ui.Debug_Tabs.Debug_Hud
                     // Row 8
                     ImGui.TableNextRow();
                     ImGui.TableSetColumnIndex(0);
-                    ImGui.Text("Max Collectibility: ");
+                    // ImGui.Text("Max Collectibility: ");
+                    ImGui.Text("最高采集价值: ");
 
                     ImGui.TableNextColumn();
                     ImGui.Text($"{gatherCollect.MaxCollectability}");
 
                     ImGui.TableNextRow();
                     ImGui.TableSetColumnIndex(0);
-                    ImGui.Text($"Scour Amount");
+                    // ImGui.Text($"Scour Amount");
+                    ImGui.Text($"刮削量");
 
                     ImGui.TableNextColumn();
                     ImGui.Text($"{gatherCollect.ScourPower}");
 
                     ImGui.TableNextRow();
                     ImGui.TableSetColumnIndex(0);
-                    ImGui.Text($"Brazen Power");
+                    // ImGui.Text($"Brazen Power");
+                    ImGui.Text($"大胆力量");
 
                     ImGui.TableNextColumn();
                     ImGui.Text($"{gatherCollect.BrazenPowerMin} | {gatherCollect.BrazenPowerMax}");
 
                     ImGui.TableNextRow();
                     ImGui.TableSetColumnIndex(0);
-                    ImGui.Text($"Meticulous Power");
+                    // ImGui.Text($"Meticulous Power");
+                    ImGui.Text($"谨慎力量");
 
                     ImGui.TableNextColumn();
                     ImGui.Text($"{gatherCollect.MeticulousPower}");
@@ -123,7 +136,8 @@ namespace ICE.Ui.Debug_Tabs.Debug_Hud
             }
             else if (GenericHelpers.TryGetAddonMaster<Gathering>("Gathering", out var gather) && gather.IsAddonReady)
             {
-                if (ImGui.Button("Increase collectability"))
+                // if (ImGui.Button("Increase collectability"))
+                if (ImGui.Button("提高采集价值"))
                 {
                     foreach (var item in gather.GatheredItems)
                     {
@@ -139,7 +153,8 @@ namespace ICE.Ui.Debug_Tabs.Debug_Hud
             }
             else
             {
-                ImGui.Text("Waiting for Gather Collectable window to be visible");
+                // ImGui.Text("Waiting for Gather Collectable window to be visible");
+                ImGui.Text("等待采集收藏品界面可见");
             }
         }
     }

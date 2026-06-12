@@ -16,9 +16,12 @@ namespace ICE.Ui.Debug_Tabs.Debug_CS
             var missionList = CosmicHandler.All_AvailableMissions();
             var tabInfo = HudInfo();
 
-            ImGui.Text($"Selected Job Index {tabInfo.SelectedJobIndex}");
-            ImGui.Text($"Selected Tab Index {tabInfo.SelectedTabIndex}");
-            ImGui.Text($"Selected Filter Index {tabInfo.SelectedFilterIndex}");
+            // ImGui.Text($"Selected Job Index {tabInfo.SelectedJobIndex}");
+            ImGui.Text($"所选职业索引 {tabInfo.SelectedJobIndex}");
+            // ImGui.Text($"Selected Tab Index {tabInfo.SelectedTabIndex}");
+            ImGui.Text($"所选标签页索引 {tabInfo.SelectedTabIndex}");
+            // ImGui.Text($"Selected Filter Index {tabInfo.SelectedFilterIndex}");
+            ImGui.Text($"所选筛选索引 {tabInfo.SelectedFilterIndex}");
 
             if (GenericHelpers.TryGetAddonMaster<WKSMission>("WKSMission", out var x) && x.IsAddonReady)
             {
@@ -36,10 +39,14 @@ namespace ICE.Ui.Debug_Tabs.Debug_CS
 
             if (ImGui.BeginTable("CS: Missions Avaialble", 4, ImGuiTableFlags.SizingFixedFit | ImGuiTableFlags.RowBg | ImGuiTableFlags.Borders))
             {
-                ImGui.TableSetupColumn("Job");
-                ImGui.TableSetupColumn("Id");
-                ImGui.TableSetupColumn("Name");
-                ImGui.TableSetupColumn("Flag");
+                // ImGui.TableSetupColumn("Job");
+                ImGui.TableSetupColumn("职业");
+                // ImGui.TableSetupColumn("Id");
+                ImGui.TableSetupColumn("ID");
+                // ImGui.TableSetupColumn("Name");
+                ImGui.TableSetupColumn("名称");
+                // ImGui.TableSetupColumn("Flag");
+                ImGui.TableSetupColumn("标志");
 
                 ImGui.TableHeadersRow();
 
@@ -62,7 +69,8 @@ namespace ICE.Ui.Debug_Tabs.Debug_CS
                         ImGui.Text($"{sheetInfo.Name}");
 
                         ImGui.TableNextColumn();
-                        ImGui.Text($"Rank {sheetInfo.Rank}");
+                        // ImGui.Text($"Rank {sheetInfo.Rank}");
+                        ImGui.Text($"等级 {sheetInfo.Rank}");
                     }
                 }
 

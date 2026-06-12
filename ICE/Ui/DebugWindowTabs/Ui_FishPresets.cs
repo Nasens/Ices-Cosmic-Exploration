@@ -20,13 +20,17 @@ namespace ICE.Ui.DebugWindowTabs
         {
             if (ImGui.BeginTable("Fish Editor | Window Selector", 2, ImGuiTableFlags.Borders | ImGuiTableFlags.SizingFixedFit, ImGui.GetContentRegionAvail()))
             {
-                ImGui.TableSetupColumn("Mission Selector");
-                ImGui.TableSetupColumn("Mission Details", ImGuiTableColumnFlags.WidthStretch);
+                // ImGui.TableSetupColumn("Mission Selector");
+                ImGui.TableSetupColumn("任务选择");
+                // ImGui.TableSetupColumn("Mission Details", ImGuiTableColumnFlags.WidthStretch);
+                ImGui.TableSetupColumn("任务详情", ImGuiTableColumnFlags.WidthStretch);
 
                 ImGui.TableNextRow();
                 ImGui.TableSetColumnIndex(0);
-                ImGui.InputText("Search Name", ref search_MissionName, 100);
-                ImGui.InputUInt("Search ID", ref search_MissionId);
+                // ImGui.InputText("Search Name", ref search_MissionName, 100);
+                ImGui.InputText("搜索名称", ref search_MissionName, 100);
+                // ImGui.InputUInt("Search ID", ref search_MissionId);
+                ImGui.InputUInt("搜索 ID", ref search_MissionId);
                 using (var missionSelection = ImRaii.Child("Mission Selection Child", new(300, ImGui.GetContentRegionAvail().Y)))
                 {
                     ImGui.Separator();
@@ -79,20 +83,23 @@ namespace ICE.Ui.DebugWindowTabs
         {
             if (CosmicHelper.SheetMissionDict.TryGetValue(selectedMission, out var missionInfo))
             {
-                if (ImGui.Button("Export All Presets"))
+                // if (ImGui.Button("Export All Presets"))
+                if (ImGui.Button("导出全部预设"))
                 {
                     var clipboard = ExportAllMissions();
                     ImGui.SetClipboardText(clipboard);
                 }
 
-                if (ImGui.Button("Export Selected Mission"))
+                // if (ImGui.Button("Export Selected Mission"))
+                if (ImGui.Button("导出所选任务"))
                 {
                     var clipboard = ExportSelected();
                     ImGui.SetClipboardText(clipboard);
                 }
 
                 ImGui.Text($"[{selectedMission}] {missionInfo.Name}");
-                if (ImGui.Button("Import New Preset"))
+                // if (ImGui.Button("Import New Preset"))
+                if (ImGui.Button("导入新预设"))
                 {
                     var clipboard = ImGui.GetClipboardText();
                     if (clipboard.StartsWith("AH"))
@@ -107,7 +114,8 @@ namespace ICE.Ui.DebugWindowTabs
                     }
                 }
                 ImGui.SameLine(0, 10);
-                if (ImGui.Button("Temp Set Presets"))
+                // if (ImGui.Button("Temp Set Presets"))
+                if (ImGui.Button("临时设置预设"))
                 {
                     P.AutoHook.DeleteAllAnonymousPresets();
                     foreach (var preset in missionInfo.Fish_Presets)
@@ -140,7 +148,8 @@ namespace ICE.Ui.DebugWindowTabs
             }
             else
             {
-                ImGui.Text($"No mission selected currently. Woops [{selectedMission}]");
+                // ImGui.Text($"No mission selected currently. Woops [{selectedMission}]");
+                ImGui.Text($"当前未选择任务。哎呀 [{selectedMission}]");
             }
         }
 

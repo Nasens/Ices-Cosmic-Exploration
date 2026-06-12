@@ -12,17 +12,20 @@ namespace ICE.Ui.Debug_Tabs.Debug_Tables
         public static void Draw()
         {
             // Search filter input
-            ImGui.Text("Search missions:");
+            // ImGui.Text("Search missions:");
+            ImGui.Text("搜索任务：");
             ImGui.SetNextItemWidth(200);
             ImGui.InputText("##searchFilter", ref searchFilter, 256);
 
-            if (ImGui.Button("Update all mission text"))
+            // if (ImGui.Button("Update all mission text"))
+            if (ImGui.Button("更新全部任务文本"))
             {
                 UpdateText();
             }
 
             ImGui.SameLine();
-            if (ImGui.Button("Clear"))
+            // if (ImGui.Button("Clear"))
+            if (ImGui.Button("清除"))
             {
                 searchFilter = "";
             }
@@ -42,7 +45,8 @@ namespace ICE.Ui.Debug_Tabs.Debug_Tables
 
             if (!string.IsNullOrEmpty(searchFilter))
             {
-                ImGui.Text($"Showing {filteredCount} of {totalCount} missions");
+                // ImGui.Text($"Showing {filteredCount} of {totalCount} missions");
+                ImGui.Text($"显示 {filteredCount} / {totalCount} 个任务");
             }
 
             // Create a child window for the scrollable results
@@ -51,7 +55,8 @@ namespace ICE.Ui.Debug_Tabs.Debug_Tables
                 foreach (var text in filteredMissions)
                 {
                     // Create unique button ID using the text key
-                    if (ImGui.Button($"Copy Ids##{text.Key}"))
+                    // if (ImGui.Button($"Copy Ids##{text.Key}"))
+                    if (ImGui.Button($"复制 ID##{text.Key}"))
                     {
                         // Convert HashSet to comma-separated string
                         string idsString = string.Join(", ", text.Value);

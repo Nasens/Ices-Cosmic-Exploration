@@ -17,11 +17,13 @@ namespace ICE.Ui.DebugWindowTabs
             var agentMap = AgentMap.Instance();
             if (agentMap == null)
             {
-                ImGui.Text("AgentMap is null!");
+                // ImGui.Text("AgentMap is null!");
+                ImGui.Text("AgentMap 为空！");
                 return;
             }
 
-            if (ImGui.CollapsingHeader("Event Markers"))
+            // if (ImGui.CollapsingHeader("Event Markers"))
+            if (ImGui.CollapsingHeader("事件标记"))
             {
                 DrawEventMarkersTable(GetAllEventMarkers());
             }
@@ -77,25 +79,31 @@ namespace ICE.Ui.DebugWindowTabs
         {
             if (markers.Count == 0)
             {
-                ImGui.Text("No markers found!");
+                // ImGui.Text("No markers found!");
+                ImGui.Text("未找到标记！");
                 return;
             }
 
-            if (ImGui.Button("Stop Current Task"))
+            // if (ImGui.Button("Stop Current Task"))
+            if (ImGui.Button("停止当前任务"))
             {
                 P.TaskManager.AbortCurrent();
                 P.Navmesh.Stop();
             }
 
             ImGui.SameLine();
-            ImGui.Text($"Player Moving: {Player.IsMoving}");
+            // ImGui.Text($"Player Moving: {Player.IsMoving}");
+            ImGui.Text($"玩家移动中: {Player.IsMoving}");
 
             if (ImGui.BeginTable("Event Markers", 3, ImGuiTableFlags.Borders | ImGuiTableFlags.RowBg))
             {
-                ImGui.TableSetupColumn("Position");
-                ImGui.TableSetupColumn("Icon ID");
-                ImGui.TableSetupColumn("Territory");
-                ImGui.TableSetupColumn("SubLevel");
+                // ImGui.TableSetupColumn("Position");
+                ImGui.TableSetupColumn("位置");
+                // ImGui.TableSetupColumn("Icon ID");
+                ImGui.TableSetupColumn("图标 ID");
+                // ImGui.TableSetupColumn("Territory");
+                ImGui.TableSetupColumn("区域");
+                // ImGui.TableSetupColumn("SubLevel");
                 ImGui.TableHeadersRow();
 
                 foreach (var marker in markers)
@@ -113,7 +121,8 @@ namespace ICE.Ui.DebugWindowTabs
                         ImGui.Image(texture.GetWrapOrEmpty().Handle, new Vector2(24, 24));
                     }
                     ImGui.TableNextColumn();
-                    if (ImGui.Button($"Move to##{marker.Position:N2}"))
+                    // if (ImGui.Button($"Move to##{marker.Position:N2}"))
+                    if (ImGui.Button($"移动至##{marker.Position:N2}"))
                     {
                         P.TaskManager.Enqueue(() => Task_NavmeshMove.Task_NavTo(marker.Position), "Marker move task");
                     }
