@@ -134,7 +134,7 @@ namespace ICE.Ui.MainUi.HelpFolder
                         LogLevel.Info => new Vector4(0, 1, 1, 1),
                         _ => new Vector4(0.7f, 0.7f, 0.7f, 1)
                     };
-                    ImGui.TextColored(color, log.Level.ToString());
+                    ImGui.TextColored(color, CosmicHelper.LogLevelDisplayName(log.Level));
 
                     ImGui.TableNextColumn();
                     ImGui.Text(log.Category ?? "");
@@ -193,8 +193,9 @@ namespace ICE.Ui.MainUi.HelpFolder
                     if (ImGui.Button("复制信息"))
                     {
                         var clipboardText = new StringBuilder();
-                        clipboardText.AppendLine($"Start: X: {log.PlayerStart.X:N2}, Y: {log.PlayerStart.Y:N2}, Z: {log.PlayerStart.Z:N2}");
-                        clipboardText.Append($"End: X: {log.PlayerDestination.X:N2}, Y: {log.PlayerDestination.Y:N2}, Z: {log.PlayerDestination.Z:N2}");
+                        // clipboardText.AppendLine($"Start: X: {log.PlayerStart.X:N2}, Y: {log.PlayerStart.Y:N2}, Z: {log.PlayerStart.Z:N2}");
+                        clipboardText.AppendLine($"起点：X: {log.PlayerStart.X:N2}, Y: {log.PlayerStart.Y:N2}, Z: {log.PlayerStart.Z:N2}");
+                        clipboardText.Append($"终点：X: {log.PlayerDestination.X:N2}, Y: {log.PlayerDestination.Y:N2}, Z: {log.PlayerDestination.Z:N2}");
                         ImGui.SetClipboardText($"{clipboardText}");
                         // Notify.Success("Log copied to clipbard");
                         Notify.Success("日志已复制到剪贴板");

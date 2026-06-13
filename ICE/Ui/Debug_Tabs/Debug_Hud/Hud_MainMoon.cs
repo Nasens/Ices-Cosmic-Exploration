@@ -25,7 +25,7 @@ namespace ICE.Ui.Debug_Tabs.Debug_Hud
                 ImGui.SameLine();
 
                 // if (ImGui.Button("Steller"))
-                if (ImGui.Button("Steller"))
+                if (ImGui.Button("恒星"))
                 {
                     HudAddon.Steller();
                 }

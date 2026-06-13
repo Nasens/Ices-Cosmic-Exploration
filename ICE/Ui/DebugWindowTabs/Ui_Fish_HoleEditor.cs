@@ -59,7 +59,8 @@ namespace ICE.Ui.DebugWindowTabs
             {
                 var exportData = ExportAllFishingData();
                 ImGui.SetClipboardText(exportData);
-                Svc.Chat.Print("All fishing data exported to clipboard!");
+                // Svc.Chat.Print("All fishing data exported to clipboard!");
+                Svc.Chat.Print("全部钓鱼数据已导出到剪贴板！");
             }
 
             ImGui.SameLine();
@@ -70,7 +71,8 @@ namespace ICE.Ui.DebugWindowTabs
                 {
                     var exportData = ExportSingleFishingFlag(selectedZone, selectedFlag);
                     ImGui.SetClipboardText(exportData);
-                    Svc.Chat.Print($"Fishing flag data for Zone {selectedZone} at ({selectedFlag.X}, {selectedFlag.Y}) exported to clipboard!");
+                    // Svc.Chat.Print($"Fishing flag data for Zone {selectedZone} at ({selectedFlag.X}, {selectedFlag.Y}) exported to clipboard!");
+                    Svc.Chat.Print($"区域 {selectedZone} 标记 ({selectedFlag.X}, {selectedFlag.Y}) 的钓鱼数据已导出到剪贴板！");
                 }
             }
 

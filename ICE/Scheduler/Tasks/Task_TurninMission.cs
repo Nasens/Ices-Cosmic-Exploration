@@ -57,7 +57,8 @@ namespace ICE.Scheduler.Tasks
                     else
                     {
                         if (EzThrottler.Throttle("No recorded site: 2000"))
-                            IceLogging.Error("There is currently not a preset destination that we have recorded, so this means it's a new red alert. Please give me time to add this", tag);
+                            // IceLogging.Error("There is currently not a preset destination that we have recorded, so this means it's a new red alert. Please give me time to add this", tag);
+                            IceLogging.Error("该紧急通告尚无预设交付点（新任务），请等待后续更新", tag);
 
                         P.TaskManager.Insert(() => RedAlert_CloseToTurnin(), "Checking to make sure we have a turnin that is close");
                     }

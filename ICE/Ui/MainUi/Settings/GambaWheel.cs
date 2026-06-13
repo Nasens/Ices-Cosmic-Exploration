@@ -79,7 +79,7 @@ namespace ICE.Ui.MainUi.Settings
             {
                 var itemsType = C.GambaItemWeights.Where(x => x.Type == type).OrderBy(x => x.ItemId).ToList();
                 if (itemsType.Count == 0) continue;
-                if (ImGui.TreeNodeEx($"{type} ({itemsType.Count})##gamba_type_{type}", ImGuiTreeNodeFlags.DefaultOpen))
+                if (ImGui.TreeNodeEx($"{CosmicHelper.GambaTypeDisplayName(type)} ({itemsType.Count})##gamba_type_{type}", ImGuiTreeNodeFlags.DefaultOpen))
                 {
                     ImGui.Indent();
                     foreach (var gamba in itemsType)
@@ -179,7 +179,8 @@ namespace ICE.Ui.MainUi.Settings
                     var itemsType = C.GambaItemWeights.Where(x => x.Type == type).OrderBy(x => x.ItemId).ToList();
                     if (itemsType.Count == 0) continue;
 
-                    if (ImGui.BeginTabItem($"{type.ToString()} [{itemsType.Count}]"))
+                    // if (ImGui.BeginTabItem($"{type.ToString()} [{itemsType.Count}]"))
+                    if (ImGui.BeginTabItem($"{CosmicHelper.GambaTypeDisplayName(type)} [{itemsType.Count}]"))
                     {
                         if (ImGui.BeginTable($"{type.ToString()}_GambaItems", 4, ImGuiTableFlags.SizingFixedFit | ImGuiTableFlags.Borders | ImGuiTableFlags.RowBg))
                         {

@@ -91,7 +91,7 @@ namespace ICE.Ui
             "What do you a dinosaur that only has one eye?" +
             "只有一只眼睛的恐龙叫什么？" +
             "A \"Doyouthinkheseemesaurs\"",
-            "「Do-you-think-he-saw-us-aurus（你觉得他看见我们了吗龙）」",
+            "「Do-you-think-he-saw-us-aurus（你觉得他看见我们了吗 龙）」",
 
             // "So... you're telling me a shrimp fried this rice?",
             "So... you're telling me a shrimp fried this rice?",
@@ -350,7 +350,8 @@ namespace ICE.Ui
                                 break;
                         }
 
-                        ImGui.Text($"Lv. {type}");
+                        // ImGui.Text($"Lv. {type}");
+                        ImGui.Text($"等级 {type}");
                         ImGui.TableNextColumn();
                         ImGui.Text($"{xp.Value}");
                     }
@@ -360,7 +361,7 @@ namespace ICE.Ui
 
                 if (mission.ExpModifier_3 != 0)
                 {
-                    if (ImGui.BeginTable("Exp Rewards", 2, ImGuiTableFlags.SizingFixedFit | ImGuiTableFlags.Borders))
+                    if (ImGui.BeginTable("经验奖励", 2, ImGuiTableFlags.SizingFixedFit | ImGuiTableFlags.Borders))
                     {
                         // ImGui.TableSetupColumn("Class Exp");
                         ImGui.TableSetupColumn("职业经验");
@@ -373,7 +374,8 @@ namespace ICE.Ui
                         {
                             ImGui.TableNextRow();
                             ImGui.TableSetColumnIndex(0);
-                            ImGui.Text("Lv. 10-49");
+                            // ImGui.Text("Lv. 10-49");
+                            ImGui.Text("等级 10-49");
 
                             ImGui.TableNextColumn();
                             ImGui.Text($"{mission.ExpModifier_1}%");
@@ -383,7 +385,8 @@ namespace ICE.Ui
                         {
                             ImGui.TableNextRow();
                             ImGui.TableSetColumnIndex(0);
-                            ImGui.Text("Lv. 50-89");
+                            // ImGui.Text("Lv. 50-89");
+                            ImGui.Text("等级 50-89");
 
                             ImGui.TableNextColumn();
                             ImGui.Text($"{mission.ExpModifier_2}%");
@@ -393,7 +396,8 @@ namespace ICE.Ui
                         {
                             ImGui.TableNextRow();
                             ImGui.TableSetColumnIndex(0);
-                            ImGui.Text("Lv. 90-99");
+                            // ImGui.Text("Lv. 90-99");
+                            ImGui.Text("等级 90-99");
 
                             ImGui.TableNextColumn();
                             ImGui.Text($"{mission.ExpModifier_3}%");
@@ -520,7 +524,8 @@ namespace ICE.Ui
                             {
                                 ImGui.TableNextRow();
                                 ImGui.TableSetColumnIndex(0);
-                                ImGui.Text($"{entry.Key} [{entry.Value.Completions:N0}]");
+                                // ImGui.Text($"{entry.Key} [{entry.Value.Completions:N0}]");
+                                ImGui.Text($"{CosmicHelper.TurninStateDisplayName(entry.Key)} [{entry.Value.Completions:N0}]");
 
                                 ImGui.TableNextColumn();
                                 ImGui.Text($"{entry.Value.Score:N2}");

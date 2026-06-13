@@ -82,7 +82,8 @@ namespace ICE.Scheduler.Tasks
             }
             else
             {
-                IceLogging.Error($"HEY. WE'RE MISSING THE HUB. THIS ISN'T GOOD. PLEASE ICE FIX THIS <3\n" +
+                // IceLogging.Error($"HEY. WE'RE MISSING THE HUB. THIS ISN'T GOOD. PLEASE ICE FIX THIS <3\n" +
+                IceLogging.Error($"缺少 Hub 数据，请向开发者反馈 <3\n" +
                     $"From: Past Ice.", tag);
                 SchedulerMain.State = IceState.Idle;
                 P.TaskManager.Tasks.Clear();
@@ -112,8 +113,9 @@ namespace ICE.Scheduler.Tasks
             else
             {
                 if (EzThrottler.Throttle("Error message: NPC", 5000))
-                    IceLogging.Error("Hey! We don't have this npc coded yet, which means I forgot bout it, could you let me know\n" +
-                                     $"Planet Territory ID: {Player.Territory.RowId}", handle);
+                    // IceLogging.Error("Hey! We don't have this npc coded yet, which means I forgot bout it, could you let me know\n" +
+                    IceLogging.Error("该 NPC 尚未录入，请反馈\n" +
+                                     $"区域 ID：{Player.Territory.RowId}", handle);
             }
 
             return false;

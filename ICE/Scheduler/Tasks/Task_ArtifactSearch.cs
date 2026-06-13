@@ -47,7 +47,8 @@ namespace ICE.Scheduler.Tasks
             else
             {
                 if (EzThrottler.Throttle("Error message: NPC", 5000))
-                    IceLogging.Error("Hey! We don't have this npc coded yet, which means I forgot bout it, could you let me know\n" +
+                    // IceLogging.Error("Hey! We don't have this npc coded yet, which means I forgot bout it, could you let me know\n" +
+                    IceLogging.Error("该 NPC 尚未录入，请反馈\n" +
                                      $"Planet Territory ID: {Player.Territory.RowId}", handle);
             }
             return false;

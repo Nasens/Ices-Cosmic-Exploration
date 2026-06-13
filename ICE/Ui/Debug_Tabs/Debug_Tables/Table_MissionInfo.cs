@@ -118,11 +118,13 @@ namespace ICE.Ui.Debug_Tabs.Debug_Tables
 
                     // Optional: Show a tooltip or notification
                     // You could also use a popup or status message here
-                    ImGui.SetTooltip($"Copied {fishingMissions.Length} fishing missions to clipboard!");
+                    // ImGui.SetTooltip($"Copied {fishingMissions.Length} fishing missions to clipboard!");
+                    ImGui.SetTooltip($"已复制 {fishingMissions.Length} 个钓鱼任务到剪贴板！");
                 }
                 else
                 {
-                    ImGui.SetTooltip("No fishing missions found!");
+                    // ImGui.SetTooltip("No fishing missions found!");
+                    ImGui.SetTooltip("未找到钓鱼任务！");
                 }
             }
 

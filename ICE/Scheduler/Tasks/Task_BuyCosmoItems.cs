@@ -89,7 +89,8 @@ namespace ICE.Scheduler.Tasks
             else
             {
                 if (EzThrottler.Throttle("Error message: NPC", 5000))
-                    IceLogging.Error("Hey! We don't have this npc coded yet, which means I forgot bout it, could you let me know\n" +
+                    // IceLogging.Error("Hey! We don't have this npc coded yet, which means I forgot bout it, could you let me know\n" +
+                    IceLogging.Error("该 NPC 尚未录入，请反馈\n" +
                                      $"Planet Territory ID: {Player.Territory.RowId}", handle);
             }
 
@@ -340,7 +341,8 @@ namespace ICE.Scheduler.Tasks
                     }
                     else
                     {
-                        IceLogging.Error("Somehow... we're here? Which means something got pulled from the config wrong... We shouldn't be, so we're just going to reset everything/not change values");
+                        // IceLogging.Error("Somehow... we're here? Which means something got pulled from the config wrong... We shouldn't be, so we're just going to reset everything/not change values");
+                        IceLogging.Error("购物配置异常，已重置相关值");
                         previousItemId = 0;
                         previousItemCount = -1;
                         return true;

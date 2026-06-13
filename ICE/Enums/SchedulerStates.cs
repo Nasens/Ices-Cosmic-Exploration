@@ -81,7 +81,8 @@ namespace ICE.Enums
             IceState.AnimationLock => "动画锁定",
             // IceState.TurninMission => "TurninMission",
             IceState.TurninMission => "交付任务",
-            _ => state.ToString(),
+            // _ => state.ToString(),
+            _ => "未知",
         };
     }
 }

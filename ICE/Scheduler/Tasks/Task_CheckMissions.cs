@@ -247,8 +247,9 @@ namespace ICE.Scheduler.Tasks
                 }
                 else
                 {
-                    IceLogging.Error("We're missing a mission from the config, please report back so I can fix this.\n" +
-                        $"MissionID: {mission.Key} | Job (First) {mission.Value.Jobs.First()} | Rank: {mission.Value.Rank}");
+                    // IceLogging.Error("We're missing a mission from the config, please report back so I can fix this.\n" +
+                    IceLogging.Error("配置中缺少任务，请反馈以便修复。\n" +
+                        $"任务 ID：{mission.Key} | 职业（首个）{mission.Value.Jobs.First()} | 等级：{mission.Value.Rank}");
                 }
             }
 
@@ -895,7 +896,8 @@ namespace ICE.Scheduler.Tasks
             }
             else if (!P.Navmesh.Installed)
             {
-                IceLogging.Error("HEY. YOU DIDN'T READ THE HELP ME PAGE. AND NOW YOU'RE MISSING NAVMESH. So... yeah... if things break this is why");
+                // IceLogging.Error("HEY. YOU DIDN'T READ THE HELP ME PAGE. AND NOW YOU'RE MISSING NAVMESH. So... yeah... if things break this is why");
+                IceLogging.Error("未安装 Navmesh！请查看帮助页。若出现问题，这很可能是原因。");
                 return true;
             }
             else if (sheetInfo.IsGatherMission)
@@ -906,7 +908,8 @@ namespace ICE.Scheduler.Tasks
 
                 if (gatherInfo == null || gatherInfo.Nodes.Count == 0)
                 {
-                    IceLogging.Error("Hey, so this is actually missing the information for it. So going to just actually add it to the unsupported mission list", tag);
+                    // IceLogging.Error("Hey, so this is actually missing the information for it. So going to just actually add it to the unsupported mission list", tag);
+                    IceLogging.Error("该任务缺少路线信息，已加入不支持任务列表", tag);
                     UnsupportedMissions.Ids.Add(missionId);
                     return true;
                 }
@@ -936,9 +939,10 @@ namespace ICE.Scheduler.Tasks
                     || !zoneFishing.TryGetValue(location, out var fishingHole)
                     || fishingHole.Count == 0)
                 {
-                    IceLogging.Error("We've seemed to have ran into a problem with the fishing hole... either it's missing spots, or it doesn't exist. Please report back to me on this with logs leading up to this\n" +
-                        $"Mission ID: {missionId} | Map Position: {location} | Moon Territory: {territory}\n" +
-                        $"Adding to the unsupported list so it's marked on your side for now", tag);
+                    // IceLogging.Error("We've seemed to have ran into a problem with the fishing hole... either it's missing spots, or it doesn't exist. Please report back to me on this with logs leading up to this\n" +
+                    IceLogging.Error("钓鱼点数据异常（缺少点位或不存在），请附带日志反馈\n" +
+                        $"任务 ID：{missionId} | 地图坐标：{location} | 区域：{territory}\n" +
+                        $"已加入不支持列表，暂时在界面上标记", tag);
                     UnsupportedMissions.Ids.Add(missionId);
                     return true;
                 }
@@ -1424,7 +1428,8 @@ namespace ICE.Scheduler.Tasks
             if (agent == null)
             {
                 if (EzThrottler.Throttle("AgentWKSMission Error", 2000))
-                    IceLogging.Error("AgentWKSMission has returned null. CS code might need an update...", "Task: Check Mission | Open Job Tab");
+                    // IceLogging.Error("AgentWKSMission has returned null. CS code might need an update...", "Task: Check Mission | Open Job Tab");
+                    IceLogging.Error("AgentWKSMission 返回 null，CS 代码可能需要更新...", "Task: Check Mission | Open Job Tab");
 
                 return false;
             }

@@ -87,7 +87,7 @@ namespace ICE.Ui.MainUi.ModeSelect_Modes
                     else if (agendaMode)
                     {
                         // modeType = "Cosmic Agenda";
-                        modeType = "Cosmic Agenda";
+                        modeType = "宇宙议程";
                         modeIcon = FontAwesomeIcon.ClipboardList;
                     }
 
@@ -195,7 +195,7 @@ namespace ICE.Ui.MainUi.ModeSelect_Modes
                     using (ImRaii.Disabled(SelectedOption == PlaylistOptions.None))
                     {
                         // if (ImGui.Button("Add to Cosmic Agenda"))
-                        if (ImGui.Button("添加到 Cosmic Agenda"))
+                        if (ImGui.Button("添加到宇宙议程"))
                         {
                             var mode = ModeSelect.Standard;
                             if (SelectedOption is PlaylistOptions.SelectedRelicLv
@@ -454,7 +454,7 @@ namespace ICE.Ui.MainUi.ModeSelect_Modes
                 // ModeSelect.MissionGoldMode => "Gold Completion Mode",
                 ModeSelect.MissionGoldMode => "金牌完成模式",
                 // ModeSelect.AgendaMode => "Cosmic Agenda Mode",
-                ModeSelect.AgendaMode => "Cosmic Agenda 模式",
+                ModeSelect.AgendaMode => "宇宙议程模式",
                 _ => $"??? {mode}"
             };
         }

@@ -99,7 +99,7 @@ namespace ICE.Ui.MainUi.ModeSelect_Modes
                 else if (agendaMode)
                 {
                     // modeType = "Cosmic Agenda";
-                    modeType = "Cosmic Agenda";
+                    modeType = "宇宙议程";
                     modeIcon = FontAwesomeIcon.ClipboardList;
                 }
 
@@ -291,8 +291,8 @@ namespace ICE.Ui.MainUi.ModeSelect_Modes
                     }
                     // ImGuiEx.HelpMarker($"This will allow you to grind other classes for criticals/red alerts. " +
                     //     $"(So if you're on crp, but a bsm red alert pops up)");
-                    ImGuiEx.HelpMarker("允许跨职业刷紧急/Red Alert 任务。\n" +
-                        "（例如当前为 CRP，但 BSM 的 Red Alert 弹出时也会接取）");
+                    ImGuiEx.HelpMarker("允许跨职业刷紧急通告任务。\n" +
+                        "（例如当前为 CRP，但 BSM 的紧急通告弹出时也会接取）");
 
                     bool removeGold = C.RemoveAfterGold;
                     // if (ImGui.Checkbox("Remove Mission Upon Gold Completion", ref removeGold))
@@ -344,7 +344,7 @@ namespace ICE.Ui.MainUi.ModeSelect_Modes
                     ImGui.Separator();
                     bool relic_AllowRedAlert = C.Relic_IncludeCriticals;
                     // if (ImGui.Checkbox("Relic Mode: Allow Red Alerts", ref relic_AllowRedAlert))
-                    if (ImGui.Checkbox("Relic 模式：允许 Red Alert", ref relic_AllowRedAlert))
+                    if (ImGui.Checkbox("Relic 模式：允许紧急通告", ref relic_AllowRedAlert))
                     {
                         C.Relic_IncludeCriticals = relic_AllowRedAlert;
                         C.Save();

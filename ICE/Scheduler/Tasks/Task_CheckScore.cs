@@ -222,10 +222,11 @@ namespace ICE.Scheduler.Tasks
                     }
                     else
                     {
-                        IceLogging.Error($"Hey, it seems something slipped through the cracks. If you could report to me this it would be great\n" +
-                            $"ID: {currentMission}\n" +
-                            $"Name: {sheetInfo.Name}\n" +
-                            $"Missed the score ranking but slipped through", tag);
+                        // IceLogging.Error($"Hey, it seems something slipped through the cracks. If you could report to me this it would be great\n" +
+                        IceLogging.Error($"分数判定异常，请反馈\n" +
+                            $"任务 ID：{currentMission}\n" +
+                            $"名称：{sheetInfo.Name}\n" +
+                            $"未匹配分数档位但已通过判定", tag);
 
                         return true;
                     }
@@ -347,10 +348,11 @@ namespace ICE.Scheduler.Tasks
                     }
                     else
                     {
-                        IceLogging.Error($"Hey, it seems something slipped through the cracks. If you could report to me this it would be great\n" +
-                            $"ID: {id}\n" +
-                            $"Name: {sheet.Name}\n" +
-                            $"Missed the score ranking but slipped through", tag);
+                        // IceLogging.Error($"Hey, it seems something slipped through the cracks. If you could report to me this it would be great\n" +
+                        IceLogging.Error($"分数判定异常，请反馈\n" +
+                            $"任务 ID：{id}\n" +
+                            $"名称：{sheet.Name}\n" +
+                            $"未匹配分数档位但已通过判定", tag);
 
                         return true;
                     }
@@ -475,10 +477,11 @@ namespace ICE.Scheduler.Tasks
                     }
                     else
                     {
-                        IceLogging.Error($"Hey, it seems something slipped through the cracks. If you could report to me this it would be great\n" +
-                            $"ID: {id}\n" +
-                            $"Name: {sheet.Name}\n" +
-                            $"Missed the score ranking but slipped through", tag);
+                        // IceLogging.Error($"Hey, it seems something slipped through the cracks. If you could report to me this it would be great\n" +
+                        IceLogging.Error($"分数判定异常，请反馈\n" +
+                            $"任务 ID：{id}\n" +
+                            $"名称：{sheet.Name}\n" +
+                            $"未匹配分数档位但已通过判定", tag);
 
                         return true;
                     }

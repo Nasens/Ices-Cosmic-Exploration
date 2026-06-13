@@ -180,8 +180,9 @@ namespace ICE.Scheduler.Tasks
                 }
                 else
                 {
-                    IceLogging.Error($"We're currently set in agenda mode, and it says we have none... if you believe this is an error, and you can prove that" +
-                        $"you have setup your agenda to do as you want, please let me know <3", tag);
+                    // IceLogging.Error($"We're currently set in agenda mode, and it says we have none... if you believe this is an error, and you can prove that" +
+                    //     $"you have setup your agenda to do as you want, please let me know <3", tag);
+                    IceLogging.Error($"当前为宇宙议程模式，但未配置任何议程。若你认为这是错误，且已正确设置议程，请反馈 <3", tag);
                     SchedulerMain.State = IceState.Idle;
                     P.TaskManager.Tasks.Clear();
                     return true;

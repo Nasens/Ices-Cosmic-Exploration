@@ -862,12 +862,14 @@ namespace ICE.Scheduler.Tasks
                 }
                 else
                 {
-                    IceLogging.Error("This territory doesn't exist... which means I fucked up and haven't added it, or it's the new planet. Lmk", tag);
+                    // IceLogging.Error("This territory doesn't exist... which means I fucked up and haven't added it, or it's the new planet. Lmk", tag);
+                IceLogging.Error("该区域尚未录入（可能是新星球），请反馈", tag);
                 }
             }
             else
             {
-                IceLogging.Error("This territory doesn't exist... which means I fucked up and haven't added it, or it's the new planet. Lmk", tag);
+                // IceLogging.Error("This territory doesn't exist... which means I fucked up and haven't added it, or it's the new planet. Lmk", tag);
+                IceLogging.Error("该区域尚未录入（可能是新星球），请反馈", tag);
             }
 
             return true;
@@ -942,7 +944,8 @@ namespace ICE.Scheduler.Tasks
             }
             else
             {
-                IceLogging.Error("No hub center is currently recorded. So we're just gonna skip this", tag);
+                // IceLogging.Error("No hub center is currently recorded. So we're just gonna skip this", tag);
+                IceLogging.Error("未记录 Hub 中心坐标，跳过此步骤", tag);
                 return true;
             }
         }
@@ -1063,7 +1066,8 @@ namespace ICE.Scheduler.Tasks
             }
             else
             {
-                IceLogging.Error("No hub center is currently recorded. So we're just gonna skip this", tag);
+                // IceLogging.Error("No hub center is currently recorded. So we're just gonna skip this", tag);
+                IceLogging.Error("未记录 Hub 中心坐标，跳过此步骤", tag);
                 return true;
             }
         }
@@ -1157,17 +1161,20 @@ namespace ICE.Scheduler.Tasks
                     }
                     else
                     {
-                        IceLogging.Error("This territory doesn't exist... which means I fucked up and haven't added it, or it's the new planet. Lmk", tag);
+                        // IceLogging.Error("This territory doesn't exist... which means I fucked up and haven't added it, or it's the new planet. Lmk", tag);
+                IceLogging.Error("该区域尚未录入（可能是新星球），请反馈", tag);
                     }
                 }
                 else
                 {
-                    IceLogging.Error("This territory doesn't exist... which means I fucked up and haven't added it, or it's the new planet. Lmk", tag);
+                    // IceLogging.Error("This territory doesn't exist... which means I fucked up and haven't added it, or it's the new planet. Lmk", tag);
+                IceLogging.Error("该区域尚未录入（可能是新星球），请反馈", tag);
                 }
             }
             else
             {
-                IceLogging.Error("We don't have any record for this hub center, so we're going to ignore it for now", tag);
+                // IceLogging.Error("We don't have any record for this hub center, so we're going to ignore it for now", tag);
+                IceLogging.Error("未记录该 Hub 中心，暂时忽略", tag);
             }
 
             return true;

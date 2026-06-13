@@ -307,20 +307,34 @@ public sealed partial class ICE : IDalamudPlugin
         }
         else if (firstArg.ToLower() == "help")
         {
-            string helpMessage = $"- - ICE Commands Help - - \n" +
-                                 $"/ice help - show all available commands\n" +
-                                 $"/ice -> opens the main settings\n" +
-                                 $"/ice s -> opens the settings menu\n" +
-                                 $" - - - Mission specific - - - \n" +
-                                 $"/ice stop - Stops ICE\n" +
-                                 $"/ice start - starts ICE \n" +
-                                 $"The rest of the commands work by doing a single id/multiple in a row \n" +
-                                 $"EX. /ice add 10 155 185\n" +
-                                 $"/ice add (ids) - enables select missions\n" +
-                                 $"/ice remove (ids) - removes/disables select missions\n" +
-                                 $"/ice toggle (ids) - toggles select mission ids" +
-                                 $"/ice only (ids) - makes only select missions enabled" +
-                                 $"/ice flag (id) - opens the map and flags the mission (if it has one).\n";
+            // string helpMessage = $"- - ICE Commands Help - - \n" +
+            string helpMessage = $"- - ICE 命令帮助 - - \n" +
+                                 // $"/ice help - show all available commands\n" +
+                                 $"/ice help - 显示所有可用命令\n" +
+                                 // $"/ice -> opens the main settings\n" +
+                                 $"/ice -> 打开主设置窗口\n" +
+                                 // $"/ice s -> opens the settings menu\n" +
+                                 $"/ice s -> 打开设置菜单\n" +
+                                 // $" - - - Mission specific - - - \n" +
+                                 $" - - - 任务相关 - - - \n" +
+                                 // $"/ice stop - Stops ICE\n" +
+                                 $"/ice stop - 停止 ICE\n" +
+                                 // $"/ice start - starts ICE \n" +
+                                 $"/ice start - 启动 ICE\n" +
+                                 // $"The rest of the commands work by doing a single id/multiple in a row \n" +
+                                 $"其余命令可连续输入一个或多个任务 ID\n" +
+                                 // $"EX. /ice add 10 155 185\n" +
+                                 $"例：/ice add 10 155 185\n" +
+                                 // $"/ice add (ids) - enables select missions\n" +
+                                 $"/ice add (ids) - 启用指定任务\n" +
+                                 // $"/ice remove (ids) - removes/disables select missions\n" +
+                                 $"/ice remove (ids) - 禁用指定任务\n" +
+                                 // $"/ice toggle (ids) - toggles select mission ids" +
+                                 $"/ice toggle (ids) - 切换指定任务启用状态" +
+                                 // $"/ice only (ids) - makes only select missions enabled" +
+                                 $"/ice only (ids) - 仅启用指定任务" +
+                                 // $"/ice flag (id) - opens the map and flags the mission (if it has one).\n";
+                                 $"/ice flag (id) - 在地图上标记任务位置（若有标记）。\n";
             Svc.Chat.Print(helpMessage);
         }
     }

@@ -66,6 +66,7 @@ namespace ICE.Ui.DebugWindowTabs
             }
 
             ImGui.Separator();
+            // ImGui.Text("AutoHook");
             ImGui.Text("AutoHook");
             ImGui.SetNextItemWidth(150);
             // ImGui.InputText("Preset String", ref importString, 2048);
@@ -248,8 +249,11 @@ namespace ICE.Ui.DebugWindowTabs
             // if (ImGui.Button("Test Toast"))
             if (ImGui.Button("测试 Toast"))
             {
-                string message = "[I.C.E.] You didn't read the little warning in the mission setup\n" +
-                    "You need to update autohook for you to be able to fish here on Auxesia. Please swap to testing version";
+                // string message = "[I.C.E.] You didn't read the little warning in the mission setup\n" +
+                //     "You need to update autohook for you to be able to fish here on Auxesia. Please swap to testing version";
+                string message = "[I.C.E.] 您未注意任务设置中的警告提示\n" +
+                    "需要更新 AutoHook 才能在 Auxesia 自动捕鱼。\n" +
+                    "请切换至测试版";
                 Svc.Chat.Print(new()
                 {
                     Type = Dalamud.Game.Text.XivChatType.ErrorMessage,

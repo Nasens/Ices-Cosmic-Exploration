@@ -83,7 +83,8 @@ namespace ICE.Ui.MainUi.Settings
                 // Check for and remove the prefix
                 if (!importString.StartsWith(PROFILE_PREFIX))
                 {
-                    errorMessage = "Invalid import string: Missing prefix";
+                    // errorMessage = "Invalid import string: Missing prefix";
+                    errorMessage = "无效的导入字符串：缺少前缀";
                     return false;
                 }
 
@@ -95,7 +96,8 @@ namespace ICE.Ui.MainUi.Settings
                 var profile = JsonSerializer.Deserialize<GatherProfile>(json);
                 if (profile == null)
                 {
-                    errorMessage = "Failed to deserialize profile";
+                    // errorMessage = "Failed to deserialize profile";
+                    errorMessage = "配置文件反序列化失败";
                     return false;
                 }
 
@@ -114,12 +116,14 @@ namespace ICE.Ui.MainUi.Settings
             }
             catch (FormatException)
             {
-                errorMessage = "Invalid import string: Not valid base64";
+                // errorMessage = "Invalid import string: Not valid base64";
+                errorMessage = "无效的导入字符串：非有效 base64";
                 return false;
             }
             catch (Exception ex)
             {
-                errorMessage = $"Import failed: {ex.Message}";
+                // errorMessage = $"Import failed: {ex.Message}";
+                errorMessage = $"导入失败：{ex.Message}";
                 return false;
             }
         }
@@ -131,7 +135,8 @@ namespace ICE.Ui.MainUi.Settings
             {
                 if (!importString.StartsWith(PROFILE_PREFIX))
                 {
-                    errorMessage = "Invalid import string: Missing prefix";
+                    // errorMessage = "Invalid import string: Missing prefix";
+                    errorMessage = "无效的导入字符串：缺少前缀";
                     return false;
                 }
 
@@ -142,7 +147,8 @@ namespace ICE.Ui.MainUi.Settings
                 var profile = JsonSerializer.Deserialize<GatherProfile>(json);
                 if (profile == null)
                 {
-                    errorMessage = "Failed to deserialize profile";
+                    // errorMessage = "Failed to deserialize profile";
+                    errorMessage = "配置文件反序列化失败";
                     return false;
                 }
 
@@ -172,12 +178,14 @@ namespace ICE.Ui.MainUi.Settings
             }
             catch (FormatException)
             {
-                errorMessage = "Invalid import string: Not valid base64";
+                // errorMessage = "Invalid import string: Not valid base64";
+                errorMessage = "无效的导入字符串：非有效 base64";
                 return false;
             }
             catch (Exception ex)
             {
-                errorMessage = $"Import failed: {ex.Message}";
+                // errorMessage = $"Import failed: {ex.Message}";
+                errorMessage = $"导入失败：{ex.Message}";
                 return false;
             }
         }

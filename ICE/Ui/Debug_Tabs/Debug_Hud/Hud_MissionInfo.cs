@@ -107,7 +107,7 @@ namespace ICE.Ui.Debug_Tabs.Debug_Hud
                     ImGui.TableNextRow();
                     ImGui.TableSetColumnIndex(0);
                     // if (ImGui.Button("Cosmo Pouch"))
-                    if (ImGui.Button("Cosmo Pouch"))
+                    if (ImGui.Button("宇宙袋"))
                     {
                         x.CosmoPouch();
                     }
@@ -115,7 +115,7 @@ namespace ICE.Ui.Debug_Tabs.Debug_Hud
                     ImGui.TableNextRow();
                     ImGui.TableSetColumnIndex(0);
                     // if (ImGui.Button("Cosmo Crafting Log"))
-                    if (ImGui.Button("Cosmo Crafting Log"))
+                    if (ImGui.Button("宇宙制作日志"))
                     {
                         x.CosmoCraftingLog();
                     }
@@ -123,7 +123,7 @@ namespace ICE.Ui.Debug_Tabs.Debug_Hud
                     ImGui.TableNextRow();
                     ImGui.TableSetColumnIndex(0);
                     // if (ImGui.Button("Steller Reduction"))
-                    if (ImGui.Button("Steller Reduction"))
+                    if (ImGui.Button("恒星分解"))
                     {
                         x.StellerReduction();
                     }

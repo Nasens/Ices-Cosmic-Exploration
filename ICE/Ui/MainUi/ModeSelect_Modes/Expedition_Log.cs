@@ -707,7 +707,8 @@ namespace ICE.Ui.MainUi.ModeSelect_Modes
                             {
                                 ImGui.BeginTooltip();
                                 ImGui.Text(notes.NoteInfo);
-                                ImGui.Text($"Average Score Per Minute: {notes.SPM:N2}");
+                                // ImGui.Text($"Average Score Per Minute: {notes.SPM:N2}");
+                                ImGui.Text($"最佳每分钟得分：{notes.SPM:N2}");
 
                                 ImGui.EndTooltip();
                             }
@@ -766,7 +767,7 @@ namespace ICE.Ui.MainUi.ModeSelect_Modes
                     // ImGui.TableSetupColumn("Job");
                     ImGui.TableSetupColumn("职业");
                     // ImGui.TableSetupColumn("Relic");
-                    ImGui.TableSetupColumn("Relic");
+                    ImGui.TableSetupColumn("Relic 工具");
                     // ImGui.TableSetupColumn("##Relic_XPBar");
                     ImGui.TableSetupColumn("##Relic_XPBar");
                     // ImGui.TableSetupColumn("Score");

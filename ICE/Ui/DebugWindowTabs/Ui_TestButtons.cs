@@ -349,7 +349,8 @@ namespace ICE.Ui.DebugWindowTabs
                 }
                 else
                 {
-                    Svc.Chat.Print("No GatheringPoint targeted.");
+                    // Svc.Chat.Print("No GatheringPoint targeted.");
+                    Svc.Chat.Print("未选中采集点。");
                 }
             }
 
@@ -533,7 +534,8 @@ namespace ICE.Ui.DebugWindowTabs
             if (ImGui.Button("复制到剪贴板"))
             {
                 ImGui.SetClipboardText(exportedCode);
-                Svc.Chat.Print("Dictionary code copied to clipboard!");
+                // Svc.Chat.Print("Dictionary code copied to clipboard!");
+                Svc.Chat.Print("字典代码已复制到剪贴板！");
             }
 
             ImGui.Separator();

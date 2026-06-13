@@ -161,8 +161,11 @@ namespace ICE.Ui.MainUi.ModeSelect_Modes.CosmicTable
         public readonly CompletionColumn _completionColumn = new() { Label = "状态" };
         // public readonly ClassScoreColumn _classScoreColumn = new() { Label = "Class" };
         public readonly ClassScoreColumn _classScoreColumn = new() { Label = "职业" };
-        public readonly CosmocreditColumn _cosmoColumn = new() { Label = "Cosmo" };
-        public readonly LunarCreditColumn _lunarColumn = new() { Label = "Lunar" };
+        // public readonly CosmocreditColumn _cosmoColumn = new() { Label = "Cosmo" };
+        public readonly CosmocreditColumn _cosmoColumn = new() { Label = "宇宙币" };
+        // public readonly LunarCreditColumn _lunarColumn = new() { Label = "Lunar" };
+        public readonly LunarCreditColumn _lunarColumn = new() { Label = "行星" };
+        // public readonly DroneCreditColumn _droneColumn = new() { Label = "Dronebits" };
         public readonly DroneCreditColumn _droneColumn = new() { Label = "Dronebits" };
         // public readonly PlanetTokensColumn _planetTokenColumn = new() { Label = "Mount" };
         public readonly PlanetTokensColumn _planetTokenColumn = new() { Label = "坐骑代币" };
@@ -340,11 +343,14 @@ namespace ICE.Ui.MainUi.ModeSelect_Modes.CosmicTable
                     if (ImGui.IsItemHovered())
                     {
                         ImGui.BeginTooltip();
-                        ImGui.Text($"Critical Route: {mission.SheetInfo.Critical_MapKey}");
+                        // ImGui.Text($"Critical Route: {mission.SheetInfo.Critical_MapKey}");
+                        ImGui.Text($"紧急路线：{mission.SheetInfo.Critical_MapKey}");
                         ImGui.Separator();
-                        ImGui.Text($"Map Cordinates: {criticalInfo.X} | {criticalInfo.Y}");
+                        // ImGui.Text($"Map Cordinates: {criticalInfo.X} | {criticalInfo.Y}");
+                        ImGui.Text($"地图坐标：{criticalInfo.X} | {criticalInfo.Y}");
                         ImGui.Separator();
-                        ImGui.Text($"World Position: {criticalInfo.WorldCords.X:N2} | {criticalInfo.WorldCords.Y:N2} | {criticalInfo.WorldCords.Z:N2}");
+                        // ImGui.Text($"World Position: {criticalInfo.WorldCords.X:N2} | {criticalInfo.WorldCords.Y:N2} | {criticalInfo.WorldCords.Z:N2}");
+                        ImGui.Text($"世界坐标：{criticalInfo.WorldCords.X:N2} | {criticalInfo.WorldCords.Y:N2} | {criticalInfo.WorldCords.Z:N2}");
                         ImGui.EndTooltip();
                     }
 #endif
@@ -889,7 +895,8 @@ namespace ICE.Ui.MainUi.ModeSelect_Modes.CosmicTable
                             {
                                 ImGui.TableNextRow();
                                 ImGui.TableSetColumnIndex(0);
-                                ImGui.Text($"{entry.Key} [{entry.Value.Completions:N0}]");
+                                // ImGui.Text($"{entry.Key} [{entry.Value.Completions:N0}]");
+                                ImGui.Text($"{CosmicHelper.TurninStateDisplayName(entry.Key)} [{entry.Value.Completions:N0}]");
 
                                 ImGui.TableNextColumn();
                                 ImGui.Text($"{entry.Value.Score:N2}");
@@ -963,7 +970,8 @@ namespace ICE.Ui.MainUi.ModeSelect_Modes.CosmicTable
                 }
                 else if (item.SheetInfo.IsMaster)
                 {
-                    string masterPopup = "Master Settings: Popup";
+                    // string masterPopup = "Master Settings: Popup";
+                    string masterPopup = "大师设置弹窗";
 
                     ImGui.PushID($"Mission_{item.Id}");
                     // if (ImGui.Button("Master Settings"))
@@ -1581,7 +1589,7 @@ namespace ICE.Ui.MainUi.ModeSelect_Modes.CosmicTable
                                     // ArtisanCraftType.Default => "Default",
                                     ArtisanCraftType.Default => "默认",
                                     // ArtisanCraftType.Raphael => "Raphael Solver",
-                                    ArtisanCraftType.Raphael => "Raphael Solver",
+                                    ArtisanCraftType.Raphael => "Raphael 求解器",
                                     // ArtisanCraftType.ProgressOnly => "Progress Only Solver",
                                     ArtisanCraftType.ProgressOnly => "仅进度求解器",
                                     // ArtisanCraftType.Standard => "Standard Solver",
@@ -2023,7 +2031,8 @@ namespace ICE.Ui.MainUi.ModeSelect_Modes.CosmicTable
                                     ImGui.TableNextRow();
                                     ImGui.TableSetColumnIndex(0);
 #if DEBUG
-                                    if (ImGui.Button("Test Apply"))
+                                    // if (ImGui.Button("Test Apply"))
+                                    if (ImGui.Button("测试应用"))
                                     {
                                         var key = craft.Key;
                                         var useAmount = recipeConfig.SkillUsageAmount;

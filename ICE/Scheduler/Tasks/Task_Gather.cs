@@ -496,11 +496,16 @@ namespace ICE.Scheduler.Tasks
                 gatherProfile = C.GatherProfiles[0];
                 if (EzThrottler.Throttle("Null Profile Selected"))
                 {
-                    IceLogging.Error("Hey! We've somehow stumbled into a null profile being selected. Please make sure:\n" +
-                                     "1: The mission you have selected has a gathering profile selected\n" +
-                                     "2: If it does have one, try to click on it again\n" +
-                                     "3: If that still doesn't work, let me know you're getting this error message.\n" +
-                                     $"Expected profileId: {profileId} | Defaulted to the default profile");
+                    // IceLogging.Error("Hey! We've somehow stumbled into a null profile being selected. Please make sure:\n" +
+                    IceLogging.Error("采集配置文件为空，请确认：\n" +
+                                     // "1: The mission you have selected has a gathering profile selected\n" +
+                                     "1：所选任务已指定采集配置\n" +
+                                     // "2: If it does have one, try to click on it again\n" +
+                                     "2：若已指定，请重新点击选择\n" +
+                                     // "3: If that still doesn't work, let me know you're getting this error message.\n" +
+                                     "3：若仍无效，请反馈此错误\n" +
+                                     // $"Expected profileId: {profileId} | Defaulted to the default profile");
+                                     $"预期配置 ID：{profileId} | 已回退至默认配置");
                 }
             }
 

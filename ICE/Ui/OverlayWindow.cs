@@ -239,8 +239,10 @@ namespace ICE.Ui
 #if DEBUG
             if (C.ShowDebugGatherInfo)
             {
-                ImGui.Text($"Total Node: {Mission_Settings.nodeTotal}");
-                ImGui.Text($"Node Counter: {Mission_Settings.nodeCounter}");
+                // ImGui.Text($"Total Node: {Mission_Settings.nodeTotal}");
+                ImGui.Text($"节点总数：{Mission_Settings.nodeTotal}");
+                // ImGui.Text($"Node Counter: {Mission_Settings.nodeCounter}");
+                ImGui.Text($"节点计数：{Mission_Settings.nodeCounter}");
             }
 #endif
         }
@@ -313,7 +315,8 @@ namespace ICE.Ui
                             }
                         }
                         ImGui.AlignTextToFramePadding();
-                        ImGui.Text($"[{mission.Key}] {mission.Value.Name} ({mission.Value.TokenItemAmount}x tokens)");
+                        // ImGui.Text($"[{mission.Key}] {mission.Value.Name} ({mission.Value.TokenItemAmount}x tokens)");
+                        ImGui.Text($"[{mission.Key}] {mission.Value.Name}（{mission.Value.TokenItemAmount} 个代币）");
                     }
                 }
                 if (C.Overlay_WeatherSelected)
@@ -396,7 +399,8 @@ namespace ICE.Ui
                 if (i > 1)
                     ImGui.SameLine(0, 2);
 
-                DrawWeatherIcon(weatherForecasts[i], weatherMissions, $"In: {WeatherForecastHandler.FormatForecastTime(weatherForecasts[i].Time)}");
+                // DrawWeatherIcon(weatherForecasts[i], weatherMissions, $"In: {WeatherForecastHandler.FormatForecastTime(weatherForecasts[i].Time)}");
+                DrawWeatherIcon(weatherForecasts[i], weatherMissions, $"{WeatherForecastHandler.FormatForecastTime(weatherForecasts[i].Time)} 后");
             }
         }
         private unsafe void TimedMissionDetailsForTerritory(uint territoryId, string moonAsset)
@@ -467,7 +471,8 @@ namespace ICE.Ui
                         ImGui.SameLine(0, 2);
                         ImGui.Text($"{mission.Value.Name}");
                         var expires = EorzeaHoursUntil(eorzeaTime, (int)mission.Value.EndTime);
-                        ImGui.Text($"Expires in {FormatRealTime(expires)}");
+                        // ImGui.Text($"Expires in {FormatRealTime(expires)}");
+                        ImGui.Text($"{FormatRealTime(expires)} 后过期");
                         ImGui.EndTooltip();
                     }
                 }
@@ -492,7 +497,8 @@ namespace ICE.Ui
                         var startsIn = EorzeaHoursUntil(eorzeaTime, (int)mission.Value.StartTime);
                         // Show which hour slot this is if it's not the immediate next hour
                         int hoursAhead = ((nextHour - currentHour) + 24) % 24;
-                        string timeLabel = hoursAhead == 1 ? "Starts in" : $"Starts in ~{hoursAhead}h |";
+                        // string timeLabel = hoursAhead == 1 ? "Starts in" : $"Starts in ~{hoursAhead}h |";
+                        string timeLabel = hoursAhead == 1 ? "开始于" : $"约 {hoursAhead} 小时后 |";
                         ImGui.Text($"{timeLabel} {FormatRealTime(startsIn)}");
                         ImGui.EndTooltip();
                     }
@@ -546,7 +552,8 @@ namespace ICE.Ui
             int totalSeconds = (int)(eorzeaHours * 175);
             int minutes = totalSeconds / 60;
             int seconds = totalSeconds % 60;
-            return minutes > 0 ? $"{minutes}m {seconds:D2}s" : $"{seconds}s";
+            // return minutes > 0 ? $"{minutes}m {seconds:D2}s" : $"{seconds}s";
+            return minutes > 0 ? $"{minutes}分{seconds:D2}秒" : $"{seconds}秒";
         }
         private bool IsAvailableAtHour(CosmicInfo mission, int hour)
         {
@@ -618,11 +625,13 @@ namespace ICE.Ui
 
                 if (totalCompleted != 11)
                 {
-                    ImGui_Ice.Draw_XPBar(currentTotal, 0, maxScore, label: $"Total: {currentTotal:N0} / {maxScore:N0} [{totalCompleted} / 11]");
+                    // ImGui_Ice.Draw_XPBar(currentTotal, 0, maxScore, label: $"Total: {currentTotal:N0} / {maxScore:N0} [{totalCompleted} / 11]");
+                    ImGui_Ice.Draw_XPBar(currentTotal, 0, maxScore, label: $"总计：{currentTotal:N0} / {maxScore:N0} [{totalCompleted} / 11]");
                 }
                 else
                 {
-                    ImGui_Ice.Draw_XPBar(actualTotal, 0, maxScore, label: $"Total Score: {actualTotal:N0}");
+                    // ImGui_Ice.Draw_XPBar(actualTotal, 0, maxScore, label: $"Total Score: {actualTotal:N0}");
+                    ImGui_Ice.Draw_XPBar(actualTotal, 0, maxScore, label: $"总分数：{actualTotal:N0}");
                 }
                 if (ImGui.IsItemHovered())
                 {
@@ -636,7 +645,8 @@ namespace ICE.Ui
                         ImGui.Image(jobImage.JobIcon.GetWrapOrEmpty().Handle, new Vector2(23, 23));
                         ImGui.SameLine();
                         ImGui.AlignTextToFramePadding();
-                        ImGui.Text($"Score: {jobScore:N0}");
+                        // ImGui.Text($"Score: {jobScore:N0}");
+                        ImGui.Text($"分数：{jobScore:N0}");
                     }
 
                     ImGui.EndTooltip();
