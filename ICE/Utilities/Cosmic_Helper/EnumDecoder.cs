@@ -56,7 +56,26 @@ public static unsafe partial class CosmicHelper
         TurninState.TimeExpired => "限时结束",
         // TurninState.Master_Score => "Master_Score",
         TurninState.Master_Score => "大师分数",
-        _ => state.ToString()
+        _ => "未知"
+    };
+
+    internal static string CosmicWeatherDisplayName(CosmicWeather weather) => weather switch
+    {
+        // CosmicWeather.None => "None",
+        CosmicWeather.None => "无",
+        // CosmicWeather.UmbralWind => "Umbral Wind",
+        CosmicWeather.UmbralWind => "阴风",
+        // CosmicWeather.MoonDust => "Moon Dust",
+        CosmicWeather.MoonDust => "月尘",
+        // CosmicWeather.Clouds => "Clouds",
+        CosmicWeather.Clouds => "多云",
+        // CosmicWeather.Rain => "Rain",
+        CosmicWeather.Rain => "雨",
+        // CosmicWeather.ClearSkies => "Clear Skies",
+        CosmicWeather.ClearSkies => "晴朗",
+        // CosmicWeather.FairSkies => "Fair Skies",
+        CosmicWeather.FairSkies => "碧空",
+        _ => weather.ToString()
     };
 
     internal static string GambaTypeDisplayName(Config.GambaType type) => type switch

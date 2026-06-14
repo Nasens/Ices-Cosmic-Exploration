@@ -38,8 +38,11 @@ namespace ICE.Ui.MainUi.ModeSelect_Modes.CosmicTable
                 // ItemFilter.Disabled => "Disabled",
                 ItemFilter.Disabled => "禁用",
                 // ItemFilter.NotCompleted => "Not Completed",
+                ItemFilter.NotCompleted => "未完成",
                 // ItemFilter.Completed => "Completed",
+                ItemFilter.Completed => "已完成",
                 // ItemFilter.Gold => "Gold",
+                ItemFilter.Gold => "金",
                 // _ => "Unknown",
                 _ => "未知",
             };
@@ -166,7 +169,7 @@ namespace ICE.Ui.MainUi.ModeSelect_Modes.CosmicTable
         // public readonly LunarCreditColumn _lunarColumn = new() { Label = "Lunar" };
         public readonly LunarCreditColumn _lunarColumn = new() { Label = "行星" };
         // public readonly DroneCreditColumn _droneColumn = new() { Label = "Dronebits" };
-        public readonly DroneCreditColumn _droneColumn = new() { Label = "Dronebits" };
+        public readonly DroneCreditColumn _droneColumn = new() { Label = "无人机代币" };
         // public readonly PlanetTokensColumn _planetTokenColumn = new() { Label = "Mount" };
         public readonly PlanetTokensColumn _planetTokenColumn = new() { Label = "坐骑代币" };
         // public readonly SPMColumn _spmColumn = new() { Label = "SPM" };
@@ -1538,10 +1541,10 @@ namespace ICE.Ui.MainUi.ModeSelect_Modes.CosmicTable
                                 appliedMissions++;
                         }
 
-                        IceLogging.Info($"Amount of missions applied to: {appliedMissions}\n" +
-                            $"Total amount of crafts applied to: {appliedCrafts}\n" +
-                            $"Amount of recipies that the mission had: {currentRecipeSettings.Count()}\n" +
-                            $"From Mission: {id}");
+                        IceLogging.Info($"已应用到 {appliedMissions} 个任务\n" +
+                            $"已应用制作配置数：{appliedCrafts}\n" +
+                            $"该任务配方数量：{currentRecipeSettings.Count()}\n" +
+                            $"来源任务：{id}");
                     }
 
                     ImGui.PopID();

@@ -187,7 +187,8 @@ namespace ICE.Scheduler.Tasks
         {
             if (C.Stop_DarkMatter && PlayerHelper.GetItemCount(Utils.DarkMatter_8Id, out var dmCount) && dmCount < Char_Info.Minimum_DarkMatter)
             {
-                IceLogging.ChatInfo("We've ran below the amount of dark matter we want to have, and we can't repair. So we're just hard stopping", "[I.C.E.] Task: Self Repair");
+                // IceLogging.ChatInfo("We've ran below the amount of dark matter we want to have, and we can't repair. So we're just hard stopping", "[I.C.E.] Task: Self Repair");
+                IceLogging.ChatInfo("暗物质低于设定保留量且无法修理，插件已强制停止。", "[I.C.E.] Task: Self Repair");
                 SchedulerMain.State = IceState.Idle;
                 P.TaskManager.Tasks.Clear();
                 return true;

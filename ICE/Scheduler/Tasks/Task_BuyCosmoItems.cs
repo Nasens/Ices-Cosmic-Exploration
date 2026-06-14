@@ -334,7 +334,8 @@ namespace ICE.Scheduler.Tasks
                         else
                         {
                             if (EzThrottler.Throttle($"Warning itemID not found: {previousItemId}"))
-                                IceLogging.Error($"Hey! {previousItemId} wasn't found... which shouldn't be the case", tag);
+                                // IceLogging.Error($"Hey! {previousItemId} wasn't found... which shouldn't be the case", tag);
+                                IceLogging.Error($"物品 {previousItemId} 未找到，不应发生此情况", tag);
 
                             return false;
                         }
@@ -403,7 +404,8 @@ namespace ICE.Scheduler.Tasks
                     }
                     else
                     {
-                        IceLogging.Error($"No item exist in the gear shop: {itemId}", tag);
+                        // IceLogging.Error($"No item exist in the gear shop: {itemId}", tag);
+                        IceLogging.Error($"装备商店中不存在物品：{itemId}", tag);
                     }
                 }
 

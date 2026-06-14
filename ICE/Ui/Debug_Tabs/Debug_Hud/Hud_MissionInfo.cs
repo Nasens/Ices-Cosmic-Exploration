@@ -172,7 +172,8 @@ namespace ICE.Ui.Debug_Tabs.Debug_Hud
 
                     ImGui.TableNextRow();
                     ImGui.TableSetColumnIndex(0);
-                    ImGui.Text("Bait:");
+                    // ImGui.Text("Bait:");
+                    ImGui.Text("鱼饵：");
                     ImGui.TableNextColumn();
                     ImGui.Text($"{currentlyEquippped}");
                     */

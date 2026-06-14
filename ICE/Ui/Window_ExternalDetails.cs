@@ -20,104 +20,43 @@ namespace ICE.Ui
 
         public static List<string> JokeList = new()
         {
-            // "What is a pirates favorite letter?\n" +
-            // "You might thing it's R, but tis first love was the C\n" +
-            // "(It helps if you verbally say it like a pirate)",
-            "What is a pirates favorite letter?\n" +
-            "海盗最喜欢的字母是什么？\n" +
-            "You might thing it's R, but tis first love was the C\n" +
-            "你可能以为是 R，但他初恋是 C\n" +
-            "(It helps if you verbally say it like a pirate)",
-            "（用海盗腔念出来效果更好）",
+            // "What is a pirates favorite letter?\nYou might thing it's R, but tis first love was the C\n(It helps if you verbally say it like a pirate)",
+            "海盗最喜欢的字母是什么？\n你可能以为是 R，但他初恋是 C\n（用海盗腔念出来效果更好）",
 
-            // "You know, I was reading this book about anti-gravity recently,\n" +
-            // "and honestly I'm having a hard time putting it down",
-            "You know, I was reading this book about anti-gravity recently,\n" +
-            "最近在读一本关于反重力的书，\n" +
-            "and honestly I'm having a hard time putting it down",
-            "说实话，我根本放不下来",
+            // "You know, I was reading this book about anti-gravity recently,\nand honestly I'm having a hard time putting it down",
+            "最近在读一本关于反重力的书，\n说实话，我根本放不下来",
 
-            // "Why are tennis pros always hugging each other?\n" +
-            // "Because they start their match at \"Love All\"",
-            "Why are tennis pros always hugging each other?\n" +
-            "为什么网球选手总是互相拥抱？\n" +
-            "Because they start their match at \"Love All\"",
-            "因为他们比赛开始时是「Love All」（零比零）",
+            // "Why are tennis pros always hugging each other?\nBecause they start their match at \"Love All\"",
+            "为什么网球选手总是互相拥抱？\n因为他们比赛开始时是「Love All」（零比零）",
 
-            // "Why can't ghost have babies?\n" +
-            // "Because they have hallow-eenies",
-            "Why can't ghost have babies?\n" +
-            "为什么幽灵不能有宝宝？\n" +
-            "Because they have hallow-eenies",
-            "因为他们有「万圣空」",
+            // "Why can't ghost have babies?\nBecause they have hallow-eenies",
+            "为什么幽灵不能有宝宝？\n因为他们有「万圣空」",
 
-            // "How do you save a drowning pirate?\n" +
-            // "You give him Cprrrrrr",
-            "How do you save a drowning pirate?\n" +
-            "怎么救落水的海盗？\n" +
-            "You give him Cprrrrrr",
-            "给他做 Cprrrrrr（心肺复苏）",
+            // "How do you save a drowning pirate?\nYou give him Cprrrrrr",
+            "怎么救落水的海盗？\n给他做 Cprrrrrr（心肺复苏）",
 
-            // "What is a skeleton's favorite snack?\n" +
-            // "Ribs! Spare Ribs!",
-
-            "What is a skeleton's favorite snack?\n" +
-            "骷髅最喜欢的零食是什么？\n" +
-            "Ribs! Spare Ribs!",
-            "肋骨！Spare Ribs（备用肋骨）！",
+            // "What is a skeleton's favorite snack?\nRibs! Spare Ribs!",
+            "骷髅最喜欢的零食是什么？\n肋骨！Spare Ribs（备用肋骨）！",
 
             // "Honestly, just wanted to say thank you for using my plugin, you're appreciated <3",
-            "Honestly, just wanted to say thank you for using my plugin, you're appreciated <3",
             "说真的，只是想感谢你使用我的插件，你很棒 <3",
 
-            // "Knock knock\n" +
-            // "[This is where you say who's there]\n" +
-            // "Lettuce\n" +
-            // "[Lettuce who]\n" +
-            // "Lettuce in",
-            "Knock knock\n" +
-            "咚咚咚\n" +
-            "[This is where you say who's there]\n" +
-            "[这里你说「谁啊」]\n" +
-            "Lettuce\n" +
-            "生菜\n" +
-            "[Lettuce who]\n" +
-            "[生菜谁]\n" +
-            "Lettuce in",
-            "生菜进来",
+            // "Knock knock\n[This is where you say who's there]\nLettuce\n[Lettuce who]\nLettuce in",
+            "咚咚咚\n[这里你说「谁啊」]\n生菜\n[生菜谁]\n生菜进来",
 
-            // "What do you a dinosaur that only has one eye?" +
-            // "A \"Doyouthinkheseemesaurs\"",
-            "What do you a dinosaur that only has one eye?" +
-            "只有一只眼睛的恐龙叫什么？" +
-            "A \"Doyouthinkheseemesaurs\"",
-            "「Do-you-think-he-saw-us-aurus（你觉得他看见我们了吗 龙）」",
+            // "What do you a dinosaur that only has one eye?\nA \"Doyouthinkheseemesaurs\"",
+            "只有一只眼睛的恐龙叫什么？\n「Do-you-think-he-saw-us-aurus（你觉得他看见我们了吗 龙）」",
 
             // "So... you're telling me a shrimp fried this rice?",
-            "So... you're telling me a shrimp fried this rice?",
             "所以……你是说一只虾炒了这碗饭？",
 
-            // "Thank you everyone who's helped make this possible.\n" +
-            // "Strife special shoutout to you for doing what I didn't want to with fishing\n" +
-            // "(Sorry for making you start big fish #NotSorry#MuchLove)\n" +
-            // "Wah thank you for the UI, this is fucking beautiful as always\n" +
-            // "Puni.sh in general for each one of your help my dumb questions"
-            "Thank you everyone who's helped make this possible.\n" +
-            "感谢所有让这一切成为可能的人。\n" +
-            "Strife special shoutout to you for doing what I didn't want to with fishing\n" +
-            "特别感谢 Strife 帮我做了我不想碰的捕鱼部分\n" +
-            "(Sorry for making you start big fish #NotSorry#MuchLove)\n" +
-            "（抱歉让你从大鱼开始 #不抱歉#满满的爱）\n" +
-            "Wah thank you for the UI, this is fucking beautiful as always\n" +
-            "感谢 Wah 的 UI，一如既往地漂亮\n" +
-            "Puni.sh in general for each one of your help my dumb questions\n" +
-            "感谢 Puni.sh 的各位回答我的各种问题\n" +
-            "翻译-By Composer 2.5 Fast"
+            // "Thank you everyone who's helped make this possible.\nStrife special shoutout...\nWah thank you for the UI...\nPuni.sh in general...",
+            "感谢所有让这一切成为可能的人。\n特别感谢 Strife 帮我做了我不想碰的捕鱼部分\n（抱歉让你从大鱼开始 #不抱歉#满满的爱）\n感谢 Wah 的 UI，一如既往地漂亮\n感谢 Puni.sh 的各位回答我的各种问题\n"
         };
         public static int jokeId = 0;
 
         // public Window_ExternalDetails() : base($"Ice's Cosmic Exploration | Mission Details")
-        public Window_ExternalDetails() : base($"Ice's Cosmic Exploration | 任务详情")
+        public Window_ExternalDetails() : base($"Ice 宇宙探索 | 任务详情")
         {
             Flags = ImGuiWindowFlags.None;
             SizeConstraints = new()

@@ -60,7 +60,8 @@ namespace ICE.Scheduler.Tasks
             {
                 if (EzThrottler.Throttle("Opening the mission ui"))
                 {
-                    IceLogging.Info("Opening the moon mission selection hud", tag);
+                    // IceLogging.Info("Opening the moon mission selection hud", tag);
+                    IceLogging.Info("正在打开任务选择界面", tag);
                     moonHud.Mission();
                 }
             }
@@ -257,7 +258,8 @@ namespace ICE.Scheduler.Tasks
             {
                 if (modeSelected == ModeSelect.RelicMode && C.XPRelicOnlyEnabled)
                 {
-                    IceLogging.ChatInfo("\"Only selected missions\" is enabled for Relic Grind, but no selected missions match your current job. Please select missions for this job, switch jobs, or disable the option.", "[I.C.E.]");
+                    // IceLogging.ChatInfo("\"Only selected missions\" is enabled for Relic Grind, but no selected missions match your current job. Please select missions for this job, switch jobs, or disable the option.", "[I.C.E.]");
+                    IceLogging.ChatInfo("Relic 刷取模式已启用「仅已启用任务」，但当前职业无匹配任务。请为该职业选择任务、切换职业，或关闭此选项。", "[I.C.E.]");
                     if (C.PlaySoundAlert)
                     {
                         _ = SoundPlayer.PlaySoundAsync();
@@ -319,7 +321,8 @@ namespace ICE.Scheduler.Tasks
 
             if (GenericHelpers.TryGetAddonMaster<WKSMission>("WKSMission", out var hud) && hud.IsAddonReady)
             {
-                IceLogging.Info("The Mission Selection Ui is visible! Continuing on", tag);
+                // IceLogging.Info("The Mission Selection Ui is visible! Continuing on", tag);
+                IceLogging.Info("任务选择界面已显示，继续执行", tag);
                 return true;
             }
             else
@@ -891,7 +894,8 @@ namespace ICE.Scheduler.Tasks
 
             if (UnsupportedMissions.Ids.Contains(missionId))
             {
-                IceLogging.Info("Mission is currently in manual mode, or not supported. So not going to pathfind to it.", tag);
+                // IceLogging.Info("Mission is currently in manual mode, or not supported. So not going to pathfind to it.", tag);
+                IceLogging.Info("任务为手动模式或不支持，不进行寻路", tag);
                 return true;
             }
             else if (!P.Navmesh.Installed)

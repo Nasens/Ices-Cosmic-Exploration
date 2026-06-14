@@ -76,7 +76,7 @@ namespace ICE.Ui.Debug_Tabs.Debug_Tables
             {
                 ImGui.BeginTooltip();
                 // ImGui.Text("Rows for missions not in MissionScores.csv, using BronzeScore from sheets.");
-                ImGui.Text("MissionScores.csv 中缺失的任务行，使用表格中的 BronzeScore。");
+                ImGui.Text("MissionScores.csv 中缺失的任务行，使用表格中的铜牌分数。");
                 // ImGui.Text("Paste at end of Resources/MissionScores.csv");
                 ImGui.Text("粘贴至 Resources/MissionScores.csv 末尾");
                 ImGui.EndTooltip();

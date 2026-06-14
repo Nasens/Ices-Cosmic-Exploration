@@ -20,7 +20,8 @@ namespace ICE.Scheduler.Tasks
 
             if (CosmicHelper.CurrentLunarMission != 0)
             {
-                IceLogging.Info("We're currently in a mission when we started, so we're going to finish this up first before we continue", tag);
+                // IceLogging.Info("We're currently in a mission when we started, so we're going to finish this up first before we continue", tag);
+                IceLogging.Info("启动时正在进行任务，将先完成当前任务再继续", tag);
 
             }
 
@@ -47,9 +48,12 @@ namespace ICE.Scheduler.Tasks
             {
                 Mission_Settings.Mode = currentMode;
 
-                IceLogging.Info("We have a pre-selected mode enabled. So we're just going to run that down till we're told to stop\n" +
-                    $"Selected Mode: {currentMode}\n" +
-                    $"Main job for basic missions: {Player.Job}", tag);
+                // IceLogging.Info("We have a pre-selected mode enabled. So we're just going to run that down till we're told to stop\n" +
+                IceLogging.Info("已启用预选模式，将持续运行直至停止条件触发\n" +
+                    // $"Selected Mode: {currentMode}\n" +
+                    $"所选模式：{currentMode}\n" +
+                    // $"Main job for basic missions: {Player.Job}", tag);
+                    $"基础任务主职业：{Player.Job}", tag);
                 // 
             }
 
@@ -114,7 +118,8 @@ namespace ICE.Scheduler.Tasks
                 }
             }
 
-            IceLogging.Info("We've actually finished our agenda! Congrats. Stopping the process");
+            // IceLogging.Info("We've actually finished our agenda! Congrats. Stopping the process");
+            IceLogging.Info("议程已全部完成！正在停止。");
             P.TaskManager.Tasks.Clear();
             SchedulerMain.State = IceState.Idle;
 

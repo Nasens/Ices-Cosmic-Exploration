@@ -17,7 +17,7 @@ namespace ICE.Ui
     internal class InfoWindow : Window
     {
         // public InfoWindow() : base($"Ice's Cosmic Exploration - Info")
-        public InfoWindow() : base($"Ice's Cosmic Exploration - 说明")
+        public InfoWindow() : base($"Ice 宇宙探索 - 说明")
         {
             Flags = ImGuiWindowFlags.None;
             SizeConstraints = new()
@@ -41,7 +41,7 @@ namespace ICE.Ui
         public override void Draw()
         {
             // ImGui.Text("Hi! Welcome to Ice's Cosmic Exploration [Short form, I.C.E.]");
-            ImGui.Text("你好！欢迎使用 Ice's Cosmic Exploration [简称 I.C.E.]");
+            ImGui.Text("你好！欢迎使用 Ice 宇宙探索 [简称 I.C.E.]");
             ImGui.Bullet();
             // ImGui.TextWrapped("This plugin is meant to help you with your cosmic exploration needs, " +
             //                   "from automating the gathering and crafting process, to the buying of shop items or spending those planetary credits away.");

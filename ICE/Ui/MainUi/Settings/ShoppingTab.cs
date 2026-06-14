@@ -71,7 +71,7 @@ namespace ICE.Ui.MainUi.Settings
 
             ImGui.SetNextItemWidth(150);
             // if (ImGui.SliderInt("Keep this much Cosmocredits", ref CosmoKeepAmount, 0, buyAtAmount))
-            if (ImGui.SliderInt("保留 Cosmocredits 数量", ref CosmoKeepAmount, 0, buyAtAmount))
+            if (ImGui.SliderInt("保留宇宙点数数量", ref CosmoKeepAmount, 0, buyAtAmount))
             {
                 C.CosmoKeepAmount = CosmoKeepAmount;
                 C.SaveDebounced();

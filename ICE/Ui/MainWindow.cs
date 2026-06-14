@@ -19,9 +19,10 @@ namespace ICE.Ui
         public MainWindow() :
 #if DEBUG
         // base($"Ice's Cosmic Exploration {P.GetType().Assembly.GetName().Version} [Debug Build] ###ICEMainWindow2")
-        base($"Ice's Cosmic Exploration {P.GetType().Assembly.GetName().Version} [调试版] ###ICEMainWindow2")
+        base($"Ice 宇宙探索 {P.GetType().Assembly.GetName().Version} [调试版] ###ICEMainWindow2")
 #else
-        base($"Ice's Cosmic Exploration {P.GetType().Assembly.GetName().Version} ###ICEMainWindow2")
+        // base($"Ice's Cosmic Exploration {P.GetType().Assembly.GetName().Version} ###ICEMainWindow2")
+        base($"Ice 宇宙探索 {P.GetType().Assembly.GetName().Version} ###ICEMainWindow2")
 #endif
         {
             Flags = ImGuiWindowFlags.NoScrollbar;

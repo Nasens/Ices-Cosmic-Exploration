@@ -650,7 +650,7 @@ namespace ICE.Ui.MainUi.ModeSelect_Modes
                             {
                                 ImGui.BeginTooltip();
                                 // ImGui.Text($"Weather: {missionInfo.Weather}");
-                                ImGui.Text($"天气：{missionInfo.Weather}");
+                                ImGui.Text($"天气：{CosmicHelper.CosmicWeatherDisplayName(missionInfo.Weather)}");
                                 ImGui.EndTooltip();
                             }
                             notesCount++;
@@ -927,7 +927,7 @@ namespace ICE.Ui.MainUi.ModeSelect_Modes
 
                 if (ImGui.IsItemHovered())
                     // DrawTooltip(() => ImGui.Text($"Weather: {missionInfo.Weather}"));
-                    DrawTooltip(() => ImGui.Text($"天气：{missionInfo.Weather}"));
+                    DrawTooltip(() => ImGui.Text($"天气：{CosmicHelper.CosmicWeatherDisplayName(missionInfo.Weather)}"));
             }
             else if (missionInfo.IsTimed)
             {

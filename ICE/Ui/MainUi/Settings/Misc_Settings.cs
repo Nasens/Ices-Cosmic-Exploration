@@ -198,7 +198,7 @@ namespace ICE.Ui.MainUi.Settings
 
             bool autoStartOnMoonEnter = C.StartUponEnterMoon;
             // if (ImGui.Checkbox("Auto start upon entering a Cosmic Exploration area", ref autoStartOnMoonEnter))
-            if (ImGui.Checkbox("进入 Cosmic Exploration 区域时自动启动", ref autoStartOnMoonEnter))
+            if (ImGui.Checkbox("进入宇宙探索区域时自动启动", ref autoStartOnMoonEnter))
             {
                 C.StartUponEnterMoon = autoStartOnMoonEnter;
                 C.Save();

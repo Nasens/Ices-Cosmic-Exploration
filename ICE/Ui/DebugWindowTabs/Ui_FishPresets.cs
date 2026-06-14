@@ -108,9 +108,12 @@ namespace ICE.Ui.DebugWindowTabs
                     }
                     else
                     {
-                        IceLogging.Error("Not a valid autohook preset.\n" +
-                                         "Expected to start with: AH4_\n" +
-                                         $"Text: {clipboard}");
+                        // IceLogging.Error("Not a valid autohook preset.\n" +
+                        IceLogging.Error("无效的 AutoHook 预设。\n" +
+                                         // "Expected to start with: AH4_\n" +
+                                         "应以 AH4_ 开头\n" +
+                                         // $"Text: {clipboard}");
+                                         $"文本：{clipboard}");
                     }
                 }
                 ImGui.SameLine(0, 10);

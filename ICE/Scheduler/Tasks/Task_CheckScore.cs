@@ -23,7 +23,8 @@ namespace ICE.Scheduler.Tasks
             }
             else if (CosmicHelper.CrafterJobList.Any(x => jobs.Contains(x)))
             {
-                IceLogging.Info("Currently on a crafting job, checking for crafting scoring", "Task: Score Check");
+                // IceLogging.Info("Currently on a crafting job, checking for crafting scoring", "Task: Score Check");
+                IceLogging.Info("当前为制作职业，正在检查制作计分", "Task: Score Check");
                 P.TaskManager.Enqueue(() => SchedulerMain.State = IceState.Craft);
                 P.TaskManager.Enqueue(() => Craft_V2(), "Checking for crafting score mission");
             }
@@ -195,7 +196,8 @@ namespace ICE.Scheduler.Tasks
 
                             if (shouldTurnin)
                             {
-                                IceLogging.Info("The threshold for scoring was met. Time to turnin", tag);
+                                // IceLogging.Info("The threshold for scoring was met. Time to turnin", tag);
+                                IceLogging.Info("已达计分阈值，准备交付", tag);
                                 SchedulerMain.State = IceState.TurninMission;
                                 P.TaskManager.Tasks.Clear();
 
@@ -237,7 +239,8 @@ namespace ICE.Scheduler.Tasks
                 if (EzThrottler.Throttle("Opening the moon hud", 1000))
                 {
                     moonHud.Mission();
-                    IceLogging.Info("Hud wasn't visible. Opening it", "[Score Check]");
+                    // IceLogging.Info("Hud wasn't visible. Opening it", "[Score Check]");
+                    IceLogging.Info("界面未显示，正在打开", "[Score Check]");
                 }
             }
 
@@ -274,18 +277,21 @@ namespace ICE.Scheduler.Tasks
                     {
                         if (currentScore < sheet.BronzeScore)
                         {
-                            IceLogging.Info("We still need score for the critical mission, so going to craft some more", tag);
+                            // IceLogging.Info("We still need score for the critical mission, so going to craft some more", tag);
+                            IceLogging.Info("紧急任务仍需分数，继续制作", tag);
                             SchedulerMain.State = IceState.Craft;
                             return true;
                         }
                         else
                         {
-                            IceLogging.Info("Minimum score for criticals has been hit WOOO", tag);
+                            // IceLogging.Info("Minimum score for criticals has been hit WOOO", tag);
+                            IceLogging.Info("紧急任务已达最低分数", tag);
                         }
                     }
                     else if (rank == MissionRank.None)
                     {
-                        IceLogging.Info("We haven't completed the minimum crafts required for the turnin. Going to craft more", tag);
+                        // IceLogging.Info("We haven't completed the minimum crafts required for the turnin. Going to craft more", tag);
+                        IceLogging.Info("未完成交付所需的最低制作次数，继续制作", tag);
                         return true;
                     }
 
@@ -330,7 +336,8 @@ namespace ICE.Scheduler.Tasks
 
                         if (shouldTurnin)
                         {
-                            IceLogging.Info("The threshold for scoring was met. Time to turnin", tag);
+                            // IceLogging.Info("The threshold for scoring was met. Time to turnin", tag);
+                            IceLogging.Info("已达计分阈值，准备交付", tag);
                             SchedulerMain.State = IceState.TurninMission;
                             P.TaskManager.Tasks.Clear();
 
@@ -363,7 +370,8 @@ namespace ICE.Scheduler.Tasks
                 if (EzThrottler.Throttle("Opening the moon hud", 1000))
                 {
                     moonHud.Mission();
-                    IceLogging.Info("Hud wasn't visible. Opening it", "[Score Check]");
+                    // IceLogging.Info("Hud wasn't visible. Opening it", "[Score Check]");
+                    IceLogging.Info("界面未显示，正在打开", "[Score Check]");
                 }
             }
 
@@ -395,14 +403,16 @@ namespace ICE.Scheduler.Tasks
                         {
                             if (PlayerHelper.GetItemCount(item.Key, out var count) && count < item.Value)
                             {
-                                IceLogging.Info("We're still missing items for the critical mission, so continuing on", tag);
+                                // IceLogging.Info("We're still missing items for the critical mission, so continuing on", tag);
+                                IceLogging.Info("紧急任务仍缺少物品，继续执行", tag);
                                 return true;
                             }
                         }
                     }
                     else if (rank == MissionRank.None)
                     {
-                        IceLogging.Info("We still haven't achieved atleast bronze scoring for the missions. So we're going to continue on", tag);
+                        // IceLogging.Info("We still haven't achieved atleast bronze scoring for the missions. So we're going to continue on", tag);
+                        IceLogging.Info("任务尚未达到铜牌分数，继续执行", tag);
                         return true;
                     }
 
@@ -459,7 +469,8 @@ namespace ICE.Scheduler.Tasks
 
                         if (shouldTurnin)
                         {
-                            IceLogging.Info("The threshold for scoring was met. Time to turnin", tag);
+                            // IceLogging.Info("The threshold for scoring was met. Time to turnin", tag);
+                            IceLogging.Info("已达计分阈值，准备交付", tag);
                             SchedulerMain.State = IceState.TurninMission;
                             P.TaskManager.Tasks.Clear();
 
@@ -492,7 +503,8 @@ namespace ICE.Scheduler.Tasks
                 if (EzThrottler.Throttle("Opening the moon hud", 1000))
                 {
                     moonHud.Mission();
-                    IceLogging.Info("Hud wasn't visible. Opening it", "[Score Check]");
+                    // IceLogging.Info("Hud wasn't visible. Opening it", "[Score Check]");
+                    IceLogging.Info("界面未显示，正在打开", "[Score Check]");
                 }
             }
 
@@ -529,7 +541,8 @@ namespace ICE.Scheduler.Tasks
 
                 if (shouldTurnin)
                 {
-                    IceLogging.Info("The threshold for scoring was met. Time to turnin", tag);
+                    // IceLogging.Info("The threshold for scoring was met. Time to turnin", tag);
+                    IceLogging.Info("已达计分阈值，准备交付", tag);
                     SchedulerMain.State = IceState.TurninMission;
                     P.TaskManager.Tasks.Clear();
 
@@ -548,7 +561,8 @@ namespace ICE.Scheduler.Tasks
                 if (EzThrottler.Throttle("Opening the moon hud", 1000))
                 {
                     moonHud.Mission();
-                    IceLogging.Info("Hud wasn't visible. Opening it", tag);
+                    // IceLogging.Info("Hud wasn't visible. Opening it", tag);
+                    IceLogging.Info("界面未显示，正在打开", tag);
                 }
             }
 

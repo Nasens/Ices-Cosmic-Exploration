@@ -49,7 +49,8 @@ namespace ICE.Scheduler.Tasks
                 }
                 else if (dualClass)
                 {
-                    IceLogging.Info("We've found a dual class mission! Kicking it off with that.", "[Task: Execute Mission]");
+                    // IceLogging.Info("We've found a dual class mission! Kicking it off with that.", "[Task: Execute Mission]");
+                    IceLogging.Info("检测到双职业任务，开始执行。", "[Task: Execute Mission]");
                     SchedulerMain.State = IceState.DualClass;
                     if (fishingMission)
                     {
