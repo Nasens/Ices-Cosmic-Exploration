@@ -17,7 +17,7 @@
 mono_crash.*
 
 # Local build output (not for repo)
-dist/
+ICE-latest/
 
 # Build results
 [Dd]ebug/
@@ -404,5 +404,5 @@ FodyWeavers.xsd
 
 # Local build outputs
 build-output/
-dist/
+ICE-latest/
 .dalamud-dev/

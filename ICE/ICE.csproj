@@ -2,14 +2,12 @@
 <Project Sdk="Dalamud.NET.Sdk/15.0.0">
 
 	<PropertyGroup>
-		<Version>0.0.78.15</Version>
 		<Description>Who said we couldn't explore the moon!.</Description>
 		<PackageProjectUrl>https://github.com/goatcorp/ICE</PackageProjectUrl>
 		<PackageLicenseExpression>AGPL-3.0-or-later</PackageLicenseExpression>
 		<IsPackable>true</IsPackable>
 		<RootNamespace>ICE</RootNamespace>
 		<TargetFramework>net10.0-windows8.0</TargetFramework>
-		<InformationalVersion>$([System.DateTime]::UtcNow.ToString("yyyy\-MM\-dd HH\:mm\:ss"))</InformationalVersion>
 		<IncludeSourceRevisionInInformationalVersion>false</IncludeSourceRevisionInInformationalVersion>
 		<NoWarn>CS8618; CS8625; CS8629; </NoWarn>
 	</PropertyGroup>
@@ -78,5 +76,16 @@
 	<!-- OtterGui depends on nested submodule OtterGuiInternal; init recursively if missing -->
 	<Target Name="EnsureOtterGuiSubmodules" BeforeTargets="BeforeBuild" Condition="!Exists('$(MSBuildThisFileDirectory)..\OtterGui\OtterGuiInternal\OtterGuiInternal.csproj')">
 		<Exec Command="git submodule update --init --recursive OtterGui" WorkingDirectory="$(MSBuildThisFileDirectory).." />
+	</Target>
+
+	<!-- Fork version: 0.0.(main[2]+sync).(main[3]+translation) from ../fork-version.json -->
+	<Target Name="SetForkVersion" BeforeTargets="GetAssemblyVersion">
+		<Exec Command="powershell -NoProfile -ExecutionPolicy Bypass -File &quot;$(MSBuildThisFileDirectory)..\scripts\version.ps1&quot; -Mode PrintVersion" ConsoleToMSBuild="true" StandardOutputImportance="High">
+			<Output TaskParameter="ConsoleOutput" PropertyName="ForkVersion" />
+		</Exec>
+		<PropertyGroup>
+			<Version>$(ForkVersion)</Version>
+			<InformationalVersion>$(ForkVersion)</InformationalVersion>
+		</PropertyGroup>
 	</Target>
 </Project>
