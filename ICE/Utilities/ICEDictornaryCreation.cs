@@ -185,7 +185,7 @@ public sealed partial class ICE
                     // Auxesia Tool Mastery gather missions (Geological/Botanical).
                     // GreaterReach block below converts Chain+Boon into GreaterReach_Boon_Chain.
                     312 or 313 => MissionAttributes.Gather | MissionAttributes.Score_Chain | MissionAttributes.Score_Boon,
-                    314 => MissionAttributes.Gather,
+                    314 => MissionAttributes.Gather | MissionAttributes.Collectables,
                     _ => gatherOrFish
                 };
             }
@@ -922,6 +922,48 @@ public sealed partial class ICE
             var id = mission.Key;
             if (CosmicHelper.SheetMissionDict.TryGetValue(id, out var missionInfo))
             {
+                bool anyChanged = false;
+                if (missionInfo.IsMaster)
+                {
+                    if (mission.Value.TurninRecords.Count != 0)
+                    {
+                        if (mission.Value.TurninRecords.Any(x => x.State == TurninState.Bronze))
+                        {
+                            foreach (var turnin in mission.Value.TurninRecords)
+                            {
+                                turnin.State = TurninState.Master_Score;
+                            }
+                            if (mission.Value.TurninRecords.Any(x => x.State == TurninState.Master_Score) && mission.Value.Master_Completion == 0)
+                            {
+                                mission.Value.Master_Completion = mission.Value.TurninRecords.Where(x => x.State == TurninState.Master_Score).Count();
+                                mission.Value.BronzeCompletion = 0;
+                                anyChanged = true;
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    if (mission.Value.TurninRecords.Count != 0)
+                    {
+                        if (mission.Value.TurninRecords.Any(x => x.State == TurninState.Master_Score))
+                        {
+                            foreach (var turnin in mission.Value.TurninRecords)
+                            {
+                                turnin.State = TurninState.Bronze;
+                            }
+                            if (mission.Value.TurninRecords.Any(x => x.State == TurninState.Bronze) && mission.Value.BronzeCompletion == 0)
+                            {
+                                mission.Value.BronzeCompletion = mission.Value.TurninRecords.Where(x => x.State == TurninState.Bronze).Count();
+                                mission.Value.Master_Completion = 0;
+                                anyChanged = true;
+                            }
+                        }
+                    }
+                }
+                if (anyChanged)
+                    C.SaveDebounced();
+
                 if (!missionInfo.Jobs.Contains(18))
                     continue;
 

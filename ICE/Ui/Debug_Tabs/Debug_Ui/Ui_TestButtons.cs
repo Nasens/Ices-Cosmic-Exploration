@@ -6,7 +6,7 @@ using FFXIVClientStructs.FFXIV.Client.Game;
 using ICE.Utilities;
 using ICE.Utilities.Cosmic_Helper;
 
-namespace ICE.Ui.DebugWindowTabs
+namespace ICE.Ui.Debug_Tabs.Debug_Ui
 {
     internal class Ui_TestButtons
     {

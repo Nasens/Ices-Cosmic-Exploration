@@ -2,7 +2,7 @@
 using Pictomancy;
 using System.Collections.Generic;
 
-namespace ICE.Ui.DebugWindowTabs
+namespace ICE.Ui.Debug_Tabs.Debug_Ui
 {
     internal class Ui_NavmeshTesting
     {

@@ -3,7 +3,7 @@ using FFXIVClientStructs.FFXIV.Client.UI.Agent;
 using ICE.Utilities;
 using ICE.Utilities.Cosmic_Helper;
 
-namespace ICE.Ui.DebugWindowTabs
+namespace ICE.Ui.Debug_Tabs.Debug_Ui
 {
     internal class Ui_MapTesting
     {

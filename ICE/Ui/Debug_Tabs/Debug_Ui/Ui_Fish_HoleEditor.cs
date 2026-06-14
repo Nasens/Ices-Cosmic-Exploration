@@ -9,7 +9,7 @@ using System.Collections.Generic;
 using System.Text;
 using static ICE.Utilities.GatheringHelper.GatheringUtil;
 
-namespace ICE.Ui.DebugWindowTabs
+namespace ICE.Ui.Debug_Tabs.Debug_Ui
 {
     internal class Ui_Fish_HoleEditor
     {

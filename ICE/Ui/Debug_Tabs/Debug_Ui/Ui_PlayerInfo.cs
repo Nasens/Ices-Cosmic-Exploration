@@ -9,7 +9,7 @@ using ICE.Utilities.Cosmic_Helper;
 using ICE.Utilities.ImGuiTools;
 using System.Collections.Generic;
 
-namespace ICE.Ui.DebugWindowTabs
+namespace ICE.Ui.Debug_Tabs.Debug_Ui
 {
     internal class Ui_PlayerInfo
     {
@@ -156,6 +156,11 @@ namespace ICE.Ui.DebugWindowTabs
             if (ImGui.Button($"设置位置: {customDestination:N2}"))
             {
                 customDestination = Player.Position;
+            }
+            // if (ImGui.Button("Cordial Test"))
+            if (ImGui.Button("Cordial 测试"))
+            {
+                UseCordial();
             }
 
             // ImGui.Text($"Any need repaired: {PlayerHelper.AnyNeedsRepair(99)}");
@@ -330,6 +335,72 @@ namespace ICE.Ui.DebugWindowTabs
                 return 0;
 
             return wks->State.DevGrade;
+        }
+        public static unsafe bool UseCordial()
+        {
+            string tag = "Cordial Check";
+
+            if (!PlayerHelper.CustomIsBusy)
+            {
+                IceLogging.Debug("Cordial Checkers", tag);
+                IceLogging.Debug($"Min GP: {PlayerHelper.GetGp()} <= {C.CordialMinGp}", tag);
+
+                Dictionary<uint, (string Name, int GpGain)> cordials = new()
+                {
+                    [12669] = ("Hi-Cordial", 400),
+                    [1006141] = ("HQ Regular Cordial", 350),
+                    [6141] = ("NQ Regular Cordial", 300),
+                    [1016911] = ("HQ Watered Cordial", 200),
+                    [16911] = ("NQ Watered Cordial", 150),
+                };
+
+                foreach (var cordial in C.inverseCordialPrio ? cordials.Reverse() : cordials)
+                {
+                    IceLogging.Verbose($"Checking Cordial: {cordial.Value.Name}", tag);
+                    bool hq = cordial.Key >= 1_000_000;
+                    uint baseId = hq ? cordial.Key - 1_000_000 : cordial.Key;
+
+                    if (PlayerHelper.GetItemCount(cordial.Key, out var amount, hq, !hq) && amount > 0)
+                    {
+                        // Find the actual inventory slot and use it directly
+                        var inventoryManager = InventoryManager.Instance();
+                        var inventoryTypes = new[]
+                        {
+                                InventoryType.Inventory1, InventoryType.Inventory2,
+                                InventoryType.Inventory3, InventoryType.Inventory4
+                            };
+
+                        foreach (var invType in inventoryTypes)
+                        {
+                            var container = inventoryManager->GetInventoryContainer(invType);
+                            if (container == null) continue;
+
+                            for (int i = 0; i < container->Size; i++)
+                            {
+                                var item = container->GetInventorySlot(i);
+                                if (item == null) continue;
+                                if (item->ItemId == baseId && (hq == false || item->Flags.HasFlag(InventoryItem.ItemFlags.HighQuality)))
+                                {
+                                    IceLogging.Verbose($"We're using a cordial: ID: {cordial.Key} | Name: {cordial.Value.Name}", tag);
+                                    // AgentInventoryContext.Instance()->UseItem(item->ItemId, invType, (uint)i, 0);
+                                    return true;
+                                }
+                            }
+                        }
+                    }
+                    else
+                    {
+                        IceLogging.Verbose($"{cordial.Value.Name} | Count: {amount}");
+                    }
+                }
+            }
+            else
+            {
+                if (EzThrottler.Throttle("Cordial Busy"))
+                    IceLogging.Debug("Player is busy, skipping cordial check", tag);
+                return false;
+            }
+            return false;
         }
     }
 }

@@ -1,6 +1,4 @@
-﻿
-
-namespace ICE.Ui.DebugWindowTabs
+﻿namespace ICE.Ui.Debug_Tabs.Debug_Ui
 {
     internal class UI_Test
     {

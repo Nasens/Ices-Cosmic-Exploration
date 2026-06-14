@@ -1,7 +1,7 @@
 ﻿using FFXIVClientStructs.FFXIV.Client.Game.WKS;
 using System.Collections.Generic;
 
-namespace ICE.Ui.DebugWindowTabs
+namespace ICE.Ui.Debug_Tabs.Debug_Ui
 {
     internal class Ui_RelicInfo
     {

@@ -1,7 +1,7 @@
 ﻿using Dalamud.Interface.Utility.Raii;
 using ICE.Utilities.Cosmic_Helper;
 
-namespace ICE.Ui.DebugWindowTabs
+namespace ICE.Ui.Debug_Tabs.Debug_Ui
 {
     internal class Ui_ClassInfo
     {

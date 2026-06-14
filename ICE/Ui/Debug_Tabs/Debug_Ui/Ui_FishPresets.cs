@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Text;
 using TerraFX.Interop.Windows;
 
-namespace ICE.Ui.DebugWindowTabs
+namespace ICE.Ui.Debug_Tabs.Debug_Ui
 {
     internal class Ui_FishPresets
     {

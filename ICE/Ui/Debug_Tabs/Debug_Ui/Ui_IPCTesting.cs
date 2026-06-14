@@ -4,7 +4,7 @@ using ICE.Utilities.Cosmic_Helper;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace ICE.Ui.DebugWindowTabs
+namespace ICE.Ui.Debug_Tabs.Debug_Ui
 {
     internal class Ui_IPCTesting
     {
@@ -264,7 +264,15 @@ namespace ICE.Ui.DebugWindowTabs
             // if (ImGui.Button("Test Glamour"))
             if (ImGui.Button("测试 Glamour"))
             {
-                P.GlamourIpc.SetClownNose();
+                P.GlamourIpc.SetClownHead();
+            }
+            if (ImGui.Button("Test Hat"))
+            {
+                P.GlamourIpc.SetHat();
+            }
+            if (ImGui.Button("Test Visor"))
+            {
+                P.GlamourIpc.SetVisor();
             }
         }
 

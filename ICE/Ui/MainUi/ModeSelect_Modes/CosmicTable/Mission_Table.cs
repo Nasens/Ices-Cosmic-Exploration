@@ -8,6 +8,7 @@ using OtterGui;
 using OtterGui.Table;
 using System.Collections.Generic;
 using System.Reflection;
+using TerraFX.Interop.Windows;
 using static ICE.ConfigFiles.Config;
 using static ICE.Utilities.Cosmic_Helper.CosmicHelper;
 
@@ -834,7 +835,20 @@ namespace ICE.Ui.MainUi.ModeSelect_Modes.CosmicTable
                     return scoreInfo[TurninState.Critical].Score;
                 if (scoreInfo.TryGetValue(TurninState.SequenceGold, out var seqGold) && seqGold.Score != 0)
                     return seqGold.Score;
+                if (item.SheetInfo.IsMaster)
+                    return scoreInfo[TurninState.Master_Score].Score;
                 return scoreInfo.Values.MaxBy(r => r.Score)?.Score ?? 0;
+            }
+            private string GetName(TurninState state)
+            {
+                return state switch
+                {
+                    // TurninState.SequenceGold => "Gold Sequence",
+                    TurninState.SequenceGold => "序列金",
+                    // TurninState.Master_Score => "Master",
+                    TurninState.Master_Score => "大师",
+                    _ => CosmicHelper.TurninStateDisplayName(state)
+                };
             }
 
             public override string ToName(MissionInfo item) => $"{GetScore(item):N2}";
@@ -861,10 +875,11 @@ namespace ICE.Ui.MainUi.ModeSelect_Modes.CosmicTable
                         TurninState.Gold => new(0.85f, 0.70f, 0.0f, 1.0f), // slightly muted gold
                         TurninState.Critical => new(0.7f, 0.1f, 0.9f, 1.0f), // purple feels "special"
                         TurninState.SequenceGold => new(0.95f, 0.60f, 0.0f, 1.0f),  // amber-gold, more orange warmth
+                        TurninState.Master_Score => new(1.0f, 0.95f, 0.8f, 1.0f), // Radiant White/Gold
                         _ => new(0.5f, 0.5f, 0.5f, 0.8f)
                     };
 
-                    bool isBright = bestScore.Key is TurninState.Gold or TurninState.Silver or TurninState.SequenceGold;
+                    bool isBright = bestScore.Key is TurninState.Gold or TurninState.Silver or TurninState.SequenceGold or TurninState.Master_Score;
                     Vector4 textColor = isBright ? new(0.1f, 0.1f, 0.1f, 1.0f) : new(1.0f, 1.0f, 1.0f, 1.0f);
 
                     using (ImRaii.PushColor(ImGuiCol.Button, pillColor)
@@ -879,6 +894,11 @@ namespace ICE.Ui.MainUi.ModeSelect_Modes.CosmicTable
                         ImGui.BeginTooltip();
                         // ImGui.Text($"[Average] Rewards per minute");
                         ImGui.Text($"[平均] 每分钟收益");
+                        if (C.MissionConfig.TryGetValue(item.Id, out var config))
+                        {
+                            // ImGui.Text($"Total Completions: {config.TotalCompletions:N0}/{config.TotalAttempts:N0}");
+                            ImGui.Text($"完成次数：{config.TotalCompletions:N0}/{config.TotalAttempts:N0}");
+                        }
                         if (ImGui.BeginTable($"Score Info Table_{item.SheetInfo.MissionId}", 5, ImGuiTableFlags.SizingFixedFit | ImGuiTableFlags.RowBg | ImGuiTableFlags.Borders))
                         {
                             // ImGui.TableSetupColumn("Kind");
@@ -896,10 +916,15 @@ namespace ICE.Ui.MainUi.ModeSelect_Modes.CosmicTable
 
                             foreach (var entry in scoreInfo.Where(x => x.Value.Score != 0))
                             {
+                                if (item.SheetInfo.IsMaster && entry.Key != TurninState.Master_Score)
+                                    continue;
+                                if (item.SheetInfo.IsCritical && entry.Key != TurninState.Critical)
+                                    continue;
+
                                 ImGui.TableNextRow();
                                 ImGui.TableSetColumnIndex(0);
                                 // ImGui.Text($"{entry.Key} [{entry.Value.Completions:N0}]");
-                                ImGui.Text($"{CosmicHelper.TurninStateDisplayName(entry.Key)} [{entry.Value.Completions:N0}]");
+                                ImGui.Text($"{GetName(entry.Key)} [{entry.Value.Completions:N0}]");
 
                                 ImGui.TableNextColumn();
                                 ImGui.Text($"{entry.Value.Score:N2}");
@@ -1246,7 +1271,7 @@ namespace ICE.Ui.MainUi.ModeSelect_Modes.CosmicTable
 
                 if (gatherProfile)
                 {
-                    if (!collectable || master)
+                    if (!collectable)
                     {
                         string profileName = "???";
                         if (C.MissionConfig.TryGetValue(item.Id, out var config))
