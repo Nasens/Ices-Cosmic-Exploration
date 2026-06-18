@@ -65,12 +65,14 @@ namespace ICE.Scheduler.Tasks
                 : Player.DistanceTo(pos);
 
             if (EzThrottler.Throttle("Navmesh message throttle", navmeshThrottleMs))
-                IceLogging.Verbose("Executing Navmesh Task", handle, debugOnly: true);
+                // IceLogging.Verbose("Executing Navmesh Task", handle, debugOnly: true);
+                IceLogging.Verbose("正在执行 Navmesh 任务", handle, debugOnly: true);
 
             // Early exit if navmesh not installed
             if (!P.Navmesh.Installed)
             {
-                IceLogging.Info("We seem to be missing navmesh... so we're just going to exit here", handle);
+                // IceLogging.Info("We seem to be missing navmesh... so we're just going to exit here", handle);
+                IceLogging.Info("似乎缺少 Navmesh……因此将在此退出", handle);
                 return true;
             }
 
@@ -80,7 +82,8 @@ namespace ICE.Scheduler.Tasks
                 if (EzThrottler.Throttle("Waiting on navmesh", waitingThrottleMs))
                 {
                     var navProgress = P.Navmesh.BuildProgress();
-                    IceLogging.Debug($"Waiting for navmesh to finish building. Currently at: {navProgress:N2}", handle);
+                    // IceLogging.Debug($"Waiting for navmesh to finish building. Currently at: {navProgress:N2}", handle);
+                    IceLogging.Debug($"正在等待 Navmesh 构建完成。当前进度：{navProgress:N2}", handle);
                 }
                 return false;
             }
@@ -117,11 +120,13 @@ namespace ICE.Scheduler.Tasks
             bool useMount = ShouldUseMount(inMission);
 
             if (EzThrottler.Throttle("Navmesh message throttle", navmeshThrottleMs))
-                IceLogging.Verbose("Executing Navmesh Task", handle, debugOnly: true);
+                // IceLogging.Verbose("Executing Navmesh Task", handle, debugOnly: true);
+                IceLogging.Verbose("正在执行 Navmesh 任务", handle, debugOnly: true);
 
             if (!P.Navmesh.Installed)
             {
-                IceLogging.Info("We seem to be missing navmesh... so we're just going to exit here", handle);
+                // IceLogging.Info("We seem to be missing navmesh... so we're just going to exit here", handle);
+                IceLogging.Info("似乎缺少 Navmesh……因此将在此退出", handle);
                 return true;
             }
 
@@ -130,7 +135,8 @@ namespace ICE.Scheduler.Tasks
                 if (EzThrottler.Throttle("Waiting on navmesh", waitingThrottleMs))
                 {
                     var navProgress = P.Navmesh.BuildProgress();
-                    IceLogging.Debug($"Waiting for navmesh to finish building. Currently at: {navProgress:N2}", handle);
+                    // IceLogging.Debug($"Waiting for navmesh to finish building. Currently at: {navProgress:N2}", handle);
+                    IceLogging.Debug($"正在等待 Navmesh 构建完成。当前进度：{navProgress:N2}", handle);
                 }
                 return false;
             }
@@ -165,7 +171,8 @@ namespace ICE.Scheduler.Tasks
                 _cachedGatherPositions[nodeKey] = randomPosition;
                 _lastGatherNodeKey = nodeKey;
 
-                IceLogging.Debug($"[GatherMove] New cached position: angle={selectedAngle:F1}, dist={selectedDistance:F2}, pos={randomPosition}", handle);
+                // IceLogging.Debug($"[GatherMove] New cached position: angle={selectedAngle:F1}, dist={selectedDistance:F2}, pos={randomPosition}", handle);
+                IceLogging.Debug($"[GatherMove] 新缓存位置：angle={selectedAngle:F1}, dist={selectedDistance:F2}, pos={randomPosition}", handle);
             }
 
             Vector3 cachedPos = _cachedGatherPositions[nodeKey];
@@ -247,7 +254,8 @@ namespace ICE.Scheduler.Tasks
             if (Player.IsMoving && waitForBusy)
             {
                 if (EzThrottler.Throttle("Throttle message tehe", movingMessageThrottleMs))
-                    IceLogging.Verbose("We're currently moving, and we were told to wait for us to NOT be moving so... yeah, we waiting", handle);
+                    // IceLogging.Verbose("We're currently moving, and we were told to wait for us to NOT be moving so... yeah, we waiting", handle);
+                    IceLogging.Verbose("当前正在移动，但被要求等待移动停止……所以我们继续等待", handle);
                 return false;
             }
 
@@ -255,7 +263,8 @@ namespace ICE.Scheduler.Tasks
             if (!waitForBusy && distanceToTarget <= distance)
             {
                 if (EzThrottler.Throttle("Distance stop throttle"))
-                    IceLogging.Debug("We're within stopping distance, so stopping navmesh", handle);
+                    // IceLogging.Debug("We're within stopping distance, so stopping navmesh", handle);
+                    IceLogging.Debug("已进入停止距离内，正在停止 Navmesh", handle);
                 P.Navmesh.Stop();
             }
 
@@ -300,7 +309,8 @@ namespace ICE.Scheduler.Tasks
             // Start navmesh pathfinding
             if (EzThrottler.Throttle("Telling navmesh to start"))
             {
-                IceLogging.Debug("Telling navmesh to start pathfinding", handle);
+                // IceLogging.Debug("Telling navmesh to start pathfinding", handle);
+                IceLogging.Debug("正在通知 Navmesh 开始寻路", handle);
                 whenStarted = DateTime.Now;
                 ResetInfo();
                 IceLogging.DestinationLogs.Log(pos);
@@ -326,9 +336,12 @@ namespace ICE.Scheduler.Tasks
 
             if (EzThrottler.Throttle($"Met Location throttle", 5000))
             {
-                IceLogging.Debug("We've met the distance threshold for our destination", handle);
-                IceLogging.Debug($"Player Distance: {distanceToTarget:N2}");
-                IceLogging.Debug($"Expected Distance: {requiredDistance}");
+                // IceLogging.Debug("We've met the distance threshold for our destination", handle);
+                IceLogging.Debug("已达到目标点的距离阈值", handle);
+                // IceLogging.Debug($"Player Distance: {distanceToTarget:N2}");
+                IceLogging.Debug($"玩家距离：{distanceToTarget:N2}");
+                // IceLogging.Debug($"Expected Distance: {requiredDistance}");
+                IceLogging.Debug($"预期距离：{requiredDistance}");
             }
             ResetInfo();
             return true;
@@ -357,9 +370,12 @@ namespace ICE.Scheduler.Tasks
             // Throttled logging for debug purposes
             if (EzThrottler.Throttle("Log stuck info", stuckCheckLogThrottleMs))
             {
-                IceLogging.Verbose($"Last time checked: {timeSinceLastChecked:N0}ms");
-                IceLogging.Verbose($"Navmesh Start time: {navmeshStartTime:N0}ms");
-                IceLogging.Verbose($"Current Pos: {currentPos:N2} | Last position: {lastPosition:N2} | Distance: {distanceMoved:N2}");
+                // IceLogging.Verbose($"Last time checked: {timeSinceLastChecked:N0}ms");
+                IceLogging.Verbose($"上次检查时间：{timeSinceLastChecked:N0}ms");
+                // IceLogging.Verbose($"Navmesh Start time: {navmeshStartTime:N0}ms");
+                IceLogging.Verbose($"Navmesh 开始时间：{navmeshStartTime:N0}ms");
+                // IceLogging.Verbose($"Current Pos: {currentPos:N2} | Last position: {lastPosition:N2} | Distance: {distanceMoved:N2}");
+                IceLogging.Verbose($"当前位置：{currentPos:N2} | 上次位置：{lastPosition:N2} | 距离：{distanceMoved:N2}");
             }
             */
 
@@ -368,7 +384,8 @@ namespace ICE.Scheduler.Tasks
             {
                 if (C.RetargetIfStuck && EzThrottler.Throttle("Retarget if stuck", 1000))
                 {
-                    IceLogging.Debug("Stuck detected - stopping navmesh to trigger retarget");
+                    // IceLogging.Debug("Stuck detected - stopping navmesh to trigger retarget");
+                    IceLogging.Debug("检测到卡住 - 正在停止 Navmesh 以触发重新选择目标");
                     P.Navmesh.Stop();
                     ResetInfo();
                     return;
@@ -573,7 +590,8 @@ namespace ICE.Scheduler.Tasks
             }
             else
             {
-                IceLogging.Verbose("Navmesh was not installed, so we're not even going to attempt to move", "Enqueue Navmesh");
+                // IceLogging.Verbose("Navmesh was not installed, so we're not even going to attempt to move", "Enqueue Navmesh");
+                IceLogging.Verbose("未安装 Navmesh，因此根本不会尝试移动", "Enqueue Navmesh");
             }
         }
         public static void Enqueue_RedAlertNavmesh(Vector3 destination, bool waitForBusy = true, float distance = 2.0f, uint missionId = 0)
@@ -591,7 +609,8 @@ namespace ICE.Scheduler.Tasks
             }
             else
             {
-                IceLogging.Verbose("Navmesh was not installed, so we're not even going to attempt to move", "Enqueue Navmesh");
+                // IceLogging.Verbose("Navmesh was not installed, so we're not even going to attempt to move", "Enqueue Navmesh");
+                IceLogging.Verbose("未安装 Navmesh，因此根本不会尝试移动", "Enqueue Navmesh");
             }
         }
 
@@ -623,7 +642,8 @@ namespace ICE.Scheduler.Tasks
                 if (GenericHelpers.TryGetAddonMaster<WKSHistoryBoard>("WKSHistoryBoard", out var progress) && progress.IsAddonReady)
                 {
                     PlanetProgress[territoryId] = progress.NumEntries;
-                    IceLogging.Info($"We've updated the entried to contain the following value: {PlanetProgress[territoryId]}");
+                    // IceLogging.Info($"We've updated the entried to contain the following value: {PlanetProgress[territoryId]}");
+                    IceLogging.Info($"已将条目更新为以下值：{PlanetProgress[territoryId]}");
                     if (EzThrottler.Throttle("Closing addon"))
                         GenericHandlers.FireCallback("WKSHistoryBoard", true, -1);
                 }
@@ -641,13 +661,15 @@ namespace ICE.Scheduler.Tasks
             var territory = Player.Territory.RowId;
             if (!PlanetAethernet.TryGetValue(territory, out var aetherList))
             {
-                IceLogging.Info("No valid aethernets, returning", tag);
+                // IceLogging.Info("No valid aethernets, returning", tag);
+                IceLogging.Info("没有有效的以太网传送点，正在返回", tag);
                 return true;
             }
 
             if (!C.UseAethernet)
             {
-                IceLogging.Info("We have aethernet travel turned off, so continuing");
+                // IceLogging.Info("We have aethernet travel turned off, so continuing");
+                IceLogging.Info("以太网传送已关闭，继续执行");
                 return true;
             }
 
@@ -660,13 +682,15 @@ namespace ICE.Scheduler.Tasks
 
             if (closestAetheryte == null || destinationAetheryte == null)
             {
-                IceLogging.Info("Was not able to find a valid aetheryte for either going to or destination, continuing", tag);
+                // IceLogging.Info("Was not able to find a valid aetheryte for either going to or destination, continuing", tag);
+                IceLogging.Info("未能为出发点或目的地找到有效的以太之晶，继续执行", tag);
                 return true;
             }
 
             if (closestAetheryte.Location == destinationAetheryte.Location)
             {
-                IceLogging.Info("Both aetherytes were the same ID/Location, so we don't need to take one, continuing", tag);
+                // IceLogging.Info("Both aetherytes were the same ID/Location, so we don't need to take one, continuing", tag);
+                IceLogging.Info("两个以太之晶的 ID/位置相同，无需传送，继续执行", tag);
                 return true;
             }
 
@@ -683,7 +707,8 @@ namespace ICE.Scheduler.Tasks
                     aethernet.pathFrom = await FindPath(destinationAetheryte.LandZone, destination);
                 });
                 if (EzThrottler.Throttle("Started task"))
-                    IceLogging.Verbose("Started to calculate path", tag);
+                    // IceLogging.Verbose("Started to calculate path", tag);
+                    IceLogging.Verbose("开始计算路径", tag);
                 return false; // Keep checking
             }
 
@@ -692,7 +717,8 @@ namespace ICE.Scheduler.Tasks
             {
                 if (EzThrottler.Throttle("Calculating path message", 1000))
                 {
-                    IceLogging.Verbose("Still calculating path that would be between aetherytes (via navmesh)", tag);
+                    // IceLogging.Verbose("Still calculating path that would be between aetherytes (via navmesh)", tag);
+                    IceLogging.Verbose("仍在计算两个以太之晶之间的路径（通过 Navmesh）", tag);
                 }
 
                 return false; // Still calculating
@@ -746,7 +772,8 @@ namespace ICE.Scheduler.Tasks
                     method.pathTo = await FindPath(playerPosition, destination);
                 });
                 if (EzThrottler.Throttle("Started task"))
-                    IceLogging.Verbose("Started to calculate path", tag);
+                    // IceLogging.Verbose("Started to calculate path", tag);
+                    IceLogging.Verbose("开始计算路径", tag);
                 return false; // Keep checking
             }
 
@@ -755,7 +782,8 @@ namespace ICE.Scheduler.Tasks
             {
                 if (EzThrottler.Throttle("Calculating path message", 1000))
                 {
-                    IceLogging.Verbose("Still calculating path that would be direct (via navmesh)", tag);
+                    // IceLogging.Verbose("Still calculating path that would be direct (via navmesh)", tag);
+                    IceLogging.Verbose("仍在计算直达路径（通过 Navmesh）", tag);
                 }
 
                 return false; // Still calculating
@@ -780,7 +808,8 @@ namespace ICE.Scheduler.Tasks
                     method.distance = distance;
                 }
             }
-            IceLogging.Info($"Direct Pathing Complete", tag);
+            // IceLogging.Info($"Direct Pathing Complete", tag);
+            IceLogging.Info($"直达寻路完成", tag);
             return true;
         }
         private static bool? CalculateRedAlert(uint missionId, Vector3 destination)
@@ -792,7 +821,8 @@ namespace ICE.Scheduler.Tasks
 
             if (!C.UseRedAlertNpc)
             {
-                IceLogging.Info("We were told not to use the red alert NPC travel method, so we're going to just nope out of here", tag);
+                // IceLogging.Info("We were told not to use the red alert NPC travel method, so we're going to just nope out of here", tag);
+                IceLogging.Info("设置为不使用红色警报 NPC 传送方式，因此直接跳过", tag);
                 return true;
             }
             else if (NpcData.MoonNpcs.TryGetValue(territoryId, out var planetInfo))
@@ -801,7 +831,8 @@ namespace ICE.Scheduler.Tasks
                 {
                     if (!GatheringUtil.CriticalSpots.TryGetValue(criticalKey, out var approxStart))
                     {
-                        IceLogging.Warning($"No red-alert turn-in coords for critical route: {criticalKey} on {CosmicMoonRegistry.GetDisplayName(territoryId)} — add to RedAlert_Selection", tag);
+                        // IceLogging.Warning($"No red-alert turn-in coords for critical route: {criticalKey} on {CosmicMoonRegistry.GetDisplayName(territoryId)} — add to RedAlert_Selection", tag);
+                        IceLogging.Warning($"关键路线 {criticalKey}（位于 {CosmicMoonRegistry.GetDisplayName(territoryId)}）没有红色警报交付坐标 — 请添加到 RedAlert_Selection", tag);
                         return true;
                     }
 
@@ -817,14 +848,16 @@ namespace ICE.Scheduler.Tasks
                             method.pathFrom = await FindPath(approxStart.WorldCords, destination);
                         });
                         if (EzThrottler.Throttle("Started task: Direct"))
-                            IceLogging.Verbose("Started to calculate path", tag);
+                            // IceLogging.Verbose("Started to calculate path", tag);
+                            IceLogging.Verbose("开始计算路径", tag);
                         return false;
                     }
 
                     if (!_PathCalculations.IsCompleted)
                     {
                         if (EzThrottler.Throttle("Calculating path message", 1000))
-                            IceLogging.Verbose("Still calculating path for red alert (via navmesh)", tag);
+                            // IceLogging.Verbose("Still calculating path for red alert (via navmesh)", tag);
+                            IceLogging.Verbose("仍在计算红色警报的路径（通过 Navmesh）", tag);
 
                         return false; // Still calculating
                     }
@@ -857,13 +890,14 @@ namespace ICE.Scheduler.Tasks
                         method.distance = distance;
                     }
 
-                    IceLogging.Info($"Hub -> Aethernet Complete", tag);
+                    // IceLogging.Info($"Hub -> Aethernet Complete", tag);
+                    IceLogging.Info($"Hub -> 以太网 完成", tag);
                     return true;
                 }
                 else
                 {
                     // IceLogging.Error("This territory doesn't exist... which means I fucked up and haven't added it, or it's the new planet. Lmk", tag);
-                IceLogging.Error("该区域尚未录入（可能是新星球），请反馈", tag);
+                    IceLogging.Error("该区域尚未录入（可能是新星球），请反馈", tag);
                 }
             }
             else
@@ -884,7 +918,8 @@ namespace ICE.Scheduler.Tasks
 
                 if (!C.UseHubReturn)
                 {
-                    IceLogging.Info("We were told not to use hub return, so we're going to respect your decision", tag);
+                    // IceLogging.Info("We were told not to use hub return, so we're going to respect your decision", tag);
+                    IceLogging.Info("设置为不使用 Hub 返回，将尊重你的选择", tag);
                 }
 
                 if (Player.DistanceTo(HubCenter) > C.HubReturn_Distance)
@@ -896,7 +931,8 @@ namespace ICE.Scheduler.Tasks
                             TravelMethods[TravelTypes.Hub_Return].pathTo = await FindPath(HubCenter, destination);
                         });
                         if (EzThrottler.Throttle("Started task"))
-                            IceLogging.Verbose("Started to calculate path", tag);
+                            // IceLogging.Verbose("Started to calculate path", tag);
+                            IceLogging.Verbose("开始计算路径", tag);
                         return false; // Keep checking
                     }
 
@@ -905,7 +941,8 @@ namespace ICE.Scheduler.Tasks
                     {
                         if (EzThrottler.Throttle("Calculating path message", 1000))
                         {
-                            IceLogging.Verbose("Still calculating path that would be direct (via navmesh)", tag);
+                            // IceLogging.Verbose("Still calculating path that would be direct (via navmesh)", tag);
+                            IceLogging.Verbose("仍在计算直达路径（通过 Navmesh）", tag);
                         }
 
                         return false; // Still calculating
@@ -931,13 +968,16 @@ namespace ICE.Scheduler.Tasks
                             method.distance = distance;
                         }
                     }
-                    IceLogging.Info("HubPath Calculations Complete", tag);
+                    // IceLogging.Info("HubPath Calculations Complete", tag);
+                    IceLogging.Info("Hub 路径计算完成", tag);
                     return true;
                 }
                 else
                 {
-                    IceLogging.Info("We're within walking distance of the hub currently, so teleporting seems... reduntant to say the least. \n" +
-                        "Going to just in turn set this to 0");
+                    // IceLogging.Info("We're within walking distance of the hub currently, so teleporting seems... reduntant to say the least. \n" +
+                    //     "Going to just in turn set this to 0");
+                    IceLogging.Info("当前在 Hub 的步行距离内，传送显得……至少可以说是多余的。\n" +
+                        "因此直接将其设为 0");
                     method.distance = 0;
                     return true;
                 }
@@ -961,12 +1001,14 @@ namespace ICE.Scheduler.Tasks
 
                 if (!C.UseHubReturn)
                 {
-                    IceLogging.Info("We were told no hub return, so not going to do so", tag);
+                    // IceLogging.Info("We were told no hub return, so not going to do so", tag);
+                    IceLogging.Info("设置为不使用 Hub 返回，因此不会执行", tag);
                     return true;
                 }
                 if (!C.UseAethernet)
                 {
-                    IceLogging.Info("We were told no teleporting via aethernet, so we shall respect this decision");
+                    // IceLogging.Info("We were told no teleporting via aethernet, so we shall respect this decision");
+                    IceLogging.Info("设置为不通过以太网传送，将尊重此选择");
                     return true;
                 }
 
@@ -975,7 +1017,8 @@ namespace ICE.Scheduler.Tasks
                     var territory = Player.Territory.RowId;
                     if (!PlanetAethernet.TryGetValue(territory, out var aetherList))
                     {
-                        IceLogging.Info("No valid aethernets, returning", tag);
+                        // IceLogging.Info("No valid aethernets, returning", tag);
+                        IceLogging.Info("没有有效的以太网传送点，正在返回", tag);
                         return true;
                     }
 
@@ -986,22 +1029,28 @@ namespace ICE.Scheduler.Tasks
 
                     if (closestAetheryte == null || destinationAetheryte == null)
                     {
-                        IceLogging.Info("Was not able to find a valid aetheryte for either going to or destination, continuing", tag);
+                        // IceLogging.Info("Was not able to find a valid aetheryte for either going to or destination, continuing", tag);
+                        IceLogging.Info("未能为出发点或目的地找到有效的以太之晶，继续执行", tag);
                         return true;
                     }
 
                     if (closestAetheryte.Location == destinationAetheryte.Location)
                     {
-                        IceLogging.Info("Both aetherytes were the same ID/Location, so we don't need to take one, continuing", tag);
+                        // IceLogging.Info("Both aetherytes were the same ID/Location, so we don't need to take one, continuing", tag);
+                        IceLogging.Info("两个以太之晶的 ID/位置相同，无需传送，继续执行", tag);
                         return true;
                     }
 
                     if (_PathCalculations == null)
                     {
-                        IceLogging.Verbose($"Hub Center: {HubCenter}\n" +
-                            $"Closest Aetheryte: {closestAetheryte.LandZone}\n" +
-                            $"Destination Aetheryte: {destinationAetheryte.LandZone}\n" +
-                            $"Destination: {destination}", tag);
+                        // IceLogging.Verbose($"Hub Center: {HubCenter}\n" +
+                        //     $"Closest Aetheryte: {closestAetheryte.LandZone}\n" +
+                        //     $"Destination Aetheryte: {destinationAetheryte.LandZone}\n" +
+                        //     $"Destination: {destination}", tag);
+                        IceLogging.Verbose($"Hub 中心：{HubCenter}\n" +
+                            $"最近的以太之晶：{closestAetheryte.LandZone}\n" +
+                            $"目的地以太之晶：{destinationAetheryte.LandZone}\n" +
+                            $"目的地：{destination}", tag);
 
                         _PathCalculations = Task.Run(async () =>
                         {
@@ -1009,7 +1058,8 @@ namespace ICE.Scheduler.Tasks
                             method.pathFrom = await FindPath(destinationAetheryte.LandZone, destination);
                         });
                         if (EzThrottler.Throttle("Started task: Direct"))
-                            IceLogging.Verbose("Started to calculate path", tag);
+                            // IceLogging.Verbose("Started to calculate path", tag);
+                            IceLogging.Verbose("开始计算路径", tag);
                         return false; // Keep checking
                     }
 
@@ -1018,7 +1068,8 @@ namespace ICE.Scheduler.Tasks
                     {
                         if (EzThrottler.Throttle("Calculating path message", 1000))
                         {
-                            IceLogging.Verbose("Still calculating path that would be direct (via navmesh)", tag);
+                            // IceLogging.Verbose("Still calculating path that would be direct (via navmesh)", tag);
+                            IceLogging.Verbose("仍在计算直达路径（通过 Navmesh）", tag);
                         }
 
                         return false; // Still calculating
@@ -1054,12 +1105,14 @@ namespace ICE.Scheduler.Tasks
                         method.Aethernet_TravelFrom = destinationAetheryte.AethernetId;
                     }
 
-                    IceLogging.Info($"Hub -> Aethernet Complete", tag);
+                    // IceLogging.Info($"Hub -> Aethernet Complete", tag);
+                    IceLogging.Info($"Hub -> 以太网 完成", tag);
                     return true;
                 }
                 else
                 {
-                    IceLogging.Info("Player distance to the hub center is more than 50, which seems reduntant to cast a hub return in there, so going to just set this to 0", tag);
+                    // IceLogging.Info("Player distance to the hub center is more than 50, which seems reduntant to cast a hub return in there, so going to just set this to 0", tag);
+                    IceLogging.Info("玩家与 Hub 中心的距离超过 50，在此施放 Hub 返回显得多余，因此直接将其设为 0", tag);
                     method.distance = 0;
                     return true;
                 }
@@ -1090,7 +1143,8 @@ namespace ICE.Scheduler.Tasks
 
             if (!GatheringUtil.CriticalSpots.TryGetValue(criticalKey, out var criticalInfo))
             {
-                IceLogging.Warning($"No red-alert turn-in coords for mission {missionId} — hub return via NPC skipped");
+                // IceLogging.Warning($"No red-alert turn-in coords for mission {missionId} — hub return via NPC skipped");
+                IceLogging.Warning($"任务 {missionId} 没有红色警报交付坐标 — 跳过通过 NPC 的 Hub 返回");
                 return true;
             }
 
@@ -1104,10 +1158,14 @@ namespace ICE.Scheduler.Tasks
                         {
                             if (_PathCalculations == null)
                             {
-                                IceLogging.Verbose("Doing the following calculations:\n" +
-                                    "Hub Center -> Npc\n" +
-                                    "Npc -> Teleport spot\n" +
-                                    "Teleport spot -> Destination");
+                                // IceLogging.Verbose("Doing the following calculations:\n" +
+                                //     "Hub Center -> Npc\n" +
+                                //     "Npc -> Teleport spot\n" +
+                                //     "Teleport spot -> Destination");
+                                IceLogging.Verbose("正在进行以下计算：\n" +
+                                    "Hub 中心 -> NPC\n" +
+                                    "NPC -> 传送点\n" +
+                                    "传送点 -> 目的地");
 
                                 _PathCalculations = Task.Run(async () =>
                                 {
@@ -1115,14 +1173,16 @@ namespace ICE.Scheduler.Tasks
                                     method.pathFrom = await FindPath(criticalInfo.WorldCords, destination);
                                 });
                                 if (EzThrottler.Throttle("Started task: Direct"))
-                                    IceLogging.Verbose("Started to calculate path", tag);
+                                    // IceLogging.Verbose("Started to calculate path", tag);
+                                    IceLogging.Verbose("开始计算路径", tag);
                                 return false; // Keep checking
                             }
 
                             if (!_PathCalculations.IsCompleted)
                             {
                                 if (EzThrottler.Throttle("Calculating path message", 1000))
-                                    IceLogging.Verbose("Still calculating path for red alert (via navmesh)", tag);
+                                    // IceLogging.Verbose("Still calculating path for red alert (via navmesh)", tag);
+                                    IceLogging.Verbose("仍在计算红色警报的路径（通过 Navmesh）", tag);
 
                                 return false; // Still calculating
                             }
@@ -1155,20 +1215,21 @@ namespace ICE.Scheduler.Tasks
                                 method.distance = distance * 1.2f;
                             }
 
-                            IceLogging.Info($"Hub -> Aethernet Complete", tag);
+                            // IceLogging.Info($"Hub -> Aethernet Complete", tag);
+                            IceLogging.Info($"Hub -> 以太网 完成", tag);
                             return true;
                         }
                     }
                     else
                     {
                         // IceLogging.Error("This territory doesn't exist... which means I fucked up and haven't added it, or it's the new planet. Lmk", tag);
-                IceLogging.Error("该区域尚未录入（可能是新星球），请反馈", tag);
+                        IceLogging.Error("该区域尚未录入（可能是新星球），请反馈", tag);
                     }
                 }
                 else
                 {
                     // IceLogging.Error("This territory doesn't exist... which means I fucked up and haven't added it, or it's the new planet. Lmk", tag);
-                IceLogging.Error("该区域尚未录入（可能是新星球），请反馈", tag);
+                    IceLogging.Error("该区域尚未录入（可能是新星球），请反馈", tag);
                 }
             }
             else
@@ -1226,7 +1287,8 @@ namespace ICE.Scheduler.Tasks
             {
                 if (!NpcData.TryGetNpc(Player.Territory.RowId, NpcData.NpcType.RedAlert, out var redAlertNpc))
                 {
-                    IceLogging.Warning($"No red-alert NPC configured for {CosmicMoonRegistry.GetDisplayName(Player.Territory.RowId)}");
+                    // IceLogging.Warning($"No red-alert NPC configured for {CosmicMoonRegistry.GetDisplayName(Player.Territory.RowId)}");
+                    IceLogging.Warning($"未配置 {CosmicMoonRegistry.GetDisplayName(Player.Territory.RowId)} 的红色警报 NPC");
                     P.TaskManager.Insert(() => DestinationPathing(destination, waitForBusy, distance), "Pathing to our destination: Basic");
                     return true;
                 }
@@ -1242,7 +1304,8 @@ namespace ICE.Scheduler.Tasks
             {
                 if (!NpcData.TryGetNpc(Player.Territory.RowId, NpcData.NpcType.RedAlert, out var redAlertNpc))
                 {
-                    IceLogging.Warning($"No red-alert NPC configured for {CosmicMoonRegistry.GetDisplayName(Player.Territory.RowId)}");
+                    // IceLogging.Warning($"No red-alert NPC configured for {CosmicMoonRegistry.GetDisplayName(Player.Territory.RowId)}");
+                    IceLogging.Warning($"未配置 {CosmicMoonRegistry.GetDisplayName(Player.Territory.RowId)} 的红色警报 NPC");
                     P.TaskManager.Insert(() => DestinationPathing(destination, waitForBusy, distance), "Pathing to our destination: Basic");
                     return true;
                 }
@@ -1319,7 +1382,8 @@ namespace ICE.Scheduler.Tasks
                     if (randomCounter < 2)
                     {
                         if (EzThrottler.Throttle("Wait for random encounter"))
-                            IceLogging.Verbose("Waiting for the random timer to fully randomize");
+                            // IceLogging.Verbose("Waiting for the random timer to fully randomize");
+                            IceLogging.Verbose("正在等待随机计时器完成随机化");
 
                         return false;
                     }
@@ -1342,7 +1406,8 @@ namespace ICE.Scheduler.Tasks
                 }
                 else
                 {
-                    IceLogging.Info("We've reached our destination!", tag);
+                    // IceLogging.Info("We've reached our destination!", tag);
+                    IceLogging.Info("已到达目的地！", tag);
                     return true;
                 }
             }
@@ -1353,7 +1418,8 @@ namespace ICE.Scheduler.Tasks
         {
             string tag = "Travel: Via RedAlert NPC";
 
-            IceLogging.Verbose("Travel via Npc commenced", tag);
+            // IceLogging.Verbose("Travel via Npc commenced", tag);
+            IceLogging.Verbose("通过 NPC 的传送已开始", tag);
             var criticalKey = CosmicHelper.SheetMissionDict[missionId].Critical_MapKey;
 
             if (GatheringUtil.CriticalSpots.TryGetValue(criticalKey, out var criticalInfo))
@@ -1361,7 +1427,8 @@ namespace ICE.Scheduler.Tasks
                 if (Player.DistanceTo(redAlertNpc.Location_Circle) < 5)
                 {
                     if (EzThrottler.Throttle("Close enough log"))
-                        IceLogging.Verbose("Close enough to npc to travel", tag);
+                        // IceLogging.Verbose("Close enough to npc to travel", tag);
+                        IceLogging.Verbose("已足够接近 NPC，可以传送", tag);
 
                     if (C.Delay_Aethernet)
                     {
@@ -1374,7 +1441,8 @@ namespace ICE.Scheduler.Tasks
                         if (randomCounter < 2)
                         {
                             if (EzThrottler.Throttle("Wait for random encounter"))
-                                IceLogging.Verbose("Waiting for the random timer to fully randomize");
+                                // IceLogging.Verbose("Waiting for the random timer to fully randomize");
+                                IceLogging.Verbose("正在等待随机计时器完成随机化");
 
                             return false;
                         }
@@ -1384,7 +1452,8 @@ namespace ICE.Scheduler.Tasks
                     {
                         if (EzThrottler.Throttle("Selecting teleport option"))
                         {
-                            IceLogging.Verbose($"Selecting Option: {criticalInfo.NpcSelector} for mission: {missionId}", tag);
+                            // IceLogging.Verbose($"Selecting Option: {criticalInfo.NpcSelector} for mission: {missionId}", tag);
+                            IceLogging.Verbose($"为任务 {missionId} 选择选项：{criticalInfo.NpcSelector}", tag);
                             selectString.Entries[criticalInfo.NpcSelector].Select();
                         }
                     }
@@ -1403,7 +1472,8 @@ namespace ICE.Scheduler.Tasks
                     else
                     {
                         if (EzThrottler.Throttle("Log Message"))
-                            IceLogging.Verbose("Should be interacting here...", tag);
+                            // IceLogging.Verbose("Should be interacting here...", tag);
+                            IceLogging.Verbose("应当在此处进行交互……", tag);
 
                         var npc = Svc.Objects.Where(x => x.BaseId == redAlertNpc.NpcId).FirstOrDefault();
                         if (npc != null)
@@ -1431,7 +1501,8 @@ namespace ICE.Scheduler.Tasks
                     else
                     {
                         randomCounter = 0;
-                        IceLogging.Info("We've reached the red alert destination, need to just do the final pathing", tag);
+                        // IceLogging.Info("We've reached the red alert destination, need to just do the final pathing", tag);
+                        IceLogging.Info("已到达红色警报目的地，只需进行最后的寻路", tag);
                         return true;
                     }
                 }
@@ -1454,7 +1525,8 @@ namespace ICE.Scheduler.Tasks
             }
             else
             {
-                IceLogging.Info($"We've reached our destination: {pos}", tag);
+                // IceLogging.Info($"We've reached our destination: {pos}", tag);
+                IceLogging.Info($"已到达目的地：{pos}", tag);
                 return true;
             }
         }

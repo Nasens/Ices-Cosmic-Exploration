@@ -29,7 +29,8 @@ public static unsafe class AgentWKSMissionEx
         }
         catch (Exception ex)
         {
-            IceLogging.Error($"{ex.Message} | [AgentWKSMissionEx] Failed to scan GetCriticalMissions sig");
+            // IceLogging.Error($"{ex.Message} | [AgentWKSMissionEx] Failed to scan GetCriticalMissions sig");
+            IceLogging.Error($"{ex.Message} | [AgentWKSMissionEx] 扫描 GetCriticalMissions 签名失败");
         }
 
         try
@@ -39,7 +40,8 @@ public static unsafe class AgentWKSMissionEx
         }
         catch (Exception ex)
         {
-            IceLogging.Error($"{ex.Message} | [AgentWKSMissionEx] Failed to scan JobIndexToClassJobId sig");
+            // IceLogging.Error($"{ex.Message} | [AgentWKSMissionEx] Failed to scan JobIndexToClassJobId sig");
+            IceLogging.Error($"{ex.Message} | [AgentWKSMissionEx] 扫描 JobIndexToClassJobId 签名失败");
         }
 
         try
@@ -49,7 +51,8 @@ public static unsafe class AgentWKSMissionEx
         }
         catch(Exception ex)
         {
-            IceLogging.Error($"{ex.Message} | [AgentWKSMissionEx] Failed to scan MasterMission sig");
+            // IceLogging.Error($"{ex.Message} | [AgentWKSMissionEx] Failed to scan MasterMission sig");
+            IceLogging.Error($"{ex.Message} | [AgentWKSMissionEx] 扫描 MasterMission 签名失败");
         }
     }
 

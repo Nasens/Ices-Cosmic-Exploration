@@ -149,7 +149,8 @@ public static class GatheringRouteLoader
 
             uint jobId = info.Jobs.Contains(17) ? 17u : 16u;
 
-            IceLogging.Info($"Missing stub: route {info.Gather_MapKey}, territory {info.TerritoryId}, job {jobId}");
+            // IceLogging.Info($"Missing stub: route {info.Gather_MapKey}, territory {info.TerritoryId}, job {jobId}");
+            IceLogging.Info($"缺少存根：路线 {info.Gather_MapKey}，区域 {info.TerritoryId}，职业 {jobId}");
 
             var stub = new GatheringRoute
             {
@@ -165,9 +166,12 @@ public static class GatheringRouteLoader
             created.Add(info.Gather_MapKey);
         }
 
+        // IceLogging.Info(dryRun
+        //     ? $"Dry run: {created.Count} stubs would be created"
+        //     : $"Created {created.Count} stub routes");
         IceLogging.Info(dryRun
-            ? $"Dry run: {created.Count} stubs would be created"
-            : $"Created {created.Count} stub routes");
+            ? $"试运行：将创建 {created.Count} 个存根"
+            : $"已创建 {created.Count} 条存根路线");
 
         return created;
     }

@@ -78,7 +78,8 @@ public static unsafe class Utils
                 if (EzThrottler.Throttle($"Throttle Targeting {x.BaseId}"))
                 {
                     Svc.Targets.SetTarget(x);
-                    IceLogging.Info($"Setting the target to {x.BaseId}");
+                    // IceLogging.Info($"Setting the target to {x.BaseId}");
+                    IceLogging.Info($"正在将目标设置为 {x.BaseId}");
                 }
             }
         }
@@ -106,7 +107,8 @@ public static unsafe class Utils
             {
                 if (EzThrottler.Throttle($"Throttle targeting: {x.BaseId}"))
                 {
-                    IceLogging.Info($"Attempting to set the target to: {x.BaseId} | {x.Name}", "[Target Game Object]");
+                    // IceLogging.Info($"Attempting to set the target to: {x.BaseId} | {x.Name}", "[Target Game Object]");
+                    IceLogging.Info($"尝试将目标设置为：{x.BaseId} | {x.Name}", "[Target Game Object]");
                     Svc.Targets.SetTarget(x);
                 }
             }
@@ -123,7 +125,8 @@ public static unsafe class Utils
         }
         catch (Exception ex)
         {
-            IceLogging.Error($"InteractWithObject: Exception: {ex}");
+            // IceLogging.Error($"InteractWithObject: Exception: {ex}");
+            IceLogging.Error($"InteractWithObject：异常：{ex}");
         }
     }
     public static unsafe void SetGatheringRing(uint territoryId, int x, int y, int radius, string? tooltip = "Node Location", uint iconId = 60561)
@@ -143,7 +146,8 @@ public static unsafe class Utils
     }
     public static unsafe void MountAction()
     {
-        IceLogging.Verbose("We were told to use a mount action");
+        // IceLogging.Verbose("We were told to use a mount action");
+        IceLogging.Verbose("收到使用坐骑技能的指令");
         bool useMount = Char_Info.MountId != 0 && PlayerState.Instance()->IsMountUnlocked(Char_Info.MountId);
 
         if (!Player.IsCasting && !Player.Mounting)
@@ -151,12 +155,14 @@ public static unsafe class Utils
             if (useMount)
             {
                 ActionManager.Instance()->UseAction(ActionType.Mount, Char_Info.MountId);
-                IceLogging.Info($"Attempting to mount: {Char_Info.MountName}");
+                // IceLogging.Info($"Attempting to mount: {Char_Info.MountName}");
+                IceLogging.Info($"尝试召唤坐骑：{Char_Info.MountName}");
             }
             else
             {
                 ActionManager.Instance()->UseAction(ActionType.GeneralAction, 9);
-                IceLogging.Info($"Resorting to using the mount roulette");
+                // IceLogging.Info($"Resorting to using the mount roulette");
+                IceLogging.Info($"改用随机坐骑");
             }
         }
     }
@@ -189,6 +195,7 @@ public static unsafe class Utils
     public static void VnavBuildInfo()
     {
         if (EzThrottler.Throttle("Vnavmesh throttle message", 1000))
-            IceLogging.Debug($"Navmesh isn't ready. % built is at: {P.Navmesh.BuildProgress}");
+            // IceLogging.Debug($"Navmesh isn't ready. % built is at: {P.Navmesh.BuildProgress}");
+            IceLogging.Debug($"Navmesh 尚未就绪。已构建进度：{P.Navmesh.BuildProgress}");
     }
 }

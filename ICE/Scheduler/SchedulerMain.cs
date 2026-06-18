@@ -10,15 +10,18 @@ namespace ICE.Scheduler
         internal static bool EnablePlugin()
         {
             State = Start;
-            IceLogging.Info($"Setting State to: {State} / Enabling Plugin");
+            // IceLogging.Info($"Setting State to: {State} / Enabling Plugin");
+            IceLogging.Info($"正在将状态设置为：{State} / 启用插件");
             Mission_Settings.SelectedJob = (uint)Player.Job;
-            IceLogging.Info($"Player starting job upon pressing the start: {Mission_Settings.SelectedJob}");
+            // IceLogging.Info($"Player starting job upon pressing the start: {Mission_Settings.SelectedJob}");
+            IceLogging.Info($"按下开始时玩家的起始职业：{Mission_Settings.SelectedJob}");
             GenericManager.StorePandoraStates();
             return true;
         }
         internal static bool DisablePlugin()
         {
-            IceLogging.Debug("Stopping the plugin state", "[Schedular - Disable Plugin]");
+            // IceLogging.Debug("Stopping the plugin state", "[Schedular - Disable Plugin]");
+            IceLogging.Debug("正在停止插件运行状态", "[Schedular - Disable Plugin]");
             P.TaskManager.Abort();
             State = IceState.Idle;
             GenericManager.RestorePandoraStates();

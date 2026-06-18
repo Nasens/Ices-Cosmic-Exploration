@@ -27,7 +27,8 @@ public class GlamourerIPC
     public bool SetHeadItem(uint itemId, byte stain = 0)
     {
         if (!IsAvailable()) return true;
-        IceLogging.Verbose("Applying Clown Head");
+        // IceLogging.Verbose("Applying Clown Head");
+        IceLogging.Verbose("正在应用小丑头饰");
 
         _setItem.Invoke(0, ApiEquipSlot.Head, itemId, [stain]);
         return true;
@@ -78,12 +79,14 @@ public class GlamourerIPC
         try
         {
             var hatEc = _setMetaState.Invoke(0, MetaFlag.HatState, true);
-            IceLogging.Debug($"Hat: {hatEc}");
+            // IceLogging.Debug($"Hat: {hatEc}");
+            IceLogging.Debug($"帽子：{hatEc}");
             return true;
         }
         catch (Exception e)
         {
-            IceLogging.Debug($"SetMetaState threw: {e.Message}");
+            // IceLogging.Debug($"SetMetaState threw: {e.Message}");
+            IceLogging.Debug($"SetMetaState 抛出异常：{e.Message}");
         }
         return false;
     }
@@ -93,12 +96,14 @@ public class GlamourerIPC
         try
         {
             var hatEc = _setMetaState.Invoke(0, MetaFlag.VisorState, false);
-            IceLogging.Debug($"Hat: {hatEc}");
+            // IceLogging.Debug($"Hat: {hatEc}");
+            IceLogging.Debug($"帽子：{hatEc}");
             return true;
         }
         catch (Exception e)
         {
-            IceLogging.Debug($"SetMetaState threw: {e.Message}");
+            // IceLogging.Debug($"SetMetaState threw: {e.Message}");
+            IceLogging.Debug($"SetMetaState 抛出异常：{e.Message}");
         }
         return false;
     }

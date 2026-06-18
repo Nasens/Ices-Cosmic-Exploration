@@ -41,13 +41,15 @@ namespace ICE.Scheduler.Tasks
 
             if (!C.UseHubReturn)
             {
-                IceLogging.Info("We were told we didn't wanna hub return, so we gonna respec this");
+                // IceLogging.Info("We were told we didn't wanna hub return, so we gonna respec this");
+                IceLogging.Info("已设置不返回 Hub，跳过此流程");
                 return true;
             }
 
             if (C.AvoidStellarReturn && !C.AvoidStellarReturnExceptHub)
             {
-                IceLogging.Info("Stellar Return is fully disabled, walking to hub instead", tag);
+                // IceLogging.Info("Stellar Return is fully disabled, walking to hub instead", tag);
+                IceLogging.Info("Stellar Return 已完全禁用，改为步行前往 Hub", tag);
                 return true;
             }
 
@@ -59,13 +61,15 @@ namespace ICE.Scheduler.Tasks
                 {
                     if (PlayerHelper.IsScreenReady())
                     {
-                        IceLogging.Info("Player is in the range of the main hub area right now", tag);
+                        // IceLogging.Info("Player is in the range of the main hub area right now", tag);
+                        IceLogging.Info("玩家当前位于主 Hub 区域范围内", tag);
                         return true;
                     }
                     else
                     {
                         if (EzThrottler.Throttle("Waiting for screen to be ready", 2000))
-                            IceLogging.Verbose("Waiting for screen to be ready", tag);
+                            // IceLogging.Verbose("Waiting for screen to be ready", tag);
+                            IceLogging.Verbose("等待画面就绪", tag);
                     }
                 }
                 else
@@ -102,11 +106,13 @@ namespace ICE.Scheduler.Tasks
                 if (!Task_NavmeshMove.Task_NavTo(randomPos, distance: 5, npcLoc: npcEntry.Location_Npc).Value)
                 {
                     if (EzThrottler.Throttle("Repair move message", 1000))
-                        IceLogging.Verbose($"Pathing to repair NPC. Current distance: {Player.DistanceTo(npcEntry.Location_Npc)}", handle);
+                        // IceLogging.Verbose($"Pathing to repair NPC. Current distance: {Player.DistanceTo(npcEntry.Location_Npc)}", handle);
+                        IceLogging.Verbose($"正在前往修理 NPC，当前距离：{Player.DistanceTo(npcEntry.Location_Npc)}", handle);
                 }
                 else
                 {
-                    IceLogging.Debug("We're close enough to the repair npc! Continuing on", handle);
+                    // IceLogging.Debug("We're close enough to the repair npc! Continuing on", handle);
+                    IceLogging.Debug("已足够接近修理 NPC，继续执行", handle);
                     return true;
                 }
             }
@@ -137,7 +143,8 @@ namespace ICE.Scheduler.Tasks
 
             if (!PlayerHelper.NeedsRepair(99.9f) && !(PlayerHelper.AnyNeedsRepair(99.9f) && Char_Info.RepairAllGear))
             {
-                IceLogging.Debug("Repair Complete! Finishing task and closing window");
+                // IceLogging.Debug("Repair Complete! Finishing task and closing window");
+                IceLogging.Debug("修理完成！结束任务并关闭窗口");
                 return true;
             }
             else if (GenericHelpers.TryGetAddonMaster<Repair>("Repair", out var repair) && repair.IsAddonReady)
@@ -153,12 +160,14 @@ namespace ICE.Scheduler.Tasks
                     {
                         if (C.RepairAllGear)
                         {
-                            IceLogging.Debug("Firing off callbacl to repair all", "Self Repair Task: All");
+                            // IceLogging.Debug("Firing off callbacl to repair all", "Self Repair Task: All");
+                            IceLogging.Debug("触发全部修理回调", "Self Repair Task: All");
                             GenericHandlers.FireCallback("Repair", true, 1);
                         }
                         else
                         {
-                            IceLogging.Debug("Repair Callback", "[Self Repair Task]");
+                            // IceLogging.Debug("Repair Callback", "[Self Repair Task]");
+                            IceLogging.Debug("修理回调", "[Self Repair Task]");
                             repair.RepairAll();
                         }
                     }
@@ -168,7 +177,8 @@ namespace ICE.Scheduler.Tasks
             {
                 if (FrameThrottler.Throttle("Firing off repair string"))
                 {
-                    IceLogging.Debug("Selecting repair from vendor", "[Self Repair Task]");
+                    // IceLogging.Debug("Selecting repair from vendor", "[Self Repair Task]");
+                    IceLogging.Debug("从商店选择修理", "[Self Repair Task]");
                     ECommons.Automation.Callback.Fire(iconString, true, 6);
                 }
             }
@@ -213,7 +223,8 @@ namespace ICE.Scheduler.Tasks
             {
                 if (EzThrottler.Throttle("Attempting to dismount for repairing"))
                 {
-                    IceLogging.Debug("Dismounting for self repair", "[Self Repair Task]");
+                    // IceLogging.Debug("Dismounting for self repair", "[Self Repair Task]");
+                    IceLogging.Debug("下坐骑以进行自助修理", "[Self Repair Task]");
                     ActionManager.Instance()->UseAction(ActionType.GeneralAction, 9);
                 }
             }
@@ -221,7 +232,8 @@ namespace ICE.Scheduler.Tasks
             {
                 if (FrameThrottler.Throttle("SelectYesnoThrottle", 300))
                 {
-                    IceLogging.Debug("SelectYesno Callback", "Self Repair Task");
+                    // IceLogging.Debug("SelectYesno Callback", "Self Repair Task");
+                    IceLogging.Debug("SelectYesno 回调", "Self Repair Task");
                     ECommons.Automation.Callback.Fire(addon, true, 0);
                 }
             }
@@ -229,7 +241,8 @@ namespace ICE.Scheduler.Tasks
             {
                 if (FrameThrottler.Throttle("Firing off repair request", 300))
                 {
-                    IceLogging.Debug("Repair Callback", "[Self Repair Task]");
+                    // IceLogging.Debug("Repair Callback", "[Self Repair Task]");
+                    IceLogging.Debug("修理回调", "[Self Repair Task]");
                     ECommons.Automation.Callback.Fire(addon2, true, 0);
                 }
             }
@@ -241,14 +254,16 @@ namespace ICE.Scheduler.Tasks
 
             if (!PlayerHelper.AnyNeedsRepair(Char_Info.RepairPercent))
             {
-                IceLogging.Debug("All gear has been repaired, continuing", tag);
+                // IceLogging.Debug("All gear has been repaired, continuing", tag);
+                IceLogging.Debug("所有装备已修理完成，继续执行", tag);
                 return true;
             }
             else if (Svc.Condition[ConditionFlag.Mounted])
             {
                 if (EzThrottler.Throttle("Attempting to dismount for repairing"))
                 {
-                    IceLogging.Debug("Dismounting for self repair", tag);
+                    // IceLogging.Debug("Dismounting for self repair", tag);
+                    IceLogging.Debug("下坐骑以进行自助修理", tag);
                     ActionManager.Instance()->UseAction(ActionType.GeneralAction, 9);
                 }
             }
@@ -256,7 +271,8 @@ namespace ICE.Scheduler.Tasks
             {
                 if (FrameThrottler.Throttle("SelectYesnoThrottle", 300))
                 {
-                    IceLogging.Debug("SelectYesno Callback", tag);
+                    // IceLogging.Debug("SelectYesno Callback", tag);
+                    IceLogging.Debug("SelectYesno 回调", tag);
                     ECommons.Automation.Callback.Fire(addon, true, 0);
                 }
             }
@@ -264,7 +280,8 @@ namespace ICE.Scheduler.Tasks
             {
                 if (FrameThrottler.Throttle("Firing off repair request", 300))
                 {
-                    IceLogging.Debug("Repair Callback", tag);
+                    // IceLogging.Debug("Repair Callback", tag);
+                    IceLogging.Debug("修理回调", tag);
                     ECommons.Automation.Callback.Fire(addon2, true, 1);
                 }
             }
@@ -285,7 +302,8 @@ namespace ICE.Scheduler.Tasks
                 {
                     if (EzThrottler.Throttle("Attempting to close out the repair window", 300))
                     {
-                        IceLogging.Debug("Closing the repair window", "[Repair Task]");
+                        // IceLogging.Debug("Closing the repair window", "[Repair Task]");
+                        IceLogging.Debug("关闭修理窗口", "[Repair Task]");
                         ECommons.Automation.Callback.Fire(repairWindow, true, -1);
                     }
                 }

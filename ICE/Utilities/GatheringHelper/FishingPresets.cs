@@ -22,7 +22,8 @@ public static partial class GatheringUtil
         {
             if (FishingRegistrars.TryGetValue(moon.TerritoryId, out var register))
             {
-                IceLogging.Verbose($"Registering Presets for: {moon.TerritoryId}");
+                // IceLogging.Verbose($"Registering Presets for: {moon.TerritoryId}");
+                IceLogging.Verbose($"正在注册预设：{moon.TerritoryId}");
                 register();
             }
             else

@@ -49,7 +49,8 @@ namespace ICE.Scheduler.Handlers.PictoStuff
                             }
                             catch (Exception ex)
                             {
-                                IceLogging.Error($"Error executing draw command: {ex}");
+                                // IceLogging.Error($"Error executing draw command: {ex}");
+                                IceLogging.Error($"执行绘制命令时出错：{ex}");
                             }
                         }
 
@@ -60,7 +61,8 @@ namespace ICE.Scheduler.Handlers.PictoStuff
             }
             catch (Exception ex)
             {
-                IceLogging.Error($"Error in DrawPicto: {ex}");
+                // IceLogging.Error($"Error in DrawPicto: {ex}");
+                IceLogging.Error($"DrawPicto 中出错：{ex}");
             }
         }
 

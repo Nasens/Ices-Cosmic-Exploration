@@ -79,11 +79,13 @@ namespace ICE.Scheduler.Tasks
                 if (!Task_NavmeshMove.Task_NavTo(randomPos, distance: 6, npcLoc: npcEntry.Location_Npc).Value)
                 {
                     if (EzThrottler.Throttle("Repair move message", 1000))
-                        IceLogging.Verbose($"Pathing to repair NPC. Current distance: {Player.DistanceTo(npcEntry.Location_Npc)}", handle);
+                        // IceLogging.Verbose($"Pathing to repair NPC. Current distance: {Player.DistanceTo(npcEntry.Location_Npc)}", handle);
+                        IceLogging.Verbose($"正在前往修理 NPC，当前距离：{Player.DistanceTo(npcEntry.Location_Npc)}", handle);
                 }
                 else
                 {
-                    IceLogging.Debug("We're close enough to the repair npc! Continuing on", handle);
+                    // IceLogging.Debug("We're close enough to the repair npc! Continuing on", handle);
+                    IceLogging.Debug("已足够接近修理 NPC，继续执行", handle);
                     return true;
                 }
             }
@@ -92,7 +94,7 @@ namespace ICE.Scheduler.Tasks
                 if (EzThrottler.Throttle("Error message: NPC", 5000))
                     // IceLogging.Error("Hey! We don't have this npc coded yet, which means I forgot bout it, could you let me know\n" +
                     IceLogging.Error("该 NPC 尚未录入，请反馈\n" +
-                                     $"Planet Territory ID: {Player.Territory.RowId}", handle);
+                                     $"星球区域 ID：{Player.Territory.RowId}", handle);
             }
 
             return false;
@@ -101,7 +103,8 @@ namespace ICE.Scheduler.Tasks
         {
             if (GenericHelpers.TryGetAddonMaster<SelectIconString>("SelectIconString", out var iconString) && iconString.IsAddonReady)
             {
-                IceLogging.Info("Icon string is visible! Time to shop");
+                // IceLogging.Info("Icon string is visible! Time to shop");
+                IceLogging.Info("图标字符串已可见！开始购物");
                 return true;
             }
             else
@@ -136,7 +139,8 @@ namespace ICE.Scheduler.Tasks
                 if (EzThrottler.Throttle($"Selecting Shop Selection: {shopSelection}"))
                 {
                     var select = iconString.Entries[shopSelection];
-                    IceLogging.Debug($"Selecting: {select.Text}");
+                    // IceLogging.Debug($"Selecting: {select.Text}");
+                    IceLogging.Debug($"正在选择：{select.Text}");
                     select.Select();
                 }
             }
@@ -198,11 +202,13 @@ namespace ICE.Scheduler.Tasks
                         {
                             if (EzThrottler.Throttle($"Item Check Count Log {previousItemId}", 1000))
                             {
-                                IceLogging.Verbose($"Checking itemId: {previousItemId}. Last Count: {previousItemCount}", tag);
+                                // IceLogging.Verbose($"Checking itemId: {previousItemId}. Last Count: {previousItemCount}", tag);
+                                IceLogging.Verbose($"正在检查物品 ID：{previousItemId}。上次数量：{previousItemCount}", tag);
                             }
                             if (previousItemCount < currentCount)
                             {
-                                IceLogging.Verbose("We got an increase in the current count. Time to update the shopping list", tag);
+                                // IceLogging.Verbose("We got an increase in the current count. Time to update the shopping list", tag);
+                                IceLogging.Verbose("当前数量增加，更新购物清单", tag);
                                 if (config.BuyAmount != 0 && singleBuy)
                                 {
                                     config.BuyAmount -= 1;
@@ -212,7 +218,8 @@ namespace ICE.Scheduler.Tasks
                                 }
                                 previousItemId = 0;
                                 previousItemCount = -1;
-                                IceLogging.Verbose("All Need to keep stuff is reset", tag);
+                                // IceLogging.Verbose("All Need to keep stuff is reset", tag);
+                                IceLogging.Verbose("所有需保留项已重置", tag);
                             }
 
                             return true;
@@ -243,7 +250,8 @@ namespace ICE.Scheduler.Tasks
                         PlayerHelper.GetItemCount(itemId, out var currentCount);
                         var itemInfo = Shop_Cosmocredits.Shop_MountsCards[itemId];
 
-                        IceLogging.Debug($"Checking for ItemID: {itemId} {itemInfo.Name}", tag);
+                        // IceLogging.Debug($"Checking for ItemID: {itemId} {itemInfo.Name}", tag);
+                        IceLogging.Debug($"正在检查物品 ID：{itemId} {itemInfo.Name}", tag);
 
                         var shopItem = shopExchange.BasicShopItems.Where(x => Shop_Cosmocredits.Shop_MountsCards.ContainsKey(x.ItemId));
                         if (shopItem == null)
@@ -253,18 +261,21 @@ namespace ICE.Scheduler.Tasks
                                 if (EzThrottler.Throttle("Callback fire"))
                                     ECommons.Automation.Callback.Fire(shopExchange.Base, true, 4, -1, 1, 3);
 
-                                IceLogging.Verbose("Selecting tab for item", tag);
+                                // IceLogging.Verbose("Selecting tab for item", tag);
+                                IceLogging.Verbose("为物品选择标签页", tag);
 
                                 return true;
                             }
                         }
 
-                        IceLogging.Verbose("On the correct tab, so we're going to see bout buying an item", tag);
+                        // IceLogging.Verbose("On the correct tab, so we're going to see bout buying an item", tag);
+                        IceLogging.Verbose("已在正确标签页，准备购买物品", tag);
 
                         var maxAfordable = (int)(amountAvailable / itemInfo.Cost);
                         if (maxAfordable == 0)
                         {
-                            IceLogging.Verbose($"Skipping: {itemId} due to not being able to buy amount: {maxAfordable} | Current Amount: {currentCount}", tag);
+                            // IceLogging.Verbose($"Skipping: {itemId} due to not being able to buy amount: {maxAfordable} | Current Amount: {currentCount}", tag);
+                            IceLogging.Verbose($"跳过：{itemId}，因无法购买数量：{maxAfordable} | 当前数量：{currentCount}", tag);
                             continue;
                         }
 
@@ -277,7 +288,8 @@ namespace ICE.Scheduler.Tasks
                         else if (config.KeepBuying && keepBuying)
                             buyItem = true;
 
-                        IceLogging.Debug($"Buy Check: {buyItem} | Single Buy: {singleBuy} | Keep Amount: {keepAmount} | Keep Buying: {keepBuying}", tag);
+                        // IceLogging.Debug($"Buy Check: {buyItem} | Single Buy: {singleBuy} | Keep Amount: {keepAmount} | Keep Buying: {keepBuying}", tag);
+                        IceLogging.Debug($"购买检查：{buyItem} | 单次购买：{singleBuy} | 保留数量：{keepAmount} | 持续购买：{keepBuying}", tag);
 
                         if (buyItem)
                         {
@@ -319,7 +331,8 @@ namespace ICE.Scheduler.Tasks
                 if (TryPurchaseGearItem(shopExchange, currencyAmount, keepBuying: true))
                     return false;
 
-                IceLogging.Debug("Gear shop is finished, continuing", tag);
+                // IceLogging.Debug("Gear shop is finished, continuing", tag);
+                IceLogging.Debug("装备商店已完成，继续执行", tag);
                 return true;
             }
 

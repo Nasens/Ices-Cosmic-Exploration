@@ -342,8 +342,10 @@ namespace ICE.Ui.Debug_Tabs.Debug_Ui
 
             if (!PlayerHelper.CustomIsBusy)
             {
-                IceLogging.Debug("Cordial Checkers", tag);
-                IceLogging.Debug($"Min GP: {PlayerHelper.GetGp()} <= {C.CordialMinGp}", tag);
+                // IceLogging.Debug("Cordial Checkers", tag);
+                IceLogging.Debug("强心剂检查", tag);
+                // IceLogging.Debug($"Min GP: {PlayerHelper.GetGp()} <= {C.CordialMinGp}", tag);
+                IceLogging.Debug($"最小 GP：{PlayerHelper.GetGp()} <= {C.CordialMinGp}", tag);
 
                 Dictionary<uint, (string Name, int GpGain)> cordials = new()
                 {
@@ -356,7 +358,8 @@ namespace ICE.Ui.Debug_Tabs.Debug_Ui
 
                 foreach (var cordial in C.inverseCordialPrio ? cordials.Reverse() : cordials)
                 {
-                    IceLogging.Verbose($"Checking Cordial: {cordial.Value.Name}", tag);
+                    // IceLogging.Verbose($"Checking Cordial: {cordial.Value.Name}", tag);
+                    IceLogging.Verbose($"正在检查强心剂：{cordial.Value.Name}", tag);
                     bool hq = cordial.Key >= 1_000_000;
                     uint baseId = hq ? cordial.Key - 1_000_000 : cordial.Key;
 
@@ -381,7 +384,8 @@ namespace ICE.Ui.Debug_Tabs.Debug_Ui
                                 if (item == null) continue;
                                 if (item->ItemId == baseId && (hq == false || item->Flags.HasFlag(InventoryItem.ItemFlags.HighQuality)))
                                 {
-                                    IceLogging.Verbose($"We're using a cordial: ID: {cordial.Key} | Name: {cordial.Value.Name}", tag);
+                                    // IceLogging.Verbose($"We're using a cordial: ID: {cordial.Key} | Name: {cordial.Value.Name}", tag);
+                                    IceLogging.Verbose($"正在使用强心剂：ID：{cordial.Key} | 名称：{cordial.Value.Name}", tag);
                                     // AgentInventoryContext.Instance()->UseItem(item->ItemId, invType, (uint)i, 0);
                                     return true;
                                 }
@@ -390,14 +394,16 @@ namespace ICE.Ui.Debug_Tabs.Debug_Ui
                     }
                     else
                     {
-                        IceLogging.Verbose($"{cordial.Value.Name} | Count: {amount}");
+                        // IceLogging.Verbose($"{cordial.Value.Name} | Count: {amount}");
+                        IceLogging.Verbose($"{cordial.Value.Name} | 数量：{amount}");
                     }
                 }
             }
             else
             {
                 if (EzThrottler.Throttle("Cordial Busy"))
-                    IceLogging.Debug("Player is busy, skipping cordial check", tag);
+                    // IceLogging.Debug("Player is busy, skipping cordial check", tag);
+                    IceLogging.Debug("玩家正忙，跳过强心剂检查", tag);
                 return false;
             }
             return false;

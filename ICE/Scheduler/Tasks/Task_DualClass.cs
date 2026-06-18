@@ -24,7 +24,8 @@ namespace ICE.Scheduler.Tasks
             if (P.Artisan.IsBusy())
             {
                 if (EzThrottler.Throttle("Waiting for artisan to finish making macro's...", 3000))
-                    IceLogging.Debug("Waiting for artisan to finish making macros");
+                    // IceLogging.Debug("Waiting for artisan to finish making macros");
+                    IceLogging.Debug("等待 artisan 完成宏制作");
 
                 return false;
             }
@@ -71,7 +72,8 @@ namespace ICE.Scheduler.Tasks
                     // This means we've ran out of crates. Going to just exit out and abandon
                     SchedulerMain.State = IceState.AbandonMission;
                     P.TaskManager.Tasks.Clear();
-                    IceLogging.Info("We've ran out of crates. Proceeding to turnin/abandon mission");
+                    // IceLogging.Info("We've ran out of crates. Proceeding to turnin/abandon mission");
+                    IceLogging.Info("板条箱已用完。继续交付/放弃任务");
                     return true;
                 }
                 else
@@ -84,7 +86,8 @@ namespace ICE.Scheduler.Tasks
                     if (PlayerHelper.GetItemCount(materialItemId, out var gatherAmount) && gatherAmount < amountNeeded)
                     {
                         // We don't have enough to craft. So going to actually exit out and enter the gathering state.
-                        IceLogging.Info("We don't have enough to craft the dual class item, so proceeding to gather");
+                        // IceLogging.Info("We don't have enough to craft the dual class item, so proceeding to gather");
+                        IceLogging.Info("材料不足以制作双职业物品，因此继续采集");
                         P.TaskManager.Tasks.Clear();
                         P.TaskManager.Insert(() => CheckGatheringState(), "Checking the current state of gathering");
                         return true;
@@ -126,7 +129,8 @@ namespace ICE.Scheduler.Tasks
                 P.Artisan.CraftItem(recipeId, dualCraftAmount);
                 P.TaskManager.Tasks.Clear();
                 InsertArtisanWait();
-                IceLogging.Info($"Told artisan to craft {dualCraftAmount} of the following recipe: {recipeId}");
+                // IceLogging.Info($"Told artisan to craft {dualCraftAmount} of the following recipe: {recipeId}");
+                IceLogging.Info($"已通知 artisan 制作 {dualCraftAmount} 个以下配方：{recipeId}");
                 return true;
             }
             else
@@ -135,7 +139,8 @@ namespace ICE.Scheduler.Tasks
                 P.Artisan.CraftItem(recipeId, 1);
                 P.TaskManager.Tasks.Clear();
                 InsertArtisanWait();
-                IceLogging.Info($"Told Artisan to craft 1 item of the following recipe: {recipeId}");
+                // IceLogging.Info($"Told Artisan to craft 1 item of the following recipe: {recipeId}");
+                IceLogging.Info($"已通知 Artisan 制作 1 个以下配方：{recipeId}");
                 return true;
             }
         }
@@ -144,7 +149,8 @@ namespace ICE.Scheduler.Tasks
         {
             string handle = "[Task_DualClass | Check Gather State]";
 
-            IceLogging.Debug("Starting 'Check Gather State'");
+            // IceLogging.Debug("Starting 'Check Gather State'");
+            IceLogging.Debug("开始执行 'Check Gather State'");
 
             var id = CosmicHelper.CurrentLunarMission;
             var mission = CosmicHelper.SheetMissionDict[id];
@@ -162,7 +168,8 @@ namespace ICE.Scheduler.Tasks
             }
             else if (GenericHelpers.TryGetAddonMaster<Gathering>("Gathering", out var gatheringAddon))
             {
-                IceLogging.Info($"We're currently in the middle of gathering, so going to just swap over to interacting with the gathering node", handle);
+                // IceLogging.Info($"We're currently in the middle of gathering, so going to just swap over to interacting with the gathering node", handle);
+                IceLogging.Info($"当前正在采集中，因此切换为与采集点交互", handle);
                 P.TaskManager.Enqueue(() => GatheringInteraction(), "Interacting with the gathering node");
                 return true;
             }
@@ -178,7 +185,8 @@ namespace ICE.Scheduler.Tasks
 
                 if (selfRepairGather)
                 {
-                    IceLogging.Info("You have enabled self repair, and you are need in repair. throwing in task to repair self", handle);
+                    // IceLogging.Info("You have enabled self repair, and you are need in repair. throwing in task to repair self", handle);
+                    IceLogging.Info("你已启用自动修理，且需要修理。加入自我修理任务", handle);
                     P.TaskManager.EnqueueMulti
                     (
                         new(Task_Repair.OpenSelfRepair, "Opening the self repair window"),
@@ -188,19 +196,22 @@ namespace ICE.Scheduler.Tasks
                 }
 
                 // Us getting here means that we're fresh into the node gathering. So just going to queue up the rest of the gathering process.
-                IceLogging.Info("You've gotten to this point so. Queueing up checking the gathering location, pathing to node, and navmesh movement", handle);
+                // IceLogging.Info("You've gotten to this point so. Queueing up checking the gathering location, pathing to node, and navmesh movement", handle);
+                IceLogging.Info("执行到此，开始排入检查采集位置、寻路至采集点及 navmesh 移动", handle);
                 P.TaskManager.Enqueue(() => Task_Gather.CheckCurrentLocation(), "Checking Gathering Location Info");
                 P.TaskManager.Enqueue(() => Task_Gather.PathandCheckNode(), "Pathing to the gathering node");
                 return true;
             }
             else if ((uint)Player.Job == 18)
             {
-                IceLogging.Info("We're on a fishing job, so going fishing.", handle);
+                // IceLogging.Info("We're on a fishing job, so going fishing.", handle);
+                IceLogging.Info("当前为钓鱼职业，因此前往钓鱼。", handle);
                 bool selfRepairGather = Char_Info.SelfRepairGather && PlayerHelper.NeedsRepair(Char_Info.RepairPercent);
 
                 if (selfRepairGather)
                 {
-                    IceLogging.Info("You have enabled self repair, and you are need in repair. throwing in task to repair self", "[Task_DualClass | Check Gather State]");
+                    // IceLogging.Info("You have enabled self repair, and you are need in repair. throwing in task to repair self", "[Task_DualClass | Check Gather State]");
+                    IceLogging.Info("你已启用自动修理，且需要修理。加入自我修理任务", "[Task_DualClass | Check Gather State]");
                     P.TaskManager.EnqueueMulti
                     (
                         new(Task_Repair.OpenSelfRepair, "Opening the self repair window"),
@@ -220,7 +231,8 @@ namespace ICE.Scheduler.Tasks
         {
             if (!P.Artisan.IsBusy())
             {
-                IceLogging.Info("Artisan is no longer running, continuing the process");
+                // IceLogging.Info("Artisan is no longer running, continuing the process");
+                IceLogging.Info("Artisan 已停止运行，继续流程");
                 P.TaskManager.Tasks.Clear();
                 return true;
             }
@@ -305,13 +317,15 @@ namespace ICE.Scheduler.Tasks
                                 bool useBuff = Task_Gather.CanUseGatheringAction(key, configId, missingDur, gather.TotalIntegrity, gather.CurrentIntegrity, boonChance);
                                 if (EzThrottler.Throttle($"Checking buff: {key}"))
                                 {
-                                    IceLogging.Debug($"Action name: {key} | Using? {useBuff}");
+                                    // IceLogging.Debug($"Action name: {key} | Using? {useBuff}");
+                                    IceLogging.Debug($"动作名称：{key} | 使用？{useBuff}");
                                 }
                                 if (useBuff)
                                 {
                                     if (EzThrottler.Throttle($"Using Gathering Action: {key}"))
                                     {
-                                        IceLogging.Debug($"Using the following action: {key} in full durability section", debugOnly: true);
+                                        // IceLogging.Debug($"Using the following action: {key} in full durability section", debugOnly: true);
+                                        IceLogging.Debug($"正在使用以下动作：{key}（满耐久区段）", debugOnly: true);
                                         var actionId = gathActions[key].ClassAction[jobId];
                                         ActionManager.Instance()->UseAction(ActionType.Action, actionId);
                                         Mission_Settings.SkillUseAmount[key] += 1;
@@ -350,7 +364,8 @@ namespace ICE.Scheduler.Tasks
         {
             if (!Svc.Condition[ConditionFlag.ExecutingGatheringAction])
             {
-                IceLogging.Info("No longer executing a gathering action", "[Task Gather: Wait To Gather]");
+                // IceLogging.Info("No longer executing a gathering action", "[Task Gather: Wait To Gather]");
+                IceLogging.Info("不再执行采集动作", "[Task Gather: Wait To Gather]");
                 return true;
             }
 
@@ -381,7 +396,8 @@ namespace ICE.Scheduler.Tasks
                             if (PlayerHelper.GetItemCount(baitId, out var count) && count > 0)
                             {
                                 P.AutoHook.SwapBaitById(baitId);
-                                IceLogging.Debug($"Telling it to equip bait ID: {baitId}", handle);
+                                // IceLogging.Debug($"Telling it to equip bait ID: {baitId}", handle);
+                                IceLogging.Debug($"通知装备鱼饵 ID：{baitId}", handle);
                                 return false;
                             }
                         }
@@ -395,14 +411,16 @@ namespace ICE.Scheduler.Tasks
                 {
                     if (_fishingDebug.FindFishableLocation(out var fishablePos, searchSteps: 64))
                     {
-                        IceLogging.Info("We're not in a fishable spot, so going to face one", handle);
+                        // IceLogging.Info("We're not in a fishable spot, so going to face one", handle);
+                        IceLogging.Info("当前不在可钓鱼位置，因此转向钓点", handle);
                         P.TaskManager.Tasks.Clear();
                         P.TaskManager.Enqueue(() => Task_Fishing.FacePosition(fishablePos.Value));
                         return true;
                     }
                     else
                     {
-                        IceLogging.Debug("Our current fishing position isn't viable. So going to move to the next fishing spot");
+                        // IceLogging.Debug("Our current fishing position isn't viable. So going to move to the next fishing spot");
+                        IceLogging.Debug("当前钓鱼位置不可用。因此前往下一个钓点");
                         var mission = CosmicHelper.CurrentMissionInfo;
                         var flag = mission.MapPosition;
                         var territoryId = mission.TerritoryId;
@@ -410,7 +428,8 @@ namespace ICE.Scheduler.Tasks
                         var nextFishingSpot = Task_Fishing.GetNextFishingSpot(territoryId, flag, Player.Position);
                         if (nextFishingSpot != null)
                         {
-                            IceLogging.Info($"We found another fishing spot to move to! {nextFishingSpot.FishingSpot} | moving to it");
+                            // IceLogging.Info($"We found another fishing spot to move to! {nextFishingSpot.FishingSpot} | moving to it");
+                            IceLogging.Info($"找到另一个可前往的钓点！{nextFishingSpot.FishingSpot} | 正在前往");
                             P.TaskManager.Tasks.Clear();
                             P.TaskManager.Enqueue(() => Task_Fishing.InitiateMoving(nextFishingSpot.FishingSpot), "Vnav moving to fishing");
                             return true;
@@ -419,7 +438,8 @@ namespace ICE.Scheduler.Tasks
                 }
                 else if (EzThrottler.Throttle("Starting to fish", 1000))
                 {
-                    IceLogging.Debug("Telling it to start fishing", handle);
+                    // IceLogging.Debug("Telling it to start fishing", handle);
+                    IceLogging.Debug("通知开始钓鱼", handle);
                     ActionManager.Instance()->UseAction(ActionType.Action, 289);
                 }
                 return false;
@@ -428,7 +448,8 @@ namespace ICE.Scheduler.Tasks
             {
                 // Means we are fishing, all we need to do is enable autohook then wait for us to get the amount of fish we need
                 P.AutoHook.SetPluginState(true);
-                IceLogging.Info("We're starting to fish. So kicking it over to checking the fish items", handle);
+                // IceLogging.Info("We're starting to fish. So kicking it over to checking the fish items", handle);
+                IceLogging.Info("开始钓鱼。因此转去检查鱼类物品", handle);
                 P.TaskManager.Insert(() => CheckItems(), "Checking for items to meet the quantity set", Utils.TaskConfig);
                 return true;
             }
@@ -440,7 +461,8 @@ namespace ICE.Scheduler.Tasks
 
             if (!Svc.Condition[ConditionFlag.Gathering])
             {
-                IceLogging.Info("We've stopped fishing for some reason... going to go back and check if we have enough of the materials, or just ran out of bait", handle);
+                // IceLogging.Info("We've stopped fishing for some reason... going to go back and check if we have enough of the materials, or just ran out of bait", handle);
+                IceLogging.Info("出于某种原因停止了钓鱼……返回检查材料是否充足，或是否已用完鱼饵", handle);
                 P.TaskManager.Tasks.Clear();
                 return true;
             }
@@ -476,7 +498,8 @@ namespace ICE.Scheduler.Tasks
                     }
                     if (EzThrottler.Throttle("Item Multiplier Amount", 5000))
                     {
-                        IceLogging.Info($"[Fishing] Item Multiplier: {itemAmount}", handle ,debugOnly: true);
+                        // IceLogging.Info($"[Fishing] Item Multiplier: {itemAmount}", handle ,debugOnly: true);
+                        IceLogging.Info($"[Fishing] 物品倍率：{itemAmount}", handle ,debugOnly: true);
                     }
 
                     foreach (var requiredItem in mainCraft.RequiredItems)
@@ -491,12 +514,14 @@ namespace ICE.Scheduler.Tasks
                         {
                             if (EzThrottler.Throttle("Item Count Checker", 5000))
                             {
-                                IceLogging.Debug($"We still need {materialItemId}, so still fishing", handle);
+                                // IceLogging.Debug($"We still need {materialItemId}, so still fishing", handle);
+                                IceLogging.Debug($"仍然需要 {materialItemId}，因此继续钓鱼", handle);
                             }
                         }
                         else
                         {
-                            IceLogging.Info($"Current Amount: {mainItemCount} | Amount needed: {amountNeeded} is complete", debugOnly: true);
+                            // IceLogging.Info($"Current Amount: {mainItemCount} | Amount needed: {amountNeeded} is complete", debugOnly: true);
+                            IceLogging.Info($"当前数量：{mainItemCount} | 所需数量：{amountNeeded} 已完成", debugOnly: true);
                             StopFishing();
                         }
                     }

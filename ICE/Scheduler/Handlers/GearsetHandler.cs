@@ -30,13 +30,15 @@ namespace ICE.Scheduler.Handlers
                     }
 
                     var result = gearsets->EquipGearset(gs.Id);
-                    IceLogging.Debug($"Tried to equip gearset {gs.Id} for {job}, result={result}, flags={gs.Flags}");
+                    // IceLogging.Debug($"Tried to equip gearset {gs.Id} for {job}, result={result}, flags={gs.Flags}");
+                    IceLogging.Debug($"已尝试为 {job} 装备配装 {gs.Id}，result={result}，flags={gs.Flags}");
                     return;
                 }
             }
 
             if (EzThrottler.Throttle("No gearsets"))
-                IceLogging.Verbose($"Hewwo. We have gotten thiws faw, which means thawt the geawset fow {job.ToString()} doesn't exist. Pwease make owne", "Task: Equip Gearset");
+                // IceLogging.Verbose($"Hewwo. We have gotten thiws faw, which means thawt the geawset fow {job.ToString()} doesn't exist. Pwease make owne", "Task: Equip Gearset");
+                IceLogging.Verbose($"你好呀。我们都走到这一步了，这意味着 {job.ToString()} 的配装并不存在。请创建一个吧", "Task: Equip Gearset");
             return;
         }
     }

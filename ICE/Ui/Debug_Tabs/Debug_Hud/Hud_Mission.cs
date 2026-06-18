@@ -93,9 +93,11 @@ namespace ICE.Ui.Debug_Tabs.Debug_Hud
                         var agent = AgentWKSMission.Instance();
                         if (agent == null) return;
 
-                        IceLogging.Debug($"Before: SelectedTab={agent->SelectedTab}, SelectedJobIndex={agent->Data->SelectedJobIndex}");
+                        // IceLogging.Debug($"Before: SelectedTab={agent->SelectedTab}, SelectedJobIndex={agent->Data->SelectedJobIndex}");
+                        IceLogging.Debug($"处理前：SelectedTab={agent->SelectedTab}, SelectedJobIndex={agent->Data->SelectedJobIndex}");
                         AgentWKSMissionEx.SetSelectedJobTab(agent, (byte)i);
-                        IceLogging.Debug($"After: SelectedTab={agent->SelectedTab}, SelectedJobIndex={agent->Data->SelectedJobIndex}");
+                        // IceLogging.Debug($"After: SelectedTab={agent->SelectedTab}, SelectedJobIndex={agent->Data->SelectedJobIndex}");
+                        IceLogging.Debug($"处理后：SelectedTab={agent->SelectedTab}, SelectedJobIndex={agent->Data->SelectedJobIndex}");
                     }
                 }
 
@@ -229,10 +231,12 @@ namespace ICE.Ui.Debug_Tabs.Debug_Hud
                             urgency[exp.Key] = 1f - (float)exp.Value.Current / exp.Value.Max;
                     }
                 }
-                IceLogging.Verbose($"Urgency Exp Values");
+                // IceLogging.Verbose($"Urgency Exp Values");
+                IceLogging.Verbose($"紧急度经验值");
                 foreach (var exp in urgency)
                 {
-                    IceLogging.Verbose($"{exp.Key} : Value: {exp.Value:N2}");
+                    // IceLogging.Verbose($"{exp.Key} : Value: {exp.Value:N2}");
+                    IceLogging.Verbose($"{exp.Key} : 值：{exp.Value:N2}");
                 }
 
                 List<uint> missionList = new();
@@ -253,18 +257,21 @@ namespace ICE.Ui.Debug_Tabs.Debug_Hud
                     }
                 }
 
-                IceLogging.Verbose($"Total Mission Count: {missionList.Count()}");
+                // IceLogging.Verbose($"Total Mission Count: {missionList.Count()}");
+                IceLogging.Verbose($"任务总数：{missionList.Count()}");
 
 
                 uint? bestMissionId = null;
                 float bestScore = float.NegativeInfinity;
                 foreach (var missionId in missionList)
                 {
-                    IceLogging.Verbose($"Seeing if menu contains: {missionId}");
+                    // IceLogging.Verbose($"Seeing if menu contains: {missionId}");
+                    IceLogging.Verbose($"正在检查菜单是否包含：{missionId}");
                     var mission = missionInfo.StellerMissions.Where(x => x.MissionId == missionId).FirstOrDefault();
                     if (mission != null)
                     {
-                        IceLogging.Verbose($"Mission was valid option: {missionId}");
+                        // IceLogging.Verbose($"Mission was valid option: {missionId}");
+                        IceLogging.Verbose($"任务为有效选项：{missionId}");
                         if (CosmicHelper.SheetMissionDict.TryGetValue(mission.MissionId, out var sheetInfo))
                         {
                             float score = 0;
@@ -279,7 +286,8 @@ namespace ICE.Ui.Debug_Tabs.Debug_Hud
                                     }
                                 }
                             }
-                            IceLogging.Verbose($"[{mission.MissionId}] score: {score}");
+                            // IceLogging.Verbose($"[{mission.MissionId}] score: {score}");
+                            IceLogging.Verbose($"[{mission.MissionId}] 分数：{score}");
                             if (score > bestScore)
                             {
                                 bestScore = score;
@@ -300,7 +308,8 @@ namespace ICE.Ui.Debug_Tabs.Debug_Hud
             }
             else
             {
-                IceLogging.Info("We're somehow not showing the window, so returning 0.");
+                // IceLogging.Info("We're somehow not showing the window, so returning 0.");
+                IceLogging.Info("由于某种原因未显示窗口，因此返回 0。");
 
                 return 0;
             }

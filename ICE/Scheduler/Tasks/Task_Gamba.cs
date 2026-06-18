@@ -141,11 +141,13 @@ namespace ICE.Scheduler.Tasks
                 if (!Task_NavmeshMove.Task_NavTo(randomPos, distance: 5, npcLoc: npcEntry.Location_Npc).Value)
                 {
                     if (EzThrottler.Throttle("Repair move message", 1000))
-                        IceLogging.Verbose($"Pathing to repair NPC. Current distance: {Player.DistanceTo(npcEntry.Location_Npc)}", handle);
+                        // IceLogging.Verbose($"Pathing to repair NPC. Current distance: {Player.DistanceTo(npcEntry.Location_Npc)}", handle);
+                        IceLogging.Verbose($"正在前往维修 NPC。当前距离：{Player.DistanceTo(npcEntry.Location_Npc)}", handle);
                 }
                 else
                 {
-                    IceLogging.Debug("We're close enough to the repair npc! Continuing on", handle);
+                    // IceLogging.Debug("We're close enough to the repair npc! Continuing on", handle);
+                    IceLogging.Debug("已足够接近维修 NPC！继续执行", handle);
                     return true;
                 }
             }
@@ -163,7 +165,8 @@ namespace ICE.Scheduler.Tasks
         {
             if (GenericHelpers.TryGetAddonMaster<SelectString>("SelectString", out var selectString) && selectString.IsAddonReady)
             {
-                IceLogging.Info("We've gotten to selecting the npc dialog (woo!). Selecting gamba");
+                // IceLogging.Info("We've gotten to selecting the npc dialog (woo!). Selecting gamba");
+                IceLogging.Info("已进入 NPC 对话选择（woo！），正在选择抽奖");
                 return true;
             }
             else if (GenericHelpers.TryGetAddonMaster<Talk>("Talk", out var talk) && talk.IsAddonReady)
@@ -193,7 +196,8 @@ namespace ICE.Scheduler.Tasks
                 if (EzThrottler.Throttle("Selecting Materia Selection"))
                 {
                     var select = iconString.Entries[0];
-                    IceLogging.Debug($"Selecting: {select.Text}");
+                    // IceLogging.Debug($"Selecting: {select.Text}");
+                    IceLogging.Debug($"正在选择：{select.Text}");
                     select.Select();
                 }
             }
@@ -259,27 +263,32 @@ namespace ICE.Scheduler.Tasks
 
                     if (gamba.LeftWheelItems.Length == 0)
                     {
-                        IceLogging.Info($"Found a pure stellar mission gamba. Choosing left wheel", tag);
+                        // IceLogging.Info($"Found a pure stellar mission gamba. Choosing left wheel", tag);
+                        IceLogging.Info($"发现纯星际任务转盘，选择左轮盘", tag);
                         SelectWheelLeft(gamba);
                     }
                     else if (gamba.RightWheelItems.Length == 0)
                     {
-                        IceLogging.Info($"Found a pure stellar mission gamba. Choosing right wheel", tag);
+                        // IceLogging.Info($"Found a pure stellar mission gamba. Choosing right wheel", tag);
+                        IceLogging.Info($"发现纯星际任务转盘，选择右轮盘", tag);
                         SelectWheelRight(gamba);
                     }
                     else if (leftWeight > rightWeight)
                     {
-                        IceLogging.Info($"[Gamba] First wheel is better with total weight: {leftWeight}");
+                        // IceLogging.Info($"[Gamba] First wheel is better with total weight: {leftWeight}");
+                        IceLogging.Info($"[Gamba] 第一个轮盘更优，总权重：{leftWeight}");
                         SelectWheelLeft(gamba);
                     }
                     else if (rightWeight > leftWeight)
                     {
-                        IceLogging.Info($"[Gamba] Second wheel is better with total weight: {rightWeight}");
+                        // IceLogging.Info($"[Gamba] Second wheel is better with total weight: {rightWeight}");
+                        IceLogging.Info($"[Gamba] 第二个轮盘更优，总权重：{rightWeight}");
                         SelectWheelRight(gamba);
                     }
                     else
                     {
-                        IceLogging.Info("[Gamba] Both wheels are equal in weight. Randomly selecting one.");
+                        // IceLogging.Info("[Gamba] Both wheels are equal in weight. Randomly selecting one.");
+                        IceLogging.Info("[Gamba] 两个轮盘权重相同。随机选择一个。");
                         if (new Random().Next(2) == 0)
                             SelectWheelLeft(gamba);
                         else
@@ -321,13 +330,15 @@ namespace ICE.Scheduler.Tasks
         {
             gamba.WheelLeftButton->Flags = 327936U; // Checked, Enabled, Selected
             gamba.WheelRightButton->Flags = 65792U; // Not Checked, Enabled, Not Selected
-            IceLogging.Debug($"[Gamba] Selecting Left Wheel");
+            // IceLogging.Debug($"[Gamba] Selecting Left Wheel");
+            IceLogging.Debug($"[Gamba] 选择左轮盘");
         }
         public static unsafe void SelectWheelRight(WKSLottery gamba)
         {
             gamba.WheelLeftButton->Flags = 65792U; // Not Checked, Enabled, Not Selected
             gamba.WheelRightButton->Flags = 327936U; // Checked, Enabled, Selected
-            IceLogging.Debug($"[Gamba] Selecting Right Wheel");
+            // IceLogging.Debug($"[Gamba] Selecting Right Wheel");
+            IceLogging.Debug($"[Gamba] 选择右轮盘");
         }
         public static bool BigBangGamba()
         {

@@ -43,7 +43,8 @@ namespace ICE.Scheduler.Tasks
                 if (P.AutoHook.Installed)
                     P.AutoHook.DeleteAllAnonymousPresets();
 
-                IceLogging.Info("Current mission is 0, checking to see where we need to be now", tag);
+                // IceLogging.Info("Current mission is 0, checking to see where we need to be now", tag);
+                IceLogging.Info("当前任务为 0，正在检查接下来需要前往的位置", tag);
                 return true;
             }
             else
@@ -75,7 +76,8 @@ namespace ICE.Scheduler.Tasks
                     }
                         
 
-                    IceLogging.Debug("Reporting the mission", tag);
+                    // IceLogging.Debug("Reporting the mission", tag);
+                    IceLogging.Debug("正在汇报任务", tag);
                     ReportMissionInstance();
                     WasAbandoned = false;
                     return false;
@@ -83,7 +85,8 @@ namespace ICE.Scheduler.Tasks
                 else
                 {
                     AbandonMissionInstance();
-                    IceLogging.Debug("Abandoning the mission", tag);
+                    // IceLogging.Debug("Abandoning the mission", tag);
+                    IceLogging.Debug("正在放弃任务", tag);
                     WasAbandoned = true;
                 }
             }

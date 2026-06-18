@@ -23,13 +23,15 @@ namespace ICE.Scheduler.Tasks
         {
             if (Svc.Condition[ConditionFlag.Gathering])
             {
-                IceLogging.Debug("Current in a gathering session");
+                // IceLogging.Debug("Current in a gathering session");
+                IceLogging.Debug("当前处于采集会话中");
                 Task_CheckScore.Enqueue();
                 P.TaskManager.Enqueue(() => GatherInteractV2(), "Interacting with gathering menu", Utils.TaskConfig);
             }
             else
             {
-                IceLogging.Debug("Not currently gathering, starting fresh instead");
+                // IceLogging.Debug("Not currently gathering, starting fresh instead");
+                IceLogging.Debug("当前未在采集，改为重新开始");
                 P.TaskManager.EnqueueDelay(100);
                 if (CosmicHelper.SheetMissionDict[CosmicHelper.CurrentLunarMission].Attributes.HasFlag(MissionAttributes.ReducedItems))
                 {
@@ -67,13 +69,15 @@ namespace ICE.Scheduler.Tasks
                     if (GatherDelayThrottle < 2)
                     {
                         if (EzThrottler.Throttle("Waiting for throttle to pass by"))
-                            IceLogging.Verbose("Gather Delay", tag);
+                            // IceLogging.Verbose("Gather Delay", tag);
+                            IceLogging.Verbose("采集延迟", tag);
                         return true;
                     }
                     else
                     {
                         if (EzThrottler.Throttle("Ready for gathering"))
-                            IceLogging.Verbose("No delay is activated for gathering, going to just go ahead and shoot", tag);
+                            // IceLogging.Verbose("No delay is activated for gathering, going to just go ahead and shoot", tag);
+                            IceLogging.Verbose("采集未启用延迟，直接继续执行", tag);
                         return false;
                     }
 
@@ -98,7 +102,8 @@ namespace ICE.Scheduler.Tasks
                     {
                         if (EzThrottler.Throttle("Log message"))
                         {
-                            IceLogging.Debug($"Collectable: {collectableItem} | Reduce: {reduceItems}");
+                            // IceLogging.Debug($"Collectable: {collectableItem} | Reduce: {reduceItems}");
+                            IceLogging.Debug($"收藏品：{collectableItem} | 精选：{reduceItems}");
                         }
 
                         if (reduceItems || (collectableItem))
@@ -111,7 +116,8 @@ namespace ICE.Scheduler.Tasks
                                 {
                                     item.Gather();
                                     Mission_Settings.Collectable_BuffCount = GatheringUtil.CollectStandardCharges();
-                                    IceLogging.Debug($"Gathering {item.ItemName} for collectability");
+                                    // IceLogging.Debug($"Gathering {item.ItemName} for collectability");
+                                    IceLogging.Debug($"正在采集 {item.ItemName} 以获取收藏价值");
                                 }
                             }
                         }
@@ -173,7 +179,8 @@ namespace ICE.Scheduler.Tasks
                         // this is all nice and tidy in one little function. Well that is split across 3 other ones but reguardless the general gathering task will be completed via this.
                         if (Mission_Settings.item_collectableId != collectable.ItemID)
                         {
-                            IceLogging.Debug($"Setting Mission CollectableId to: {collectable.ItemID}", "[Gather: Collectable Interacting]");
+                            // IceLogging.Debug($"Setting Mission CollectableId to: {collectable.ItemID}", "[Gather: Collectable Interacting]");
+                            IceLogging.Debug($"设置任务收藏品ID为：{collectable.ItemID}", "[Gather: Collectable Interacting]");
                             Mission_Settings.item_collectableId = collectable.ItemID;
                         }
 
@@ -185,7 +192,8 @@ namespace ICE.Scheduler.Tasks
                 }
                 else
                 {
-                    IceLogging.Verbose("Currently executing a gathering action, waiting patiently", tag);
+                    // IceLogging.Verbose("Currently executing a gathering action, waiting patiently", tag);
+                    IceLogging.Verbose("正在执行采集动作，耐心等待中", tag);
                     GatherDelayThrottle = 0;
                     return true;
                 }
@@ -267,7 +275,8 @@ namespace ICE.Scheduler.Tasks
             else
             {
                 if (isStuck)
-                    IceLogging.Debug("Collectable rotation stuck, falling through to collect");
+                    // IceLogging.Debug("Collectable rotation stuck, falling through to collect");
+                    IceLogging.Debug("收藏品循环卡住，转为直接采集");
 
                 // Reset progress tracking when we start collecting
                 _lastCollectability = -1;
@@ -442,14 +451,16 @@ namespace ICE.Scheduler.Tasks
 
                 if (rank == MissionRank.Failed)
                 {
-                    IceLogging.Info($"We've managed to time out the mission. Going to attempt to turnin, and abandon if not", "[Gathering: Open Gathering Menu]");
+                    // IceLogging.Info($"We've managed to time out the mission. Going to attempt to turnin, and abandon if not", "[Gathering: Open Gathering Menu]");
+                    IceLogging.Info($"任务已超时，将尝试交付，否则放弃", "[Gathering: Open Gathering Menu]");
                     SchedulerMain.State = IceState.AbandonMission;
                     P.TaskManager.Tasks.Clear();
                     return true;
                 }
                 else if (Svc.Condition[ConditionFlag.Gathering] && GenericHelpers.TryGetAddonMaster<Gathering>("Gathering", out var gather) && gather.IsAddonReady || GenericHelpers.TryGetAddonMaster<GatheringMasterpiece>("GatheringMasterpiece", out var collectable) && collectable.IsAddonReady)
                 {
-                    IceLogging.Info($"Gathering window is now visible, continuing onto GatheringInteraction Task", "[Gathering: OpenGatheringMenu]");
+                    // IceLogging.Info($"Gathering window is now visible, continuing onto GatheringInteraction Task", "[Gathering: OpenGatheringMenu]");
+                    IceLogging.Info($"采集窗口已显示，继续执行 GatheringInteraction 任务", "[Gathering: OpenGatheringMenu]");
                     P.TaskManager.Insert(() => GatherInteractV2(), "Gathering at the node", Utils.TaskConfig);
                     Mission_Settings.nodeTotal += 1;
                     return true;
@@ -473,7 +484,8 @@ namespace ICE.Scheduler.Tasks
                         else
                         {
                             // Node doesn't exist/isn't targetable. 
-                            IceLogging.Info($"The current node doesn't exist, continuing onto the next", "[Gathering: OpenGatheringMenu]");
+                            // IceLogging.Info($"The current node doesn't exist, continuing onto the next", "[Gathering: OpenGatheringMenu]");
+                            IceLogging.Info($"当前采集点不存在，继续下一个", "[Gathering: OpenGatheringMenu]");
                             Mission_Settings.nodeTotal += 1;
                             return true;
                         }
@@ -496,7 +508,8 @@ namespace ICE.Scheduler.Tasks
             if (Mission_Settings.Mode == ModeSelect.LevelMode)
             {
                 if (EzThrottler.Throttle("Level grind message", 1000))
-                    IceLogging.Debug("Leveling mode enabled, setting it to gatherProfile");
+                    // IceLogging.Debug("Leveling mode enabled, setting it to gatherProfile");
+                    IceLogging.Debug("已启用练级模式，设置为 gatherProfile");
                 gatherProfile = LevelProfile;
             }
             else if (gatherProfile == null)
@@ -521,7 +534,8 @@ namespace ICE.Scheduler.Tasks
             {
                 if (EzThrottler.Throttle("Helper Log"))
                 {
-                    IceLogging.Debug($"Gathering Chance: {gatherChance}", debugOnly: true);
+                    // IceLogging.Debug($"Gathering Chance: {gatherChance}", debugOnly: true);
+                    IceLogging.Debug($"采集成功率：{gatherChance}", debugOnly: true);
                 }
                 uint MasteryBuff = GatheringUtil.GathActionDict["FieldMasteryI"].StatusId;
 
@@ -586,7 +600,8 @@ namespace ICE.Scheduler.Tasks
                         {
                             uint jobId = (uint)Player.Job;
 
-                            IceLogging.Debug($"Using the following action: {ActionName} to gain some collectability from the node", debugOnly: true);
+                            // IceLogging.Debug($"Using the following action: {ActionName} to gain some collectability from the node", debugOnly: true);
+                            IceLogging.Debug($"正在使用以下动作：{ActionName} 以从采集点获取收藏价值", debugOnly: true);
                             var actionId = GatheringUtil.GathActionDict[ActionName].ClassAction[jobId];
                             ActionManager.Instance()->UseAction(ActionType.Action, actionId);
                             Mission_Settings.SkillUseAmount[ActionName] += 1;
@@ -609,7 +624,8 @@ namespace ICE.Scheduler.Tasks
                     {
                         uint jobId = (uint)Player.Job;
 
-                        IceLogging.Debug($"Using the following action: {"FieldMasteryTemp"} to gain some collectability from the node", debugOnly: true);
+                        // IceLogging.Debug($"Using the following action: {"FieldMasteryTemp"} to gain some collectability from the node", debugOnly: true);
+                        IceLogging.Debug($"正在使用以下动作：{"FieldMasteryTemp"} 以从采集点获取收藏价值", debugOnly: true);
                         var actionId = GatheringUtil.GathActionDict["FieldMasteryTemp"].ClassAction[jobId];
                         ActionManager.Instance()->UseAction(ActionType.Action, actionId);
                         Mission_Settings.SkillUseAmount["FieldMasteryTemp"] += 1;
@@ -644,7 +660,8 @@ namespace ICE.Scheduler.Tasks
                     {
                         uint jobId = (uint)Player.Job;
 
-                        IceLogging.Debug($"Using the following action: {action} on the node", debugOnly: true);
+                        // IceLogging.Debug($"Using the following action: {action} on the node", debugOnly: true);
+                        IceLogging.Debug($"正在使用以下动作：{action} 于采集点", debugOnly: true);
                         var actionId = GatheringUtil.GathActionDict[action].ClassAction[jobId];
                         ActionManager.Instance()->UseAction(ActionType.Action, actionId);
                         Mission_Settings.SkillUseAmount[action] += 1;
@@ -774,7 +791,8 @@ namespace ICE.Scheduler.Tasks
         }
         public static bool? CheckReduceMission()
         {
-            IceLogging.Info($"Current itemId: {Mission_Settings.item_collectableId}", "[Gather: Check Reduce Mission]");
+            // IceLogging.Info($"Current itemId: {Mission_Settings.item_collectableId}", "[Gather: Check Reduce Mission]");
+            IceLogging.Info($"当前 itemId：{Mission_Settings.item_collectableId}", "[Gather: Check Reduce Mission]");
             bool hasCollectable = PlayerHelper.GetItemCount(Mission_Settings.item_collectableId, out var count) && count > 0;
             bool isReducableMission = CosmicHelper.CurrentMissionInfo.Attributes.HasFlag(MissionAttributes.ReducedItems);
             if (hasCollectable && isReducableMission)
@@ -791,7 +809,8 @@ namespace ICE.Scheduler.Tasks
         {
             if (Svc.Condition[ConditionFlag.Occupied39])
             {
-                IceLogging.Info("We're currently desynthing an item, continuing on to wait to stop", "[Task Gather: Reducing Item Check]");
+                // IceLogging.Info("We're currently desynthing an item, continuing on to wait to stop", "[Task Gather: Reducing Item Check]");
+                IceLogging.Info("当前正在分解物品，继续等待停止", "[Task Gather: Reducing Item Check]");
                 return true;
             }
             else
@@ -875,15 +894,18 @@ namespace ICE.Scheduler.Tasks
 
             if (!PlayerHelper.CustomIsBusy)
             {
-                IceLogging.Debug("Cordial Checkers", tag);
+                // IceLogging.Debug("Cordial Checkers", tag);
+                IceLogging.Debug("用酒检查", tag);
                 if (C.AutoCordial)
                 {
                     if (C.CordialMinRank > 0 && GetCurrentMissionRank() < C.CordialMinRank)
                     {
-                        IceLogging.Debug($"Skipping cordial: mission rank {GetCurrentMissionRank()} below threshold {C.CordialMinRank}", tag);
+                        // IceLogging.Debug($"Skipping cordial: mission rank {GetCurrentMissionRank()} below threshold {C.CordialMinRank}", tag);
+                        IceLogging.Debug($"跳过用酒：任务等级 {GetCurrentMissionRank()} 低于阈值 {C.CordialMinRank}", tag);
                         return false;
                     }
-                    IceLogging.Debug($"Min GP: {PlayerHelper.GetGp()} <= {C.CordialMinGp}", tag);
+                    // IceLogging.Debug($"Min GP: {PlayerHelper.GetGp()} <= {C.CordialMinGp}", tag);
+                    IceLogging.Debug($"最低 GP：{PlayerHelper.GetGp()} <= {C.CordialMinGp}", tag);
 
                     if (PlayerHelper.GetGp() <= C.CordialMinGp)
                     {
@@ -898,7 +920,8 @@ namespace ICE.Scheduler.Tasks
 
                         foreach (var cordial in C.inverseCordialPrio ? cordials.Reverse() : cordials)
                         {
-                            IceLogging.Verbose($"Checking Cordial: {cordial.Value.Name}", tag);
+                            // IceLogging.Verbose($"Checking Cordial: {cordial.Value.Name}", tag);
+                            IceLogging.Verbose($"检查酒：{cordial.Value.Name}", tag);
                             bool hq = cordial.Key >= 1_000_000;
                             uint baseId = hq ? cordial.Key - 1_000_000 : cordial.Key;
 
@@ -927,7 +950,8 @@ namespace ICE.Scheduler.Tasks
                                                 if (item == null) continue;
                                                 if (item->ItemId == baseId && (hq == false || item->Flags.HasFlag(InventoryItem.ItemFlags.HighQuality)))
                                                 {
-                                                    IceLogging.Verbose($"We're using a cordial: ID: {cordial.Key} | Name: {cordial.Value.Name}", tag);
+                                                    // IceLogging.Verbose($"We're using a cordial: ID: {cordial.Key} | Name: {cordial.Value.Name}", tag);
+                                                    IceLogging.Verbose($"正在使用酒：ID：{cordial.Key} | 名称：{cordial.Value.Name}", tag);
                                                     AgentInventoryContext.Instance()->UseItem(cordial.Key, invType, (uint)i, 0);
                                                     return true;
                                                 }
@@ -942,7 +966,8 @@ namespace ICE.Scheduler.Tasks
                 else
                 {
                     if (EzThrottler.Throttle("No Use Cordial"))
-                        IceLogging.Verbose("We don't have auto cordial enabled, continuing on", tag);
+                        // IceLogging.Verbose("We don't have auto cordial enabled, continuing on", tag);
+                        IceLogging.Verbose("未启用自动用酒，继续执行", tag);
 
                     return false;
                 }
@@ -950,7 +975,8 @@ namespace ICE.Scheduler.Tasks
             else
             {
                 if (EzThrottler.Throttle("Cordial Busy"))
-                    IceLogging.Debug("Player is busy, skipping cordial check", tag);
+                    // IceLogging.Debug("Player is busy, skipping cordial check", tag);
+                    IceLogging.Debug("玩家忙碌中，跳过用酒检查", tag);
                 return false;
             }
             return false;
@@ -960,8 +986,10 @@ namespace ICE.Scheduler.Tasks
             bool WillOvercap = (PlayerHelper.GetGp() + recoveryGP) > PlayerHelper.MaxGp();
             if (WillOvercap)
             {
-                IceLogging.Verbose("Not going to be using a cordial because we'll overcap\n" +
-                    $"Recovered GP: {PlayerHelper.GetGp() + recoveryGP} | Max GP: {PlayerHelper.MaxGp()}");
+                // IceLogging.Verbose("Not going to be using a cordial because we'll overcap\n" +
+                //     $"Recovered GP: {PlayerHelper.GetGp() + recoveryGP} | Max GP: {PlayerHelper.MaxGp()}");
+                IceLogging.Verbose("因为会超出上限，所以不使用酒\n" +
+                    $"恢复后 GP：{PlayerHelper.GetGp() + recoveryGP} | 最大 GP：{PlayerHelper.MaxGp()}");
             }
 
             return WillOvercap;
@@ -975,7 +1003,8 @@ namespace ICE.Scheduler.Tasks
             {
                 if (C.FoodMinRank > 0 && GetCurrentMissionRank() < C.FoodMinRank)
                 {
-                    IceLogging.Debug($"Skipping food: mission rank {GetCurrentMissionRank()} below threshold {C.FoodMinRank}", tag);
+                    // IceLogging.Debug($"Skipping food: mission rank {GetCurrentMissionRank()} below threshold {C.FoodMinRank}", tag);
+                    IceLogging.Debug($"跳过食物：任务等级 {GetCurrentMissionRank()} 低于阈值 {C.FoodMinRank}", tag);
                     return true;
                 }
                 PlayerHelper.GetItemCount(ItemId, out var HqCount, includeNq: false);
@@ -986,7 +1015,8 @@ namespace ICE.Scheduler.Tasks
                     // We've gotten this far, which means we have a gathering item to use...
                     if (!PlayerHelper.HasFoodRunning())
                     {
-                        IceLogging.Verbose("We currently don't have food running/we have food, so going to check to see if we can use it", tag);
+                        // IceLogging.Verbose("We currently don't have food running/we have food, so going to check to see if we can use it", tag);
+                        IceLogging.Verbose("当前没有食物增益生效/我们有食物，因此检查是否可以使用", tag);
                         // We need to apply the food, since we have some, we're going to use some here
                         if (EzThrottler.Throttle("Using Food Item", 3000))
                         {
@@ -994,27 +1024,33 @@ namespace ICE.Scheduler.Tasks
                                 ItemId += 1_000_000;
 
                             ActionManager.Instance()->UseAction(ActionType.Item, ItemId, extraParam: 65535);
-                            IceLogging.Debug($"Attempting to use food: {ItemId}", tag);
+                            // IceLogging.Debug($"Attempting to use food: {ItemId}", tag);
+                            IceLogging.Debug($"尝试使用食物：{ItemId}", tag);
                         }
                         return false;
                     }
                     else
                     {
-                        IceLogging.Info("We have food running, and it's the proper one! Continuing", tag);
+                        // IceLogging.Info("We have food running, and it's the proper one! Continuing", tag);
+                        IceLogging.Info("已有正确的食物增益生效！继续", tag);
                         return true;
                     }
                 }
                 else
                 {
-                    IceLogging.Info("We are out of the current food, continuing on w/o buff", tag);
+                    // IceLogging.Info("We are out of the current food, continuing on w/o buff", tag);
+                    IceLogging.Info("当前食物已用完，继续执行（无增益）", tag);
                     return true;
                 }
             }
             else
             {
-                IceLogging.Info("We either don't have use food enabled, or have no food selected. Continuing on\n" +
-                               $"Use Food Enabled: {C.UseGatheringFood}\n" +
-                               $"ItemId of food: {ItemId}", tag);
+                // IceLogging.Info("We either don't have use food enabled, or have no food selected. Continuing on\n" +
+                //                $"Use Food Enabled: {C.UseGatheringFood}\n" +
+                //                $"ItemId of food: {ItemId}", tag);
+                IceLogging.Info("我们未启用使用食物，或未选择食物。继续执行\n" +
+                               $"已启用使用食物：{C.UseGatheringFood}\n" +
+                               $"食物的 ItemId：{ItemId}", tag);
                 return true;
             }
         }

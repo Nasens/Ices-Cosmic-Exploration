@@ -143,39 +143,48 @@ public static class CosmicMoonContent
 
             if (!HasNpcData(territoryId))
             {
-                IceLogging.Warning($"[CosmicMoonRegistry] {moon.DisplayName} ({territoryId}) has no NpcInfo entry");
+                // IceLogging.Warning($"[CosmicMoonRegistry] {moon.DisplayName} ({territoryId}) has no NpcInfo entry");
+                IceLogging.Warning($"[CosmicMoonRegistry] {moon.DisplayName}（{territoryId}）没有 NpcInfo 条目");
                 continue;
             }
 
             foreach (var npcType in standardNpcTypes)
             {
                 if (!NpcData.TryGetNpc(territoryId, npcType, out _))
-                    IceLogging.Warning($"[CosmicMoonRegistry] {moon.DisplayName} missing NpcInfo.{npcType}");
+                    // IceLogging.Warning($"[CosmicMoonRegistry] {moon.DisplayName} missing NpcInfo.{npcType}");
+                    IceLogging.Warning($"[CosmicMoonRegistry] {moon.DisplayName} 缺少 NpcInfo.{npcType}");
             }
 
             if (moon.HasCosmodrome && !NpcData.TryGetNpc(territoryId, NpcData.NpcType.Drone, out _))
-                IceLogging.Warning($"[CosmicMoonRegistry] {moon.DisplayName} has cosmodrome but no Drone NPC");
+                // IceLogging.Warning($"[CosmicMoonRegistry] {moon.DisplayName} has cosmodrome but no Drone NPC");
+                IceLogging.Warning($"[CosmicMoonRegistry] {moon.DisplayName} 有宇宙机场但没有 Drone NPC");
 
             if (!HasPlanetAethernet(territoryId))
-                IceLogging.Warning($"[CosmicMoonRegistry] {moon.DisplayName} ({territoryId}) has no PlanetAethernet entries");
+                // IceLogging.Warning($"[CosmicMoonRegistry] {moon.DisplayName} ({territoryId}) has no PlanetAethernet entries");
+                IceLogging.Warning($"[CosmicMoonRegistry] {moon.DisplayName}（{territoryId}）没有 PlanetAethernet 条目");
 
             // Colleague-owned gaps — info only, not a hard failure
             if (!HasFishingHoles(territoryId) && CosmicHelper.SheetMissionDict.Values.Any(x => x.TerritoryId == territoryId && x.Jobs.Contains(18)))
-                IceLogging.Info($"[CosmicMoonRegistry] {moon.DisplayName} has fisher missions but no MoonFishingLocations entry yet");
+                // IceLogging.Info($"[CosmicMoonRegistry] {moon.DisplayName} has fisher missions but no MoonFishingLocations entry yet");
+                IceLogging.Info($"[CosmicMoonRegistry] {moon.DisplayName} 有钓鱼任务但还没有 MoonFishingLocations 条目");
 
             if (!HasGatheringRoutes(territoryId) && CosmicHelper.SheetMissionDict.Values.Any(x =>
                     x.TerritoryId == territoryId && (x.Jobs.Contains(16) || x.Jobs.Contains(17))))
-                IceLogging.Info($"[CosmicMoonRegistry] {moon.DisplayName} has gather missions but no gathering route YAML yet");
+                // IceLogging.Info($"[CosmicMoonRegistry] {moon.DisplayName} has gather missions but no gathering route YAML yet");
+                IceLogging.Info($"[CosmicMoonRegistry] {moon.DisplayName} 有采集任务但还没有采集路线 YAML");
 
             if (!GatheringUtil.HasFishingRegistrar(territoryId))
-                IceLogging.Info($"[CosmicMoonRegistry] {moon.DisplayName} has no fishing preset registrar yet");
+                // IceLogging.Info($"[CosmicMoonRegistry] {moon.DisplayName} has no fishing preset registrar yet");
+                IceLogging.Info($"[CosmicMoonRegistry] {moon.DisplayName} 还没有钓鱼预设注册器");
 
             var criticalTotal = CountCriticalMissions(territoryId);
             var criticalMapped = CountCriticalMissionsWithCoords(territoryId);
             if (criticalTotal > 0 && criticalMapped < criticalTotal)
             {
+                // IceLogging.Info(
+                //     $"[CosmicMoonRegistry] {moon.DisplayName} red-alert turn-in coords: {criticalMapped}/{criticalTotal} mapped");
                 IceLogging.Info(
-                    $"[CosmicMoonRegistry] {moon.DisplayName} red-alert turn-in coords: {criticalMapped}/{criticalTotal} mapped");
+                    $"[CosmicMoonRegistry] {moon.DisplayName} 红色警报提交坐标：{criticalMapped}/{criticalTotal} 已映射");
             }
         }
 
@@ -183,19 +192,22 @@ public static class CosmicMoonContent
         foreach (var territoryId in NpcData.MoonNpcs.Keys)
         {
             if (!CosmicMoonRegistry.IsKnownCosmicTerritory(territoryId))
-                IceLogging.Warning($"[CosmicMoonRegistry] NpcInfo has territory {territoryId} but it is not in CosmicMoonRegistry.All");
+                // IceLogging.Warning($"[CosmicMoonRegistry] NpcInfo has territory {territoryId} but it is not in CosmicMoonRegistry.All");
+                IceLogging.Warning($"[CosmicMoonRegistry] NpcInfo 包含区域 {territoryId}，但它不在 CosmicMoonRegistry.All 中");
         }
 
         foreach (var territoryId in Task_NavmeshMove.PlanetAethernet.Keys)
         {
             if (!CosmicMoonRegistry.IsKnownCosmicTerritory(territoryId))
-                IceLogging.Warning($"[CosmicMoonRegistry] PlanetAethernet has territory {territoryId} but it is not in CosmicMoonRegistry.All");
+                // IceLogging.Warning($"[CosmicMoonRegistry] PlanetAethernet has territory {territoryId} but it is not in CosmicMoonRegistry.All");
+                IceLogging.Warning($"[CosmicMoonRegistry] PlanetAethernet 包含区域 {territoryId}，但它不在 CosmicMoonRegistry.All 中");
         }
 
         foreach (var territoryId in GatheringUtil.MoonFishingLocations.Keys)
         {
             if (!CosmicMoonRegistry.IsKnownCosmicTerritory(territoryId))
-                IceLogging.Warning($"[CosmicMoonRegistry] MoonFishingLocations has territory {territoryId} but it is not in CosmicMoonRegistry.All");
+                // IceLogging.Warning($"[CosmicMoonRegistry] MoonFishingLocations has territory {territoryId} but it is not in CosmicMoonRegistry.All");
+                IceLogging.Warning($"[CosmicMoonRegistry] MoonFishingLocations 包含区域 {territoryId}，但它不在 CosmicMoonRegistry.All 中");
         }
     }
 }

@@ -36,11 +36,13 @@ namespace ICE.Scheduler.Tasks
                 if (!Task_NavmeshMove.Task_NavTo(randomPos, distance: 6, npcLoc: npcEntry.Location_Npc).Value)
                 {
                     if (EzThrottler.Throttle("Drone Move Message", 1000))
-                        IceLogging.Verbose($"Pathing to drone NPC. Current distance: {Player.DistanceTo(npcEntry.Location_Npc)}", handle);
+                        // IceLogging.Verbose($"Pathing to drone NPC. Current distance: {Player.DistanceTo(npcEntry.Location_Npc)}", handle);
+                        IceLogging.Verbose($"正在前往探机 NPC，当前距离：{Player.DistanceTo(npcEntry.Location_Npc)}", handle);
                 }
                 else
                 {
-                    IceLogging.Debug("We're close enough to the drone npc! Continuing on", handle);
+                    // IceLogging.Debug("We're close enough to the drone npc! Continuing on", handle);
+                    IceLogging.Debug("已足够接近探机 NPC，继续执行", handle);
                     return true;
                 }
             }
@@ -49,7 +51,7 @@ namespace ICE.Scheduler.Tasks
                 if (EzThrottler.Throttle("Error message: NPC", 5000))
                     // IceLogging.Error("Hey! We don't have this npc coded yet, which means I forgot bout it, could you let me know\n" +
                     IceLogging.Error("该 NPC 尚未录入，请反馈\n" +
-                                     $"Planet Territory ID: {Player.Territory.RowId}", handle);
+                                     $"星球区域 ID：{Player.Territory.RowId}", handle);
             }
             return false;
         }
@@ -57,7 +59,8 @@ namespace ICE.Scheduler.Tasks
         {
             if (GenericHelpers.TryGetAddonMaster<SelectString>("SelectString", out var iconString) && iconString.IsAddonReady)
             {
-                IceLogging.Info("Icon string is visible! Time to shop");
+                // IceLogging.Info("Icon string is visible! Time to shop");
+                IceLogging.Info("图标字符串已可见！开始购物");
                 return true;
             }
             else if (GenericHelpers.TryGetAddonMaster<Talk>("Talk", out var talk) && talk.IsAddonReady)
@@ -84,7 +87,8 @@ namespace ICE.Scheduler.Tasks
         {
             if (GenericHelpers.TryGetAddonMaster<ShopExchangeCurrency>("ShopExchangeCurrency", out var shopExchange) && shopExchange.IsAddonReady)
             {
-                IceLogging.Debug("Shop Exchange Currency Addon is Ready!");
+                // IceLogging.Debug("Shop Exchange Currency Addon is Ready!");
+                IceLogging.Debug("ShopExchangeCurrency 插件已就绪！");
                 return true;
             }
             else if (GenericHelpers.TryGetAddonMaster<SelectString>("SelectString", out var selectString) && selectString.IsAddonReady)
@@ -92,7 +96,8 @@ namespace ICE.Scheduler.Tasks
                 if (EzThrottler.Throttle("Selecting Materia Selection"))
                 {
                     var select = selectString.Entries[0];
-                    IceLogging.Verbose($"Selecting: {select.Text}");
+                    // IceLogging.Verbose($"Selecting: {select.Text}");
+                    IceLogging.Verbose($"正在选择：{select.Text}");
                     select.Select();
                 }
             }
@@ -125,7 +130,8 @@ namespace ICE.Scheduler.Tasks
                         var remainingSpace = C.Cosmodrone_MaxKeep - currentAmount;
                         if (remainingSpace <= 0)
                         {
-                            IceLogging.Debug($"Already at or above max keep limit ({currentAmount}/{C.Cosmodrone_MaxKeep}), skipping purchase", tag);
+                            // IceLogging.Debug($"Already at or above max keep limit ({currentAmount}/{C.Cosmodrone_MaxKeep}), skipping purchase", tag);
+                            IceLogging.Debug($"已达到或超过最大保留上限（{currentAmount}/{C.Cosmodrone_MaxKeep}），跳过购买", tag);
                             return true;
                         }
 
@@ -137,12 +143,14 @@ namespace ICE.Scheduler.Tasks
                         if (EzThrottler.Throttle("Selecting to buy this item", 1000))
                         {
                             item.Select(maxAmount);
-                            IceLogging.Debug($"Purchasing {maxAmount} items (current: {currentAmount}, max keep: {C.Cosmodrone_MaxKeep})", tag);
+                            // IceLogging.Debug($"Purchasing {maxAmount} items (current: {currentAmount}, max keep: {C.Cosmodrone_MaxKeep})", tag);
+                            IceLogging.Debug($"正在购买 {maxAmount} 个物品（当前：{currentAmount}，最大保留：{C.Cosmodrone_MaxKeep}）", tag);
                         }
                     }
                     else
                     {
-                        IceLogging.Debug("We don't have any more currency to buy the dronebit, so continuing on", tag);
+                        // IceLogging.Debug("We don't have any more currency to buy the dronebit, so continuing on", tag);
+                        IceLogging.Debug("已无足够货币购买探机零件，继续执行", tag);
                         return true;
                     }
                 }
@@ -157,7 +165,8 @@ namespace ICE.Scheduler.Tasks
             {
                 if (EzThrottler.Throttle("Closing the window"))
                 {
-                    IceLogging.Verbose("Closing the shop exchange window", tag);
+                    // IceLogging.Verbose("Closing the shop exchange window", tag);
+                    IceLogging.Verbose("关闭商店兑换窗口", tag);
                     GenericHandlers.FireCallback("ShopExchangeCurrency", true, -1);
                 }
             }
@@ -271,7 +280,8 @@ namespace ICE.Scheduler.Tasks
                         GenericHandlers.FireCallback("WKSMission", true, -1);
                 }
 
-                IceLogging.Debug("We've found the map flag! Setting it for us to travel to", tag);
+                // IceLogging.Debug("We've found the map flag! Setting it for us to travel to", tag);
+                IceLogging.Debug("已找到地图标记！设置为前往目标", tag);
                 droneLoc = marker.Position;
                 P.TaskManager.Insert(InteractWithDrone, "Interact with drone");
                 Task_NavmeshMove.Enqueue_NavmeshTask(droneLoc, false, 3.5f);
@@ -281,13 +291,15 @@ namespace ICE.Scheduler.Tasks
             {
                 if (PlayerHelper.GetItemCount(itemId, out var count) && count > 0)
                 {
-                    IceLogging.Debug("We have a crate to use! Initiating the task to start using it", tag);
+                    // IceLogging.Debug("We have a crate to use! Initiating the task to start using it", tag);
+                    IceLogging.Debug("有可用的箱子！启动使用任务", tag);
                     P.TaskManager.Insert(UseDroneBox, "Use Drone Box");
                     return true;
                 }
                 else
                 {
-                    IceLogging.Debug($"We are out of boxes, and we have no markers. So we're continuing on with the normal task");
+                    // IceLogging.Debug($"We are out of boxes, and we have no markers. So we're continuing on with the normal task");
+                    IceLogging.Debug($"已无箱子且无标记，继续执行常规任务");
                     if (SchedulerMain.State == IceState.ArtifactSearch)
                     {
                         SchedulerMain.State = IceState.Idle;
@@ -314,7 +326,8 @@ namespace ICE.Scheduler.Tasks
                     {
                         Utils.TargetgameObject(artifact);
                         Utils.InteractWithObject(artifact);
-                        IceLogging.Verbose($"Drone has been found! Interacting with it", tag);
+                        // IceLogging.Verbose($"Drone has been found! Interacting with it", tag);
+                        IceLogging.Verbose($"已找到探机！正在与其交互", tag);
                     }
                 }
             }
@@ -339,7 +352,8 @@ namespace ICE.Scheduler.Tasks
             {
                 if (EzThrottler.Throttle("Selecting yes"))
                 {
-                    IceLogging.Verbose($"Text: {YesNo.Text}");
+                    // IceLogging.Verbose($"Text: {YesNo.Text}");
+                    IceLogging.Verbose($"文本：{YesNo.Text}");
                     YesNo.Yes();
                 }
             }
@@ -367,8 +381,10 @@ namespace ICE.Scheduler.Tasks
                 else
                 {
                     if (EzThrottler.Throttle("Using drone throttle"))
-                        IceLogging.Verbose("We're waiting for the addon map to be visible. If it's not then there's a problem\n" +
-                            $"Status is currently: {status}", tag);
+                        // IceLogging.Verbose("We're waiting for the addon map to be visible. If it's not then there's a problem\n" +
+                        //     $"Status is currently: {status}", tag);
+                        IceLogging.Verbose("正在等待地图插件显示。若未显示则存在问题\n" +
+                            $"当前状态：{status}", tag);
                 }
             }
                 
@@ -437,7 +453,8 @@ namespace ICE.Scheduler.Tasks
                     {
                         // Use the item from inventory
                         if (EzThrottler.Throttle("Using item"))
-                            IceLogging.Verbose($"Use Item: {itemId} | Inventory Type: {invType.ToString()} | Slot: {i}");
+                            // IceLogging.Verbose($"Use Item: {itemId} | Inventory Type: {invType.ToString()} | Slot: {i}");
+                            IceLogging.Verbose($"使用物品：{itemId} | 库存类型：{invType.ToString()} | 槽位：{i}");
                         AgentInventoryContext.Instance()->UseItem(item->ItemId, invType, (uint)i, 0);
                         return;
                     }

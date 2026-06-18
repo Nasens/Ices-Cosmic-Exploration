@@ -219,7 +219,8 @@ namespace ICE.Utilities
             }
             catch (Exception ex)
             {
-                IceLogging.Error($"EnsureCategoryTab threw: {ex.Message}");
+                // IceLogging.Error($"EnsureCategoryTab threw: {ex.Message}");
+                IceLogging.Error($"EnsureCategoryTab 抛出异常：{ex.Message}");
                 return false;
             }
         }
@@ -305,8 +306,8 @@ namespace ICE.Utilities
             if (missionManager == null) return 0;
 
             var mission = manager->State.CurrentMission;
-            // return mission.ScoreUInt;
-            return mission.Score;
+            // return mission.Score;
+            return mission.ScoreUInt;
         }
 
     }

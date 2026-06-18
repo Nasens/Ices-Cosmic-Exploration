@@ -112,10 +112,14 @@ namespace ICE.Scheduler.Tasks
                 CosmicMoonRegistry.All.Select(m =>
                     $"{m.DisplayName} [{m.TerritoryId}] = [{CosmicMoonRegistry.CountEnabledMissions(m.TerritoryId)}]"));
 
-            IceLogging.Info("This is just general message to let me know WHAT planet you're on, and where you have things enabled\n" +
-                "If you're not running things that requires these to be enabled, you can ignore this if you're reading this.\n" +
+            // IceLogging.Info("This is just general message to let me know WHAT planet you're on, and where you have things enabled\n" +
+            //     "If you're not running things that requires these to be enabled, you can ignore this if you're reading this.\n" +
+            //     $"{enabledPerMoon}\n" +
+            //     $"Current TerritoryID: {playerTerritory}");
+            IceLogging.Info("此消息仅用于告知你当前所在的星球，以及你在哪些区域启用了内容\n" +
+                "如果你没有运行需要启用这些内容的功能，看到此消息可以忽略。\n" +
                 $"{enabledPerMoon}\n" +
-                $"Current TerritoryID: {playerTerritory}");
+                $"当前区域 ID：{playerTerritory}");
 
             var modeSelected = Mission_Settings.Mode;
             foreach (var mission in CosmicHelper.SheetMissionDict)
@@ -267,8 +271,10 @@ namespace ICE.Scheduler.Tasks
                 }
                 else
                 {
-                    IceLogging.Verbose("We currently have no viable missions... which is odd. Please make sure you have some enabled, or report back if this is incorrect\n" +
-                        $"Config Mode: {C.SelectedMode} | Mode going into this: {Mission_Settings.Mode}", tag);
+                    // IceLogging.Verbose("We currently have no viable missions... which is odd. Please make sure you have some enabled, or report back if this is incorrect\n" +
+                    //     $"Config Mode: {C.SelectedMode} | Mode going into this: {Mission_Settings.Mode}", tag);
+                    IceLogging.Verbose("当前没有可用任务……这有点奇怪。请确认你已启用了一些任务，若确实有误请反馈\n" +
+                        $"配置模式：{C.SelectedMode} | 进入此流程的模式：{Mission_Settings.Mode}", tag);
                 }
 
                 SchedulerMain.State = IceState.Idle;
@@ -277,12 +283,14 @@ namespace ICE.Scheduler.Tasks
             }
             else
             {
-                IceLogging.Verbose("We've reached the end of the mission sorter, going to report back what our current mission counts are at:", tag);
+                // IceLogging.Verbose("We've reached the end of the mission sorter, going to report back what our current mission counts are at:", tag);
+                IceLogging.Verbose("已到达任务排序流程的末尾，下面汇报当前各类任务的数量：", tag);
                 foreach (var key in MissionLibrary)
                 {
                     IceLogging.Verbose($"[{key.Key}] = {key.Value.Count()}", tag);
                 }
-                IceLogging.Verbose("Going to run the sorter one more time to make sure that the priority is set for all of these (it should but ya never know)", tag);
+                // IceLogging.Verbose("Going to run the sorter one more time to make sure that the priority is set for all of these (it should but ya never know)", tag);
+                IceLogging.Verbose("再运行一次排序，以确保所有任务的优先级都已正确设置（理论上已设置，但以防万一）", tag);
                 foreach (var key in MissionLibrary.Keys.ToList())
                 {
                     MissionLibrary[key] = MissionLibrary[key]
@@ -299,8 +307,10 @@ namespace ICE.Scheduler.Tasks
                         .ToList();
                 }
 
-                IceLogging.Verbose($"Mission finder says we have a valid mission list. So we gonna go find one", tag);
-                IceLogging.Verbose($"Stardard tab missions job: {Mission_Settings.SelectedJob}");
+                // IceLogging.Verbose($"Mission finder says we have a valid mission list. So we gonna go find one", tag);
+                IceLogging.Verbose($"任务查找器表示我们有可用的任务列表，接下来去找一个任务", tag);
+                // IceLogging.Verbose($"Stardard tab missions job: {Mission_Settings.SelectedJob}");
+                IceLogging.Verbose($"标准标签页任务职业：{Mission_Settings.SelectedJob}");
                 return true;
             }
         }
@@ -312,7 +322,8 @@ namespace ICE.Scheduler.Tasks
             {
                 if (EzThrottler.Throttle("Closing the talk"))
                 {
-                    IceLogging.Info("Talk ui was visible, clicking through", tag);
+                    // IceLogging.Info("Talk ui was visible, clicking through", tag);
+                    IceLogging.Info("检测到对话框界面，点击跳过", tag);
                     talkUi.Click();
                 }
 
@@ -478,12 +489,18 @@ namespace ICE.Scheduler.Tasks
                 var redAlert = sheetInfo.IsCritical;
                 string jobs = string.Join(", ", sheetInfo.Jobs);
 
-                IceLogging.Info($"We found a mission! We're going to exit out of this task and grab the following: \n " +
-                    $"[Id] = {missionId}\n" +
-                    $"[Selected Job] = {Mission_Settings.SelectedJob}\n" +
-                    $"[Mission Job] = {jobs}\n" +
-                    $"Red Alert: {redAlert}\n" +
-                    $"Provisional: {provisional}", tag);
+                // IceLogging.Info($"We found a mission! We're going to exit out of this task and grab the following: \n " +
+                //     $"[Id] = {missionId}\n" +
+                //     $"[Selected Job] = {Mission_Settings.SelectedJob}\n" +
+                //     $"[Mission Job] = {jobs}\n" +
+                //     $"Red Alert: {redAlert}\n" +
+                //     $"Provisional: {provisional}", tag);
+                IceLogging.Info($"找到任务！将退出此流程并接取以下任务： \n " +
+                    $"[任务 ID] = {missionId}\n" +
+                    $"[选定职业] = {Mission_Settings.SelectedJob}\n" +
+                    $"[任务职业] = {jobs}\n" +
+                    $"紧急警报：{redAlert}\n" +
+                    $"临时任务：{provisional}", tag);
             }
 
             if (GenericHelpers.TryGetAddonMaster<WKSMission>("WKSMission", out var missionInfo) && missionInfo.IsAddonReady)
@@ -504,7 +521,8 @@ namespace ICE.Scheduler.Tasks
                     if (mode == ModeSelect.LevelMode)
                     {
                         var levelingMission = missionList.FirstOrDefault();
-                        IceLogging.Verbose($"Leveling Mission: Job: {Mission_Settings.SelectedJob} | Mission: {levelingMission} | Level: {CosmicHelper.SheetMissionDict[levelingMission].Level}", debugOnly: true);
+                        // IceLogging.Verbose($"Leveling Mission: Job: {Mission_Settings.SelectedJob} | Mission: {levelingMission} | Level: {CosmicHelper.SheetMissionDict[levelingMission].Level}", debugOnly: true);
+                        IceLogging.Verbose($"练级任务：职业：{Mission_Settings.SelectedJob} | 任务：{levelingMission} | 等级：{CosmicHelper.SheetMissionDict[levelingMission].Level}", debugOnly: true);
                         if (basicMissionList.Contains(levelingMission))
                         {
                             LogInfo(levelingMission);
@@ -512,7 +530,8 @@ namespace ICE.Scheduler.Tasks
                             return true;
                         }
 
-                        IceLogging.Verbose($"We seem to have not found the mission. Going to double check to make sure we have the tab unlocked", tag);
+                        // IceLogging.Verbose($"We seem to have not found the mission. Going to double check to make sure we have the tab unlocked", tag);
+                        IceLogging.Verbose($"似乎没有找到该任务，再次确认对应标签页是否已解锁", tag);
 
                         var highestRank = basicMissionList.Max(x => CosmicHelper.SheetMissionDict[x].Rank);
                         var level = Player.GetLevel((Job)Mission_Settings.SelectedJob);
@@ -520,35 +539,41 @@ namespace ICE.Scheduler.Tasks
 
                         if (level >= 50 && highestRank < 2)
                         {
-                            IceLogging.Verbose("We need to unlock the Lv. 50 Missions [C Rank] so we get better exp gains", tag);
+                            // IceLogging.Verbose("We need to unlock the Lv. 50 Missions [C Rank] so we get better exp gains", tag);
+                            IceLogging.Verbose("我们需要解锁 50 级任务 [C 级] 以获得更高的经验收益", tag);
                             missionId = basicMissionList
                                 .Where(x => CosmicHelper.Unlock_MissionList.Contains(x))
                                 .Where(x => CosmicHelper.SheetMissionDict[x].Drank)
                                 .Where(x => CosmicHelper.SheetMissionDict[x].CompletionStatus is CosmicHelper.Status.None)
                                 .FirstOrDefault();
-                            IceLogging.Verbose($"Lv. 50 Mission: {missionId}", tag);
+                            // IceLogging.Verbose($"Lv. 50 Mission: {missionId}", tag);
+                            IceLogging.Verbose($"50 级任务：{missionId}", tag);
                         }
                         else if (level >= 90 && highestRank < 3)
                         {
-                            IceLogging.Verbose("We need to unlock the Lv. 90 Missions [B Rank] so we get better exp gains", tag);
+                            // IceLogging.Verbose("We need to unlock the Lv. 90 Missions [B Rank] so we get better exp gains", tag);
+                            IceLogging.Verbose("我们需要解锁 90 级任务 [B 级] 以获得更高的经验收益", tag);
                             missionId = basicMissionList
                                 .Where(x => CosmicHelper.Unlock_MissionList.Contains(x))
                                 .Where(x => CosmicHelper.SheetMissionDict[x].CRank)
                                 .Where(x => CosmicHelper.SheetMissionDict[x].CompletionStatus is CosmicHelper.Status.None)
                                 .FirstOrDefault();
-                            IceLogging.Verbose($"Lv. 90 Mission: {missionId}", tag);
+                            // IceLogging.Verbose($"Lv. 90 Mission: {missionId}", tag);
+                            IceLogging.Verbose($"90 级任务：{missionId}", tag);
                         }
 
                         if (missionId != 0)
                         {
-                            IceLogging.Verbose("We found a mission that we need to complete for one reason or another, going to queue it up for leveling!", tag);
+                            // IceLogging.Verbose("We found a mission that we need to complete for one reason or another, going to queue it up for leveling!", tag);
+                            IceLogging.Verbose("找到一个出于某种原因需要完成的任务，将其加入练级队列！", tag);
                             LogInfo(missionId);
                             Insert_GrabMissionTask(missionId);
                             return true;
                         }
                         else
                         {
-                            IceLogging.Verbose("For one reason or another, we seem to have reached the bottom. Which either means rerolling for specific mission or just rerolling for unlocking purposes", tag);
+                            // IceLogging.Verbose("For one reason or another, we seem to have reached the bottom. Which either means rerolling for specific mission or just rerolling for unlocking purposes", tag);
+                            IceLogging.Verbose("出于某种原因，我们似乎已检索到底部。这意味着要么为特定任务重刷，要么只是为了解锁而重刷", tag);
                             return true;
                         }
                     }
@@ -560,12 +585,16 @@ namespace ICE.Scheduler.Tasks
                         var jobLv = Player.GetLevel((Job)job);
 
                         var urgency = new Dictionary<int, float>();
-                        IceLogging.Verbose("Relic mode was enabled. So going to do checks to see what exp we need", tag);
-                        IceLogging.Verbose($"Current Stage is the max stage? {classInfo.Stage_Current == classInfo.Stage_Next}", tag);
-                        IceLogging.Verbose($"Exp Current Tallies: [Check before finding missions]", tag);
+                        // IceLogging.Verbose("Relic mode was enabled. So going to do checks to see what exp we need", tag);
+                        IceLogging.Verbose("已启用 Relic 模式，开始检查需要哪种经验", tag);
+                        // IceLogging.Verbose($"Current Stage is the max stage? {classInfo.Stage_Current == classInfo.Stage_Next}", tag);
+                        IceLogging.Verbose($"当前阶段是否为最大阶段？{classInfo.Stage_Current == classInfo.Stage_Next}", tag);
+                        // IceLogging.Verbose($"Exp Current Tallies: [Check before finding missions]", tag);
+                        IceLogging.Verbose($"当前经验统计：[查找任务前的检查]", tag);
                         foreach (var exp in classInfo.CurrentExp)
                         {
-                            IceLogging.Verbose($"Kind: [{exp.Key}] | Current: {exp.Value.Current} / Needed: {exp.Value.Needed} | Max: {exp.Value.Max}", tag);
+                            // IceLogging.Verbose($"Kind: [{exp.Key}] | Current: {exp.Value.Current} / Needed: {exp.Value.Needed} | Max: {exp.Value.Max}", tag);
+                            IceLogging.Verbose($"类型：[{exp.Key}] | 当前：{exp.Value.Current} / 需要：{exp.Value.Needed} | 上限：{exp.Value.Max}", tag);
                             if (classInfo.Stage_Current != classInfo.Stage_Next)
                                 urgency[exp.Key] = exp.Value.Needed > 0 ? 1f - (float)exp.Value.Current / exp.Value.Needed : 0f;
                             else
@@ -573,19 +602,22 @@ namespace ICE.Scheduler.Tasks
                         }
                         if (urgency.Count() == 0 || urgency.All(x => x.Value <= 0))
                         {
-                            IceLogging.Verbose("We seem to be still grinding out relic exp (either by choice or cause someone didn't turnin) so we're going to just assign it to go for maxing exp", tag);
+                            // IceLogging.Verbose("We seem to be still grinding out relic exp (either by choice or cause someone didn't turnin) so we're going to just assign it to go for maxing exp", tag);
+                            IceLogging.Verbose("我们似乎仍在刷取 Relic 经验（可能是有意为之，或是有人没有交付任务），因此将其设定为尽量获取最大经验", tag);
                             foreach (var exp in classInfo.CurrentExp)
                                 urgency[exp.Key] = 1f - (float)exp.Value.Current / exp.Value.Max;
                         }
                         
                         if (urgency.All(x => x.Value <= 0))
                         {
-                            IceLogging.Verbose("We seem to be completed with the exp, but also, I don't have a mode setup for score farming yet. So setting the last exp value to be 1 so it just grabs a mission", tag);
+                            // IceLogging.Verbose("We seem to be completed with the exp, but also, I don't have a mode setup for score farming yet. So setting the last exp value to be 1 so it just grabs a mission", tag);
+                            IceLogging.Verbose("经验似乎已经刷满，但目前还没有专门的刷分模式。因此将最后一项经验值设为 1，让它直接接取一个任务", tag);
                             var lastEntry = urgency.LastOrDefault();
                             urgency[lastEntry.Key] = 1;
                         }
 
-                        IceLogging.Verbose("Going to check to see if we need to complete a specific mission...", tag);
+                        // IceLogging.Verbose("Going to check to see if we need to complete a specific mission...", tag);
+                        IceLogging.Verbose("开始检查我们是否需要完成某个特定任务……", tag);
 
                         var highestRank = basicMissionList.Max(x => CosmicHelper.SheetMissionDict[x].Rank);
 
@@ -598,7 +630,8 @@ namespace ICE.Scheduler.Tasks
 
                             if (mission != 0)
                             {
-                                IceLogging.Verbose($"Found an incomplete mission, queuing it now [{rankLabel}]", tag);
+                                // IceLogging.Verbose($"Found an incomplete mission, queuing it now [{rankLabel}]", tag);
+                                IceLogging.Verbose($"找到一个未完成的任务，现在将其加入队列 [{rankLabel}]", tag);
                                 Insert_GrabMissionTask(mission);
                                 return true;
                             }
@@ -614,7 +647,8 @@ namespace ICE.Scheduler.Tasks
 
                             if (mission != 0)
                             {
-                                IceLogging.Verbose($"Found a mission that can be golded, queuing it [{rankLabel}]", tag);
+                                // IceLogging.Verbose($"Found a mission that can be golded, queuing it [{rankLabel}]", tag);
+                                IceLogging.Verbose($"找到一个可以刷金的任务，将其加入队列 [{rankLabel}]", tag);
                                 Insert_GrabMissionTask(mission);
                                 return true;
                             }
@@ -627,20 +661,24 @@ namespace ICE.Scheduler.Tasks
 
                         if (jobLv >= 100 && highestRank < 4)
                         {
-                            IceLogging.Verbose("Hey! Lv 100 Missions still need to be unlocked, so going to check to see what need to do unlock those..", tag);
+                            // IceLogging.Verbose("Hey! Lv 100 Missions still need to be unlocked, so going to check to see what need to do unlock those..", tag);
+                            IceLogging.Verbose("嘿！100 级任务还需要解锁，开始检查解锁它们需要做些什么..", tag);
                             if (highestRank < 2)
                             {
-                                IceLogging.Verbose("ABSOLUTELY no ranks are unlocked yet (We're at D Rank Currently) Going to start with that and work our way up.", tag);
+                                // IceLogging.Verbose("ABSOLUTELY no ranks are unlocked yet (We're at D Rank Currently) Going to start with that and work our way up.", tag);
+                                IceLogging.Verbose("目前完全没有解锁任何等级（当前处于 D 级），将从 D 级开始逐步往上推进。", tag);
                                 if (TryQueueFirstIncomplete(isDRank, "D Rank")) return true;
                             }
                             else if (highestRank < 3)
                             {
-                                IceLogging.Verbose("Status Report. C Ranks are unlocked, but missing B Ranks, so we're going to aim to complete a C Rank.", tag);
+                                // IceLogging.Verbose("Status Report. C Ranks are unlocked, but missing B Ranks, so we're going to aim to complete a C Rank.", tag);
+                                IceLogging.Verbose("状态汇报：C 级已解锁，但还缺 B 级，因此我们的目标是完成一个 C 级任务。", tag);
                                 if (TryQueueFirstIncomplete(isCRank, "C Rank")) return true;
                             }
                             else
                             {
-                                IceLogging.Verbose("Woooooo B Ranks unlocked! Checking to see if there's a gold need to be completed, or just general completions.", tag);
+                                // IceLogging.Verbose("Woooooo B Ranks unlocked! Checking to see if there's a gold need to be completed, or just general completions.", tag);
+                                IceLogging.Verbose("耶！B 级已解锁！检查是否还需要刷金，或者只是普通完成即可。", tag);
 
                                 var goldCount = CosmicHelper.SheetMissionDict
                                     .Where(x => x.Value.TerritoryId == Player.Territory.RowId)
@@ -655,45 +693,54 @@ namespace ICE.Scheduler.Tasks
                                     .Where(x => x.Value.CompletionStatus > CosmicHelper.Status.None)
                                     .Where(x => x.Value.Jobs.Contains(job))
                                     .Count();
-                                IceLogging.Verbose($"Status | Gold [{goldCount} / 3] | Completed: [{completedStatus} / 5]", tag);
+                                // IceLogging.Verbose($"Status | Gold [{goldCount} / 3] | Completed: [{completedStatus} / 5]", tag);
+                                IceLogging.Verbose($"状态 | 金牌 [{goldCount} / 3] | 已完成：[{completedStatus} / 5]", tag);
 
                                 if (goldCount < 3)
                                 {
-                                    IceLogging.Verbose($"Missing Gold to help unlock B Ranks... so going to find one with that ideally", tag);
+                                    // IceLogging.Verbose($"Missing Gold to help unlock B Ranks... so going to find one with that ideally", tag);
+                                    IceLogging.Verbose($"还缺少用于解锁 B 级的金牌……因此最好去找一个能刷金的任务", tag);
                                     if (TryQueueFirstNonGold(isBRank, "B Rank")) return true;
                                 }
 
                                 if (completedStatus < 5)
                                 {
-                                    IceLogging.Verbose($"We just need to complete more B Rank Missions (So close...).", tag);
+                                    // IceLogging.Verbose($"We just need to complete more B Rank Missions (So close...).", tag);
+                                    IceLogging.Verbose($"我们只需再完成几个 B 级任务（就快好了……）。", tag);
                                     if (TryQueueFirstIncomplete(isBRank, "B Rank")) return true;
                                 }
                             }
                         }
                         else if (jobLv >= 90 && highestRank < 3)
                         {
-                            IceLogging.Verbose("We've hit Lv 90, and we STILL don't have B ranks unlocked, so going to focus that down.", tag);
+                            // IceLogging.Verbose("We've hit Lv 90, and we STILL don't have B ranks unlocked, so going to focus that down.", tag);
+                            IceLogging.Verbose("我们已达到 90 级，但仍未解锁 B 级，因此将集中精力解锁它。", tag);
                             if (TryQueueFirstIncomplete(isCRank, "C Rank")) return true;
                         }
                         else if (jobLv >= 50 && highestRank < 2)
                         {
-                            IceLogging.Verbose("We've atleast hit Lv. 50, and Absolutely no ranks unlocked right now besides D Ranks, going to focus on getting that done.", tag);
+                            // IceLogging.Verbose("We've atleast hit Lv. 50, and Absolutely no ranks unlocked right now besides D Ranks, going to focus on getting that done.", tag);
+                            IceLogging.Verbose("我们至少已达到 50 级，但目前除 D 级外没有解锁任何等级，将集中精力完成它。", tag);
                             if (TryQueueFirstIncomplete(isDRank, "D Rank")) return true;
                         }
 
 
-                        IceLogging.Verbose($"Relic Mode, Exp Requirements/Results", tag);
+                        // IceLogging.Verbose($"Relic Mode, Exp Requirements/Results", tag);
+                        IceLogging.Verbose($"Relic 模式，经验需求/结果", tag);
                         foreach (var exp in urgency)
                         {
-                            IceLogging.Verbose($"{exp.Key} : Value: {exp.Value:N2}", tag);
+                            // IceLogging.Verbose($"{exp.Key} : Value: {exp.Value:N2}", tag);
+                            IceLogging.Verbose($"{exp.Key} : 数值：{exp.Value:N2}", tag);
                         }
 
                         var filteredList = missionList.Where(x => CosmicHelper.SheetMissionDict[x].RelicXpInfo.Any(kvp => urgency.ContainsKey(kvp.Key) && urgency[kvp.Key] > 0));
                         if (filteredList.Count() == 0)
                         {
                             if (EzThrottler.Throttle("No viable missions throttle"))
-                                IceLogging.Info("We've hit a point where somehow, there's no possible missions that could be grabbed to help you increase your exp to the point it's needed\n" +
-                                                "So... this is an interesting spot... check to make sure that you're on the right planet to ", tag);
+                                // IceLogging.Info("We've hit a point where somehow, there's no possible missions that could be grabbed to help you increase your exp to the point it's needed\n" +
+                                //                 "So... this is an interesting spot... check to make sure that you're on the right planet to ", tag);
+                                IceLogging.Info("我们遇到了一种情况：没有任何可接取的任务能帮你把经验提升到所需的程度\n" +
+                                                "所以……这是个有点尴尬的情况……请确认你是否在正确的星球上 ", tag);
 
                             return true;
                         }
@@ -708,7 +755,8 @@ namespace ICE.Scheduler.Tasks
                                 {
                                     if (jobLv < sheetInfo.Level)
                                     {
-                                        IceLogging.Verbose($"Skipping Mission: {missionId} due to not high enough lv [Player: {jobLv} | Mission: {sheetInfo.Level}].\n");
+                                        // IceLogging.Verbose($"Skipping Mission: {missionId} due to not high enough lv [Player: {jobLv} | Mission: {sheetInfo.Level}].\n");
+                                        IceLogging.Verbose($"跳过任务：{missionId}，因为等级不足 [玩家：{jobLv} | 任务：{sheetInfo.Level}]。\n");
                                         continue;
                                     }
 
@@ -740,9 +788,12 @@ namespace ICE.Scheduler.Tasks
                             }
                             else
                             {
-                                IceLogging.Info("We've searched through all the missions and none had the exp we needed, which means time to reoll WOOOO!\n" +
-                                    $"Best Score: {bestScore}\n" +
-                                    $"Best Mission (not): {bestMissionId}", tag);
+                                // IceLogging.Info("We've searched through all the missions and none had the exp we needed, which means time to reoll WOOOO!\n" +
+                                //     $"Best Score: {bestScore}\n" +
+                                //     $"Best Mission (not): {bestMissionId}", tag);
+                                IceLogging.Info("我们搜索了所有任务，没有一个能提供所需的经验，这意味着该重刷了，耶！\n" +
+                                    $"最佳分数：{bestScore}\n" +
+                                    $"最佳任务（其实没有）：{bestMissionId}", tag);
 
                                 return true;
                             }
@@ -752,9 +803,12 @@ namespace ICE.Scheduler.Tasks
                     {
                         if (type is MissionTypes.Standard)
                         {
-                            IceLogging.Verbose($"Checking Standard missions.\n" +
-                                $"Loaded mission Count: {missionList.Count()}\n" +
-                                $"Amount of viable missions: {basicMissionList.Count()}", tag);
+                            // IceLogging.Verbose($"Checking Standard missions.\n" +
+                            //     $"Loaded mission Count: {missionList.Count()}\n" +
+                            //     $"Amount of viable missions: {basicMissionList.Count()}", tag);
+                            IceLogging.Verbose($"正在检查标准任务。\n" +
+                                $"已加载任务数量：{missionList.Count()}\n" +
+                                $"可用任务数量：{basicMissionList.Count()}", tag);
 
                             foreach (var missionId in missionList)
                             {
@@ -766,15 +820,20 @@ namespace ICE.Scheduler.Tasks
                                 }
                             }
 
-                            IceLogging.Info("No missions were found for basic missions tab. Continuing on", tag);
+                            // IceLogging.Info("No missions were found for basic missions tab. Continuing on", tag);
+                            IceLogging.Info("基础任务标签页中未找到任务，继续执行", tag);
                             return true;
                         }
                         else if (type is MissionTypes.Provisional)
                         {
-                            IceLogging.Verbose($"Checking missions for the following mode:\n" +
-                                $"Mode: {type}\n" +
-                                $"Loaded mission count: {missionList.Count()}\n" +
-                                $"Amount of viable missions: {specialMissionList.Count()}", tag);
+                            // IceLogging.Verbose($"Checking missions for the following mode:\n" +
+                            //     $"Mode: {type}\n" +
+                            //     $"Loaded mission count: {missionList.Count()}\n" +
+                            //     $"Amount of viable missions: {specialMissionList.Count()}", tag);
+                            IceLogging.Verbose($"正在检查以下模式的任务：\n" +
+                                $"模式：{type}\n" +
+                                $"已加载任务数量：{missionList.Count()}\n" +
+                                $"可用任务数量：{specialMissionList.Count()}", tag);
 
                             foreach (var missionId in missionList)
                             {
@@ -786,15 +845,20 @@ namespace ICE.Scheduler.Tasks
                                 }
                             }
 
-                            IceLogging.Verbose($"No missions were found for: {type}. Continuing on", tag);
+                            // IceLogging.Verbose($"No missions were found for: {type}. Continuing on", tag);
+                            IceLogging.Verbose($"未找到以下类型的任务：{type}，继续执行", tag);
                             return true;
                         }
                         else if (type is MissionTypes.Critical)
                         {
-                            IceLogging.Verbose($"Checking missions for the following mode:\n" +
-                                $"Mode: {type}\n" +
-                                $"Loaded mission count: {missionList.Count()}\n" +
-                                $"Amount of available missions: {criticalMissions.Count()}", tag);
+                            // IceLogging.Verbose($"Checking missions for the following mode:\n" +
+                            //     $"Mode: {type}\n" +
+                            //     $"Loaded mission count: {missionList.Count()}\n" +
+                            //     $"Amount of available missions: {criticalMissions.Count()}", tag);
+                            IceLogging.Verbose($"正在检查以下模式的任务：\n" +
+                                $"模式：{type}\n" +
+                                $"已加载任务数量：{missionList.Count()}\n" +
+                                $"可用任务数量：{criticalMissions.Count()}", tag);
 
                             foreach (var missionId in missionList)
                             {
@@ -806,15 +870,20 @@ namespace ICE.Scheduler.Tasks
                                 }
                             }
 
-                            IceLogging.Info("No missions were found for the critical missions, so continuing on", tag);
+                            // IceLogging.Info("No missions were found for the critical missions, so continuing on", tag);
+                            IceLogging.Info("未找到紧急任务，继续执行", tag);
                             return true;
                         }
                         else if (type is MissionTypes.ToolMastery)
                         {
-                            IceLogging.Verbose($"Checking missions for the following mode:\n" +
-                                $"Mode: {type}\n" +
-                                $"Loaded mission count: {missionList.Count()}\n" +
-                                $"Amount of available missions: {masteryMissions.Count()}", tag);
+                            // IceLogging.Verbose($"Checking missions for the following mode:\n" +
+                            //     $"Mode: {type}\n" +
+                            //     $"Loaded mission count: {missionList.Count()}\n" +
+                            //     $"Amount of available missions: {masteryMissions.Count()}", tag);
+                            IceLogging.Verbose($"正在检查以下模式的任务：\n" +
+                                $"模式：{type}\n" +
+                                $"已加载任务数量：{missionList.Count()}\n" +
+                                $"可用任务数量：{masteryMissions.Count()}", tag);
 
                             foreach (var missionId in missionList)
                             {
@@ -831,7 +900,8 @@ namespace ICE.Scheduler.Tasks
                     else
                     {
                         if (EzThrottler.Throttle("Dumb dumb message"))
-                            IceLogging.Verbose("Not a valid mode was found. ICE. FIX THIS", tag);
+                            // IceLogging.Verbose("Not a valid mode was found. ICE. FIX THIS", tag);
+                            IceLogging.Verbose("未找到有效的模式。ICE，修复这个问题。", tag);
                     }
                 }
             }
@@ -851,7 +921,8 @@ namespace ICE.Scheduler.Tasks
             {
                 if (CosmicHelper.SheetMissionDict.TryGetValue(missionId, out var nextMission) && nextMission.Rank < 6)
                 {
-                    IceLogging.Info($"Next mission rank {nextMission.Rank} is below EX+, extracting materia first");
+                    // IceLogging.Info($"Next mission rank {nextMission.Rank} is below EX+, extracting materia first");
+                    IceLogging.Info($"下一个任务的等级 {nextMission.Rank} 低于 EX+，先精炼魔晶石");
                     P.TaskManager.Enqueue(() => Task_Spiritbond.ExtractMateria(), "Extracting materia before next mission");
                 }
             }
@@ -865,7 +936,8 @@ namespace ICE.Scheduler.Tasks
         }
         private static bool? Mission_ChangeJob(uint missionId)
         {
-            IceLogging.Verbose("Starting to change job");
+            // IceLogging.Verbose("Starting to change job");
+            IceLogging.Verbose("开始切换职业");
 
             var mission = CosmicHelper.SheetMissionDict[missionId];
             var jobId = mission.Jobs.First();
@@ -877,7 +949,8 @@ namespace ICE.Scheduler.Tasks
                 if (EzThrottler.Throttle("Swapping to job for mission"))
                 {
                     GearsetHandler.TaskClassChange((Job)jobId);
-                    IceLogging.Debug($"Swapping to job: {jobId}");
+                    // IceLogging.Debug($"Swapping to job: {jobId}");
+                    IceLogging.Debug($"正在切换到职业：{jobId}");
                 }
                 return false;
             }
@@ -925,12 +998,14 @@ namespace ICE.Scheduler.Tasks
                     {
                         if (Player.DistanceTo(node.Position) < 5)
                         {
-                            IceLogging.Info("We're close enough to the node! So continuing onto grabbing the mission", tag);
+                            // IceLogging.Info("We're close enough to the node! So continuing onto grabbing the mission", tag);
+                            IceLogging.Info("我们离采集点已足够近！继续接取任务", tag);
                             return true;
                         }
                     }
 
-                    IceLogging.Verbose("If we've gotten this far, that means we need to figure out a path to go to the node. Doing so now", tag);
+                    // IceLogging.Verbose("If we've gotten this far, that means we need to figure out a path to go to the node. Doing so now", tag);
+                    IceLogging.Verbose("如果走到这一步，说明我们需要计算前往采集点的路径，现在开始计算", tag);
                     Task_NavmeshMove.Enqueue_NavmeshTask(startNode.LandZone);
                     return true;
                 }
@@ -960,13 +1035,15 @@ namespace ICE.Scheduler.Tasks
                     {
                         if (Player.DistanceTo(fishingLoc.Value) < 3)
                         {
-                            IceLogging.Info($"We have a custom fishing hole set, and we're close to it. {fishingLoc.Value}", tag);
+                            // IceLogging.Info($"We have a custom fishing hole set, and we're close to it. {fishingLoc.Value}", tag);
+                            IceLogging.Info($"已设置自定义钓鱼点，且我们离它很近。{fishingLoc.Value}", tag);
                             randomFishingHole = Vector3.Zero;
                             return true;
                         }
                         else
                         {
-                            IceLogging.Verbose($"We have a custom fishing hole set, and we're not within fishing range. Queueing up moving to it: {fishingLoc.Value}");
+                            // IceLogging.Verbose($"We have a custom fishing hole set, and we're not within fishing range. Queueing up moving to it: {fishingLoc.Value}");
+                            IceLogging.Verbose($"已设置自定义钓鱼点，但我们不在钓鱼范围内。将其加入移动队列：{fishingLoc.Value}");
                             Task_NavmeshMove.Enqueue_NavmeshTask(fishingLoc.Value);
                             randomFishingHole = Vector3.Zero;
                             return true;
@@ -978,7 +1055,8 @@ namespace ICE.Scheduler.Tasks
                 {
                     if (Player.DistanceTo(fishingSpot.FishingSpot) < 3)
                     {
-                        IceLogging.Info($"We've reached our fishing spot! We are current at: {fishingSpot.FishingSpot}", tag);
+                        // IceLogging.Info($"We've reached our fishing spot! We are current at: {fishingSpot.FishingSpot}", tag);
+                        IceLogging.Info($"我们已到达钓鱼点！当前位置：{fishingSpot.FishingSpot}", tag);
                         randomFishingHole = Vector3.Zero;
                         return true;
                     }
@@ -990,13 +1068,15 @@ namespace ICE.Scheduler.Tasks
                     var randomIndex = _random.Next(fishingHole.Count);
                     if (EzThrottler.Throttle("Setting fishing hole destination"))
                     {
-                        IceLogging.Debug($"Random number spot said we're going to the following fishing hole #: {randomIndex}");
+                        // IceLogging.Debug($"Random number spot said we're going to the following fishing hole #: {randomIndex}");
+                        IceLogging.Debug($"随机数结果指示我们前往第 {randomIndex} 号钓鱼点");
                         randomFishingHole = fishingHole[randomIndex].FishingSpot;
                     }
                 }
                 else
                 {
-                    IceLogging.Verbose("If we've gotten this far, that means we need to figure out a path to go to the node. Doing so now");
+                    // IceLogging.Verbose("If we've gotten this far, that means we need to figure out a path to go to the node. Doing so now");
+                    IceLogging.Verbose("如果走到这一步，说明我们需要计算前往采集点的路径，现在开始计算");
                     Task_NavmeshMove.Enqueue_NavmeshTask(randomFishingHole);
                     randomFishingHole = Vector3.Zero;
                     return true;
@@ -1006,7 +1086,8 @@ namespace ICE.Scheduler.Tasks
             {
                 if (sheetInfo.Attributes.HasFlag(MissionAttributes.Critical))
                 {
-                    IceLogging.Info($"We are currently aimed to do a critical mission, and we're on a crafter(?) so we're not going to move from our spot", tag);
+                    // IceLogging.Info($"We are currently aimed to do a critical mission, and we're on a crafter(?) so we're not going to move from our spot", tag);
+                    IceLogging.Info($"我们当前的目标是做紧急任务，且处于生产职业（？），因此不会从当前位置移动", tag);
                     return true;
                 }
                 else
@@ -1014,20 +1095,23 @@ namespace ICE.Scheduler.Tasks
                     var territory = Player.Territory.RowId;
                     if (C.CrafterLocations.TryGetValue(territory, out var location))
                     {
-                        IceLogging.Verbose("If we've gotten this far, that means we need to figure out a path to go to the node. Doing so now");
+                        // IceLogging.Verbose("If we've gotten this far, that means we need to figure out a path to go to the node. Doing so now");
+                    IceLogging.Verbose("如果走到这一步，说明我们需要计算前往采集点的路径，现在开始计算");
                         Task_NavmeshMove.Enqueue_NavmeshTask(location);
                         return true;
                     }
                     else
                     {
-                        IceLogging.Debug("No location is set for this place, so continuing on", tag);
+                        // IceLogging.Debug("No location is set for this place, so continuing on", tag);
+                        IceLogging.Debug("此地点未设置位置，继续执行", tag);
                         return true;
                     }
                 }
             }
             else
             {
-                IceLogging.Info("Mission was not a gathering or critical mission. Navmesh moving was not necessary. Moving onto next step", tag);
+                // IceLogging.Info("Mission was not a gathering or critical mission. Navmesh moving was not necessary. Moving onto next step", tag);
+                IceLogging.Info("任务不是采集或紧急任务，无需 Navmesh 移动，进入下一步", tag);
                 return true;
             }
 
@@ -1055,7 +1139,8 @@ namespace ICE.Scheduler.Tasks
                 }
                 Mission_Settings.nodeTotal = 0;
                 P.TaskManager.Tasks.Clear();
-                IceLogging.Debug($"State upon exiting: {SchedulerMain.State}");
+                // IceLogging.Debug($"State upon exiting: {SchedulerMain.State}");
+                IceLogging.Debug($"退出时的状态：{SchedulerMain.State}");
                 return true;
             }
             else
@@ -1073,9 +1158,11 @@ namespace ICE.Scheduler.Tasks
 
                     if (CorrectJobTab(job, categoryTab))
                     {
-                        IceLogging.Verbose("On the correct tab, we're going to see the total mission count", tag);
+                        // IceLogging.Verbose("On the correct tab, we're going to see the total mission count", tag);
+                        IceLogging.Verbose("已在正确的标签页，下面查看任务总数", tag);
                         var allmissions = CosmicHandler.All_AvailableMissions();
-                        IceLogging.Verbose($"All mission count: {allmissions.Count()} | Goal: {missionId}");
+                        // IceLogging.Verbose($"All mission count: {allmissions.Count()} | Goal: {missionId}");
+                        IceLogging.Verbose($"全部任务数量：{allmissions.Count()} | 目标：{missionId}");
                         foreach (var mission in allmissions.OrderBy(x => CosmicHelper.SheetMissionDict[x].Rank))
                         {
                             var sheetInfo = CosmicHelper.SheetMissionDict[mission];
@@ -1095,7 +1182,8 @@ namespace ICE.Scheduler.Tasks
 
                             if (retryCheck >= 4)
                             {
-                                IceLogging.Verbose($"Mission could no longer be found: {missionId}, retrying the process", tag);
+                                // IceLogging.Verbose($"Mission could no longer be found: {missionId}, retrying the process", tag);
+                                IceLogging.Verbose($"已无法再找到任务：{missionId}，重新尝试该流程", tag);
                                 retryCheck = 0;
                                 P.TaskManager.Tasks.Clear();
                                 return true;
@@ -1152,7 +1240,8 @@ namespace ICE.Scheduler.Tasks
                         List<uint> CRank = new List<uint>();
                         List<uint> DRank = new List<uint>();
 
-                        IceLogging.Info($"We're abandoning mission... so this should be the right tab for this: Rank: {CosmicHelper.SheetMissionDict[testMission.MissionId].Rank}");
+                        // IceLogging.Info($"We're abandoning mission... so this should be the right tab for this: Rank: {CosmicHelper.SheetMissionDict[testMission.MissionId].Rank}");
+                        IceLogging.Info($"我们要放弃任务……所以这应该是对应的正确标签页：等级：{CosmicHelper.SheetMissionDict[testMission.MissionId].Rank}");
 
                         // Track mission appearance counts
                         foreach (var mission in missionInfo.StellerMissions)
@@ -1165,7 +1254,8 @@ namespace ICE.Scheduler.Tasks
                             Mission_Settings.missionApperenceCount[missionId]++;
 
                             var rank = CosmicHelper.SheetMissionDict[missionId].Rank;
-                            IceLogging.Verbose($"Checking: {missionId} | Rank: {rank}");
+                            // IceLogging.Verbose($"Checking: {missionId} | Rank: {rank}");
+                            IceLogging.Verbose($"正在检查：{missionId} | 等级：{rank}");
 
                             switch (rank)
                             {
@@ -1199,8 +1289,10 @@ namespace ICE.Scheduler.Tasks
 
                         if (enabledCount == 0)
                         {
-                            IceLogging.Info("We don't have any basic missions enabled under the following class\n" +
-                                $"{Mission_Settings.SelectedJob}. So we're just going to clear -> Reset (Assuming we're checking for timed and such)");
+                            // IceLogging.Info("We don't have any basic missions enabled under the following class\n" +
+                            //     $"{Mission_Settings.SelectedJob}. So we're just going to clear -> Reset (Assuming we're checking for timed and such)");
+                            IceLogging.Info("我们在以下职业下没有启用任何基础任务\n" +
+                                $"{Mission_Settings.SelectedJob}。因此将直接清空 -> 重置（假定我们在检查限时等任务）");
                             P.TaskManager.Tasks.Clear();
                             return true;
                         }
@@ -1254,12 +1346,14 @@ namespace ICE.Scheduler.Tasks
                                 if (frequentAEx != 0)
                                 {
                                     missionToAbandon = frequentAEx;
-                                    IceLogging.Debug($"Abandoning frequently appearing AEX mission (appeared {Mission_Settings.missionApperenceCount[frequentAEx]} times)", tag);
+                                    // IceLogging.Debug($"Abandoning frequently appearing AEX mission (appeared {Mission_Settings.missionApperenceCount[frequentAEx]} times)", tag);
+                                    IceLogging.Debug($"放弃频繁出现的 AEX 任务（已出现 {Mission_Settings.missionApperenceCount[frequentAEx]} 次）", tag);
                                     Mission_Settings.previousAbandonRank = 5;
                                 }
                                 else
                                 {
-                                    IceLogging.Debug($"Only AEX Rank missions are available. Forcing an AEX rank to be accepted");
+                                    // IceLogging.Debug($"Only AEX Rank missions are available. Forcing an AEX rank to be accepted");
+                                    IceLogging.Debug($"只有 AEX 级任务可用，强制接取一个 AEX 级任务");
                                     missionToAbandon = AExRank.First();
                                     Mission_Settings.previousAbandonRank = 5;
                                 }
@@ -1269,12 +1363,14 @@ namespace ICE.Scheduler.Tasks
                                 if (frequentA != 0)
                                 {
                                     missionToAbandon = frequentA;
-                                    IceLogging.Debug($"Abandoning frequently appearing A mission (appeared {Mission_Settings.missionApperenceCount[frequentA]} times)", tag);
+                                    // IceLogging.Debug($"Abandoning frequently appearing A mission (appeared {Mission_Settings.missionApperenceCount[frequentA]} times)", tag);
+                                    IceLogging.Debug($"放弃频繁出现的 A 级任务（已出现 {Mission_Settings.missionApperenceCount[frequentA]} 次）", tag);
                                     Mission_Settings.previousAbandonRank = 4;
                                 }
                                 else
                                 {
-                                    IceLogging.Debug($"Only A Rank missions are available. Forcing an A rank to be accepted", tag);
+                                    // IceLogging.Debug($"Only A Rank missions are available. Forcing an A rank to be accepted", tag);
+                                    IceLogging.Debug($"只有 A 级任务可用，强制接取一个 A 级任务", tag);
                                     missionToAbandon = ARank.First();
                                     Mission_Settings.previousAbandonRank = 4;
                                 }
@@ -1286,13 +1382,15 @@ namespace ICE.Scheduler.Tasks
                                     if (frequentA != 0)
                                     {
                                         missionToAbandon = frequentA;
-                                        IceLogging.Debug($"Abandoning frequently appearing A mission (appeared {Mission_Settings.missionApperenceCount[frequentA]} times)", tag);
+                                        // IceLogging.Debug($"Abandoning frequently appearing A mission (appeared {Mission_Settings.missionApperenceCount[frequentA]} times)", tag);
+                                    IceLogging.Debug($"放弃频繁出现的 A 级任务（已出现 {Mission_Settings.missionApperenceCount[frequentA]} 次）", tag);
                                         Mission_Settings.previousAbandonRank = 4;
                                     }
                                     else
                                     {
                                         missionToAbandon = ARank.First();
-                                        IceLogging.Debug($"Abandoning Rank 4 Mission.");
+                                        // IceLogging.Debug($"Abandoning Rank 4 Mission.");
+                                        IceLogging.Debug($"放弃 4 级任务。");
                                         Mission_Settings.previousAbandonRank = 4;
                                     }
                                 }
@@ -1301,20 +1399,23 @@ namespace ICE.Scheduler.Tasks
                                     if (frequentAEx != 0)
                                     {
                                         missionToAbandon = frequentAEx;
-                                        IceLogging.Debug($"Abandoning frequently appearing AEX mission (appeared {Mission_Settings.missionApperenceCount[frequentAEx]} times)", tag);
+                                        // IceLogging.Debug($"Abandoning frequently appearing AEX mission (appeared {Mission_Settings.missionApperenceCount[frequentAEx]} times)", tag);
+                                    IceLogging.Debug($"放弃频繁出现的 AEX 任务（已出现 {Mission_Settings.missionApperenceCount[frequentAEx]} 次）", tag);
                                         Mission_Settings.previousAbandonRank = 5;
                                     }
                                     else
                                     {
                                         missionToAbandon = AExRank.First();
-                                        IceLogging.Debug($"Abandoning Rank 5 Mission", tag);
+                                        // IceLogging.Debug($"Abandoning Rank 5 Mission", tag);
+                                        IceLogging.Debug($"放弃 5 级任务", tag);
                                         Mission_Settings.previousAbandonRank = 5;
                                     }
                                 }
                                 else
                                 {
                                     missionToAbandon = ARank.First();
-                                    IceLogging.Debug($"Starting off w/ abandoning an A rank", tag);
+                                    // IceLogging.Debug($"Starting off w/ abandoning an A rank", tag);
+                                    IceLogging.Debug($"先从放弃一个 A 级任务开始", tag);
                                     Mission_Settings.previousAbandonRank = 4;
                                 }
                             }
@@ -1325,7 +1426,8 @@ namespace ICE.Scheduler.Tasks
                             if (frequentB != 0)
                             {
                                 missionToAbandon = frequentB;
-                                IceLogging.Debug($"Abandoning frequently appearing B mission (appeared {Mission_Settings.missionApperenceCount[frequentB]} times)", tag);
+                                // IceLogging.Debug($"Abandoning frequently appearing B mission (appeared {Mission_Settings.missionApperenceCount[frequentB]} times)", tag);
+                                IceLogging.Debug($"放弃频繁出现的 B 级任务（已出现 {Mission_Settings.missionApperenceCount[frequentB]} 次）", tag);
                             }
                             else
                             {
@@ -1339,7 +1441,8 @@ namespace ICE.Scheduler.Tasks
                             if (frequentC != 0)
                             {
                                 missionToAbandon = frequentC;
-                                IceLogging.Debug($"Abandoning frequently appearing C mission (appeared {Mission_Settings.missionApperenceCount[frequentC]} times)", tag);
+                                // IceLogging.Debug($"Abandoning frequently appearing C mission (appeared {Mission_Settings.missionApperenceCount[frequentC]} times)", tag);
+                                IceLogging.Debug($"放弃频繁出现的 C 级任务（已出现 {Mission_Settings.missionApperenceCount[frequentC]} 次）", tag);
                             }
                             else
                             {
@@ -1353,7 +1456,8 @@ namespace ICE.Scheduler.Tasks
                             if (frequentD != 0)
                             {
                                 missionToAbandon = frequentD;
-                                IceLogging.Debug($"Abandoning frequently appearing D mission (appeared {Mission_Settings.missionApperenceCount[frequentD]} times)", tag);
+                                // IceLogging.Debug($"Abandoning frequently appearing D mission (appeared {Mission_Settings.missionApperenceCount[frequentD]} times)", tag);
+                                IceLogging.Debug($"放弃频繁出现的 D 级任务（已出现 {Mission_Settings.missionApperenceCount[frequentD]} 次）", tag);
                             }
                             else
                             {
@@ -1365,7 +1469,8 @@ namespace ICE.Scheduler.Tasks
                         {
                             if (MissionLibrary[MissionKind.B].Count > 0)
                             {
-                                IceLogging.Debug("Leveling mode is active. Need to find a valid C or D Rank mission", tag);
+                                // IceLogging.Debug("Leveling mode is active. Need to find a valid C or D Rank mission", tag);
+                                IceLogging.Debug("练级模式已启用，需要找到一个有效的 C 级或 D 级任务", tag);
                                 var mission = missionInfo.StellerMissions.Where(m => CosmicHelper.SheetMissionDict[m.MissionId].Level == 50).FirstOrDefault();
 
                                 if (mission != null)

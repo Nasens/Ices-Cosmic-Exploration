@@ -56,13 +56,15 @@ namespace ICE.Scheduler.Tasks
                     {
                         if (config.Use_BuildinPreset)
                         {
-							IceLogging.Debug("Use Built-In Presets Checked. Resetting/Importing presets.");
+							// IceLogging.Debug("Use Built-In Presets Checked. Resetting/Importing presets.");
+							IceLogging.Debug("已勾选使用内置预设。正在重置／导入预设。");
                             P.AutoHook.DeleteAllAnonymousPresets();
                             FishingTask(missionId);
                         }
 						else
 						{
-							IceLogging.Debug("Use Built-In Presets Unchecked. Setting configured preset.");
+							// IceLogging.Debug("Use Built-In Presets Unchecked. Setting configured preset.");
+							IceLogging.Debug("未勾选使用内置预设。正在设置已配置的预设。");
 							string presetName = C.MissionConfig[CosmicHelper.CurrentLunarMission].AutoHookPresetName;
 							P.AutoHook.SetPreset(presetName);
 						}
@@ -75,34 +77,40 @@ namespace ICE.Scheduler.Tasks
                     if (missionConfig.Use_BuildinPreset)
                     {
                         // Using the build in presets that are included in the plugin.
-						IceLogging.Debug("Use Built-In Presets Checked. Resetting/Importing presets.");
+						// IceLogging.Debug("Use Built-In Presets Checked. Resetting/Importing presets.");
+						IceLogging.Debug("已勾选使用内置预设。正在重置／导入预设。");
                         P.AutoHook.DeleteAllAnonymousPresets();
                         FishingTask(missionId);
                     }
                     else
                     {
-						IceLogging.Debug("Use Built-In Presets Unchecked. Setting configured preset.");
+						// IceLogging.Debug("Use Built-In Presets Unchecked. Setting configured preset.");
+						IceLogging.Debug("未勾选使用内置预设。正在设置已配置的预设。");
                         string presetName = missionConfig.AutoHookPresetName;
                         P.AutoHook.SetPreset(presetName);
                     }
 
                     SchedulerMain.State = IceState.Fish;
-                    IceLogging.Debug("Mission is a fishing mission, so going to the fishing task");
+                    // IceLogging.Debug("Mission is a fishing mission, so going to the fishing task");
+                    IceLogging.Debug("任务为钓鱼任务，前往钓鱼任务流程");
                 }
                 else if (gatherMission)
                 {
                     SchedulerMain.State = IceState.Gather;
-                    IceLogging.Info("Mission is a gathering mission. Need to gather inial resources. But first going to do a check to make sure where we're at.", "[Task_ExecuteMission]");
+                    // IceLogging.Info("Mission is a gathering mission. Need to gather inial resources. But first going to do a check to make sure where we're at.", "[Task_ExecuteMission]");
+                    IceLogging.Info("任务为采集任务。需要采集初始资源。但首先进行检查以确认当前状态。", "[Task_ExecuteMission]");
                 }
                 else if (craftMission)
                 {
-                    IceLogging.Debug("Mission is purely a crafting mission (yay), checking current state next", "[Task_ExecuteMission]");
+                    // IceLogging.Debug("Mission is purely a crafting mission (yay), checking current state next", "[Task_ExecuteMission]");
+                    IceLogging.Debug("任务为纯制作任务，接下来检查当前状态", "[Task_ExecuteMission]");
                     SchedulerMain.State = IceState.Craft;
                 }
             }
             else if (CosmicHelper.CurrentLunarMission == 0)
             {
-                IceLogging.Debug("Hmm... somehow we got in this state. And we shouldn't be? Returning back to the grab mission state");
+                // IceLogging.Debug("Hmm... somehow we got in this state. And we shouldn't be? Returning back to the grab mission state");
+                IceLogging.Debug("意外进入了此状态，本不应如此？正在返回领取任务状态");
                 SchedulerMain.State = IceState.GrabMission;
             }
 
@@ -137,7 +145,8 @@ namespace ICE.Scheduler.Tasks
             if (presetList.Count == 0)
                 return;
 
-            IceLogging.Debug($"Current Fish Preset Count for [{missionId}]: {presetList.Count}");
+            // IceLogging.Debug($"Current Fish Preset Count for [{missionId}]: {presetList.Count}");
+            IceLogging.Debug($"[{missionId}] 当前钓鱼预设数量：{presetList.Count}");
 
             // Import first preset immediately
             P.AutoHook.CreateAndSelectAnonymousPreset(presetList[0]);

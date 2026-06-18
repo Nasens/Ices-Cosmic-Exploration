@@ -29,7 +29,8 @@ namespace ICE.Scheduler.Tasks
         {
             string tag = "[Task: Check State]";
 
-            IceLogging.Verbose("Updating the mission completion status", tag);
+            // IceLogging.Verbose("Updating the mission completion status", tag);
+            IceLogging.Verbose("正在更新任务完成状态", tag);
             CosmicHelper.Update_MissionCompletion();
 
             var currentMode = C.SelectedMode;
@@ -39,27 +40,32 @@ namespace ICE.Scheduler.Tasks
 
             if (GenericHelpers.TryGetAddonMaster<WKSLottery>("WKSLottery", out var lottery) && lottery.IsAddonReady)
             {
-                IceLogging.Info("We are currently gambling at the wheel, so going to continue on with that and wait for it to finish", tag);
+                // IceLogging.Info("We are currently gambling at the wheel, so going to continue on with that and wait for it to finish", tag);
+                IceLogging.Info("当前正在转盘抽奖，将继续等待其完成", tag);
                 SchedulerMain.State = IceState.Gambling;
                 return true;
             }
             else if (currentMissionId != 0)
             {
-                IceLogging.Verbose($"Currently in the middle of a mission: {CosmicHelper.CurrentLunarMission}. Checking the state of what we should do");
+                // IceLogging.Verbose($"Currently in the middle of a mission: {CosmicHelper.CurrentLunarMission}. Checking the state of what we should do");
+                IceLogging.Verbose($"当前正在进行任务：{CosmicHelper.CurrentLunarMission}。正在检查应执行的操作");
                 if (GenericHelpers.TryGetAddonMaster<WKSMissionInfomation>("WKSMissionInfomation", out var missionInfo) && missionInfo.IsAddonReady)
                 {
-                    IceLogging.Debug($"Mission Infomation was active, checking if a mission is timed out.");
+                    // IceLogging.Debug($"Mission Infomation was active, checking if a mission is timed out.");
+                    IceLogging.Debug($"任务信息界面已激活，正在检查任务是否超时。");
                     if (CosmicHandler.IsMissionTimedOut())
                     {
                         // Mission time has reached 0, checking the score/aborting if necessary
-                        IceLogging.Info("Mission is currently timed out. Going to abandon the mission state", "[Task: Check State]");
+                        // IceLogging.Info("Mission is currently timed out. Going to abandon the mission state", "[Task: Check State]");
+                        IceLogging.Info("任务当前已超时，将放弃该任务状态", "[Task: Check State]");
                         SchedulerMain.State = IceState.AbandonMission;
                         P.TaskManager.Tasks.Clear();
                         return true;
                     }
                     else
                     {
-                        IceLogging.Debug($"Mission isn't timed out... checking other states");
+                        // IceLogging.Debug($"Mission isn't timed out... checking other states");
+                        IceLogging.Debug($"任务未超时……正在检查其他状态");
                         UpdateMissionState(currentMissionId);
                         C.MissionConfig.TryGetValue(currentMissionId, out var config);
 
@@ -72,44 +78,52 @@ namespace ICE.Scheduler.Tasks
                             // TODO: Remove this once properly coded
                             if (s.HasFlag(MissionAttributes.Fish))
                             {
-                                IceLogging.Info("Currently not built in/supported yet. Swapping to manual mode");
+                                // IceLogging.Info("Currently not built in/supported yet. Swapping to manual mode");
+                                IceLogging.Info("当前尚未内置/支持，正在切换到手动模式");
                             }
                             else
                             {
-                                IceLogging.Info($"You have either manual mode enabled, or you have OnlyGrabMission enabled. Swapping to manual mode state");
+                                // IceLogging.Info($"You have either manual mode enabled, or you have OnlyGrabMission enabled. Swapping to manual mode state");
+                                IceLogging.Info($"你已启用手动模式，或已启用「仅接取任务」，正在切换到手动模式状态");
                             }
                             SchedulerMain.State = IceState.ManualMode;
                         }
                         else if (dualMission)
                         {
-                            IceLogging.Info("We're in a dual craft mission, going to kick it over there", "[Task: Check State]");
+                            // IceLogging.Info("We're in a dual craft mission, going to kick it over there", "[Task: Check State]");
+                            IceLogging.Info("当前处于双职业制作任务中，将切换至对应流程", "[Task: Check State]");
                             Mission_Settings.ResetNodeCounter();
                             SchedulerMain.State = IceState.DualClass;
                         }
                         else if (Svc.Condition[ConditionFlag.Crafting] || P.Artisan.IsBusy())
                         {
-                            IceLogging.Info("We are on a crafter, and either in the middle of crafting or need to start.", "[Task: Check State]");
+                            // IceLogging.Info("We are on a crafter, and either in the middle of crafting or need to start.", "[Task: Check State]");
+                            IceLogging.Info("当前为生产职业，正在制作中或需要开始制作。", "[Task: Check State]");
                             SchedulerMain.State = IceState.Craft;
                         }
                         else if (Svc.Condition[ConditionFlag.Gathering])
                         {
                             Mission_Settings.ResetNodeCounter();
-                            IceLogging.Info("On a gathering class, kicking over to the gathering action", "[Task: Check State]");
+                            // IceLogging.Info("On a gathering class, kicking over to the gathering action", "[Task: Check State]");
+                            IceLogging.Info("当前为采集职业，正在切换至采集操作", "[Task: Check State]");
                             SchedulerMain.State = IceState.Gather;
                         }
                         else if (s.HasFlag(MissionAttributes.Fish))
                         {
-                            IceLogging.Debug("We seem to be in the middle of a fishing mission. Going to check presets");
+                            // IceLogging.Debug("We seem to be in the middle of a fishing mission. Going to check presets");
+                            IceLogging.Debug("当前似乎处于钓鱼任务中，正在检查预设");
 							var missionConfig = C.MissionConfig[currentMissionId];
 							if (config.Use_BuildinPreset)
 							{
-								IceLogging.Debug("Use Built-In Presets Checked. Resetting/Importing presets.");
+								// IceLogging.Debug("Use Built-In Presets Checked. Resetting/Importing presets.");
+								IceLogging.Debug("已勾选「使用内置预设」，正在重置/导入预设。");
 								P.AutoHook.DeleteAllAnonymousPresets();
 								Task_ExecuteMission.FishingTask(currentMissionId);
 							}
 							else
 							{
-								IceLogging.Debug("Use Built-In Presets Unchecked. Setting configured preset.");
+								// IceLogging.Debug("Use Built-In Presets Unchecked. Setting configured preset.");
+								IceLogging.Debug("未勾选「使用内置预设」，正在设置已配置的预设。");
 								string presetName = missionConfig.AutoHookPresetName;
 								P.AutoHook.SetPreset(presetName);
 							}
@@ -118,7 +132,8 @@ namespace ICE.Scheduler.Tasks
                         else
                         {
                             // Not currently in the middle of an action, so time to check score and go from there.
-                            IceLogging.Debug("Not in the middle of an action, swapping to score checking", "[Task_CheckState]");
+                            // IceLogging.Debug("Not in the middle of an action, swapping to score checking", "[Task_CheckState]");
+                            IceLogging.Debug("当前未处于任何操作中，正在切换至分数检查", "[Task_CheckState]");
                             SchedulerMain.State = IceState.ScoreCheck;
                         }
 
@@ -175,10 +190,12 @@ namespace ICE.Scheduler.Tasks
                     }
                 }
 
-                IceLogging.Verbose("We're currently in agenda mode. We need to check to see if we have anything even in the agenda before we continue", tag);
+                // IceLogging.Verbose("We're currently in agenda mode. We need to check to see if we have anything even in the agenda before we continue", tag);
+                IceLogging.Verbose("当前处于宇宙议程模式，需要先检查议程中是否有内容才能继续", tag);
                 if (C.Cosmic_Agenda.Count > 0)
                 {
-                    IceLogging.Verbose($"We have a task list that we need to complete! Going to swap over to check and see what goal we need to complete");
+                    // IceLogging.Verbose($"We have a task list that we need to complete! Going to swap over to check and see what goal we need to complete");
+                    IceLogging.Verbose($"当前有需要完成的任务列表！将切换以检查需要完成的目标");
                     P.TaskManager.Enqueue(() => AgendaCheck(), "Start Mode: Agenda Check");
                     return true;
                 }
@@ -285,25 +302,31 @@ namespace ICE.Scheduler.Tasks
 
                     if (potentionalTurnin)
                     {
-                        IceLogging.Verbose("We have a relic that we can potentionally turnin. These are the current Exp Stats", tag);
+                        // IceLogging.Verbose("We have a relic that we can potentionally turnin. These are the current Exp Stats", tag);
+                        IceLogging.Verbose("存在一件可能可以交付的 Relic。以下是当前经验数据", tag);
 
                         var totalExpCount = relicInfo.CurrentExp.Count();
                         if (totalExpCount != 0)
                         {
-                            IceLogging.Verbose($"Current Lv: {relicInfo.Stage_Current} | Next Lv: {relicInfo.Stage_Next}");
-                            IceLogging.Verbose($"Total Exp Types: {relicInfo.CurrentExp.Count()}");
+                            // IceLogging.Verbose($"Current Lv: {relicInfo.Stage_Current} | Next Lv: {relicInfo.Stage_Next}");
+                            IceLogging.Verbose($"当前等级：{relicInfo.Stage_Current} | 下一等级：{relicInfo.Stage_Next}");
+                            // IceLogging.Verbose($"Total Exp Types: {relicInfo.CurrentExp.Count()}");
+                            IceLogging.Verbose($"经验类型总数：{relicInfo.CurrentExp.Count()}");
                             foreach (var exp in relicInfo.CurrentExp)
                             {
-                                IceLogging.Verbose($"Kind [{exp.Key}] | Current: [{exp.Value.Current}] / Needed: [{exp.Value.Needed}] | Max: [{exp.Value.Max}]", tag);
+                                // IceLogging.Verbose($"Kind [{exp.Key}] | Current: [{exp.Value.Current}] / Needed: [{exp.Value.Needed}] | Max: [{exp.Value.Max}]", tag);
+                                IceLogging.Verbose($"种类 [{exp.Key}] | 当前：[{exp.Value.Current}] / 所需：[{exp.Value.Needed}] | 上限：[{exp.Value.Max}]", tag);
                                 canTurnin &= exp.Value.Current >= exp.Value.Needed;
                             }
 
                             if (canTurnin)
                             {
-                                IceLogging.Verbose("We can turn in the relic! (Allegedly) So going to check to see if we need to do so", tag);
+                                // IceLogging.Verbose("We can turn in the relic! (Allegedly) So going to check to see if we need to do so", tag);
+                                IceLogging.Verbose("可以交付该 Relic！（据称）将检查是否需要交付", tag);
                                 if (C.TurninRelic)
                                 {
-                                    IceLogging.Verbose("We have turnin set to true, going to queue up later turning the relic into researchingWay", tag);
+                                    // IceLogging.Verbose("We have turnin set to true, going to queue up later turning the relic into researchingWay", tag);
+                                    IceLogging.Verbose("交付已设为开启，稍后将排入交付 Relic 的队列", tag);
                                 }
                                 else
                                 {
@@ -322,7 +345,8 @@ namespace ICE.Scheduler.Tasks
                         {
                             if (EzThrottler.Throttle("Force update exp"))
                             {
-                                IceLogging.Verbose("We seem... to be missing the exp? Which is odd. So going to force an update?");
+                                // IceLogging.Verbose("We seem... to be missing the exp? Which is odd. So going to force an update?");
+                                IceLogging.Verbose("似乎……缺少经验数据？这很奇怪。将强制更新一次");
                                 CosmicHelper.Task_UpdateRelicMissionInfo();
                             }
                             return false;
@@ -332,14 +356,17 @@ namespace ICE.Scheduler.Tasks
                     {
                         bool isCapped = true;
 
-                        IceLogging.Verbose("Checking Max Relic Exp", tag);
+                        // IceLogging.Verbose("Checking Max Relic Exp", tag);
+                        IceLogging.Verbose("正在检查 Relic 满级经验", tag);
                         var totalExpCount = relicInfo.CurrentExp.Count();
                         if (totalExpCount != 0)
                         {
-                            IceLogging.Verbose($"Total Exp Types: {relicInfo.CurrentExp.Count()}");
+                            // IceLogging.Verbose($"Total Exp Types: {relicInfo.CurrentExp.Count()}");
+                            IceLogging.Verbose($"经验类型总数：{relicInfo.CurrentExp.Count()}");
                             foreach (var exp in relicInfo.CurrentExp)
                             {
-                                IceLogging.Verbose($"Kind [{exp.Key}] | Current: [{exp.Value.Current}] / Max: [{exp.Value.Max}]", tag);
+                                // IceLogging.Verbose($"Kind [{exp.Key}] | Current: [{exp.Value.Current}] / Max: [{exp.Value.Max}]", tag);
+                                IceLogging.Verbose($"种类 [{exp.Key}] | 当前：[{exp.Value.Current}] / 上限：[{exp.Value.Max}]", tag);
                                 isCapped &= exp.Value.Current == exp.Value.Max;
                             }
 
@@ -360,7 +387,8 @@ namespace ICE.Scheduler.Tasks
                         {
                             if (EzThrottler.Throttle("Force update exp"))
                             {
-                                IceLogging.Verbose("We seem... to be missing the exp? Which is odd. So going to force an update?");
+                                // IceLogging.Verbose("We seem... to be missing the exp? Which is odd. So going to force an update?");
+                                IceLogging.Verbose("似乎……缺少经验数据？这很奇怪。将强制更新一次");
                                 CosmicHelper.Task_UpdateRelicMissionInfo();
                             }
                             return false;
@@ -411,13 +439,17 @@ namespace ICE.Scheduler.Tasks
             if (CosmicMoonRegistry.TryGetDronebit(territory, out var dronebit))
                 PlayerHelper.GetItemCount(dronebit.creditId, out dronebitAmount);
 
-            IceLogging.Verbose("Checking to see which one we're going to start (if any)", tag);
+            // IceLogging.Verbose("Checking to see which one we're going to start (if any)", tag);
+            IceLogging.Verbose("正在检查将要开始执行哪一项（如果有）", tag);
 
             foreach (var entry in agenda)
             {
-                IceLogging.Verbose($"Checking:\n" +
-                    $"Job: {entry.SelectedJob}\n" +
-                    $"Agenda: {entry.SelectedMode}");
+                // IceLogging.Verbose($"Checking:\n" +
+                //     $"Job: {entry.SelectedJob}\n" +
+                //     $"Agenda: {entry.SelectedMode}");
+                IceLogging.Verbose($"正在检查：\n" +
+                    $"职业：{entry.SelectedJob}\n" +
+                    $"议程：{entry.SelectedMode}");
 
                 var job = entry.SelectedJob;
                 var relicInfo = relicProgress[job];
@@ -481,8 +513,10 @@ namespace ICE.Scheduler.Tasks
                         PlaylistOptions.ToolMaxExp or PlaylistOptions.GoldClassMissions => $"{achieved}",
                         _ => "?"
                     };
-                    IceLogging.Info($"Priority has been found to achieve: {goal}. Going to aim to complete this goal", tag);
-                    IceLogging.Debug($"[Goal Check] {goal}: {progress} (achieved={achieved})", tag);
+                    // IceLogging.Info($"Priority has been found to achieve: {goal}. Going to aim to complete this goal", tag);
+                    IceLogging.Info($"已找到要优先达成的目标：{goal}。将以完成该目标为目标", tag);
+                    // IceLogging.Debug($"[Goal Check] {goal}: {progress} (achieved={achieved})", tag);
+                    IceLogging.Debug($"[目标检查] {goal}：{progress}（已达成={achieved}）", tag);
                     Mission_Settings.Mode = entry.SelectedMode;
                     Mission_Settings.SelectedJob = entry.SelectedJob;
                     P.TaskManager.Enqueue(() => HubActivityCheck(), "Checking for reason to go to hub");
@@ -490,11 +524,13 @@ namespace ICE.Scheduler.Tasks
                 }
                 else
                 {
-                    IceLogging.Info($"The following goal is complete, ignoring it: Goal: {goal} Job: {job}", tag);
+                    // IceLogging.Info($"The following goal is complete, ignoring it: Goal: {goal} Job: {job}", tag);
+                    IceLogging.Info($"以下目标已完成，将忽略：目标：{goal} 职业：{job}", tag);
                 }
             }
 
-            IceLogging.Info("We've actually finished our agenda! Congrats. Stopping the process", tag);
+            // IceLogging.Info("We've actually finished our agenda! Congrats. Stopping the process", tag);
+            IceLogging.Info("你已完成全部议程！恭喜。正在停止流程", tag);
             P.TaskManager.Tasks.Clear();
             SchedulerMain.State = IceState.Idle;
 
@@ -521,14 +557,17 @@ namespace ICE.Scheduler.Tasks
 
             if (C.DisableHub_Critical && worldState is CosmicHandler.WKSEvents.RedAlert_Progressing)
             {
-                IceLogging.Info("We currently have a red alert up, and we were told NOT to go to the hub for hub related activities, so we're not going to do so\n" +
-                    "Progressing to grabbing missions", tag);
+                // IceLogging.Info("We currently have a red alert up, and we were told NOT to go to the hub for hub related activities, so we're not going to do so\n" +
+                //     "Progressing to grabbing missions", tag);
+                IceLogging.Info("当前有红色警报，且设置为「不前往 Hub 进行相关活动」，因此不会前往\n" +
+                    "正在继续接取任务", tag);
                 SchedulerMain.State = IceState.GrabMission;
 
                 return true;
             }
 
-            IceLogging.Verbose($"Repair Class: {repairSelfGear} | Repair All: {repairAllGear}", tag);
+            // IceLogging.Verbose($"Repair Class: {repairSelfGear} | Repair All: {repairAllGear}", tag);
+            IceLogging.Verbose($"修理本职业：{repairSelfGear} | 修理全部：{repairAllGear}", tag);
 
             bool selfRepairCraft = Char_Info.SelfRepairCrafter && CosmicHelper.CrafterJobList.Contains((uint)Player.Job);
             bool selfRepairGathering = Char_Info.SelfRepairGather && CosmicHelper.GatheringJobList.Contains((uint)Player.Job);
@@ -539,18 +578,22 @@ namespace ICE.Scheduler.Tasks
 
             if (repairSelfGear || repairAllGear)
             {
-                IceLogging.Verbose($"We were told we needed repairs, one of these should be true...", tag);
+                // IceLogging.Verbose($"We were told we needed repairs, one of these should be true...", tag);
+                IceLogging.Verbose($"已判定需要修理，以下条件之一应为真……", tag);
                 if (Char_Info.RepairAtVendor)
                 {
-                    IceLogging.Debug("We were told to repair at the vendor, so we'll add that to the list of hub activities", tag);
+                    // IceLogging.Debug("We were told to repair at the vendor, so we'll add that to the list of hub activities", tag);
+                    IceLogging.Debug("设置为在商人处修理，将其加入 Hub 活动列表", tag);
                     RepairVendor = true;
                 }
                 else
                 {
-                    IceLogging.Verbose($"Self Repair Crafter: {selfRepairCraft} | Self Repair Gathering: {selfRepairGathering}");
+                    // IceLogging.Verbose($"Self Repair Crafter: {selfRepairCraft} | Self Repair Gathering: {selfRepairGathering}");
+                    IceLogging.Verbose($"自助修理生产职业：{selfRepairCraft} | 自助修理采集职业：{selfRepairGathering}");
                     if (selfRepairCraft || selfRepairGathering)
                     {
-                        IceLogging.Debug("We were told that we can repair at ONE of these. So going to exit -> self repair", tag);
+                        // IceLogging.Debug("We were told that we can repair at ONE of these. So going to exit -> self repair", tag);
+                        IceLogging.Debug("设置为可在其中之一进行修理，将退出 -> 自助修理", tag);
                         SchedulerMain.State = IceState.Repair;
                         return true;
                     }
@@ -566,11 +609,13 @@ namespace ICE.Scheduler.Tasks
             if (CosmicMoonRegistry.TryGetDronebit(territoryId, out var dronebitAmount))
             {
                 BuyDrones = C.Cosmodrone_Buy && Task_ArtifactSearch.CanBuyDroneBoxes();
-                IceLogging.Verbose($"Buying drones? {BuyDrones}", tag);
+                // IceLogging.Verbose($"Buying drones? {BuyDrones}", tag);
+                IceLogging.Verbose($"是否购买无人机？{BuyDrones}", tag);
             }
             if (CosmicMoonRegistry.TryGetPlanetCreditItemId(territoryId, out var gambaCredits) && PlayerHelper.GetItemCount(gambaCredits, out var gambaAmount))
             {
-                IceLogging.Verbose($"{C.GambaAtAmount} >= {gambaAmount} && Gamba between runs {C.GambaBetweenRuns}");
+                // IceLogging.Verbose($"{C.GambaAtAmount} >= {gambaAmount} && Gamba between runs {C.GambaBetweenRuns}");
+                IceLogging.Verbose($"{C.GambaAtAmount} >= {gambaAmount} && 运行间抽奖 {C.GambaBetweenRuns}");
                 GambaWheel = C.GambaAtAmount <= gambaAmount && C.GambaBetweenRuns;
             }
             if (C.BuyItems)
@@ -590,13 +635,15 @@ namespace ICE.Scheduler.Tasks
                 if (isUpgradable)
                 {
                     var totalExpCount = relicInfo.CurrentExp.Count();
-                    IceLogging.Verbose($"Total Exp Types: {relicInfo.CurrentExp.Count()}");
+                    // IceLogging.Verbose($"Total Exp Types: {relicInfo.CurrentExp.Count()}");
+                    IceLogging.Verbose($"经验类型总数：{relicInfo.CurrentExp.Count()}");
                     if (totalExpCount != 0)
                     {
                         bool canTurnin = true;
                         foreach (var exp in relicInfo.CurrentExp)
                         {
-                            IceLogging.Verbose($"Kind [{exp.Key}] | Current: [{exp.Value.Current}] / Needed: [{exp.Value.Needed}] | Max: [{exp.Value.Max}]", tag);
+                            // IceLogging.Verbose($"Kind [{exp.Key}] | Current: [{exp.Value.Current}] / Needed: [{exp.Value.Needed}] | Max: [{exp.Value.Max}]", tag);
+                            IceLogging.Verbose($"种类 [{exp.Key}] | 当前：[{exp.Value.Current}] / 所需：[{exp.Value.Needed}] | 上限：[{exp.Value.Max}]", tag);
                             canTurnin &= exp.Value.Current >= exp.Value.Needed;
                         }
                         TurninRelic = isUpgradable && canTurnin;
@@ -606,7 +653,8 @@ namespace ICE.Scheduler.Tasks
                     {
                         if (EzThrottler.Throttle("Force update exp"))
                         {
-                            IceLogging.Verbose("We seem... to be missing the exp? Which is odd. So going to force an update?");
+                            // IceLogging.Verbose("We seem... to be missing the exp? Which is odd. So going to force an update?");
+                            IceLogging.Verbose("似乎……缺少经验数据？这很奇怪。将强制更新一次");
                             CosmicHelper.Task_UpdateRelicMissionInfo();
                         }
                         return false;
@@ -616,12 +664,18 @@ namespace ICE.Scheduler.Tasks
 
             if (BuyDrones || GambaWheel || BuyItems || RepairVendor || TurninRelic)
             {
-                IceLogging.Info("We have some reason to return back to the base so... we're doing so.\n" +
-                                  $"Can Buy Drones: {BuyDrones}\n" +
-                                  $"Gamba Wheel: {GambaWheel}\n" +
-                                  $"Buying Cosmocredit Items: {BuyItems}\n" +
-                                  $"Repair At Vendor: {RepairVendor}\n" +
-                                  $"Turnin Relic: {TurninRelic}", tag);
+                // IceLogging.Info("We have some reason to return back to the base so... we're doing so.\n" +
+                //                   $"Can Buy Drones: {BuyDrones}\n" +
+                //                   $"Gamba Wheel: {GambaWheel}\n" +
+                //                   $"Buying Cosmocredit Items: {BuyItems}\n" +
+                //                   $"Repair At Vendor: {RepairVendor}\n" +
+                //                   $"Turnin Relic: {TurninRelic}", tag);
+                IceLogging.Info("有理由返回基地，因此正在返回。\n" +
+                                  $"可购买无人机：{BuyDrones}\n" +
+                                  $"抽奖转盘：{GambaWheel}\n" +
+                                  $"购买宇宙点数物品：{BuyItems}\n" +
+                                  $"在商人处修理：{RepairVendor}\n" +
+                                  $"交付 Relic：{TurninRelic}", tag);
                 Task_HubActivities.CanBuyDrones = BuyDrones;
                 Task_HubActivities.CanGamba = GambaWheel;
                 Task_HubActivities.CosmoBuy = BuyItems;
@@ -631,7 +685,8 @@ namespace ICE.Scheduler.Tasks
             }
             else
             {
-                IceLogging.Info("We have no reason to go to the hub. So going to just proceed to see about grabbing missions");
+                // IceLogging.Info("We have no reason to go to the hub. So going to just proceed to see about grabbing missions");
+                IceLogging.Info("没有理由前往 Hub，将直接继续尝试接取任务");
                 SchedulerMain.State = IceState.GrabMission;
             }
 

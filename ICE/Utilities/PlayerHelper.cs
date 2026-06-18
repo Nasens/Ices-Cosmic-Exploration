@@ -100,20 +100,23 @@ public class PlayerHelper
         var im = InventoryManager.Instance();
         if (im == null)
         {
-            IceLogging.Error("InventoryManager was null");
+            // IceLogging.Error("InventoryManager was null");
+            IceLogging.Error("InventoryManager 为 null");
             return false;
         }
 
         var equipped = im->GetInventoryContainer(InventoryType.EquippedItems);
         if (equipped == null)
         {
-            IceLogging.Error("InventoryContainer was null", tag);
+            // IceLogging.Error("InventoryContainer was null", tag);
+            IceLogging.Error("InventoryContainer 为 null", tag);
             return false;
         }
 
         if (!equipped->IsLoaded)
         {
-            IceLogging.Error($"InventoryContainer is not loaded");
+            // IceLogging.Error($"InventoryContainer is not loaded");
+            IceLogging.Error($"InventoryContainer 未加载");
             return false;
         }
 
@@ -127,7 +130,8 @@ public class PlayerHelper
 
             if (itemCondition <= below)
             {
-                IceLogging.Debug($"Found an item that needed repair. Condition: {itemCondition}");
+                // IceLogging.Debug($"Found an item that needed repair. Condition: {itemCondition}");
+                IceLogging.Debug($"发现需要修理的物品。耐久度：{itemCondition}");
                 return true;
             }
         }
@@ -142,7 +146,8 @@ public class PlayerHelper
         var im = InventoryManager.Instance();
         if (im == null)
         {
-            IceLogging.Error("Inventory Manager was null, so can't check for repair status", tag);
+            // IceLogging.Error("Inventory Manager was null, so can't check for repair status", tag);
+            IceLogging.Error("Inventory Manager 为 null，无法检查修理状态", tag);
             return false;
         }
 
@@ -167,13 +172,15 @@ public class PlayerHelper
             var inventory = im->GetInventoryContainer(type);
             if (inventory == null)
             {
-                IceLogging.Error($"{type} has returned null, going to skip this for the check");
+                // IceLogging.Error($"{type} has returned null, going to skip this for the check");
+                IceLogging.Error($"{type} 返回了 null，将跳过此项检查");
                 continue;
             }
 
             if (!inventory->IsLoaded)
             {
-                IceLogging.Error($"Inventory {type} is reporting not loaded, skipping", tag);
+                // IceLogging.Error($"Inventory {type} is reporting not loaded, skipping", tag);
+                IceLogging.Error($"库存 {type} 报告未加载，跳过", tag);
                 continue;
             }
 
@@ -187,14 +194,16 @@ public class PlayerHelper
 
                 if (itemCondition <= below)
                 {
-                    IceLogging.Debug($"Found an item that needed repair. Condition: {itemCondition}", tag);
+                    // IceLogging.Debug($"Found an item that needed repair. Condition: {itemCondition}", tag);
+                    IceLogging.Debug($"发现需要修理的物品。耐久度：{itemCondition}", tag);
                     return true;
                 }
             }
 
         }
 
-        IceLogging.Debug("Repair all check has concluded, no item can be repaired", tag);
+        // IceLogging.Debug("Repair all check has concluded, no item can be repaired", tag);
+        IceLogging.Debug("修理检查已完成，没有可修理的物品", tag);
         return false;
     }
 

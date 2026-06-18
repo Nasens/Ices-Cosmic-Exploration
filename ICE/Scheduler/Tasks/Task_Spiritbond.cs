@@ -54,7 +54,8 @@ namespace ICE.Scheduler.Tasks
                 }
                 else
                 {
-                    IceLogging.Info("Materia Extraction is completed, continuing back to the start state");
+                    // IceLogging.Info("Materia Extraction is completed, continuing back to the start state");
+                    IceLogging.Info("魔晶石提取已完成，正在返回初始状态");
                     SchedulerMain.State = IceState.Start;
                     return true;
                 }

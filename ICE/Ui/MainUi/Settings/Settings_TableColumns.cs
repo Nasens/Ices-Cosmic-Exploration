@@ -139,7 +139,8 @@ public static class Settings_TableColumns
             {
                 // Update SpecificClass when selection changes
                 SpecificClass = classIds[selectedClassIndex];
-                IceLogging.Debug($"Selected class: {classOptions[selectedClassIndex]}, ID: {SpecificClass}");
+                // IceLogging.Debug($"Selected class: {classOptions[selectedClassIndex]}, ID: {SpecificClass}");
+                IceLogging.Debug($"已选择职业：{classOptions[selectedClassIndex]}，ID：{SpecificClass}");
             }
             ImGui.Separator();
             // ImGui.Text("Select Turnin Options");

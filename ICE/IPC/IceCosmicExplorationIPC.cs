@@ -26,7 +26,8 @@ public class IceCosmicExplorationIPC
     }
     [EzIPC] public void Disable()
     {
-        IceLogging.Info("We were told to stop via IPC");
+        // IceLogging.Info("We were told to stop via IPC");
+        IceLogging.Info("收到通过 IPC 停止的指令");
         SchedulerMain.DisablePlugin();
     }
     /// <summary>
@@ -120,7 +121,8 @@ public class IceCosmicExplorationIPC
     /// <param name="state"></param>
     [EzIPC] public void ChangeSetting(string config, bool state)
     {
-        IceLogging.Info($"Setting: {config}, state: {state}");
+        // IceLogging.Info($"Setting: {config}, state: {state}");
+        IceLogging.Info($"设置项：{config}，状态：{state}");
         switch (config)
         {
             case "OnlyGrabMission": C.OnlyGrabMission_Debug = state; break;

@@ -27,10 +27,12 @@ namespace ICE.Scheduler.Tasks
 
             if (currentMode == ModeSelect.AgendaMode)
             {
-                IceLogging.Verbose("We're currently in agenda mode. We need to check to see if we have anything even in the agenda before we continue", tag);
+                // IceLogging.Verbose("We're currently in agenda mode. We need to check to see if we have anything even in the agenda before we continue", tag);
+                IceLogging.Verbose("当前为议程模式。需要先检查议程中是否有内容再继续", tag);
                 if (C.Cosmic_Agenda.Count > 0)
                 {
-                    IceLogging.Verbose($"We have a task list that we need to complete! Going to swap over to check and see what goal we need to complete");
+                    // IceLogging.Verbose($"We have a task list that we need to complete! Going to swap over to check and see what goal we need to complete");
+                    IceLogging.Verbose($"存在需要完成的任务列表！正在切换以检查需要完成的目标");
                     P.TaskManager.Enqueue(() => AgendaCheck(), "Start Mode: Agenda Check");
                     return true;
                 }
@@ -82,9 +84,12 @@ namespace ICE.Scheduler.Tasks
 
             foreach (var entry in agenda)
             {
-                IceLogging.Verbose($"Checking:\t" +
-                    $"Job: {entry.SelectedJob}\n" +
-                    $"Agenda: {entry.SelectedMode}");
+                // IceLogging.Verbose($"Checking:\t" +
+                    // $"Job: {entry.SelectedJob}\n" +
+                    // $"Agenda: {entry.SelectedMode}");
+                IceLogging.Verbose($"检查：\t" +
+                    $"职业：{entry.SelectedJob}\n" +
+                    $"议程：{entry.SelectedMode}");
 
                 var job = entry.SelectedJob;
                 var relicInfo = relicProgress[job];
@@ -111,7 +116,8 @@ namespace ICE.Scheduler.Tasks
 
                 if (!achieved)
                 {
-                    IceLogging.Info($"Priority has been found to achieve: {goal}. Going to aim to complete this goal");
+                    // IceLogging.Info($"Priority has been found to achieve: {goal}. Going to aim to complete this goal");
+                    IceLogging.Info($"已找到需优先完成的目标：{goal}。将致力于完成此目标");
                     Mission_Settings.Mode = entry.SelectedMode;
 
                     return true;

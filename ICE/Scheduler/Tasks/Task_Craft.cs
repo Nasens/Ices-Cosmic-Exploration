@@ -30,7 +30,8 @@ namespace ICE.Scheduler.Tasks
 
             if (!P.Artisan.IsBusy())
             {
-                IceLogging.Info("Artisan is no longer running, continuing the process", tag);
+                // IceLogging.Info("Artisan is no longer running, continuing the process", tag);
+                IceLogging.Info("Artisan 已停止运行，继续流程", tag);
                 return true;
             }
             else
@@ -74,7 +75,8 @@ namespace ICE.Scheduler.Tasks
             {
                 if (EzThrottler.Throttle("Applying Config States", 1000))
                 {
-                    IceLogging.Info($"Applying config states for the following recipeID: {recipeId}");
+                    // IceLogging.Info($"Applying config states for the following recipeID: {recipeId}");
+                    IceLogging.Info($"正在为以下配方 ID 应用配置状态：{recipeId}");
                     P.Artisan.CheckArtisanSettings((ushort)recipeId, CosmicHelper.CurrentLunarMission, expert, Mission_Settings.Mode == ModeSelect.LevelMode);
                 }
             }
@@ -93,7 +95,8 @@ namespace ICE.Scheduler.Tasks
             {
                 if (EzThrottler.Throttle("Artisan Crafting Task"))
                 {
-                    IceLogging.Debug($"Telling Artisan to craft: {itemId} -> {amount} times");
+                    // IceLogging.Debug($"Telling Artisan to craft: {itemId} -> {amount} times");
+                    IceLogging.Debug($"通知 Artisan 制作：{itemId} -> {amount} 次");
                     P.Artisan.CraftItem(craftId, amount);
                 }
 
@@ -132,7 +135,8 @@ namespace ICE.Scheduler.Tasks
 
                     if (preItemAmount >= mainCraft.Value.RequiredItems[preItemId])
                     {
-                        IceLogging.Info($"Required pre-Item count: {mainCraft.Value.RequiredItems[preItemId]} | amount necessary: {preItemAmount}");
+                        // IceLogging.Info($"Required pre-Item count: {mainCraft.Value.RequiredItems[preItemId]} | amount necessary: {preItemAmount}");
+                        IceLogging.Info($"所需前置物品数量：{mainCraft.Value.RequiredItems[preItemId]} | 必要数量：{preItemAmount}");
 
                         // There's enough items to craft the mainhand. Telling it to craft it instead. 
                         if (mainItemCount < mainCraft.Value.RequiredAmount)
@@ -142,7 +146,8 @@ namespace ICE.Scheduler.Tasks
                             bool SpecialExpert = mainCraft.Value.ExpertCraft && provisional;
                             var craftAmount = mainCraft.Value.RequiredAmount - mainItemCount;
                             InsertArtisanWait(mainCraft, craftAmount);
-                            IceLogging.Info($"Telling artisan to craft: {mainCraft.Value.ItemId} -> {craftAmount}", "[Task Craft: Check Materials]");
+                            // IceLogging.Info($"Telling artisan to craft: {mainCraft.Value.ItemId} -> {craftAmount}", "[Task Craft: Check Materials]");
+                            IceLogging.Info($"通知 Artisan 制作：{mainCraft.Value.ItemId} -> {craftAmount}", "[Task Craft: Check Materials]");
                             return true;
                         }
                         else
@@ -150,8 +155,10 @@ namespace ICE.Scheduler.Tasks
                             // you have enough of the main hand item. But you still are crafting. So time to just craft 1 more
                             bool SpecialExpert = mainCraft.Value.ExpertCraft && provisional;
                             InsertArtisanWait(mainCraft, 1);
-                            IceLogging.Info($"Current item count of: {mainCraft.Value.ItemId} | {mainItemCount}");
-                            IceLogging.Info($"Telling artisan to craft: {mainCraft.Value.ItemId} -> 1", "[Task Craft: Check Materials]");
+                            // IceLogging.Info($"Current item count of: {mainCraft.Value.ItemId} | {mainItemCount}");
+                            IceLogging.Info($"当前物品数量：{mainCraft.Value.ItemId} | {mainItemCount}");
+                            // IceLogging.Info($"Telling artisan to craft: {mainCraft.Value.ItemId} -> 1", "[Task Craft: Check Materials]");
+                            IceLogging.Info($"通知 Artisan 制作：{mainCraft.Value.ItemId} -> 1", "[Task Craft: Check Materials]");
                             return true;
                         }
 
@@ -170,12 +177,14 @@ namespace ICE.Scheduler.Tasks
 
                         bool SpecialExpert = preCraft.Value.ExpertCraft && provisional;
                         InsertArtisanWait(preCraft, craftAmount);
-                        IceLogging.Info($"Found a material that still needed to be crafted", "[Task Craft: Check Materials]");
+                        // IceLogging.Info($"Found a material that still needed to be crafted", "[Task Craft: Check Materials]");
+                        IceLogging.Info($"发现仍需制作的材料", "[Task Craft: Check Materials]");
                         return true;
                     }
                     else
                     {
-                        IceLogging.Info($"Somehow, out of mats. Need to exit. And either attempt to turnin, or just straight up abandon.", "[Task Craft: Check Materials]");
+                        // IceLogging.Info($"Somehow, out of mats. Need to exit. And either attempt to turnin, or just straight up abandon.", "[Task Craft: Check Materials]");
+                        IceLogging.Info($"材料不足，需要退出，尝试交付或直接放弃任务。", "[Task Craft: Check Materials]");
                         SchedulerMain.State = IceState.AbandonMission;
                         P.TaskManager.Tasks.Clear();
                         return true;
@@ -198,13 +207,15 @@ namespace ICE.Scheduler.Tasks
                             {
                                 bool SpecialExpert = craft.Value.ExpertCraft && provisional;
                                 InsertArtisanWait(craft, reqAmount);
-                                IceLogging.Info($"Telling artisan to craft: {craft.Value.ItemId} -> {reqAmount}", "[Craft: No Pre-Mats]");
+                                // IceLogging.Info($"Telling artisan to craft: {craft.Value.ItemId} -> {reqAmount}", "[Craft: No Pre-Mats]");
+                                IceLogging.Info($"通知 Artisan 制作：{craft.Value.ItemId} -> {reqAmount}", "[Craft: No Pre-Mats]");
                                 return true;
                             }
                             else
                             {
                                 // You don't have enough to craft this for the mission. Exiting out and checking for score/force abandon
-                                IceLogging.Info("You have no remaining items to craft the main crafting items. Going to abandon the mission now", "[Crafts: No Pre-Mats]");
+                                // IceLogging.Info("You have no remaining items to craft the main crafting items. Going to abandon the mission now", "[Crafts: No Pre-Mats]");
+                                IceLogging.Info("已无剩余物品来制作主要制作物品，现在放弃任务", "[Crafts: No Pre-Mats]");
                                 SchedulerMain.State = IceState.AbandonMission;
                                 P.TaskManager.Tasks.Clear();
                                 return true;
@@ -222,14 +233,16 @@ namespace ICE.Scheduler.Tasks
                     if (PlayerHelper.GetItemCount(moreCraftMaterial, out var moreItemAmount) && moreItemAmount >= AdditionalItem)
                     {
                         InsertArtisanWait(moreCraft, AdditionalItem);
-                        IceLogging.Info($"Telling artisan to craft: {moreCraft.Value.ItemId} -> {AdditionalItem}", "[Craft: No Pre-Mats]");
+                        // IceLogging.Info($"Telling artisan to craft: {moreCraft.Value.ItemId} -> {AdditionalItem}", "[Craft: No Pre-Mats]");
+                        IceLogging.Info($"通知 Artisan 制作：{moreCraft.Value.ItemId} -> {AdditionalItem}", "[Craft: No Pre-Mats]");
                         return true;
                     }
                     else
                     {
                         // You don't have enough to craft this for the mission. Exiting out and checking for score/force abandon
                         SchedulerMain.State = IceState.AbandonMission;
-                        IceLogging.Info("You have no remaining items to craft the pre-crafts. Going to abandon the mission now", "[Crafts: No Pre-Mats]");
+                        // IceLogging.Info("You have no remaining items to craft the pre-crafts. Going to abandon the mission now", "[Crafts: No Pre-Mats]");
+                        IceLogging.Info("已无剩余物品来制作前置物品，现在放弃任务", "[Crafts: No Pre-Mats]");
                         P.TaskManager.Tasks.Clear();
                         return true;
                     }
@@ -240,7 +253,8 @@ namespace ICE.Scheduler.Tasks
             {
                 if (EzThrottler.Throttle("Artisan Busy Log", 3000))
                 {
-                    IceLogging.Debug("Artisan is currently busy... so we're properly waiting for it to finish");
+                    // IceLogging.Debug("Artisan is currently busy... so we're properly waiting for it to finish");
+                    IceLogging.Debug("Artisan 当前繁忙，正在等待其完成");
                 }
             }
 

@@ -38,3 +38,11 @@
 ```
 
 编译时会自动读取 `fork-version.json` 并写入程序集版本。
+
+## 一键编译打包
+
+```powershell
+.\scripts\build.ps1
+```
+
+会同步更新 `ICE-latest/` 与 `ICE-latest.zip`，并校验 zip 内 `ICE.dll` 版本与文件夹一致。

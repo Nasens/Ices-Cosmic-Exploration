@@ -497,7 +497,8 @@ namespace ICE.Ui
                                 if (ImGui.BeginTabBar("Completion Stats"))
                                 {
                                     // "All" tab always shown if there are any records
-                                    if (ImGui.BeginTabItem("All"))
+                                    // if (ImGui.BeginTabItem("All"))
+                                    if (ImGui.BeginTabItem("全部"))
                                     {
                                         DrawTurninTable(config.TurninRecords);
                                         ImGui.EndTabItem();

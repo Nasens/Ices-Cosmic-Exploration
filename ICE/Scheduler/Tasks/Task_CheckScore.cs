@@ -32,7 +32,8 @@ namespace ICE.Scheduler.Tasks
             {
                 var jobId = Player.Job;
 
-                IceLogging.Info($"Currently on a gathering job {jobId}");
+                // IceLogging.Info($"Currently on a gathering job {jobId}");
+                IceLogging.Info($"当前为采集职业 {jobId}");
                 if (jobId == (Job)18)
                 {
                     P.TaskManager.Enqueue(() => SchedulerMain.State = IceState.Fish);
@@ -52,7 +53,8 @@ namespace ICE.Scheduler.Tasks
             var currentMission = CosmicHelper.CurrentLunarMission;
 
             if (EzThrottler.Throttle("Fish Score Check Throttle"))
-                IceLogging.Verbose($"Score check for fish was initialized. Checking for minimum requirements: [{currentMission}]", tag);
+                // IceLogging.Verbose($"Score check for fish was initialized. Checking for minimum requirements: [{currentMission}]", tag);
+                IceLogging.Verbose($"钓鱼分数检查已初始化，正在检查最低要求：[{currentMission}]", tag);
 
             if (GenericHelpers.TryGetAddonMaster<WKSMissionInfomation>("WKSMissionInfomation", out var missionInfo) && missionInfo.IsAddonReady)
             {
@@ -64,22 +66,26 @@ namespace ICE.Scheduler.Tasks
                     if (rank == MissionRank.Failed)
                     {
                         if (EzThrottler.Throttle("Timed out message"))
-                            IceLogging.Debug("Mission is either timed out, or out of resources. So going to force a turnin", tag);
+                            // IceLogging.Debug("Mission is either timed out, or out of resources. So going to force a turnin", tag);
+                            IceLogging.Debug("任务已超时或资源耗尽，将强制交付", tag);
                         SchedulerMain.State = IceState.AbandonMission;
                         P.TaskManager.Tasks.Clear();
                         return true;
                     }
                     else if (sheetInfo.IsCritical)
                     {
-                        IceLogging.Verbose($"We need to check to see if we have the minimum amount of items for the critical, checking now", tag);
+                        // IceLogging.Verbose($"We need to check to see if we have the minimum amount of items for the critical, checking now", tag);
+                        IceLogging.Verbose($"需要检查是否拥有紧急任务所需的最低物品数量，正在检查", tag);
                         foreach (var fishItem in sheetInfo.Gathering_Min)
                         {
                             if (PlayerHelper.GetItemCount(fishItem.Key, out var amount))
                             {
                                 if (amount < fishItem.Value)
                                 {
-                                    IceLogging.Debug("We've found a fish that we're still missing!\n" +
-                                        $"ItemID: {fishItem.Key}. We need: {fishItem.Value}. We have: {amount}", tag);
+                                    // IceLogging.Debug("We've found a fish that we're still missing!\n" +
+                                        // $"ItemID: {fishItem.Key}. We need: {fishItem.Value}. We have: {amount}", tag);
+                                    IceLogging.Debug("发现仍缺少的鱼！\n" +
+                                        $"物品 ID：{fishItem.Key}。需要：{fishItem.Value}。拥有：{amount}", tag);
 
                                     return true;
                                 }
@@ -89,13 +95,15 @@ namespace ICE.Scheduler.Tasks
                     else if (rank < MissionRank.Bronze)
                     {
                         if (EzThrottler.Throttle("Bronze Check"))
-                            IceLogging.Debug("We still haven't even met the bronze threshold for turning in, going to just check back", tag);
+                            // IceLogging.Debug("We still haven't even met the bronze threshold for turning in, going to just check back", tag);
+                            IceLogging.Debug("尚未达到交付的铜牌阈值，稍后再检查", tag);
 
                         return true;
                     }
 
                     if (EzThrottler.Throttle("Score Check"))
-                        IceLogging.Verbose("We have atleast met the bronze threshold, checking to see where to go from there", tag);
+                        // IceLogging.Verbose("We have atleast met the bronze threshold, checking to see where to go from there", tag);
+                        IceLogging.Verbose("已至少达到铜牌阈值，正在检查后续去向", tag);
 
                     /*
                     if (sheetInfo.Gathering_Min.Count > 0)
@@ -151,7 +159,8 @@ namespace ICE.Scheduler.Tasks
                     {
                         if (sheetInfo.Attributes.HasFlag(MissionAttributes.Score_TimeRemaining))
                         {
-                            IceLogging.Debug("We're in a mission where we're just meeting the minimum score. Turning in", tag);
+                            // IceLogging.Debug("We're in a mission where we're just meeting the minimum score. Turning in", tag);
+                            IceLogging.Debug("当前任务只需达到最低分数，正在交付", tag);
                             SchedulerMain.State = IceState.TurninMission;
                             P.TaskManager.Tasks.Clear();
 
@@ -163,17 +172,20 @@ namespace ICE.Scheduler.Tasks
 
                             if (sheetInfo.Attributes.HasFlag(MissionAttributes.Critical))
                             {
-                                IceLogging.Verbose("We're in a critical mission, this needs to just be turned in", tag);
+                                // IceLogging.Verbose("We're in a critical mission, this needs to just be turned in", tag);
+                                IceLogging.Verbose("处于紧急任务中，需要直接交付", tag);
                                 shouldTurnin = true;
                             }
                             else if (CosmicHandler.IsMissionTimedOut())
                             {
-                                IceLogging.Verbose("We seem to be timed out of our current mission. But we've hit a minimum threshold of score, so we're just going to turnin", tag);
+                                // IceLogging.Verbose("We seem to be timed out of our current mission. But we've hit a minimum threshold of score, so we're just going to turnin", tag);
+                                IceLogging.Verbose("当前任务似乎已超时。但已达到最低分数阈值，因此直接交付", tag);
                                 shouldTurnin = true;
                             }
                             else if (Mission_Settings.Mode == ModeSelect.LevelMode && rank >= MissionRank.Bronze)
                             {
-                                IceLogging.Debug("We're in Leveling Mode, and we only need a bronze. So we're setting turnin to true");
+                                // IceLogging.Debug("We're in Leveling Mode, and we only need a bronze. So we're setting turnin to true");
+                                IceLogging.Debug("处于升级模式，只需铜牌，因此设置为交付");
                                 shouldTurnin = true;
                             }
                             else
@@ -209,13 +221,17 @@ namespace ICE.Scheduler.Tasks
                                 {
                                     var config = C.MissionConfig[currentMission];
 
-                                    IceLogging.Debug("We're still going for a score/not met threshold.\n" +
-                                        $"Rank: {rank.ToString()}\n" +
-                                        $"Turnin Rank: {config.TurninGoal.ToString()}", tag);
+                                    // IceLogging.Debug("We're still going for a score/not met threshold.\n" +
+                                        // $"Rank: {rank.ToString()}\n" +
+                                        // $"Turnin Rank: {config.TurninGoal.ToString()}", tag);
+                                    IceLogging.Debug("仍在争取分数／未达阈值。\n" +
+                                        $"等级：{rank.ToString()}\n" +
+                                        $"交付等级：{config.TurninGoal.ToString()}", tag);
 
                                     if (sheetInfo.IsMaster && config.TurninGoal == TurninState.Master_Score)
                                     {
-                                        IceLogging.Verbose($"Current Score: {currentScore} | Turnin Goal: {config.Master_Score}", tag);
+                                        // IceLogging.Verbose($"Current Score: {currentScore} | Turnin Goal: {config.Master_Score}", tag);
+                                        IceLogging.Verbose($"当前分数：{currentScore} | 交付目标：{config.Master_Score}", tag);
                                     }
                                 }
                                 return true;
@@ -256,7 +272,8 @@ namespace ICE.Scheduler.Tasks
 
             if (rank == MissionRank.Failed)
             {
-                IceLogging.Debug("Mission is either timed out, or out of resources. So going to force a turnin", tag);
+                // IceLogging.Debug("Mission is either timed out, or out of resources. So going to force a turnin", tag);
+            IceLogging.Debug("任务已超时或资源耗尽，将强制交付", tag);
                 SchedulerMain.State = IceState.AbandonMission;
                 P.TaskManager.Tasks.Clear();
                 return true;
@@ -301,17 +318,20 @@ namespace ICE.Scheduler.Tasks
 
                         if (sheet.Attributes.HasFlag(MissionAttributes.Critical))
                         {
-                            IceLogging.Verbose("We're in a critical mission, this needs to just be turned in", tag);
+                            // IceLogging.Verbose("We're in a critical mission, this needs to just be turned in", tag);
+                            IceLogging.Verbose("处于紧急任务中，需要直接交付", tag);
                             shouldTurnin = true;
                         }
                         else if (CosmicHandler.IsMissionTimedOut())
                         {
-                            IceLogging.Verbose("We seem to be timed out of our current mission. But we've hit a minimum threshold of score, so we're just going to turnin", tag);
+                            // IceLogging.Verbose("We seem to be timed out of our current mission. But we've hit a minimum threshold of score, so we're just going to turnin", tag);
+                            IceLogging.Verbose("当前任务似乎已超时。但已达到最低分数阈值，因此直接交付", tag);
                             shouldTurnin = true;
                         }
                         else if (Mission_Settings.Mode == ModeSelect.LevelMode && rank >= MissionRank.Bronze)
                         {
-                            IceLogging.Debug("We're in Leveling Mode, and we only need a bronze. So we're setting turnin to true");
+                            // IceLogging.Debug("We're in Leveling Mode, and we only need a bronze. So we're setting turnin to true");
+                            IceLogging.Debug("处于升级模式，只需铜牌，因此设置为交付");
                             shouldTurnin = true;
                         }
                         else
@@ -347,9 +367,12 @@ namespace ICE.Scheduler.Tasks
                         {
                             var config = C.MissionConfig[id];
 
-                            IceLogging.Debug("We're still going for a score/not met threshold.\n" +
-                                $"Rank: {rank.ToString()}\n" +
-                                $"Highest Goal: {config.TurninGoal.ToString()}");
+                            // IceLogging.Debug("We're still going for a score/not met threshold.\n" +
+                                // $"Rank: {rank.ToString()}\n" +
+                                // $"Highest Goal: {config.TurninGoal.ToString()}");
+                            IceLogging.Debug("仍在争取分数／未达阈值。\n" +
+                                $"等级：{rank.ToString()}\n" +
+                                $"最高目标：{config.TurninGoal.ToString()}");
                             return true;
                         }
                     }
@@ -386,7 +409,8 @@ namespace ICE.Scheduler.Tasks
 
             if (rank == MissionRank.Failed)
             {
-                IceLogging.Debug("Mission is either timed out, or out of resources. So going to force a turnin", tag);
+                // IceLogging.Debug("Mission is either timed out, or out of resources. So going to force a turnin", tag);
+            IceLogging.Debug("任务已超时或资源耗尽，将强制交付", tag);
                 SchedulerMain.State = IceState.AbandonMission;
                 P.TaskManager.Tasks.Clear();
                 return true;
@@ -422,22 +446,26 @@ namespace ICE.Scheduler.Tasks
 
                         if (sheet.Attributes.HasFlag(MissionAttributes.Critical))
                         {
-                            IceLogging.Verbose("We're in a critical mission, this needs to just be turned in", tag);
+                            // IceLogging.Verbose("We're in a critical mission, this needs to just be turned in", tag);
+                            IceLogging.Verbose("处于紧急任务中，需要直接交付", tag);
                             shouldTurnin = true;
                         }
                         else if (CosmicHandler.IsMissionTimedOut())
                         {
-                            IceLogging.Verbose("We seem to be timed out of our current mission. But we've hit a minimum threshold of score, so we're just going to turnin", tag);
+                            // IceLogging.Verbose("We seem to be timed out of our current mission. But we've hit a minimum threshold of score, so we're just going to turnin", tag);
+                            IceLogging.Verbose("当前任务似乎已超时。但已达到最低分数阈值，因此直接交付", tag);
                             shouldTurnin = true;
                         }
                         else if (Mission_Settings.Mode == ModeSelect.LevelMode && rank >= MissionRank.Bronze)
                         {
-                            IceLogging.Debug("We're in Leveling Mode, and we only need a bronze. So we're setting turnin to true", tag);
+                            // IceLogging.Debug("We're in Leveling Mode, and we only need a bronze. So we're setting turnin to true", tag);
+                            IceLogging.Debug("处于升级模式，只需铜牌，因此设置为交付", tag);
                             shouldTurnin = true;
                         }
                         else if (sheet.Attributes.HasFlag(MissionAttributes.Score_TimeRemaining))
                         {
-                            IceLogging.Debug("Score is based on time remaining, and we have some sort of rank. Turning in", tag);
+                            // IceLogging.Debug("Score is based on time remaining, and we have some sort of rank. Turning in", tag);
+                            IceLogging.Debug("分数基于剩余时间，且已获得等级，正在交付", tag);
                             shouldTurnin = true;
                         }
                         else if (sheet.Attributes.HasFlag(MissionAttributes.Limited) && Mission_Settings.nodeTotal == 8)
@@ -445,7 +473,8 @@ namespace ICE.Scheduler.Tasks
                             if (!Svc.Condition[ConditionFlag.Gathering])
                             {
                                 shouldTurnin = true;
-                                IceLogging.Debug("We might of not reached our turnin point, but we've ran out of nodes to gather at. So we're just going to just turnin", tag);
+                                // IceLogging.Debug("We might of not reached our turnin point, but we've ran out of nodes to gather at. So we're just going to just turnin", tag);
+                                IceLogging.Debug("可能尚未达到交付目标，但采集点已耗尽，因此直接交付", tag);
                             }
                         }
                         else
@@ -480,9 +509,12 @@ namespace ICE.Scheduler.Tasks
                         {
                             var config = C.MissionConfig[id];
 
-                            IceLogging.Debug("We're still going for a score/not met threshold.\n" +
-                                $"Rank: {rank.ToString()}\n" +
-                                $"Turnin Goal: {config.TurninGoal.ToString()}");
+                            // IceLogging.Debug("We're still going for a score/not met threshold.\n" +
+                                // $"Rank: {rank.ToString()}\n" +
+                                // $"Turnin Goal: {config.TurninGoal.ToString()}");
+                            IceLogging.Debug("仍在争取分数／未达阈值。\n" +
+                                $"等级：{rank.ToString()}\n" +
+                                $"交付目标：{config.TurninGoal.ToString()}");
                             return true;
                         }
                     }
@@ -550,9 +582,12 @@ namespace ICE.Scheduler.Tasks
                 }
                 else
                 {
-                    IceLogging.Debug("We're still going for a score/not met threshold.\n" +
-                        $"Rank: {rank.ToString()}\n" +
-                        $"Turnin Goal: {config.TurninGoal.ToString()}", tag);
+                    // IceLogging.Debug("We're still going for a score/not met threshold.\n" +
+                        // $"Rank: {rank.ToString()}\n" +
+                        // $"Turnin Goal: {config.TurninGoal.ToString()}", tag);
+                    IceLogging.Debug("仍在争取分数／未达阈值。\n" +
+                        $"等级：{rank.ToString()}\n" +
+                        $"交付目标：{config.TurninGoal.ToString()}", tag);
                     return true;
                 }
             }

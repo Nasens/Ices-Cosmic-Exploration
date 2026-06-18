@@ -603,12 +603,14 @@ namespace ICE.Ui.Debug_Tabs.Debug_Ui
                 route.FanHeight = fanHeight;
 
                 _fanGenStatus = $"Generated! Angles: {ffxivStart}→{ffxivEnd} (arc {bestLen}°), Distance: {allMin:F1}→{allMax:F1}, Height: {fanHeight:F2}";
-                IceLogging.Info($"[FanGen] Node {route.Position}: FFXIV {ffxivStart}→{ffxivEnd}, dist {allMin:F1}→{allMax:F1}, height {fanHeight:F2}");
+                // IceLogging.Info($"[FanGen] Node {route.Position}: FFXIV {ffxivStart}→{ffxivEnd}, dist {allMin:F1}→{allMax:F1}, height {fanHeight:F2}");
+                IceLogging.Info($"[FanGen] 节点 {route.Position}：FFXIV {ffxivStart}→{ffxivEnd}，距离 {allMin:F1}→{allMax:F1}，高度 {fanHeight:F2}");
             }
             catch (Exception ex)
             {
                 _fanGenStatus = $"Error: {ex.Message}";
-                IceLogging.Error($"[FanGen] Failed: {ex.Message}");
+                // IceLogging.Error($"[FanGen] Failed: {ex.Message}");
+                IceLogging.Error($"[FanGen] 失败：{ex.Message}");
             }
             finally
             {

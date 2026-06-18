@@ -66,8 +66,10 @@ public static class CosmicTerritoryResolver
         }
 
         _initialized = true;
+        // IceLogging.Info(
+        //     $"[CosmicTerritoryResolver] Registered {KnownTerritoryIds.Count} territories, {PlaceNameToTerritory.Count} unique place names, {AmbiguousPlaceNames.Count} shared place names (row-id fallback)");
         IceLogging.Info(
-            $"[CosmicTerritoryResolver] Registered {KnownTerritoryIds.Count} territories, {PlaceNameToTerritory.Count} unique place names, {AmbiguousPlaceNames.Count} shared place names (row-id fallback)");
+            $"[CosmicTerritoryResolver] 已注册 {KnownTerritoryIds.Count} 个区域，{PlaceNameToTerritory.Count} 个唯一地名，{AmbiguousPlaceNames.Count} 个共享地名（按行 ID 回退）");
     }
 
     /// <summary>
@@ -87,8 +89,10 @@ public static class CosmicTerritoryResolver
             // If both methods disagree, trust PlaceName but leave a warning for us to verify after a patch
             if (fromLegacy != 0 && fromPlaceName != fromLegacy && LoggedMismatchMissions.Add(missionId))
             {
+                // IceLogging.Warning(
+                //     $"[CosmicTerritoryResolver] Mission {missionId} PlaceName -> {fromPlaceName} disagrees with legacy row-id -> {fromLegacy}. Using PlaceName.");
                 IceLogging.Warning(
-                    $"[CosmicTerritoryResolver] Mission {missionId} PlaceName -> {fromPlaceName} disagrees with legacy row-id -> {fromLegacy}. Using PlaceName.");
+                    $"[CosmicTerritoryResolver] 任务 {missionId} 的 PlaceName -> {fromPlaceName} 与旧行 ID -> {fromLegacy} 不一致。使用 PlaceName。");
             }
 
             return fromPlaceName;
@@ -99,8 +103,10 @@ public static class CosmicTerritoryResolver
         {
             if (LoggedFallbackMissions.Add(missionId))
             {
+                // IceLogging.Debug(
+                //     $"[CosmicTerritoryResolver] Mission {missionId} has no mapped PlaceName ({mission.PlaceName.RowId}); using legacy row-id -> {fromLegacy}");
                 IceLogging.Debug(
-                    $"[CosmicTerritoryResolver] Mission {missionId} has no mapped PlaceName ({mission.PlaceName.RowId}); using legacy row-id -> {fromLegacy}");
+                    $"[CosmicTerritoryResolver] 任务 {missionId} 没有映射的 PlaceName（{mission.PlaceName.RowId}），使用旧行 ID -> {fromLegacy}");
             }
 
             return fromLegacy;
@@ -109,8 +115,10 @@ public static class CosmicTerritoryResolver
         // Caller skips the mission — better than assigning Sinus (1237) by mistake
         if (LoggedUnresolvedMissions.Add(missionId))
         {
+            // IceLogging.Warning(
+            //     $"[CosmicTerritoryResolver] Could not resolve territory for mission {missionId} (PlaceName row {mission.PlaceName.RowId})");
             IceLogging.Warning(
-                $"[CosmicTerritoryResolver] Could not resolve territory for mission {missionId} (PlaceName row {mission.PlaceName.RowId})");
+                $"[CosmicTerritoryResolver] 无法解析任务 {missionId} 的区域（PlaceName 行 {mission.PlaceName.RowId}）");
         }
 
         return 0;
@@ -164,8 +172,10 @@ public static class CosmicTerritoryResolver
                 AmbiguousPlaceNames.Add(placeNameRowId);
                 if (LoggedAmbiguousPlaceNames.Add(placeNameRowId))
                 {
+                    // IceLogging.Debug(
+                    //     $"[CosmicTerritoryResolver] PlaceName {placeNameRowId} is shared across cosmic hubs; missions using it fall back to row-id bands.");
                     IceLogging.Debug(
-                        $"[CosmicTerritoryResolver] PlaceName {placeNameRowId} is shared across cosmic hubs; missions using it fall back to row-id bands.");
+                        $"[CosmicTerritoryResolver] PlaceName {placeNameRowId} 在多个宇宙枢纽间共享，使用它的任务将回退到行 ID 区段。");
                 }
             }
 

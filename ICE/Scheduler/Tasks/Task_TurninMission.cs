@@ -39,18 +39,21 @@ namespace ICE.Scheduler.Tasks
             {
                 if (sheetInfo.IsCritical)
                 {
-                    IceLogging.Verbose("Critical mission was found, checking for location info", tag);
+                    // IceLogging.Verbose("Critical mission was found, checking for location info", tag);
+                    IceLogging.Verbose("找到紧急任务，正在检查位置信息", tag);
 
                     if (GatheringUtil.CriticalSpots.TryGetValue(sheetInfo.Critical_MapKey, out var criticalInfo) && criticalInfo.WorldCords != Vector3.Zero)
                     {
                         if (Player.DistanceTo(criticalInfo.WorldCords) < 75)
                         {
-                            IceLogging.Verbose("We're close enough to the base location that we don't need to do any fancy traveling, going to check if we need to interact", tag);
+                            // IceLogging.Verbose("We're close enough to the base location that we don't need to do any fancy traveling, going to check if we need to interact", tag);
+                            IceLogging.Verbose("已足够接近目标位置，无需特殊移动，正在检查是否需要交互", tag);
                             P.TaskManager.Insert(() => RedAlert_CloseToTurnin(), "Checking to make sure we're close enough");
                         }
                         else
                         {
-                            IceLogging.Verbose("We're far enough away that we need to consider taking the npc for getting there, so going to do so");
+                            // IceLogging.Verbose("We're far enough away that we need to consider taking the npc for getting there, so going to do so");
+                            IceLogging.Verbose("距离较远，需要考虑乘坐 NPC 前往，正在执行");
                             P.TaskManager.Insert(() => Task_NavmeshMove.Enqueue_RedAlertNavmesh(criticalInfo.WorldCords, distance: 75, missionId: id), "Checking to make sure we're close enough");
                         }
                     }
@@ -65,12 +68,14 @@ namespace ICE.Scheduler.Tasks
                 }
                 else
                 {
-                    IceLogging.Info("We don't need to worry about a turnin point, so we're good. Continuing on");
+                    // IceLogging.Info("We don't need to worry about a turnin point, so we're good. Continuing on");
+                    IceLogging.Info("无需关注交付点，一切正常，继续执行");
                 }
             }
             else
             {
-                IceLogging.Info($"Somehow we found a mission that doesn't exist? Please report this: {id}", tag);
+                // IceLogging.Info($"Somehow we found a mission that doesn't exist? Please report this: {id}", tag);
+                IceLogging.Info($"发现了一个不存在的任务？请反馈：{id}", tag);
             }
 
             return true;
@@ -95,14 +100,16 @@ namespace ICE.Scheduler.Tasks
                         return false;
                     }
 
-                    IceLogging.Info("We've reached a point where we can turnin, doing so", tag);
+                    // IceLogging.Info("We've reached a point where we can turnin, doing so", tag);
+                    IceLogging.Info("已到达可交付的位置，正在交付", tag);
                     return true;
                 }
             }
             else
             {
                 if (EzThrottler.Throttle("Null collection point found"))
-                    IceLogging.Verbose("You're not close to the collection point, we need to get closer", tag);
+                    // IceLogging.Verbose("You're not close to the collection point, we need to get closer", tag);
+                    IceLogging.Verbose("尚未接近收集点，需要再靠近一些", tag);
             }
 
             return false;
@@ -126,7 +133,8 @@ namespace ICE.Scheduler.Tasks
                 if (C.MissionConfig.TryGetValue(PreviousMissionId, out var config))
                 {
                     if (config.BestTime != double.MaxValue)
-                        IceLogging.Info($"Mission [{PreviousMissionId}] [{CosmicHelper.SheetMissionDict[PreviousMissionId].Name}] completed in {duration:mm\\:ss\\.ff} | Best: {TimeSpan.FromSeconds(config.BestTime):mm\\:ss\\.ff} | Avg: {TimeSpan.FromSeconds(config.AverageTime):mm\\:ss\\.ff}", $"{tag} [Mission Timer]");
+                        // IceLogging.Info($"Mission [{PreviousMissionId}] [{CosmicHelper.SheetMissionDict[PreviousMissionId].Name}] completed in {duration:mm\\:ss\\.ff} | Best: {TimeSpan.FromSeconds(config.BestTime):mm\\:ss\\.ff} | Avg: {TimeSpan.FromSeconds(config.AverageTime):mm\\:ss\\.ff}", $"{tag} [Mission Timer]");
+                        IceLogging.Info($"任务 [{PreviousMissionId}] [{CosmicHelper.SheetMissionDict[PreviousMissionId].Name}] 完成耗时 {duration:mm\\:ss\\.ff} | 最佳：{TimeSpan.FromSeconds(config.BestTime):mm\\:ss\\.ff} | 平均：{TimeSpan.FromSeconds(config.AverageTime):mm\\:ss\\.ff}", $"{tag} [Mission Timer]");
                 }
 
                 if (P.AutoHook.Installed)
@@ -141,13 +149,15 @@ namespace ICE.Scheduler.Tasks
 
                 if (Mission_Settings.StopAfterCurrent)
                 {
-                    IceLogging.Debug($"Stop after current was enabled. Stopping now", "[Task Turnin]");
+                    // IceLogging.Debug($"Stop after current was enabled. Stopping now", "[Task Turnin]");
+                    IceLogging.Debug($"已启用「完成当前任务后停止」，正在停止", "[Task Turnin]");
                     SchedulerMain.State = IceState.Idle;
                     return true;
                 }
                 else
                 {
-                    IceLogging.Debug($"Stop after current wasn't enabled. Grabbing another mission", "[Task Turnin]");
+                    // IceLogging.Debug($"Stop after current wasn't enabled. Grabbing another mission", "[Task Turnin]");
+                    IceLogging.Debug($"未启用「完成当前任务后停止」，正在获取下一个任务", "[Task Turnin]");
                     SchedulerMain.State = IceState.Start;
                     return true;
                 }
@@ -175,7 +185,8 @@ namespace ICE.Scheduler.Tasks
 
                         if (EzThrottler.Throttle("Log Throttle", 1000))
                         {
-                            IceLogging.Debug("Attempting to turnin/chekcing if we need to navmesh stop");
+                            // IceLogging.Debug("Attempting to turnin/chekcing if we need to navmesh stop");
+                            IceLogging.Debug("尝试交付/检查是否需要停止 navmesh");
                         }
 
                         if (P.Navmesh.IsRunning())
@@ -344,10 +355,12 @@ namespace ICE.Scheduler.Tasks
                 C.Save();
             }
 
-            IceLogging.Info("Gold Check is complete, and checking to see what state we need to be in post cleanup");
+            // IceLogging.Info("Gold Check is complete, and checking to see what state we need to be in post cleanup");
+            IceLogging.Info("金牌检查完成，正在检查清理后应进入的状态");
             if (Mission_Settings.StopAfterCurrent)
             {
-                IceLogging.Info("We're stopping after this mission", "[Gold Check Task]");
+                // IceLogging.Info("We're stopping after this mission", "[Gold Check Task]");
+                IceLogging.Info("将在本任务后停止", "[Gold Check Task]");
                 Mission_Settings.StopAfterCurrent = false;
                 SchedulerMain.State = IceState.Idle;
 
@@ -356,7 +369,8 @@ namespace ICE.Scheduler.Tasks
             }
             else
             {
-                IceLogging.Info("We're continuing after this mission", "[Gold Check Task]");
+                // IceLogging.Info("We're continuing after this mission", "[Gold Check Task]");
+                IceLogging.Info("将在本任务后继续", "[Gold Check Task]");
                 SchedulerMain.State = IceState.Start;
             }
 
@@ -373,12 +387,14 @@ namespace ICE.Scheduler.Tasks
 
                 if (CosmicHelper.CrafterJobList.Contains(jobId))
                 {
-                    IceLogging.Info("Executing command [/stylist crafter]");
+                    // IceLogging.Info("Executing command [/stylist crafter]");
+                    IceLogging.Info("正在执行命令 [/stylist crafter]");
                     ExecuteCommand("/stylist crafter");
                 }
                 else if (CosmicHelper.GatheringJobList.Contains(jobId))
                 {
-                    IceLogging.Info("Executing command [/stylist gatherer]");
+                    // IceLogging.Info("Executing command [/stylist gatherer]");
+                    IceLogging.Info("正在执行命令 [/stylist gatherer]");
                     ExecuteCommand("/stylist gatherer");
                 }
                 P.TaskManager.EnqueueDelay(500);
@@ -386,9 +402,12 @@ namespace ICE.Scheduler.Tasks
 
             foreach (var task in C.PostMissionCommands)
             {
-                IceLogging.Info($"Queueing up the following command:\n" +
+                // IceLogging.Info($"Queueing up the following command:\n" +
+                //     $"{task.command}\n" +
+                //     $"Delay: {task.Delay}", tag);
+                IceLogging.Info($"正在排入以下命令：\n" +
                     $"{task.command}\n" +
-                    $"Delay: {task.Delay}", tag);
+                    $"延迟：{task.Delay}", tag);
                 P.TaskManager.Enqueue(() => ExecuteCommand(task.command));
                 if (task.Delay > 0)
                     P.TaskManager.EnqueueDelay(task.Delay);
@@ -399,7 +418,8 @@ namespace ICE.Scheduler.Tasks
         public static bool? ExecuteCommand(string command)
         {
             Svc.Commands.ProcessCommand(command);
-            IceLogging.Info($"Command has been processed: {command}", "Turnin Mission: Execute Command");
+            // IceLogging.Info($"Command has been processed: {command}", "Turnin Mission: Execute Command");
+            IceLogging.Info($"命令已处理：{command}", "Turnin Mission: Execute Command");
             return true;
         }
 
@@ -426,7 +446,8 @@ namespace ICE.Scheduler.Tasks
             if (scoreDifference > 0)
             {
                 scoreDifference = scoreDifference / multiplier;
-                IceLogging.Debug($"Base Mission score is: {scoreDifference}");
+                // IceLogging.Debug($"Base Mission score is: {scoreDifference}");
+                IceLogging.Debug($"基础任务得分为：{scoreDifference}");
                 C.ScoreKeeper[PreviousMissionId] = (uint)scoreDifference;
 
                 if (scoreDifference < 1000)
@@ -444,7 +465,8 @@ namespace ICE.Scheduler.Tasks
         public static bool? ClearAllPostTask()
         {
             P.TaskManager.Tasks.Clear();
-            IceLogging.Info("All task post turning in mission have been cleared. We should have a clean slate now");
+            // IceLogging.Info("All task post turning in mission have been cleared. We should have a clean slate now");
+            IceLogging.Info("交付任务后的所有任务已清除，现在应为干净状态");
             return true;
         }
     }

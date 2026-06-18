@@ -255,7 +255,8 @@ public sealed partial class ICE
                     if (recipeIds.Count == 1)
                     {
                         // Only a single item exist in this table. So into the maincrafts it goes
-                        IceLogging.Verbose($"Mission: {keyId} had 1 recipie", debugOnly: true);
+                        // IceLogging.Verbose($"Mission: {keyId} had 1 recipie", debugOnly: true);
+                        IceLogging.Verbose($"任务：{keyId} 有 1 个配方", debugOnly: true);
                         var recipeId = recipeIds[0];
                         var recipeRow = Svc.Data.GetExcelSheet<Recipe>().GetRow(recipeId);
                         var itemId = recipeRow.ItemResult.RowId;
@@ -316,7 +317,8 @@ public sealed partial class ICE
                     }
                     else if (recipeIds.Count == 2)
                     {
-                        IceLogging.Verbose($"Mission: {keyId} had 2 recipies", debugOnly: true);
+                        // IceLogging.Verbose($"Mission: {keyId} had 2 recipies", debugOnly: true);
+                        IceLogging.Verbose($"任务：{keyId} 有 2 个配方", debugOnly: true);
                         // First one is going to be the main item that you need.
 
                         var recipeId = recipeIds[0];
@@ -352,6 +354,7 @@ public sealed partial class ICE
 
                         // if (isExpert)
                         // IceLogging.Verbose($"{recipeRow.RowId} is an expert craft", debugOnly: true);
+                        // IceLogging.Verbose($"{recipeRow.RowId} 是大师级制作", debugOnly: true);
 
                         // Second one is going to be the pre-crafting mat that you need
                         var preRecipeId = recipeIds[1];
@@ -386,7 +389,8 @@ public sealed partial class ICE
                     }
                     else if (recipeIds.Count == 3)
                     {
-                        IceLogging.Verbose($"Mission: {keyId} had 3 recipies", debugOnly: true);
+                        // IceLogging.Verbose($"Mission: {keyId} had 3 recipies", debugOnly: true);
+                        IceLogging.Verbose($"任务：{keyId} 有 3 个配方", debugOnly: true);
                         // all of these should be valid. 
                         for (int i = 0; i < recipeIds.Count; i++)
                         {
@@ -911,7 +915,8 @@ public sealed partial class ICE
             }
             else
             {
-                IceLogging.Error($"Coulnd't find ID: {fishPreset.Key}");
+                // IceLogging.Error($"Coulnd't find ID: {fishPreset.Key}");
+                IceLogging.Error($"找不到 ID：{fishPreset.Key}");
             }
         }
 
@@ -979,7 +984,8 @@ public sealed partial class ICE
                         }
                         else
                         {
-                            IceLogging.Verbose($"[{id}] has a preset. Name: {mission.Value.AutoHookPresetName}", "I.C.E. Dictionary Creation");
+                            // IceLogging.Verbose($"[{id}] has a preset. Name: {mission.Value.AutoHookPresetName}", "I.C.E. Dictionary Creation");
+                            IceLogging.Verbose($"[{id}] 有一个预设。名称：{mission.Value.AutoHookPresetName}", "I.C.E. Dictionary Creation");
                         }
                     }
                     if (!mission.Value.Use_BuildinPreset && mission.Value.AutoHookPresetName == string.Empty)
@@ -987,7 +993,8 @@ public sealed partial class ICE
                 }
                 else
                 {
-                    IceLogging.Verbose($"[{id}] has no presets", "I.C.E. Dictionary Creation");
+                    // IceLogging.Verbose($"[{id}] has no presets", "I.C.E. Dictionary Creation");
+                    IceLogging.Verbose($"[{id}] 没有预设", "I.C.E. Dictionary Creation");
                 }
             }
         }
@@ -1046,7 +1053,8 @@ public sealed partial class ICE
                         {
                             if (mission.Value.CraftSettings.TryGetValue(craft.Key, out var craftSettings))
                             {
-                                IceLogging.Info($"We found the settings for mission: {id}");
+                                // IceLogging.Info($"We found the settings for mission: {id}");
+                                IceLogging.Info($"已找到任务的设置：{id}");
                                 if (craftSettings.UseGlobal)
                                     craftSettings.ArtisanSolverType = ArtisanCraftType.Default;
                                 else
@@ -1083,7 +1091,8 @@ public sealed partial class ICE
     }
     public static void EnsureAllMission()
     {
-        IceLogging.Debug("Starting Mission Updater");
+        // IceLogging.Debug("Starting Mission Updater");
+        IceLogging.Debug("正在启动任务更新器");
         foreach (var mission in SheetMissionDict)
         {
             if (C.MissionConfig.TryGetValue(mission.Key, out var config) && config != null)
@@ -1094,7 +1103,8 @@ public sealed partial class ICE
             {
                 // Either key doesn't exist OR value is null
                 C.MissionConfig[mission.Key] = new MissionSettings();
-                IceLogging.Debug($"Added/Fixed Mission: {mission.Key}");
+                // IceLogging.Debug($"Added/Fixed Mission: {mission.Key}");
+                IceLogging.Debug($"已添加/修复任务：{mission.Key}");
             }
         }
         C.SaveDebounced();

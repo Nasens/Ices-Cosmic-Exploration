@@ -27,12 +27,14 @@ public static partial class CosmicHelper
             }
             catch (AccessViolationException)
             {
-                IceLogging.Error("We're currently getting access violations with this, so returning 0");
+                // IceLogging.Error("We're currently getting access violations with this, so returning 0");
+                IceLogging.Error("当前出现访问冲突，返回 0");
                 return 0;
             }
             catch (Exception)
             {
-                IceLogging.Error("Welp. Somehow not getting it still. Exception exit");
+                // IceLogging.Error("Welp. Somehow not getting it still. Exception exit");
+                IceLogging.Error("哎呀，仍然无法获取。异常退出");
                 return 0;
             }
         }
@@ -98,7 +100,8 @@ public static partial class CosmicHelper
             {
                 if (EzThrottler.Throttle("Opening Stellar Missions"))
                 {
-                    IceLogging.Debug("Opening Mission Menu");
+                    // IceLogging.Debug("Opening Mission Menu");
+                    IceLogging.Debug("正在打开任务菜单");
                     hud.Mission();
                 }
             }
@@ -144,7 +147,8 @@ public static partial class CosmicHelper
             if (PlayerHelper.IsInCosmicZone())
             {
                 if (EzThrottler.Throttle("Throttling log message", 3000))
-                    IceLogging.Error("WKSManager returned null");
+                    // IceLogging.Error("WKSManager returned null");
+                    IceLogging.Error("WKSManager 返回 null");
             }
             return cosmicClassInfo;
         }
@@ -155,7 +159,8 @@ public static partial class CosmicHelper
         if (researchModule == null || !researchModule->IsLoaded)
         {
             if (EzThrottler.Throttle("Throttling log message", 3000))
-                IceLogging.Error("Research Module has returned null");
+                // IceLogging.Error("Research Module has returned null");
+                IceLogging.Error("Research Module 返回了 null");
             return cosmicClassInfo;
         }
 
@@ -221,7 +226,8 @@ public static partial class CosmicHelper
                 if (wksManagerPtr == null)
                 {
                     if (EzThrottler.Throttle("Update Stats"))
-                        IceLogging.Verbose("Waiting for the wksManager to be loaded", tag);
+                        // IceLogging.Verbose("Waiting for the wksManager to be loaded", tag);
+                        IceLogging.Verbose("正在等待 wksManager 加载", tag);
 
                     return false;
                 }
@@ -229,18 +235,21 @@ public static partial class CosmicHelper
                 {
                     Update_MissionCompletion();
                     // IceLogging.Verbose("Updated cosmic dictionary to have proper values", tag);
+                    // IceLogging.Verbose("已将宇宙字典更新为正确的值", tag);
                     return true;
                 }
             }
             else
             {
-                IceLogging.Verbose("Waiting for screen to be ready...", tag);
+                // IceLogging.Verbose("Waiting for screen to be ready...", tag);
+                IceLogging.Verbose("正在等待界面就绪……", tag);
                 return false;
             }
         }
         else
         {
-            IceLogging.Verbose("We're not in a cosmic area, so we're going to just exit this check", tag);
+            // IceLogging.Verbose("We're not in a cosmic area, so we're going to just exit this check", tag);
+            IceLogging.Verbose("我们不在宇宙区域，因此将直接退出此检查", tag);
             return true;
         }
     }

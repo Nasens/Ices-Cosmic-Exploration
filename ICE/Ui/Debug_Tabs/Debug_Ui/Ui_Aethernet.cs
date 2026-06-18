@@ -37,7 +37,8 @@ namespace ICE.Ui.Debug_Tabs.Debug_Ui
                     var row = sheet.GetRow(info.AetheryteId);
                     var territory = row.Territory.Value.PlaceName.Value.Name.ToString() ?? "unknown";
                     var name = row.PlaceName.Value.Name.ToString() ?? "unknown";
-                    IceLogging.Info($"ID: {info.AetheryteId}, Name: {name}, Territory: {territory}, IsAetheryte: {row.IsAetheryte}", "[Aethernet Debug]");
+                    // IceLogging.Info($"ID: {info.AetheryteId}, Name: {name}, Territory: {territory}, IsAetheryte: {row.IsAetheryte}", "[Aethernet Debug]");
+                    IceLogging.Info($"ID：{info.AetheryteId}，名称：{name}，区域：{territory}，IsAetheryte：{row.IsAetheryte}", "[Aethernet Debug]");
                 }
             }
 
@@ -50,7 +51,8 @@ namespace ICE.Ui.Debug_Tabs.Debug_Ui
                     if (row.IsAetheryte) continue; // skip main aetherytes
                     if (uiState->IsAetheryteUnlocked(row.RowId))
                     {
-                        IceLogging.Info($"ID: {row.RowId}, Name: {row.PlaceName.Value.Name}, Territory: {row.Territory.Value.PlaceName.Value.Name}", "[Aethernet Debug]");
+                        // IceLogging.Info($"ID: {row.RowId}, Name: {row.PlaceName.Value.Name}, Territory: {row.Territory.Value.PlaceName.Value.Name}", "[Aethernet Debug]");
+                        IceLogging.Info($"ID：{row.RowId}，名称：{row.PlaceName.Value.Name}，区域：{row.Territory.Value.PlaceName.Value.Name}", "[Aethernet Debug]");
                     }
                 }
             }

@@ -316,10 +316,12 @@ namespace ICE.Ui.MainUi.ModeSelect_Modes.CosmicTable
                 }
                 if (ImGui.Button(mission.SheetInfo.Name))
                 {
-                    IceLogging.Verbose("Testing... if this fires off multiple times", "DEBUG TEST");
+                    // IceLogging.Verbose("Testing... if this fires off multiple times", "DEBUG TEST");
+                    IceLogging.Verbose("测试……看看这里是否会多次触发", "DEBUG TEST");
                     Window_ExternalDetails.SelectedMission = mission.Id;
                     P.externalDetails.IsOpen = true;
-                    IceLogging.Verbose($"Collasped condition: {P.externalDetails.CollapsedCondition.ToString()}");
+                    // IceLogging.Verbose($"Collasped condition: {P.externalDetails.CollapsedCondition.ToString()}");
+                    IceLogging.Verbose($"折叠状态：{P.externalDetails.CollapsedCondition.ToString()}");
                 }
                 if (mission.SheetInfo.Attributes.HasFlag(MissionAttributes.Gather) || mission.SheetInfo.Attributes.HasFlag(MissionAttributes.Fish))
                 {
@@ -2065,7 +2067,8 @@ namespace ICE.Ui.MainUi.ModeSelect_Modes.CosmicTable
                                         var key = craft.Key;
                                         var useAmount = recipeConfig.SkillUsageAmount;
                                         var miracleSteps = recipeConfig.MinStepsForMiracle;
-                                        IceLogging.Verbose($"Was Expert: {craft.Value.ExpertCraft}", "Test Apply Skills");
+                                        // IceLogging.Verbose($"Was Expert: {craft.Value.ExpertCraft}", "Test Apply Skills");
+                                        IceLogging.Verbose($"是否为专家制作：{craft.Value.ExpertCraft}", "Test Apply Skills");
                                         if (craft.Value.ExpertCraft)
                                         {
                                             if (recipeConfig.SkillUsageAmount != -1)

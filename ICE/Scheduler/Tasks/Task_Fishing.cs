@@ -45,7 +45,8 @@ namespace ICE.Scheduler.Tasks
             string handle = "Fishing Task: State Check";
             if (Svc.Condition[ConditionFlag.Fishing])
             {
-                IceLogging.Info("We're currently in the middle of fishing, so we're going to wait for us to complete");
+                // IceLogging.Info("We're currently in the middle of fishing, so we're going to wait for us to complete");
+                IceLogging.Info("当前正在钓鱼中，因此等待其完成");
                 StartedFishing = 0;
                 P.TaskManager.Enqueue(() => FinishFishing(), "Waiting for fishing to complete");
                 SafetyThrottle = 0;
@@ -61,12 +62,14 @@ namespace ICE.Scheduler.Tasks
                     return false;
 
                 if (EzThrottler.Throttle("Checking fishing state"))
-                    IceLogging.Verbose("We're not currently fishing. Checking to see what we should do", handle);
+                    // IceLogging.Verbose("We're not currently fishing. Checking to see what we should do", handle);
+                    IceLogging.Verbose("当前未在钓鱼。检查应执行的操作", handle);
 
                 if (Player.Mounted || Player.IsJumping)
                 {
                     if (EzThrottler.Throttle("Log message: Jump/Dismount", 1000))
-                        IceLogging.Verbose("We're in the middle of dismounting/jumping, waiting");
+                        // IceLogging.Verbose("We're in the middle of dismounting/jumping, waiting");
+                        IceLogging.Verbose("正在下坐骑/跳跃中，等待");
 
                     Utils.Dismount();
                     return false;
@@ -75,7 +78,8 @@ namespace ICE.Scheduler.Tasks
                 if (Svc.Condition[ConditionFlag.ExecutingGatheringAction])
                 {
                     if (EzThrottler.Throttle("Gathering Action Execution", 2000))
-                        IceLogging.Info("We're currently executing some gathering action, so waiting");
+                        // IceLogging.Info("We're currently executing some gathering action, so waiting");
+                        IceLogging.Info("当前正在执行某个采集动作，因此等待");
 
                     return false;
                 }
@@ -98,7 +102,8 @@ namespace ICE.Scheduler.Tasks
 
                 if (!hasBait)
                 {
-                    IceLogging.Info("We are reporting to be out of bait, proceeding to abandon/turnin mission");
+                    // IceLogging.Info("We are reporting to be out of bait, proceeding to abandon/turnin mission");
+                    IceLogging.Info("报告鱼饵已用完，继续放弃/交付任务");
                     SchedulerMain.State = IceState.AbandonMission;
                     SafetyThrottle = 0;
                     return true;
@@ -106,7 +111,8 @@ namespace ICE.Scheduler.Tasks
                 if (CosmicHelper.CurrentBait() == 0)
                 {
                     if (EzThrottler.Throttle("Bait Message"))
-                        IceLogging.Debug($"We are reporting we didn't have a bait equipped, please be patient as we equip it [{firstBait}]", handle);
+                        // IceLogging.Debug($"We are reporting we didn't have a bait equipped, please be patient as we equip it [{firstBait}]", handle);
+                        IceLogging.Debug($"报告未装备鱼饵，正在装备，请耐心等待 [{firstBait}]", handle);
                     return false;
                 }
 
@@ -114,7 +120,8 @@ namespace ICE.Scheduler.Tasks
                 {
                     if (EzThrottler.Throttle("Collectable message"))
                     {
-                        IceLogging.Verbose("We might be missing collectors glove? Or it might still be being applied by autohook. Please give it time", handle);
+                        // IceLogging.Verbose("We might be missing collectors glove? Or it might still be being applied by autohook. Please give it time", handle);
+                        IceLogging.Verbose("可能缺少收藏家手套？或 autohook 仍在应用中。请稍等", handle);
                     }
                 }
                 if (_fishingDebug == null)
@@ -129,40 +136,48 @@ namespace ICE.Scheduler.Tasks
                     {
                         if (currentSpot != null)
                         {
-                            IceLogging.Verbose("We were told we're in a fishable location, so going to report back we are suppose to be able to fish\n" +
-                                               $"Current spot: {currentSpot.FishingSpot:N2}", handle);
+                            // IceLogging.Verbose("We were told we're in a fishable location, so going to report back we are suppose to be able to fish\n" +
+                            //                    $"Current spot: {currentSpot.FishingSpot:N2}", handle);
+                            IceLogging.Verbose("已确认我们处于可钓鱼位置，因此报告应当可以钓鱼\n" +
+                                               $"当前钓点：{currentSpot.FishingSpot:N2}", handle);
                         }
                         else
                         {
-                            IceLogging.Verbose($"We are currently in a fishable spot... but the data isn't loaded correctly? MissionID: {CosmicHelper.CurrentLunarMission}", handle);
+                            // IceLogging.Verbose($"We are currently in a fishable spot... but the data isn't loaded correctly? MissionID: {CosmicHelper.CurrentLunarMission}", handle);
+                            IceLogging.Verbose($"当前处于可钓鱼点……但数据未正确加载？MissionID：{CosmicHelper.CurrentLunarMission}", handle);
                         }
                     }
 
                     if (EzThrottler.Throttle("Start Fishing: AH", 500))
                     {
-                        IceLogging.Verbose("We are telling autohook to start fishing via command...", handle);
+                        // IceLogging.Verbose("We are telling autohook to start fishing via command...", handle);
+                        IceLogging.Verbose("正在通过命令通知 autohook 开始钓鱼……", handle);
                         P.AutoHook.SetPluginState(true);
                         Svc.Commands.ProcessCommand("/ahstart");
                     }
 
                     if (EzThrottler.Throttle("Started Fishing Throttle", 500))
                     {
-                        IceLogging.Verbose($"+1 to waiting for fishing to actually start... {StartedFishing}", handle);
+                        // IceLogging.Verbose($"+1 to waiting for fishing to actually start... {StartedFishing}", handle);
+                        IceLogging.Verbose($"+1 等待钓鱼实际开始……{StartedFishing}", handle);
                     }
                 }
                 else
                 {
-                    IceLogging.Verbose("We apperently aren't facing toward the fishing hole... or not close enough to one that we can actually start. So going to attempt to fix it", handle);
+                    // IceLogging.Verbose("We apperently aren't facing toward the fishing hole... or not close enough to one that we can actually start. So going to attempt to fix it", handle);
+                    IceLogging.Verbose("我们似乎没有面向钓点……或距离不够近以致无法开始。因此尝试修正", handle);
                     if (_fishingDebug.FindFishableLocation(out var fishablePos, searchSteps: 64))
                     {
-                        IceLogging.Info("We're not in a fishable angle, so going to face one", handle);
+                        // IceLogging.Info("We're not in a fishable angle, so going to face one", handle);
+                        IceLogging.Info("当前朝向无法钓鱼，因此转向钓点", handle);
                         P.TaskManager.Enqueue(() => FacePosition(fishablePos.Value));
                         SafetyThrottle = 0;
                         return true;
                     }
                     else
                     {
-                        IceLogging.Debug("Our current fishing position isn't viable. So going to move to the next fishing spot");
+                        // IceLogging.Debug("Our current fishing position isn't viable. So going to move to the next fishing spot");
+                        IceLogging.Debug("当前钓鱼位置不可用。因此前往下一个钓点");
                         var mission = CosmicHelper.CurrentMissionInfo;
                         var flag = mission.MapPosition;
                         var territoryId = mission.TerritoryId;
@@ -170,7 +185,8 @@ namespace ICE.Scheduler.Tasks
                         var nextFishingSpot = GetNextFishingSpot(territoryId, flag, Player.Position);
                         if (nextFishingSpot != null)
                         {
-                            IceLogging.Info($"We found another fishing spot to move to! {nextFishingSpot.FishingSpot} | moving to it");
+                            // IceLogging.Info($"We found another fishing spot to move to! {nextFishingSpot.FishingSpot} | moving to it");
+                            IceLogging.Info($"找到另一个可前往的钓点！{nextFishingSpot.FishingSpot} | 正在前往");
                             P.TaskManager.Tasks.Clear();
                             P.TaskManager.Enqueue(() => InitiateMoving(nextFishingSpot.FishingSpot), "Vnav moving to fishing");
                             SafetyThrottle = 0;
@@ -201,7 +217,8 @@ namespace ICE.Scheduler.Tasks
             string handle = "[Standard Fishing: Fishing Check]";
             if (EzThrottler.Throttle("Throttling intro message", 1000))
             {
-                IceLogging.Debug("Checking to see where we need to be here", handle);
+                // IceLogging.Debug("Checking to see where we need to be here", handle);
+                IceLogging.Debug("检查我们需要前往的位置", handle);
             }
             bool hasBait = false;
 
@@ -216,13 +233,15 @@ namespace ICE.Scheduler.Tasks
                             if (PlayerHelper.GetItemCount(baitId, out var count) && count > 0)
                             {
                                 P.AutoHook.SwapBaitById(baitId);
-                                IceLogging.Debug($"Telling it to equip bait ID: {baitId}", handle);
+                                // IceLogging.Debug($"Telling it to equip bait ID: {baitId}", handle);
+                                IceLogging.Debug($"通知装备鱼饵 ID：{baitId}", handle);
                                 return false;
                             }
                         }
                     }
 
-                    IceLogging.Info("If we've gotten here, that means we're out of bait. Proceeding to turnin/abandon the mission");
+                    // IceLogging.Info("If we've gotten here, that means we're out of bait. Proceeding to turnin/abandon the mission");
+                    IceLogging.Info("若执行到此，说明鱼饵已用完。继续交付/放弃任务");
                     SchedulerMain.State = IceState.AbandonMission;
                     P.TaskManager.Tasks.Clear();
                     return true;
@@ -238,7 +257,8 @@ namespace ICE.Scheduler.Tasks
                     if (PlayerHelper.GetItemCount(baitId, out var count) && count > 0)
                     {
                         if (EzThrottler.Throttle("Throttling bait message", 1000))
-                            IceLogging.Debug("We have the bait! Continuing onwards");
+                            // IceLogging.Debug("We have the bait! Continuing onwards");
+                            IceLogging.Debug("已有鱼饵！继续");
                         hasBait = true;
                         break;
                     }
@@ -247,7 +267,8 @@ namespace ICE.Scheduler.Tasks
 
             if (!hasBait)
             {
-                IceLogging.Info("If we've gotten here, that means we're out of bait. Proceeding to turnin/abandon the mission");
+                // IceLogging.Info("If we've gotten here, that means we're out of bait. Proceeding to turnin/abandon the mission");
+                IceLogging.Info("若执行到此，说明鱼饵已用完。继续交付/放弃任务");
                 SchedulerMain.State = IceState.AbandonMission;
                 P.TaskManager.Tasks.Clear();
                 return true;
@@ -255,7 +276,8 @@ namespace ICE.Scheduler.Tasks
             else if (CosmicHelper.CurrentMissionInfo.Attributes.HasFlag(MissionAttributes.Collectables) && !PlayerHelper.HasStatusId(805))
             {
                 if (EzThrottler.Throttle("Log Throttle for fishing"))
-                    IceLogging.Debug("We need to apply collector's glove", "Task_Start Fishing");
+                    // IceLogging.Debug("We need to apply collector's glove", "Task_Start Fishing");
+                    IceLogging.Debug("需要使用收藏家手套", "Task_Start Fishing");
 
                 if (!Player.IsBusy)
                 {
@@ -270,14 +292,16 @@ namespace ICE.Scheduler.Tasks
                 {
                     if (_fishingDebug.FindFishableLocation(out var fishablePos, searchSteps: 64))
                     {
-                        IceLogging.Info("We're not in a fishable angle, so going to face one", handle);
+                        // IceLogging.Info("We're not in a fishable angle, so going to face one", handle);
+                        IceLogging.Info("当前朝向无法钓鱼，因此转向钓点", handle);
                         P.TaskManager.Tasks.Clear();
                         P.TaskManager.Enqueue(() => FacePosition(fishablePos.Value));
                         return true;
                     }
                     else
                     {
-                        IceLogging.Debug("Our current fishing position isn't viable. So going to move to the next fishing spot");
+                        // IceLogging.Debug("Our current fishing position isn't viable. So going to move to the next fishing spot");
+                        IceLogging.Debug("当前钓鱼位置不可用。因此前往下一个钓点");
                         var mission = CosmicHelper.CurrentMissionInfo;
                         var flag = mission.MapPosition;
                         var territoryId = mission.TerritoryId;
@@ -285,7 +309,8 @@ namespace ICE.Scheduler.Tasks
                         var nextFishingSpot = GetNextFishingSpot(territoryId, flag, Player.Position);
                         if (nextFishingSpot != null)
                         {
-                            IceLogging.Info($"We found another fishing spot to move to! {nextFishingSpot.FishingSpot} | moving to it");
+                            // IceLogging.Info($"We found another fishing spot to move to! {nextFishingSpot.FishingSpot} | moving to it");
+                            IceLogging.Info($"找到另一个可前往的钓点！{nextFishingSpot.FishingSpot} | 正在前往");
                             P.TaskManager.Tasks.Clear();
                             P.TaskManager.Enqueue(() => InitiateMoving(nextFishingSpot.FishingSpot), "Vnav moving to fishing");
                             return true;
@@ -294,14 +319,16 @@ namespace ICE.Scheduler.Tasks
                 }
                 else if (EzThrottler.Throttle("Starting to fish", 1000))
                 {
-                    IceLogging.Debug("Telling it to start fishing", handle);
+                    // IceLogging.Debug("Telling it to start fishing", handle);
+                    IceLogging.Debug("通知开始钓鱼", handle);
                     // ActionManager.Instance()->UseAction(ActionType.Action, 289);
                     Svc.Commands.ProcessCommand("/ahstart");
                 }
                 else if (EzThrottler.Throttle("Adding counter for bait not equipped"))
                 {
                     BaitCounter++;
-                    IceLogging.Debug($"Adding 1 to the counter. Counter is at: {BaitCounter}");
+                    // IceLogging.Debug($"Adding 1 to the counter. Counter is at: {BaitCounter}");
+                    IceLogging.Debug($"计数器 +1。当前计数器为：{BaitCounter}");
                     if (BaitCounter >= 2)
                     {
                         foreach (var bait in GatheringUtil.MoonBaits)
@@ -311,7 +338,8 @@ namespace ICE.Scheduler.Tasks
                                 if (PlayerHelper.GetItemCount(baitId, out var count) && count > 0)
                                 {
                                     P.AutoHook.SwapBaitById(baitId);
-                                    IceLogging.Debug($"Telling it to equip bait ID: {baitId}", handle);
+                                    // IceLogging.Debug($"Telling it to equip bait ID: {baitId}", handle);
+                                    IceLogging.Debug($"通知装备鱼饵 ID：{baitId}", handle);
                                     return false;
                                 }
                             }
@@ -324,7 +352,8 @@ namespace ICE.Scheduler.Tasks
             {
                 // Means we are fishing, all we need to do is enable autohook then wait for us to get the amount of fish we need
                 P.AutoHook.SetPluginState(true);
-                IceLogging.Info("We're starting to fish. So kicking it over to checking the fish items", handle);
+                // IceLogging.Info("We're starting to fish. So kicking it over to checking the fish items", handle);
+                IceLogging.Info("开始钓鱼。因此转去检查鱼类物品", handle);
                 P.TaskManager.Insert(() => FinishFishing(), "Waiting till we actually start fishing", Utils.TaskConfig);
                 BaitCounter = 0;
                 return true;
@@ -336,7 +365,8 @@ namespace ICE.Scheduler.Tasks
         {
             if (!Svc.Condition[ConditionFlag.Fishing])
             {
-                IceLogging.Info("We're done fishing, time to go back to the score check", "[Fishing: Finished]");
+                // IceLogging.Info("We're done fishing, time to go back to the score check", "[Fishing: Finished]");
+                IceLogging.Info("钓鱼完成，回到分数检查", "[Fishing: Finished]");
                 return true;
             }
             else
@@ -392,7 +422,8 @@ namespace ICE.Scheduler.Tasks
 
                 autoRotateConfig->Value.UInt = 1;
 
-                IceLogging.Debug($"Telling the game to face you to: {pos}");
+                // IceLogging.Debug($"Telling the game to face you to: {pos}");
+                IceLogging.Debug($"通知游戏将你转向：{pos}");
                 Vector3 temp = pos;
                 ActionManager.Instance()->AutoFaceTargetPosition(&temp);
 

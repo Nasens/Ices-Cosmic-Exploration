@@ -105,7 +105,8 @@ namespace ICE.Ui.Debug_Tabs.Debug_Ui
             {
                 if (CosmicHelper.CurrentBait() == 0)
                 {
-                    IceLogging.Debug("Bait is not currently equipped");
+                    // IceLogging.Debug("Bait is not currently equipped");
+                    IceLogging.Debug("当前未装备鱼饵");
                 }
 
                 P.AutoHook.SwapBaitById(baitId);
@@ -115,15 +116,18 @@ namespace ICE.Ui.Debug_Tabs.Debug_Ui
             {
                 if (CosmicHelper.CurrentBait() == 0)
                 {
-                    IceLogging.Debug($"No bait is equipped");
+                    // IceLogging.Debug($"No bait is equipped");
+                    IceLogging.Debug($"未装备任何鱼饵");
                 }
                 else if (CosmicHelper.CurrentBait == null)
                 {
-                    IceLogging.Debug("Bait is null... aka not in the middle of a mission");
+                    // IceLogging.Debug("Bait is null... aka not in the middle of a mission");
+                    IceLogging.Debug("鱼饵为 null……即当前不在任务进行中");
                 }
                 else
                 {
-                    IceLogging.Debug($"Current bait: {CosmicHelper.CurrentBait}");
+                    // IceLogging.Debug($"Current bait: {CosmicHelper.CurrentBait}");
+                    IceLogging.Debug($"当前鱼饵：{CosmicHelper.CurrentBait}");
                 }
             }
 

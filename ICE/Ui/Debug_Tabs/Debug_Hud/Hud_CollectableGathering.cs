@@ -145,7 +145,8 @@ namespace ICE.Ui.Debug_Tabs.Debug_Hud
                         {
                             bool missingDur = gather.CurrentIntegrity < gather.TotalIntegrity;
                             bool useAction = Task_Gather.UseGatherAction(0, item.GatherChance, item.BoonChance, gather.CurrentIntegrity, gather.TotalIntegrity, PlayerHelper.GetGp());
-                            IceLogging.Debug($"Used action: {useAction}");
+                            // IceLogging.Debug($"Used action: {useAction}");
+                            IceLogging.Debug($"已使用技能：{useAction}");
                             break;
                         }
                     }

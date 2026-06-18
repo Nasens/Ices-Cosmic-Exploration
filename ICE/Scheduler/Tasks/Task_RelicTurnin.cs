@@ -27,7 +27,8 @@ namespace ICE.Scheduler.Tasks
         }
         public static bool? RegisterJob()
         {
-            IceLogging.Verbose("Registering what job to turn in on");
+            // IceLogging.Verbose("Registering what job to turn in on");
+            IceLogging.Verbose("正在登记用于交付的职业");
             TurninJob = (uint)Player.Job;
 
             return true;
@@ -41,7 +42,8 @@ namespace ICE.Scheduler.Tasks
                 {
                     if (EzThrottler.Throttle("Swapping jobs", 1000))
                     {
-                        IceLogging.Verbose($"Telling the game to swap you to jobID: {Char_Info.Relic_BattleJob}");
+                        // IceLogging.Verbose($"Telling the game to swap you to jobID: {Char_Info.Relic_BattleJob}");
+                        IceLogging.Verbose($"通知游戏切换到职业 ID：{Char_Info.Relic_BattleJob}");
                         GearsetHandler.TaskClassChange((Job)Char_Info.Relic_BattleJob);
                     }
 
@@ -49,7 +51,8 @@ namespace ICE.Scheduler.Tasks
                 }
                 else
                 {
-                    IceLogging.Verbose("Job swap is complete! Turning in the relic now");
+                    // IceLogging.Verbose("Job swap is complete! Turning in the relic now");
+                    IceLogging.Verbose("职业切换完成！正在交付 Relic");
 
                     return true;
                 }
@@ -58,14 +61,16 @@ namespace ICE.Scheduler.Tasks
             {
                 if (EzThrottler.Throttle("Swapping jobs", 1000))
                 {
-                    IceLogging.Verbose($"Telling the game to swap you to jobID: {Mission_Settings.SelectedJob}");
+                    // IceLogging.Verbose($"Telling the game to swap you to jobID: {Mission_Settings.SelectedJob}");
+                    IceLogging.Verbose($"通知游戏切换到职业 ID：{Mission_Settings.SelectedJob}");
                     GearsetHandler.TaskClassChange((Job)Mission_Settings.SelectedJob);
                 }
                 return false;
             }
             else
             {
-                IceLogging.Debug("No swap is necessary/not configured properly. Continuing on");
+                // IceLogging.Debug("No swap is necessary/not configured properly. Continuing on");
+                IceLogging.Debug("无需切换/未正确配置，继续执行");
                 return true;
             }
         }
@@ -81,11 +86,13 @@ namespace ICE.Scheduler.Tasks
                 if (!Task_NavmeshMove.Task_NavTo(randomPos, distance: 5, npcLoc: npcEntry.Location_Npc).Value)
                 {
                     if (EzThrottler.Throttle("Repair move message", 1000))
-                        IceLogging.Verbose($"Pathing to repair NPC. Current distance: {Player.DistanceTo(npcEntry.Location_Npc)}", handle);
+                        // IceLogging.Verbose($"Pathing to repair NPC. Current distance: {Player.DistanceTo(npcEntry.Location_Npc)}", handle);
+                        IceLogging.Verbose($"正在前往修理 NPC，当前距离：{Player.DistanceTo(npcEntry.Location_Npc)}", handle);
                 }
                 else
                 {
-                    IceLogging.Debug("We're close enough to the repair npc! Continuing on", handle);
+                    // IceLogging.Debug("We're close enough to the repair npc! Continuing on", handle);
+                    IceLogging.Debug("已足够接近修理 NPC，继续执行", handle);
                     return true;
                 }
             }
@@ -94,7 +101,7 @@ namespace ICE.Scheduler.Tasks
                 if (EzThrottler.Throttle("Error message: NPC", 5000))
                     // IceLogging.Error("Hey! We don't have this npc coded yet, which means I forgot bout it, could you let me know\n" +
                     IceLogging.Error("该 NPC 尚未录入，请反馈\n" +
-                                     $"Planet Territory ID: {Player.Territory.RowId}", handle);
+                                     $"星球区域 ID：{Player.Territory.RowId}", handle);
             }
 
             return false;
@@ -104,7 +111,8 @@ namespace ICE.Scheduler.Tasks
         {
             if (GenericHelpers.TryGetAddonMaster<SelectString>("SelectString", out var selectString) && selectString.IsAddonReady)
             {
-                IceLogging.Info("Talk to researchway complete");
+                // IceLogging.Info("Talk to researchway complete");
+                IceLogging.Info("与研究员对话完成");
                 return true;
             }
             else if (GenericHelpers.TryGetAddonMaster<Talk>("Talk", out var talk) && talk.IsAddonReady)
@@ -132,7 +140,8 @@ namespace ICE.Scheduler.Tasks
         {
             if (GenericHelpers.TryGetAddonMaster<SelectIconString>("SelectIconString", out var selectIconString) && selectIconString.IsAddonReady)
             {
-                IceLogging.Info("We're onto selecting the class to turnin, woo!");
+                // IceLogging.Info("We're onto selecting the class to turnin, woo!");
+                IceLogging.Info("进入选择交付职业的步骤");
                 return true;
             }
             else if (GenericHelpers.TryGetAddonMaster<SelectString>("SelectString", out var selectString) && selectString.IsAddonReady)
@@ -167,7 +176,8 @@ namespace ICE.Scheduler.Tasks
             }
 
             if (EzThrottler.Throttle("Throttle job unlock message", 1000))
-                IceLogging.Debug($"Amount of jobs unlocked: {jobUnlocked.Where(x => x.Value).Count()}");
+                // IceLogging.Debug($"Amount of jobs unlocked: {jobUnlocked.Where(x => x.Value).Count()}");
+                IceLogging.Debug($"已解锁职业数量：{jobUnlocked.Where(x => x.Value).Count()}");
             uint selectedEntry = 0;
             foreach (var jobId in jobUnlocked)
             {
@@ -185,7 +195,8 @@ namespace ICE.Scheduler.Tasks
             {
                 if (EzThrottler.Throttle($"Selecting jobId: {TurninJob}"))
                 {
-                    IceLogging.Debug($"Selecting Entry: {selectedEntry} for job: {TurninJob} to turnin relic");
+                    // IceLogging.Debug($"Selecting Entry: {selectedEntry} for job: {TurninJob} to turnin relic");
+                    IceLogging.Debug($"选择条目：{selectedEntry}，职业：{TurninJob}，用于交付 Relic");
                     selectIconString.Entries[selectedEntry].Select();
                 }
             }
@@ -193,7 +204,8 @@ namespace ICE.Scheduler.Tasks
             {
                 if (EzThrottler.Throttle("Selecting yes for turnin"))
                 {
-                    IceLogging.Verbose("Selecting yes for the turnin");
+                    // IceLogging.Verbose("Selecting yes for the turnin");
+                    IceLogging.Verbose("为交付选择「是」");
                     selectYesno.Yes();
                 }
             }
@@ -201,13 +213,15 @@ namespace ICE.Scheduler.Tasks
             {
                 if (EzThrottler.Throttle("Clicking the talk dialog", 50))
                 {
-                    IceLogging.Verbose("Clicking the talk dialog");
+                    // IceLogging.Verbose("Clicking the talk dialog");
+                    IceLogging.Verbose("点击对话框");
                     talk.Click();
                 }
             }
             else if (!Player.IsBusy)
             {
-                IceLogging.Info("No longer busy talking to researchingway, to we're done");
+                // IceLogging.Info("No longer busy talking to researchingway, to we're done");
+                IceLogging.Info("与研究员的对话已结束，完成");
                 if (Char_Info.Relic_SwapJob)
                 {
                     if (C.Relic_Stylist)
@@ -249,7 +263,8 @@ namespace ICE.Scheduler.Tasks
         {
             if ((uint)Player.Job == TurninJob)
             {
-                IceLogging.Debug("We're back on the proper job, continuing on");
+                // IceLogging.Debug("We're back on the proper job, continuing on");
+                IceLogging.Debug("已切换回正确职业，继续执行");
 
                 var delayAmount = C.DelayPostRelic == 0 ? 25 : C.DelayPostRelic;
 
@@ -270,7 +285,8 @@ namespace ICE.Scheduler.Tasks
             {
                 if (EzThrottler.Throttle("Swapping jobs", 1000))
                 {
-                    IceLogging.Verbose($"Telling the game to swap you to jobID: {TurninJob}");
+                    // IceLogging.Verbose($"Telling the game to swap you to jobID: {TurninJob}");
+                    IceLogging.Verbose($"通知游戏切换到职业 ID：{TurninJob}");
                     GearsetHandler.TaskClassChange((Job)TurninJob);
                 }
                 return false;
