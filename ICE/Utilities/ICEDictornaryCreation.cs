@@ -492,7 +492,7 @@ public sealed partial class ICE
                 var todoRow = missionToDo;
                 var MoonItemInfoSheet = Svc.Data.GetExcelSheet<WKSItemInfo>();
 
-                if (todoRow.RequiredItem[0].RowId != 0) // First item in the gathering list. Shouldn't be 0...))
+                if (todoRow.RequiredItem[0].RowId != 0) // First item in the gathering list. Shouldn't be 0...
                 {
                     var minAmount = todoRow.RequiredItemQuantity[0].ToInt();
                     var itemInfoId = MoonItemInfoSheet.GetRow(todoRow.RequiredItem[0].RowId).Item.RowId;
@@ -501,7 +501,7 @@ public sealed partial class ICE
                         gathering_Min.Add(itemInfoId, minAmount);
                     }
                 }
-                if (todoRow.RequiredItem[1].RowId != 0) // First item in the gathering list. Shouldn't be 0...))
+                if (todoRow.RequiredItem[1].RowId != 0) // First item in the gathering list. Shouldn't be 0...
                 {
                     var minAmount = todoRow.RequiredItemQuantity[1].ToInt();
                     var itemInfoId = MoonItemInfoSheet.GetRow(todoRow.RequiredItem[1].RowId).Item.RowId;
@@ -510,7 +510,7 @@ public sealed partial class ICE
                         gathering_Min.Add(itemInfoId, minAmount);
                     }
                 }
-                if (todoRow.RequiredItem[2].RowId != 0) // First item in the gathering list. Shouldn't be 0...))
+                if (todoRow.RequiredItem[2].RowId != 0) // First item in the gathering list. Shouldn't be 0...
                 {
                     var minAmount = todoRow.RequiredItemQuantity[2].ToInt();
                     var itemInfoId = MoonItemInfoSheet.GetRow(todoRow.RequiredItem[2].RowId).Item.RowId;

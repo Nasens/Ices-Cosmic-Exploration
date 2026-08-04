@@ -199,7 +199,7 @@ namespace ICE.Ui.Debug_Tabs.Debug_Tables
                             ImGuiTableFlags.Reorderable |         // Allow column reordering
                             ImGuiTableFlags.Hideable;             // Allow hiding columns via right-click
 
-            if (ImGui.BeginTable("Moon Mission Information Table", 35, tableFlags)) // Increased column count by 1))
+            if (ImGui.BeginTable("Moon Mission Information Table", 35, tableFlags)) // Increased column count by 1
             {
                 // ImGui.TableSetupColumn("ID");
                 ImGui.TableSetupColumn("ID");
