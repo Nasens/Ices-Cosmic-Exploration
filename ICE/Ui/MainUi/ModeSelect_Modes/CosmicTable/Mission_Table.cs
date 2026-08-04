@@ -150,37 +150,37 @@ public static class CosmicTables
         // TODO: Create default width's for all of these...
 
         private readonly EnabledColumn _enabledColumn;
-        // public readonly NameColumn _nameColumn = new() { Label = "Name" };
-        public readonly NameColumn _nameColumn = new() { Label = "名称" };
+        // private readonly NameColumn _nameColumn = new() { Label = "Name" };
+        private readonly NameColumn _nameColumn = new() { Label = "名称" };
         private readonly IdColumn _idColumn = new() { Label = "ID" };
-        // public readonly JobColumn _jobColumn = new() { Label = "Job" };
-        public readonly JobColumn _jobColumn = new() { Label = "职业" };
-        // public readonly MissionColumn _missionColumn = new() { Label = "Rank" };
-        public readonly MissionColumn _missionColumn = new() { Label = "等级" };
-        // public readonly CompletionColumn _completionColumn = new() { Label = "Status" };
-        public readonly CompletionColumn _completionColumn = new() { Label = "状态" };
-        // public readonly ClassScoreColumn _classScoreColumn = new() { Label = "Class" };
-        public readonly ClassScoreColumn _classScoreColumn = new() { Label = "职业" };
-        // public readonly CosmocreditColumn _cosmoColumn = new() { Label = "Cosmo" };
-        public readonly CosmocreditColumn _cosmoColumn = new() { Label = "宇宙币" };
-        // public readonly LunarCreditColumn _lunarColumn = new() { Label = "Lunar" };
-        public readonly LunarCreditColumn _lunarColumn = new() { Label = "行星" };
-        // public readonly DroneCreditColumn _droneColumn = new() { Label = "Dronebits" };
-        public readonly DroneCreditColumn _droneColumn = new() { Label = "无人机代币" };
-        // public readonly PlanetTokensColumn _planetTokenColumn = new() { Label = "Mount" };
-        public readonly PlanetTokensColumn _planetTokenColumn = new() { Label = "坐骑代币" };
-        // public readonly SPMColumn _spmColumn = new() { Label = "SPM" };
-        public readonly SPMColumn _spmColumn = new() { Label = "分/分钟" };
-        // public readonly TurninColumn _turninColumn = new() { Label = "Goal" };
-        public readonly TurninColumn _turninColumn = new() { Label = "目标" };
-        // public readonly PlanetColumn _planetColumn = new() { Label = "Moons" };
-        public readonly PlanetColumn _planetColumn = new() { Label = "星球" };
-        // public readonly ProfileColumn _profileColumn = new() { Label = "Profile" };
-        public readonly ProfileColumn _profileColumn = new() { Label = "配置" };
-        // public readonly NotesColumn _notesColumn = new() { Label = "Notes" };
-        public readonly NotesColumn _notesColumn = new() { Label = "备注" };
-        // public readonly AllRelicExpColum _allExpColumn = new() { Label = "Exp" };
-        public readonly AllRelicExpColum _allExpColumn = new() { Label = "经验" };
+        // private readonly JobColumn _jobColumn = new() { Label = "Job" };
+        private readonly JobColumn _jobColumn = new() { Label = "职业" };
+        // private readonly MissionColumn _missionColumn = new() { Label = "Rank" };
+        private readonly MissionColumn _missionColumn = new() { Label = "等级" };
+        // private readonly CompletionColumn _completionColumn = new() { Label = "Status" };
+        private readonly CompletionColumn _completionColumn = new() { Label = "状态" };
+        // private readonly ClassScoreColumn _classScoreColumn = new() { Label = "Class" };
+        private readonly ClassScoreColumn _classScoreColumn = new() { Label = "职业" };
+        // private readonly CosmocreditColumn _cosmoColumn = new() { Label = "Cosmo" };
+        private readonly CosmocreditColumn _cosmoColumn = new() { Label = "宇宙币" };
+        // private readonly LunarCreditColumn _lunarColumn = new() { Label = "Lunar" };
+        private readonly LunarCreditColumn _lunarColumn = new() { Label = "行星" };
+        // private readonly DroneCreditColumn _droneColumn = new() { Label = "Dronebits" };
+        private readonly DroneCreditColumn _droneColumn = new() { Label = "无人机代币" };
+        // private readonly PlanetTokensColumn _planetTokenColumn = new() { Label = "Mount" };
+        private readonly PlanetTokensColumn _planetTokenColumn = new() { Label = "坐骑代币" };
+        // private readonly SPMColumn _spmColumn = new() { Label = "SPM" };
+        private readonly SPMColumn _spmColumn = new() { Label = "分/分钟" };
+        // private readonly TurninColumn _turninColumn = new() { Label = "Goal" };
+        private readonly TurninColumn _turninColumn = new() { Label = "目标" };
+        // private readonly PlanetColumn _planetColumn = new() { Label = "Moons" };
+        private readonly PlanetColumn _planetColumn = new() { Label = "星球" };
+        // private readonly ProfileColumn _profileColumn = new() { Label = "Profile" };
+        private readonly ProfileColumn _profileColumn = new() { Label = "配置" };
+        // private readonly NotesColumn _notesColumn = new() { Label = "Notes" };
+        private readonly NotesColumn _notesColumn = new() { Label = "备注" };
+        // private readonly AllRelicExpColum _allExpColumn = new() { Label = "Exp" };
+        private readonly AllRelicExpColum _allExpColumn = new() { Label = "经验" };
 
         public Mission_Table(List<MissionInfo> itemList) : base("Item_Table_V2", itemList)
         {
@@ -339,7 +339,6 @@ public static class CosmicTables
                     //     "I'll get to it when my world gets to it o/");
                     ImGui.Text("此任务尚缺必要数据，暂无法运行。可能因星球未解锁或尚未完成映射。\n" +
                         "将在数据就绪后更新 o/");
-                        "I'll get to it when my world gets to it o/");
                     ImGui.EndTooltip();
                 }
             }
@@ -1080,8 +1079,6 @@ public static class CosmicTables
                             //     "Please give it time");
                             ImGui.SetTooltip("计时结束后交付。\n" +
                                 "目前无法阻止 Artisan 继续制作，已提交需求，请耐心等待。");
-                                "Currently there isn't a way to stop artisan from crafting, it's been requested\n" +
-                                "Please give it time");
                         }
 
                         ImGui.Separator();
@@ -1102,10 +1099,6 @@ public static class CosmicTables
                                 "1：达到您设定的分数\n" +
                                 "2：计时结束\n" +
                                 "因计分断点未知，此模式需自行设定分数目标。");
-                                "1: Score that you personally have set has been met\n" +
-                                "2: Timer has ran out\n" +
-                                "You can set your score with this mode yourself, due to not knowing the scoring break points\n" +
-                                "Yet");
                         }
                         ImGui.SameLine();
                         var masterScore = configInfo.Master_Score;
@@ -1160,8 +1153,6 @@ public static class CosmicTables
                             ImGui.SetTooltip("条件允许时立即交付。\n" +
                                 "适合快速刷分、坐骑代币。\n" +
                                 "BTN/MIN 将采集非收藏品物品。");
-                                "Very useful for quick score farming, mount tokens.\n" +
-                                "For BTN/MIN, this will gather the non-collectable item");
                         }
                     }
 
@@ -1461,7 +1452,6 @@ public static class CosmicTables
                         //                    "If you would like to use one that you already have in autohook, you can un-checkmark this and type the name of it below");
                         ImGuiEx.HelpMarker("启用后将使用插件自带的 AutoHook 默认预设。\n" +
                                                                        "若使用 AutoHook 中已有预设，请取消勾选并在下方输入名称。");
-                                           "If you would like to use one that you already have in autohook, you can un-checkmark this and type the name of it below");
                         using (ImRaii.Disabled(builtInPreset))
                         {
                             string presetName = config.AutoHookPresetName;
@@ -1483,7 +1473,6 @@ public static class CosmicTables
                                 // ImGui.SetTooltip("Allows testing to make sure that you have the preset name\n" +
                                 //     "typed in correctly. This is *case* specific so");
                                 ImGui.SetTooltip("测试预设名称是否正确（区分大小写）");
-                                    "typed in correctly. This is *case* specific so");
                             }
                             ImGui.SameLine();
                             // if (ImGui.Button("Clear Profile"))
@@ -1971,8 +1960,7 @@ public static class CosmicTables
                             ImGui.SetTooltip("满足以下任一条件时交付任务：\n" +
                                 "1：达到你自己设定的分数\n" +
                                 "2：计时结束\n" +
-                                "由于无法预知分数阈值，该模式需要你自行设定目标分数\n" +
-                                "Yet");
+                                "由于无法预知分数阈值，该模式需要你自行设定目标分数");
                         }
                         ImGui.SameLine();
                         var masterScore = configInfo.Master_Score;

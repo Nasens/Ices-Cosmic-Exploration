@@ -27,8 +27,8 @@ namespace ICE.Ui.Debug_Tabs.Debug_Hud
                     if (!P.TaskManager.IsBusy)
                         P.TaskManager.Enqueue(() => Task_BuyCosmoItems.BuyPlanetBoolets(), Utils.TaskConfig);
                 }
-                if (// ImGui.BeginTable("Shop Exchange Items", 4, ImGuiTableFlags.SizingFixedFit | ImGuiTableFlags.Borders)
-                if (ImGui.BeginTable("商店兑换物品", 4, ImGuiTableFlags.SizingFixedFit | ImGuiTableFlags.Borders)))
+                // if (ImGui.BeginTable("Shop Exchange Items", 4, ImGuiTableFlags.SizingFixedFit | ImGuiTableFlags.Borders))
+                if (ImGui.BeginTable("商店兑换物品", 4, ImGuiTableFlags.SizingFixedFit | ImGuiTableFlags.Borders))
                 {
                     // ImGui.TableSetupColumn("Item");
                     ImGui.TableSetupColumn("物品");
@@ -79,8 +79,8 @@ namespace ICE.Ui.Debug_Tabs.Debug_Hud
                         // ImGui.InputInt($"Buy Amount", ref BuyAmount);
                         ImGui.InputInt($"购买数量", ref BuyAmount);
                         ImGui.SameLine();
-                        if (// ImGui.Button($"Buy Item##{item.ItemId}_Buy")
-                        if (ImGui.Button($"购买物品##{item.ItemId}_Buy")))
+                        // if (ImGui.Button($"Buy Item##{item.ItemId}_Buy"))
+                        if (ImGui.Button($"购买物品##{item.ItemId}_Buy"))
                         {
                             item.Select(BuyAmount);
                         }

@@ -506,7 +506,7 @@ namespace ICE.Ui.Debug_Tabs.Debug_Ui
 
             foreach (var kvp in selectedIcons.OrderBy(x => x.Key))
             {
-                if (kvp.Value) // Only export selected ones
+                if (kvp.Value) // Only export selected ones))
                 {
                     int codePoint = kvp.Key;
                     string code = $"\\u{codePoint:X4}";

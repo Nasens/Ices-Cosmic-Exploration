@@ -18,15 +18,15 @@ namespace ICE.Ui.MainUi.Settings
             var enableMountBuy = C.PlanetMount_Enable;
             var mountBuyAmount = C.PlanetMount_Amount;
 
-            if (// ImGui.Checkbox("Buy Booklets", ref enableBooklet)
-            if (ImGui.Checkbox("购买书册", ref enableBooklet)))
+            // if (ImGui.Checkbox("Buy Booklets", ref enableBooklet))
+            if (ImGui.Checkbox("购买书册", ref enableBooklet))
             {
                 C.BookletBuy_Enable = enableBooklet;
                 C.SaveDebounced();
             }
             ImGui.SetNextItemWidth(200);
-            if (// ImGui.InputInt("Buy Booklets @", ref bookletAmount)
-            if (ImGui.InputInt("购买书册 @", ref bookletAmount)))
+            // if (ImGui.InputInt("Buy Booklets @", ref bookletAmount))
+            if (ImGui.InputInt("购买书册 @", ref bookletAmount))
             {
                 if (bookletAmount > 99)
                 {
@@ -35,15 +35,15 @@ namespace ICE.Ui.MainUi.Settings
                 }
             }
 
-            if (// ImGui.Checkbox("Buy Mounts", ref enableMountBuy)
-            if (ImGui.Checkbox("购买坐骑", ref enableMountBuy)))
+            // if (ImGui.Checkbox("Buy Mounts", ref enableMountBuy))
+            if (ImGui.Checkbox("购买坐骑", ref enableMountBuy))
             {
                 C.PlanetMount_Enable = enableMountBuy;
                 C.SaveDebounced();
             }
             ImGui.SetNextItemWidth(200);
-            if (// ImGui.InputInt("Buy Mount @", ref mountBuyAmount)
-            if (ImGui.InputInt("购买坐骑 @", ref mountBuyAmount)))
+            // if (ImGui.InputInt("Buy Mount @", ref mountBuyAmount))
+            if (ImGui.InputInt("购买坐骑 @", ref mountBuyAmount))
             {
                 if (mountBuyAmount > 59)
                 {
@@ -52,8 +52,8 @@ namespace ICE.Ui.MainUi.Settings
                 }
             }
 
-            if (// ImGui.BeginTable("Mount Token Info", 5, ImGuiTableFlags.SizingFixedFit | ImGuiTableFlags.Borders)
-            if (ImGui.BeginTable("坐骑代币信息", 5, ImGuiTableFlags.SizingFixedFit | ImGuiTableFlags.Borders)))
+            // if (ImGui.BeginTable("Mount Token Info", 5, ImGuiTableFlags.SizingFixedFit | ImGuiTableFlags.Borders))
+            if (ImGui.BeginTable("坐骑代币信息", 5, ImGuiTableFlags.SizingFixedFit | ImGuiTableFlags.Borders))
             {
                 // ImGui.TableSetupColumn("Planet");
                 ImGui.TableSetupColumn("行星");

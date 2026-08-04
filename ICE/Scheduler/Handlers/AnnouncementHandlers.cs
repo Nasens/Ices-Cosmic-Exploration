@@ -71,7 +71,7 @@ namespace ICE.Scheduler.Handlers
             {
                 if (AddonHelper.IsAddonActive(Announcement))
                 {
-                    if (AddonHelper.GetAtkTextNode(Announcement, 48)->IsVisible()) // Red Alert Preparation
+                    if (AddonHelper.GetAtkTextNode(Announcement, 48)->IsVisible()) // Red Alert Preparation))
                     {
                         var description = AddonHelper.GetNodeText(Announcement, 47).ToLower();
                         var territoryId = Player.Territory.RowId;
