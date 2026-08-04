@@ -143,7 +143,6 @@ namespace ICE.Scheduler.Tasks
                         {
                             // you don't have enough of the pre-crafts to craft the main item. 
                             // going to tell artisan to just kick it into gear
-                            bool SpecialExpert = mainCraft.Value.ExpertCraft && provisional;
                             var craftAmount = mainCraft.Value.RequiredAmount - mainItemCount;
                             InsertArtisanWait(mainCraft, craftAmount);
                             // IceLogging.Info($"Telling artisan to craft: {mainCraft.Value.ItemId} -> {craftAmount}", "[Task Craft: Check Materials]");
@@ -153,7 +152,6 @@ namespace ICE.Scheduler.Tasks
                         else
                         {
                             // you have enough of the main hand item. But you still are crafting. So time to just craft 1 more
-                            bool SpecialExpert = mainCraft.Value.ExpertCraft && provisional;
                             InsertArtisanWait(mainCraft, 1);
                             // IceLogging.Info($"Current item count of: {mainCraft.Value.ItemId} | {mainItemCount}");
                             IceLogging.Info($"当前物品数量：{mainCraft.Value.ItemId} | {mainItemCount}");

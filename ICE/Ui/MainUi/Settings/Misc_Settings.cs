@@ -40,11 +40,16 @@ namespace ICE.Ui.MainUi.Settings
             ImGui.Dummy(new (0, 5));
 
             bool showOverlay = C.ShowOverlay;
-            // if (ImGui.Checkbox("Show Overlay", ref showOverlay))
-            if (ImGui.Checkbox("显示悬浮窗", ref showOverlay))
+            if (ImGui.Checkbox("Auto-Open Overlay", ref showOverlay))
             {
                 C.ShowOverlay = showOverlay;
                 C.Save();
+            }
+            ImGui.SameLine();
+            if (ImGui.Button("Open Overlay"))
+            {
+                if (!P.overlayWindow.IsOpen)
+                    P.overlayWindow.IsOpen = true;
             }
             ImGui.SameLine();
             bool useCogsIcon = C.Overlay_UseCogsIcon;
@@ -95,6 +100,13 @@ namespace ICE.Ui.MainUi.Settings
             if (ImGui.Checkbox("显示总分数", ref showTotalScore))
             {
                 C.ShowTotalScore = showTotalScore;
+                C.Save();
+            }
+            ImGui.SameLine();
+            bool showMasteryScore = C.ShowMasteryScore;
+            if (ImGui.Checkbox("Show Mastery Score", ref showMasteryScore))
+            {
+                C.ShowMasteryScore = showMasteryScore;
                 C.Save();
             }
 
@@ -373,6 +385,18 @@ namespace ICE.Ui.MainUi.Settings
                 "这完全没有任何效果\n" +
                 "但我知道会有人不看说明就勾选，所以留个彩蛋。\n" +
                 "感谢使用本插件，意义重大 <3");
+
+            var fakeFishing = C.FakeIncreaseFisher;
+            ImGui.Dummy(new(0, 0));
+            if (ImGui.Checkbox("Increase Fishing Speed", ref fakeFishing))
+            {
+                C.FakeIncreaseFisher = fakeFishing;
+                C.SaveDebounced();
+            }
+            ImGui.SameLine();
+            ImGuiEx.IconWithTooltip(FontAwesomeIcon.QuestionCircle,
+                "This is your warning, this will just apply a clown head to you every minute or so from glamourer.\n" +
+                "100% a joke setting, don't take it seriously. I don't have the technology for this");
         }
         private static void Separator()
         {

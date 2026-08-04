@@ -34,17 +34,6 @@ namespace ICE.Ui
                 });
         }
 
-        public void Dispose()
-        {
-            P.windowSystem.RemoveWindow(this);
-        }
-
-        public override bool DrawConditions()
-        {
-            return C.ShowOverlay
-                && (PlayerHelper.IsInCosmicZone());
-        }
-
         public override void PreDraw()
         {
             Flags = C.Overlay_AutoResize
@@ -56,6 +45,11 @@ namespace ICE.Ui
                 var minWidth = ImGui.CalcTextSize(new string('A', 30)).X + ImGui.GetStyle().WindowPadding.X * 2;
                 ImGui.SetNextWindowSizeConstraints(new Vector2(minWidth, 0), new Vector2(float.MaxValue, float.MaxValue));
             }
+        }
+
+        public void Dispose()
+        {
+            P.windowSystem.RemoveWindow(this);
         }
 
         public override void Draw()
@@ -230,6 +224,15 @@ namespace ICE.Ui
                 if (missionText.Length > 35)
                     missionText = missionText[..32] + "...";
                 ImGui.Text(missionText);
+            }
+            else if (SchedulerMain.State == IceState.ArtifactSearch)
+            {
+                if (CosmicMoonRegistry.TryGetDronebit(Player.Territory.RowId, out var dronebit))
+                {
+                    PlayerHelper.GetItemCount(dronebit.boxId, out var count);
+
+                    ImGui.Text($"Dronebox Count: {count:N0}");
+                }
             }
             else
             {
@@ -587,7 +590,7 @@ namespace ICE.Ui
                                 ImGui.AlignTextToFramePadding();
                             }
 
-                            ImGui_Ice.Draw_XPBar(classInfo.Score, 0, 500_000, $"{classInfo.Score:N0} / {500_000:N0}");
+                            ImGui_Ice.Draw_XPBar(classInfo.Score, 0, 500_000, $"Class Score: {classInfo.Score:N0} / {500_000:N0}");
                         }
                     }
                 }
@@ -603,7 +606,7 @@ namespace ICE.Ui
                             ImGui.AlignTextToFramePadding();
                         }
 
-                        ImGui_Ice.Draw_XPBar(classInfo.Score, 0, 500_000, $"{classInfo.Score:N0} / {500_000:N0}");
+                        ImGui_Ice.Draw_XPBar(classInfo.Score, 0, 500_000, $"Class Score: {classInfo.Score:N0} / {500_000:N0}");
                     }
                 }
             }
@@ -650,6 +653,22 @@ namespace ICE.Ui
                     }
 
                     ImGui.EndTooltip();
+                }
+            }
+
+            if (C.ShowMasteryScore)
+            {
+                var job = (uint)Player.Job;
+                if (ScoreInfo.TryGetValue(job, out var classInfo))
+                {
+                    if (CosmicHelper.ClassInfoDict.TryGetValue(job, out var icon))
+                    {
+                        ImGui.Image(icon.JobIcon.GetWrapOrEmpty().Handle, new(25, 25));
+                        ImGui.SameLine();
+                        ImGui.AlignTextToFramePadding();
+                    }
+
+                    ImGui_Ice.Draw_XPBar(classInfo.Mastery, 0, 500_000, $"Mastery: {classInfo.Mastery:N0} / {500_000:N0}");
                 }
             }
         }

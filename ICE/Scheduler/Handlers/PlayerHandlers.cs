@@ -20,16 +20,30 @@ internal static unsafe class PlayerHandlers
         return AgentMap.Instance()->IsPlayerMoving;
     }
     public static bool PlayerFirstCosmicZone = false;
+    public static uint lastTerritory = 0;
 
     internal static unsafe void Tick()
     {
-        if (!P.overlayWindow.IsOpen && PlayerHelper.IsInCosmicZone() && C.ShowOverlay)
-            P.overlayWindow.IsOpen = true;
+        var playerTerritory = Player.Territory.RowId;
+        if (lastTerritory != playerTerritory)
+        {
+            lastTerritory = playerTerritory;
+            if (PlayerHelper.IsInCosmicZone())
+            {
+                if (C.ShowOverlay && !P.overlayWindow.IsOpen)
+                    P.overlayWindow.IsOpen = true;
+            }
+        }
 
-        if (C.MoonSprint && PlayerHelper.IsInCosmicZone()
-         && !PlayerHelper.HasStatusId(stellarSprintID) && Svc.Condition[ConditionFlag.NormalConditions]
-         && IsMoving() && PlayerHelper.UsingSupportedJob())
+        if (C.MoonSprint 
+            && PlayerHelper.IsInCosmicZone()
+            && !PlayerHelper.HasStatusId(stellarSprintID) 
+            && Svc.Condition[ConditionFlag.NormalConditions]
+            && IsMoving() 
+            && PlayerHelper.UsingSupportedJob())
+        {
             UseSprint();
+        }
 
         if ((!PlayerHelper.IsInCosmicZone()) && SchedulerMain.State != IceState.Idle)
         {

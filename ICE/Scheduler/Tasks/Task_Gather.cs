@@ -10,6 +10,7 @@ using ICE.Utilities.GatheringHelper.RouteLoader;
 using System.Collections.Generic;
 using static ECommons.UIHelpers.AddonMasterImplementations.AddonMaster;
 using static ICE.ConfigFiles.Config;
+using static ICE.Ui.MainUi.Settings.GatherSettings;
 using MissionRank = FFXIVClientStructs.FFXIV.Client.Game.WKS.WKSMissionModule.MissionRank;
 
 namespace ICE.Scheduler.Tasks
@@ -27,6 +28,19 @@ namespace ICE.Scheduler.Tasks
                 IceLogging.Debug("当前处于采集会话中");
                 Task_CheckScore.Enqueue();
                 P.TaskManager.Enqueue(() => GatherInteractV2(), "Interacting with gathering menu", Utils.TaskConfig);
+            }
+            else if (C.Gather_NoNav)
+            {
+                P.TaskManager.EnqueueDelay(200);
+                if (CosmicHelper.SheetMissionDict[CosmicHelper.CurrentLunarMission].Attributes.HasFlag(MissionAttributes.ReducedItems))
+                {
+                    Task_CheckScore.Enqueue();
+                    P.TaskManager.Enqueue(() => CheckReduceMission(), "Checking to see if we need to reduce items");
+                    P.TaskManager.EnqueueDelay(500);
+                    Task_CheckScore.Enqueue();
+                }
+                P.TaskManager.Enqueue(() => Mission_Settings.ResetCollectableState());
+                P.TaskManager.Enqueue(() => UseFood());
             }
             else
             {
@@ -300,9 +314,6 @@ namespace ICE.Scheduler.Tasks
                 }
             }
         }
-
-        // Old Gathering system here
-
         public static bool? CheckCurrentLocation()
         {
             ThrottleMessage("- - - Check Gather Locations Task - - -", "[Check Gather Locations]");
@@ -422,7 +433,6 @@ namespace ICE.Scheduler.Tasks
             }
         }
         private const float SmartRoutingThreshold = 50f;
-
         public static bool? PathandCheckNode()
         {
             var zoneId = Player.Territory;
@@ -463,6 +473,7 @@ namespace ICE.Scheduler.Tasks
                     IceLogging.Info($"采集窗口已显示，继续执行 GatheringInteraction 任务", "[Gathering: OpenGatheringMenu]");
                     P.TaskManager.Insert(() => GatherInteractV2(), "Gathering at the node", Utils.TaskConfig);
                     Mission_Settings.nodeTotal += 1;
+                    GreaterReachCount = 0;
                     return true;
                 }
                 else
@@ -495,10 +506,9 @@ namespace ICE.Scheduler.Tasks
 
             return false;
         }
-        
+
         public static uint GreaterReachCount = 0;
         public static bool HadGreaterReach = false;
-
         public static unsafe bool UseGatherAction(int profileId, int gatherChance, int? boonChance, int currentDur, int maxDur, int availableGp)
         {
             C.GatherProfiles.TryGetValue(profileId, out var gatherProfile);
@@ -644,6 +654,9 @@ namespace ICE.Scheduler.Tasks
             {
                 HadGreaterReach = true;
 
+                if (EzThrottler.Throttle("Log Message for Collectable Action"))
+                    IceLogging.Verbose($"Checking for action usage: Greater Reach");
+
                 if (EzThrottler.Throttle("Using Greater Reach", 500))
                     ActionManager.Instance()->UseAction(ActionType.GeneralAction, 27);
                 return true;
@@ -660,8 +673,9 @@ namespace ICE.Scheduler.Tasks
                     {
                         uint jobId = (uint)Player.Job;
 
-                        // IceLogging.Debug($"Using the following action: {action} on the node", debugOnly: true);
-                        IceLogging.Debug($"正在使用以下动作：{action} 于采集点", debugOnly: true);
+                        IceLogging.Verbose($"Checking for action usage: {action}");
+
+
                         var actionId = GatheringUtil.GathActionDict[action].ClassAction[jobId];
                         ActionManager.Instance()->UseAction(ActionType.Action, actionId);
                         Mission_Settings.SkillUseAmount[action] += 1;
@@ -686,7 +700,7 @@ namespace ICE.Scheduler.Tasks
                 return hasStatus && currentDur == 1;
             }
 
-            var gatherBuff = C.GatherProfiles[profileId].GatherBuffs.Buffs[actionName];
+            var gatherBuff = GatherProfile(profileId).Buffs[actionName];
 
             return actionName switch
             {
@@ -746,6 +760,83 @@ namespace ICE.Scheduler.Tasks
                 _ => false,
             };
         }
+
+        private static GatherBuffs GatherProfile(int profileId)
+        {
+            if (profileId != 0)
+            {
+                return C.GatherProfiles[profileId].GatherBuffs;
+            }
+            else
+            {
+
+
+                var currentMission = CosmicHelper.CurrentMissionInfo;
+                return GetDefaultProfileForMission(currentMission.Attributes);
+            }
+        }
+
+        private static GatherBuffs GetDefaultProfileForMission(MissionAttributes attrs)
+        {
+            var buffs = new GatherBuffs();
+
+            if (attrs.HasFlag(MissionAttributes.GreaterReach_Boon_Chain))
+            {
+                buffs.Buffs["BoonIncrease2"].Enabled = true;
+                buffs.Buffs["BoonIncrease1"].Enabled = true;
+                buffs.Buffs["BonusIntegrity"].Enabled = true;
+            }
+            else if (attrs.HasFlag(MissionAttributes.GreaterReach_Boon))
+            {
+                buffs.Buffs["BoonIncrease2"].Enabled = true;
+                buffs.Buffs["BoonIncrease1"].Enabled = true;
+                buffs.Buffs["BonusIntegrity"].Enabled = true;
+            }
+            else if (attrs.HasFlag(MissionAttributes.GreaterReach_Chain))
+            {
+                buffs.Buffs["BonusIntegrity"].Enabled = true;
+            }
+            else if (attrs.HasFlag(MissionAttributes.GreaterReach_GatherX))
+            {
+                buffs.Buffs["YieldII"].Enabled = true;
+                buffs.Buffs["BonusIntegrity"].Enabled = true;
+            }
+            else if (attrs.HasFlag(MissionAttributes.Score_GatherX))
+            {
+                buffs.Buffs["YieldII"].Enabled = true;
+                buffs.Buffs["BountifulYieldII"].Enabled = true;
+            }
+            else if (attrs.HasFlag(MissionAttributes.Gather) && attrs.HasFlag(MissionAttributes.Craft))
+            {
+                buffs.Buffs["BoonIncrease2"].Enabled = true;
+                buffs.Buffs["BoonIncrease1"].Enabled = true;
+                buffs.Buffs["YieldII"].Enabled = true;
+            }
+            else if (attrs.HasFlag(MissionAttributes.Score_Boon) && attrs.HasFlag(MissionAttributes.Score_Chain))
+            {
+                buffs.Buffs["BoonIncrease2"].Enabled = true;
+                buffs.Buffs["BoonIncrease1"].Enabled = true;
+                buffs.Buffs["BonusIntegrity"].Enabled = true;
+            }
+            else if (attrs.HasFlag(MissionAttributes.Score_Boon))
+            {
+                buffs.Buffs["BoonIncrease2"].Enabled = true;
+                buffs.Buffs["BoonIncrease1"].Enabled = true;
+                buffs.Buffs["BonusIntegrity"].Enabled = true;
+            }
+            else if (attrs.HasFlag(MissionAttributes.Score_Chain))
+            {
+                buffs.Buffs["BonusIntegrity"].Enabled = true;
+            }
+            else
+            {
+                buffs.Buffs["BonusIntegrity"].Enabled = true;
+                buffs.Buffs["YieldII"].Enabled = true;
+            }
+
+            return buffs;
+        }
+
         private static bool CanUseCollectableAction(string action, bool missingDur = false)
         {
             var actionInfo = GatheringUtil.GathCollectableBuffs[action];
@@ -776,8 +867,11 @@ namespace ICE.Scheduler.Tasks
             var jobId = (uint)Player.Job;
 
             var actionId = collectorBuffs[action].ClassAction[jobId];
-            if (EzThrottler.Throttle("Using Action Buff", 100))
+            if (EzThrottler.Throttle("Log Message for Collectable Action"))
+                IceLogging.Verbose($"Checking for action usage: {actionId} | {action}");
+            if (EzThrottler.Throttle("Using Action Buff", 500))
             {
+                IceLogging.Verbose($"Attempting to use collectable buff: [{actionId}] {action}");
                 ActionManager.Instance()->UseAction(ActionType.Action, actionId);
             }
         }
@@ -787,7 +881,14 @@ namespace ICE.Scheduler.Tasks
             var jobId = (uint)Player.Job;
 
             var actionId = collectorAction[action].ClassAction[jobId];
-            ActionManager.Instance()->UseAction(ActionType.Action, actionId);
+            if (EzThrottler.Throttle("Log Message for Collectable Action"))
+                IceLogging.Verbose($"Checking for action usage: {actionId} | {action}");
+
+            if (EzThrottler.Throttle("Using Action Buff", 100))
+            {
+                IceLogging.Verbose($"Attempting to use collectable action: [{actionId}] {action}");
+                ActionManager.Instance()->UseAction(ActionType.Action, actionId);
+            }
         }
         public static bool? CheckReduceMission()
         {

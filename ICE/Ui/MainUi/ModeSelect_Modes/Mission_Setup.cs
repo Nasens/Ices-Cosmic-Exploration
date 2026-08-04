@@ -46,7 +46,7 @@ namespace ICE.Ui.MainUi.ModeSelect_Modes
             { "Pictomancer", 42 }
         };
 
-        public static Mission_Table? MissionTable;
+        public static CosmicTables.Mission_Table? MissionTable;
         private static List<CosmicHelper.MissionInfo> TableItems = [];
         private static int ItemCount = 0;
         private static string newListName = string.Empty;
@@ -133,7 +133,8 @@ namespace ICE.Ui.MainUi.ModeSelect_Modes
                              | C.StopWhenLevel
                             || C.StopOnceHitCosmoCredits
                             || C.StopOnceHitLunarCredits
-                            || C.StopOnceRelicFinished;
+                            || C.StopOnceRelicFinished
+                            || C.StopOnceStandardMissionsGolded;
                 if (AnyStop)
                 {
                     ImGui.SameLine(0, 10 * scale);
@@ -160,6 +161,8 @@ namespace ICE.Ui.MainUi.ModeSelect_Modes
                         if (C.StopOnceRelicFinished)
                             // ImGui.BulletText($"Stop once relic completed");
                             ImGui.BulletText($"Relic 完成时停止");
+                        if (C.StopOnceStandardMissionsGolded)
+                            ImGui.BulletText("Stop when all standard missions are golded");
 
                         // ImGui.Text("So if you stop and you're unsure why... this might be why");
                         ImGui.Text("若插件意外停止，可能是以下原因");

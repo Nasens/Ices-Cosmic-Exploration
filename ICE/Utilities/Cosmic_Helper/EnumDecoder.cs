@@ -34,6 +34,7 @@ public static unsafe partial class CosmicHelper
             PlaylistOptions.GoldClassMissions => "全部任务已金牌",
             // PlaylistOptions.ToolMaxExp => "Max Tool Exp",
             PlaylistOptions.ToolMaxExp => "工具经验已满",
+            PlaylistOptions.MasteryScore => "Mastery Score",
             _ => "未知"
         };
     }

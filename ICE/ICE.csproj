@@ -14,6 +14,9 @@
 
 	<ItemGroup>
 		<Content Include="ICE.json" />
+		<EmbeddedResource Include="Resources\TrophyIcons\bronze_trophy.png" />
+		<EmbeddedResource Include="Resources\TrophyIcons\gold_trophy.png" />
+		<EmbeddedResource Include="Resources\TrophyIcons\silver_trophy.png" />
 		<EmbeddedResource Include="Resources\Auxesia.png" />
 		<EmbeddedResource Include="Resources\ResearchIcons\advance.png" />
 		<EmbeddedResource Include="Resources\ResearchIcons\expert.png" />
@@ -52,7 +55,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="ECommons" Version="3.2.1.9" />
+		<PackageReference Include="ECommons" Version="3.2.1.15" />
 		<PackageReference Include="NAudio" Version="2.3.0" />
 		<PackageReference Include="Pictomancy" Version="1.0.9" />
 		<PackageReference Include="TerraFX.Interop.Windows" Version="10.0.26100.6" />
@@ -65,7 +68,7 @@
 
 	<ItemGroup>
 		<PackageReference Update="DalamudPackager" Version="15.0.0" />
-		<PackageReference Update="DotNet.ReproducibleBuilds" Version="2.0.2" />
+		<PackageReference Update="DotNet.ReproducibleBuilds" Version="2.0.5" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -87,5 +90,10 @@
 			<Version>$(ForkVersion)</Version>
 			<InformationalVersion>$(ForkVersion)</InformationalVersion>
 		</PropertyGroup>
+	</Target>
+
+	<!-- Glamourer IPC types live in the Glamourer.Api submodule -->
+	<Target Name="EnsureGlamourerApiSubmodule" BeforeTargets="BeforeBuild" Condition="!Exists('$(MSBuildThisFileDirectory)..\Glamourer.Api\Glamourer.Api.csproj')">
+		<Exec Command="git submodule update --init Glamourer.Api" WorkingDirectory="$(MSBuildThisFileDirectory).." />
 	</Target>
 </Project>

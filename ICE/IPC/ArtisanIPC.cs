@@ -56,6 +56,8 @@ namespace ICE.IPC
         [EzIPC] public Action<uint, bool> ChangeStandardMinimumStepsBeforeMiracle;
         [EzIPC] public Action SetTempStandardMinimumStepsBeforeMiracleBackToNormal;
 
+        [EzIPC] public Func<List<(string, int)>> ReturnMacroInfo;
+
         private void AssignArtisanRecipe(uint recipeId, ArtisanSettings recipeConfig, bool isExpert)
         {
             if (recipeConfig.ArtisanSolverType != ArtisanCraftType.Default)
@@ -218,6 +220,53 @@ namespace ICE.IPC
             }
 
             return false;
+        }
+
+        /*
+        public List<(string Name, int Id)> MacroList()
+        {
+            if (ReturnMacroInfo == null)
+                return new List<(string Name, int Id)>();
+
+            return ReturnMacroInfo.Invoke();
+        }
+        */
+
+        public class MacroInfo
+        {
+            public string Name;
+            public int Id;
+        }
+
+        public List<MacroInfo> MacroList()
+        {
+            List<MacroInfo> artisanMacros = new();
+
+            if (DalamudReflector.TryGetDalamudPlugin(Name, out var pluginObj, false, false))
+            {
+                var config = pluginObj.GetFoP("Config");
+                var macroSolverConfig = config.GetFoP("MacroSolverConfig");
+                var macrosObj = macroSolverConfig.GetFoP("Macros"); // object, boxed List<Macro>
+
+                if (macrosObj is System.Collections.IList macroList)
+                {
+                    var result = new List<MacroInfo>();
+                    foreach (var macro in macroList)
+                    {
+                        var id = (int)macro.GetFoP("ID");
+                        var name = (string)macro.GetFoP("Name");
+                        result.Add(new()
+                        {
+                            Name = name,
+                            Id = id,
+                        });
+                    }
+
+                    artisanMacros = result;
+                }
+            }
+
+            return artisanMacros;
         }
     }
 }

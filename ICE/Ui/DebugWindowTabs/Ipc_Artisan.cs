@@ -1,4 +1,5 @@
-﻿using ICE.Utilities.Cosmic_Helper;
+﻿using ICE.IPC;
+using ICE.Utilities.Cosmic_Helper;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -16,6 +17,8 @@ namespace ICE.Ui.DebugWindowTabs
         internal static ItemInfo SelectedPot = new();
         internal static ItemInfo SelectedManual = new();
         internal static ItemInfo SelectedSquadronManual = new();
+
+        internal static List<ArtisanIPC.MacroInfo> MacroList = new();
 
         public class ItemInfo
         {
@@ -199,28 +202,47 @@ namespace ICE.Ui.DebugWindowTabs
             if (mission != null)
             {
                 var sheetInfo = mission.Value.Value;
+                var actionInfo = sheetInfo.TemporaryAction;
 
-                if (sheetInfo.TemporaryActionCount != 0)
+                if (actionInfo.ActionId != 0)
                 {
-                    var actionInfo = Svc.Data.GetExcelSheet<Lumina.Excel.Sheets.Action>().GetRow(sheetInfo.TemporaryActionId);
                     var name = actionInfo.Name;
-                    var icon = Svc.Texture.GetFromGameIcon((int)actionInfo.Icon).GetWrapOrEmpty();
+                    var icon = actionInfo.Icon.GetWrapOrEmpty();
                     ImGui.Image(icon.Handle, new(24, 24));
                     ImGui.AlignTextToFramePadding();
                     ImGui.SameLine();
                     ImGui.Text($"{name}");
 
-                    // ImGui.SliderUInt("Max Usage", ref MaxSkillUsage, 0, 2);
-                    ImGui.SliderUInt("最大使用次数", ref MaxSkillUsage, 0, 2);
+                    // ImGui.SliderUInt("Max Usage", ref MaxSkillUsage, 0, actionInfo.UseAmount);
+                    ImGui.SliderUInt("最大使用次数", ref MaxSkillUsage, 0, actionInfo.UseAmount);
                     // if (ImGui.Button("Apply Temp"))
                     if (ImGui.Button("应用临时"))
                     {
-                        if (sheetInfo.TemporaryActionId == 41269)
+                        if (sheetInfo.TemporaryAction.ActionId == 41269)
                         {
                             P.Artisan.ChangeExpertMaxMaterialMiracleUses(RecipeId, MaxSkillUsage, false);
                         }
                     }
                 }
+            }
+
+            ImGui.Separator();
+
+            if (ImGui.Button("Update Macros"))
+            {
+                MacroList = P.Artisan.MacroList();
+            }
+
+            if (MacroList.Count > 0)
+            {
+                foreach (var macro in MacroList)
+                {
+                    ImGui.Text($"[{macro.Id}] - {macro.Name}");
+                }
+            }
+            else
+            {
+                ImGui.Text($"No macro's loaded");
             }
 
         }

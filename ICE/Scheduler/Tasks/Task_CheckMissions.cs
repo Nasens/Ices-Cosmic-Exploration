@@ -56,6 +56,9 @@ namespace ICE.Scheduler.Tasks
         }
         private static void ReOpenMissionUi(string tag)
         {
+            if (GenericHelpers.TryGetAddonMaster<WKSMission>("WKSMission", out var missionUi) && missionUi.IsAddonReady)
+                return;
+
             if (GenericHelpers.TryGetAddonMaster<WKSHud>("WKSHud", out var moonHud) && moonHud.IsAddonReady)
             {
                 if (EzThrottler.Throttle("Opening the mission ui"))
@@ -65,6 +68,59 @@ namespace ICE.Scheduler.Tasks
                     moonHud.Mission();
                 }
             }
+        }
+
+        private static readonly MissionKind[] HuntSpecialMissionKinds =
+            [MissionKind.Critical, MissionKind.Weather, MissionKind.Timed, MissionKind.Sequence];
+
+        private static readonly MissionKind[] StandardMissionKinds =
+            [MissionKind.Ex, MissionKind.A, MissionKind.B, MissionKind.C, MissionKind.D];
+
+        private static int EnabledStandardMissionCount()
+        {
+            var count = 0;
+            foreach (var rank in StandardMissionKinds)
+                count += MissionLibrary[rank].Count;
+            return count;
+        }
+
+        /// <summary>
+        /// Gold completion grind only: idle-wait when special missions remain ungolded,
+        /// none are on the board, and there are no standard missions left to reroll for.
+        /// </summary>
+        private static bool WaitingForSpecialMissions() =>
+            Mission_Settings.Mode == ModeSelect.MissionGoldMode
+            && HuntSpecialMissionKinds.Any(kind => MissionLibrary[kind].Count > 0)
+            && EnabledStandardMissionCount() == 0;
+
+        private static void EnterWaitForSpecialMissions(string tag)
+        {
+            if (SchedulerMain.State != IceState.Waiting)
+            {
+                IceLogging.Info("Gold completion grind: waiting for a timed, weather, or critical mission to appear on the board.", tag);
+                SchedulerMain.State = IceState.Waiting;
+            }
+
+            CosmicHandler.EnsureStandardMissionTab(Mission_Settings.SelectedJob);
+            P.TaskManager.Tasks.Clear();
+        }
+
+        public static void EnqueueWaitRecheck()
+        {
+            P.TaskManager.Enqueue(() => WaitForSpecialMissionRecheck(), "Waiting for special mission availability");
+        }
+
+        private static bool? WaitForSpecialMissionRecheck()
+        {
+            string tag = "[Check Missions: Wait for Special]";
+
+            if (!EzThrottler.Throttle("Recheck special missions", 15_000))
+                return false;
+
+            CosmicHandler.EnsureStandardMissionTab(Mission_Settings.SelectedJob);
+            IceLogging.Verbose("Rechecking mission board for timed/weather/critical missions", tag);
+            SchedulerMain.State = IceState.GrabMission;
+            return true;
         }
         private static MissionKind LibraryInfo(KeyValuePair<uint, CosmicHelper.CosmicInfo> mission)
         {
@@ -330,16 +386,25 @@ namespace ICE.Scheduler.Tasks
                 return false;
             }
 
+            if (CosmicHandler.CanQueryMissionsWithoutUi())
+            {
+                CosmicHandler.EnsureStandardMissionTab(Mission_Settings.SelectedJob);
+
+                if (WaitingForSpecialMissions())
+                {
+                    IceLogging.Verbose("Mission agent is active — reading the board without opening WKSMission UI", tag);
+                    return true;
+                }
+            }
+
             if (GenericHelpers.TryGetAddonMaster<WKSMission>("WKSMission", out var hud) && hud.IsAddonReady)
             {
                 // IceLogging.Info("The Mission Selection Ui is visible! Continuing on", tag);
                 IceLogging.Info("任务选择界面已显示，继续执行", tag);
                 return true;
             }
-            else
-            {
-                ReOpenMissionUi(tag);
-            }
+
+            ReOpenMissionUi(tag);
 
             return false;
         }
@@ -348,7 +413,8 @@ namespace ICE.Scheduler.Tasks
             string tag = "Check Missions: Check Tabs";
             var priority = C.MissionTypePrio;
 
-            if (GenericHelpers.TryGetAddonMaster<WKSMission>("WKSMission", out var x) && x.IsAddonReady)
+            if (GenericHelpers.TryGetAddonMaster<WKSMission>("WKSMission", out var x) && x.IsAddonReady
+                || CosmicHandler.CanQueryMissionsWithoutUi())
             {
                 foreach (var type in C.MissionTypePrio)
                 {
@@ -503,7 +569,8 @@ namespace ICE.Scheduler.Tasks
                     $"临时任务：{provisional}", tag);
             }
 
-            if (GenericHelpers.TryGetAddonMaster<WKSMission>("WKSMission", out var missionInfo) && missionInfo.IsAddonReady)
+            if (CosmicHandler.CanQueryMissionsWithoutUi()
+                || (GenericHelpers.TryGetAddonMaster<WKSMission>("WKSMission", out var missionInfo) && missionInfo.IsAddonReady))
             {
                 var basicMissionList = CosmicHandler.Basic_AvailableMissions();
                 var specialMissionList = CosmicHandler.Provisional_AvailableMissions();
@@ -1006,7 +1073,9 @@ namespace ICE.Scheduler.Tasks
 
                     // IceLogging.Verbose("If we've gotten this far, that means we need to figure out a path to go to the node. Doing so now", tag);
                     IceLogging.Verbose("如果走到这一步，说明我们需要计算前往采集点的路径，现在开始计算", tag);
-                    Task_NavmeshMove.Enqueue_NavmeshTask(startNode.LandZone);
+                    var randomPosition = Task_NavmeshMove.Gather_RandomFanPosition(startNode);
+                    Task_NavmeshMove.Enqueue_NavmeshTask(randomPosition);
+
                     return true;
                 }
             }
@@ -1172,7 +1241,7 @@ namespace ICE.Scheduler.Tasks
 
                         if (allmissions.Contains(missionId))
                         {
-                            if (EzThrottler.Throttle("Selecting Mission"))
+                            if (EzThrottler.Throttle("Selecting Mission", 1000))
                                 InitiateMission(missionId);
                         }
                         else
@@ -1213,6 +1282,12 @@ namespace ICE.Scheduler.Tasks
         private static bool? FindReroll()
         {
             string tag = "[Check Missions: Find Reroll]";
+
+            if (WaitingForSpecialMissions())
+            {
+                EnterWaitForSpecialMissions(tag);
+                return true;
+            }
 
             if (GenericHelpers.TryGetAddonMaster<WKSMission>("WKSMission", out var missionInfo) && missionInfo.IsAddonReady)
             {

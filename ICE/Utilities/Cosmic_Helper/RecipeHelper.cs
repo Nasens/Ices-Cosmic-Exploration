@@ -1,12 +1,5 @@
 ﻿using ECommons.GameHelpers;
-using ICE.Utilities.Cosmic_Helper;
 using Lumina.Excel.Sheets;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TerraFX.Interop.Windows;
 
 namespace ICE.Utilities.Cosmic_Helper;
 
@@ -31,7 +24,16 @@ public static partial class CosmicHelper
         info.Progress = recipeLevelValue == 0 ? RecipeDifficulty(recipeSheet, levelTable) : RecipeDifficulty(recipeSheet);
         info.Durability = RecipeDurability(recipeSheet);
         info.Quality = recipeLevelValue == 0 ? RecipeMaxQuality(recipeSheet, levelTable) : RecipeMaxQuality(recipeSheet);
-        info.Expert = recipeSheet.RecipeLevelTable.Value.ConditionsFlag != 15;
+        // info.Expert = recipeSheet.RecipeLevelTable.Value.ConditionsFlag != 15; // Use this if something breaks... but rn it's causing issues
+        info.Expert = recipeSheet.IsExpert;
+        if (recipeId == 36990)
+        {
+            IceLogging.Verbose("Just... putting this here for my own sanity\n" +
+                $"RecipeID: {recipeId}\n" +
+                $"Name: {recipeSheet.ItemResult.Value.Name.ToString()}\n" +
+                $"Is Expert: {info.Expert} | {recipeSheet.IsExpert}\n" +
+                $"Item ID: {recipeSheet.ItemResult.RowId}");
+        }
 
         /*
         var recipe = Svc.Data.GetExcelSheet<Recipe>().GetRow(recipeId);

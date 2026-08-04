@@ -506,6 +506,43 @@ public static partial class ImGui_Ice
             ImGui.EndTooltip();
         }
     }
+    public static bool DrawJobIconButton(string id, List<uint> jobs)
+    {
+        var frameHeight = ImGui.GetFrameHeight();
+        var iconSize = new Vector2(frameHeight);
+        var tightSpacing = 2f;
+
+        var totalWidth = iconSize.X * jobs.Count + tightSpacing * (jobs.Count - 1);
+        var buttonSize = new Vector2(totalWidth, frameHeight);
+
+        ImGui.PushID(id);
+        var clicked = ImGui.InvisibleButton("##job", buttonSize);
+        ImGui.PopID();
+
+        var drawList = ImGui.GetWindowDrawList();
+        var buttonMin = ImGui.GetItemRectMin();
+        var buttonMax = ImGui.GetItemRectMax();
+
+        var hovered = ImGui.IsItemHovered();
+        var active = ImGui.IsItemActive();
+
+        var bgColor = ImGui.GetColorU32(active ? ImGuiCol.ButtonActive : hovered ? ImGuiCol.ButtonHovered : ImGuiCol.Button);
+        var borderColor = ImGui.GetColorU32(ImGuiCol.Border);
+        var rounding = ImGui.GetStyle().FrameRounding;
+
+        drawList.AddRectFilled(buttonMin, buttonMax, bgColor, rounding);
+        drawList.AddRect(buttonMin, buttonMax, borderColor, rounding);
+
+        for (var i = 0; i < jobs.Count; i++)
+        {
+            var icon = CosmicHelper.ClassInfoDict[jobs[i]].JobIcon.GetWrapOrEmpty();
+            var xOffset = i * (iconSize.X + tightSpacing);
+            var iconPos = buttonMin + new Vector2(xOffset, 0);
+            drawList.AddImage(icon.Handle, iconPos, iconPos + iconSize);
+        }
+
+        return clicked;
+    }
     public static void Draw_XPBar(float current, float needed, float max = 0, string label = null, Vector2? size = null)
     {
         // If we want it to have a standard label above the bar. Not required but for small things it's nice to just have the option
@@ -697,7 +734,7 @@ public static partial class ImGui_Ice
 
         return isExpanded;
     }
-    internal static bool DrawRankButton(string label, MissionFilter missionType, Mission_Table? missionTable, FontAwesomeIcon? icon = null, float spacingAfter = 5, bool disabled = false)
+    internal static bool DrawRankButton(string label, MissionFilter missionType, CosmicTables.Mission_Table? missionTable, FontAwesomeIcon? icon = null, float spacingAfter = 5, bool disabled = false)
     {
         float scale = ImGuiHelpers.GlobalScale;
 
@@ -854,6 +891,51 @@ public static partial class ImGui_Ice
 
         // Add spacing after the button (scaled) - matches DrawCategoryButton
         ImGui.SameLine(0, spacingAfter * scale);
+    }
+    public static bool ImageButtonWithText(IDalamudTextureWrap texture, string label, string id, Vector2 imageSize, float padding = 4f, float sidePadding = 4f)
+    {
+        var frameHeight = ImGui.GetFrameHeight();
+        var textSize = ImGui.CalcTextSize(label);
+
+        // Always fit image to frame height, ignore passed height for sizing
+        var iconHeight = frameHeight - sidePadding;
+        // Preserve aspect ratio from the passed imageSize
+        var aspect = imageSize.X / imageSize.Y;
+        var scaledImage = new Vector2(iconHeight * aspect, iconHeight);
+
+        var buttonSize = new Vector2(
+            sidePadding + scaledImage.X + padding + textSize.X + sidePadding,
+            frameHeight
+        );
+
+        var pos = ImGui.GetCursorScreenPos();
+        bool clicked = ImGui.InvisibleButton($"##{id}", buttonSize);
+
+        bool hovered = ImGui.IsItemHovered();
+        bool active = ImGui.IsItemActive();
+
+        var drawList = ImGui.GetWindowDrawList();
+        var rounding = ImGui.GetStyle().FrameRounding;
+
+        uint bgColor = active ? ImGui.GetColorU32(ImGuiCol.ButtonActive) :
+                       hovered ? ImGui.GetColorU32(ImGuiCol.ButtonHovered) :
+                                 ImGui.GetColorU32(ImGuiCol.Button);
+        drawList.AddRectFilled(pos, pos + buttonSize, bgColor, rounding);
+        drawList.AddRect(pos, pos + buttonSize, ImGui.GetColorU32(ImGuiCol.Border), rounding);
+
+        var imagePos = new Vector2(
+            pos.X + sidePadding,
+            pos.Y + (frameHeight - scaledImage.Y) / 2f
+        );
+        drawList.AddImage(texture.Handle, imagePos, imagePos + scaledImage);
+
+        var textPos = new Vector2(
+            imagePos.X + scaledImage.X + padding,
+            pos.Y + (frameHeight - textSize.Y) / 2f
+        );
+        drawList.AddText(textPos, ImGui.GetColorU32(ImGuiCol.Text), label);
+
+        return clicked;
     }
     public static void EndCategoryButtonRow()
     {

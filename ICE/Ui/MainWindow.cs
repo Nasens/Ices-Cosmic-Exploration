@@ -76,9 +76,10 @@ namespace ICE.Ui
             [WindowSelection.TravelSettings] = () => TravelSettings.Draw(),
 
             // Hub Activities
-            [WindowSelection.CreditShopping] = () => ShoppingTab.Draw(),
+            [WindowSelection.CreditShopping] = () => Shop_Credits.Draw(),
             [WindowSelection.GambaShopping] = () => GambaWheel.Draw(),
             [WindowSelection.DroneShopping] = () => Shop_Dronebit.Draw(),
+            [WindowSelection.MountShopping] = () => Shop_Tokens.Draw(),
 
             // Help Section
             [WindowSelection.Plugin_Install] = () => helpSelect_Required.Draw(),
@@ -157,12 +158,14 @@ namespace ICE.Ui
                 ModeSelect.Standard =>
                     // "Stand Mode \n" +
                     "标准模式 \n" +
-                    // "-> Used to select which missions you want to grind. It'll priortize in the following order:\n" +
+                    // "-> Used to select which missions you want to grind. It'll priortize in the following order by default:\n" +
                     "-> 用于选择要刷取的任务，按以下优先级排序：\n" +
-                    // "-> Critical -> Provisional [Sequence/Timed/Weather] -> Standard [A->D]\n" +
-                    "-> 紧急 -> 临时 [序列/限时/天气] -> 标准 [A->D]\n" +
-                    // "-> Select which missions you want to do, and go at it.",
-                    "-> 选择要执行的任务，然后开始刷取。",
+                    // "-> Critical -> Provisional [Sequence/Timed/Weather] -> Standard [A->D] -> Mastery (if applicable)\n" +
+                    "-> 紧急 -> 临时 [序列/限时/天气] -> 标准 [A->D] -> Mastery (if applicable)\n" +
+                    // "-> Select which missions you want to do, and go at it.\n" +
+                    "-> 选择要执行的任务，然后开始刷取。\n" +
+                    // "-> If you would like to change the priority, set it in Settings -> Mission Priority",
+                    "-> If you would like to change the priority, set it in Settings -> Mission Priority",
                 ModeSelect.LevelMode =>
                     // "Leveling Grind\n" +
                     "练级模式\n" +

@@ -447,7 +447,7 @@ namespace ICE.Scheduler.Tasks
             else
             {
                 // Means we are fishing, all we need to do is enable autohook then wait for us to get the amount of fish we need
-                P.AutoHook.SetPluginState(true);
+                P.AutoHook.Ah_State(true);
                 // IceLogging.Info("We're starting to fish. So kicking it over to checking the fish items", handle);
                 IceLogging.Info("开始钓鱼。因此转去检查鱼类物品", handle);
                 P.TaskManager.Insert(() => CheckItems(), "Checking for items to meet the quantity set", Utils.TaskConfig);

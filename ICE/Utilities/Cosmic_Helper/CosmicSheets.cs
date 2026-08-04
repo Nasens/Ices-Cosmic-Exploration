@@ -1,4 +1,5 @@
-﻿using FFXIVClientStructs.FFXIV.Client.Game.UI;
+﻿using Dalamud.Interface.Textures;
+using FFXIVClientStructs.FFXIV.Client.Game.UI;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -77,8 +78,8 @@ public static unsafe partial class CosmicHelper
         public uint BronzeScore { get; set; } = 0;
         public uint SilverScore { get; set; } = 0;
         public uint GoldScore { get; set; } = 0;
-        public uint TemporaryActionId { get; set; } = 0;
-        public uint TemporaryActionCount { get; set; } = 0;
+        public ActionInfo TemporaryAction { get; set; } = new();
+        public List<SupplyInfo> Supplies { get; set; } = new();
         public Status CompletionStatus { get; set; } = Status.None;
         public List<uint> SequenceMissions_Previous { get; set; } = new();
         public List<uint> SequenceMissions_Next { get; set; } = new();
@@ -90,11 +91,11 @@ public static unsafe partial class CosmicHelper
 
             Dictionary<TurninState, (int Multiplier, double AverageTime, int TotalCompleted)> stateInfo = new()
             {
-                [TurninState.Critical] = (1, config.AverageTime, config.CriticalCompletions),
-                [TurninState.Master_Score] = (1, config.AverageTime, config.Master_Completion),
-                [TurninState.Bronze] = (1, config.AverageBronzeTime, config.BronzeCompletion),
-                [TurninState.Silver] = (4, config.AverageSilverTime, config.SilverCompletions),
-                [TurninState.Gold] = (5, config.AverageGoldTime, config.GoldCompletions),
+                [TurninState.Critical] = (1, config.AverageTime(), config.CriticalCompletions),
+                [TurninState.Master_Score] = (1, config.AverageTime(), config.Master_Completion),
+                [TurninState.Bronze] = (1, config.AverageGoalTime(TurninState.Bronze), config.BronzeCompletion),
+                [TurninState.Silver] = (4, config.AverageGoalTime(TurninState.Silver), config.SilverCompletions),
+                [TurninState.Gold] = (5, config.AverageGoalTime(TurninState.Gold), config.GoldCompletions),
                 [TurninState.SequenceGold] = new()
             };
 
@@ -147,14 +148,8 @@ public static unsafe partial class CosmicHelper
         public bool Drank => Rank == 1 && !Attributes.HasFlag(MissionAttributes.Critical);
         // Tool Mastery missions: Rank 6 like EX+, but not provisional/critical (EX+ are always weather/timed).
         public bool Master => Rank == 6 && !IsProvisional && !IsCritical;
-        // Work type by job (16=MIN, 17=BTN, 18=FSH), matching Task_ExecuteMission. Use these for routing/
-        // movement instead of the Gather/Fish attribute flags: some missions (e.g. Tool Mastery) carry no
-        // mapped WKSMissionText attribute yet still gather/fish, so the attribute flags miss them.
         public bool IsGatherMission => Jobs.Contains(16) || Jobs.Contains(17);
         public bool IsFishMission => Jobs.Contains(18);
-        // Greater Reach missions are gathering missions whose base Gather flag was swapped for a
-        // GreaterReach_* variant during parsing; treat them as gathering for routing/profile purposes.
-
     }
     public static Dictionary<uint, CosmicInfo> SheetMissionDict = new();
     public class RewardInfo
@@ -181,6 +176,20 @@ public static unsafe partial class CosmicHelper
             }
         }
         public CosmicInfo SheetInfo => SheetMissionDict[Id];
+    }
+    public class ActionInfo
+    {
+        public uint ActionId { get; set; } = 0;
+        public uint UseAmount { get; set; } = 0;
+        public string Name { get; set; } = "";
+        public ISharedImmediateTexture Icon { get; set; } = null;
+    }
+    public class SupplyInfo
+    {
+        public uint ItemId { get; set; } = 0;
+        public uint Count { get; set; } = 0;
+        public string Name { get; set; } = "";
+        public ISharedImmediateTexture Icon { get; set; } = null;
     }
     private static double CalculatePerMinute(double averageTime, uint score, int multiplier)
     {
@@ -215,7 +224,7 @@ public static unsafe partial class CosmicHelper
             if (!C.MissionConfig.TryGetValue(mission.MissionId, out var config))
                 return new RewardInfo();
 
-            totalTime += config.AverageGoldTime;
+            totalTime += config.AverageGoalTime(TurninState.Gold);
             totalScore += mission.ClassScore * 5;
             totalCosmo += mission.CosmoCredit * 5;
             totalPlanet += mission.LunarCredit * 5;

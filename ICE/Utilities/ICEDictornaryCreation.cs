@@ -45,6 +45,7 @@ public sealed partial class ICE
             string missionName = entry.Name.ToString();
             missionName = missionName.Replace("<nbsp>", " ");
             missionName = missionName.Replace("<->", "");
+            missionName = missionName.Replace("\uE0BE ", "");
 
             // Jobs tied to mission
             jobs.Add(entry.ClassJobCategory[0].RowId - 1);
@@ -131,12 +132,6 @@ public sealed partial class ICE
                 marker_Critical = entry.MissionToDo[1].Value.MapMarker.RowId;
             }
 
-            // Stacked map markers — nudge slightly so route editor keys stay unique per mission row.
-            if (CosmicMapMarkerNudges.TryGetOverride(keyId, out var overrideFlag))
-                mapFlag = overrideFlag;
-            else if (CosmicMapMarkerNudges.TryGetOverlapNudge(keyId, mapFlag, out var nudgedFlag))
-                mapFlag = nudgedFlag;
-
             // Mission Attributes/Flags. Esentially a quick way to know what is what kind of mission at a quick glance
             MissionAttributes attributes = MissionAttributes.None;
 
@@ -155,25 +150,21 @@ public sealed partial class ICE
             else
             {
                 // Gather/Fish base — used as the switch fallback
-                MissionAttributes gatherOrFish = jobs.Contains(18)
-                    ? MissionAttributes.Fish
-                    : MissionAttributes.Gather;
+                MissionAttributes gatherOrFish = jobs.Contains(18) ? MissionAttributes.Fish : MissionAttributes.Gather;
 
                 attributes = missionToDo.WKSMissionText.RowId switch
                 {
                     103 => MissionAttributes.Gather | MissionAttributes.Limited,
                     104 => MissionAttributes.Gather | MissionAttributes.Score_TimeRemaining,
-                    105 => MissionAttributes.Gather,
+                    105 => MissionAttributes.Gather | MissionAttributes.Score_GatherX,
                     106 => MissionAttributes.Gather | MissionAttributes.Score_Chain,
                     107 => MissionAttributes.Gather | MissionAttributes.Score_Boon,
                     108 => MissionAttributes.Gather | MissionAttributes.Score_Chain | MissionAttributes.Score_Boon,
-                    109 or 111 or 372
-                         => MissionAttributes.Gather | MissionAttributes.Collectables,
+                    109 or 111 or 372 => MissionAttributes.Gather | MissionAttributes.Collectables,
                     110 => MissionAttributes.Gather | MissionAttributes.ReducedItems | MissionAttributes.Score_TimeRemaining,
                     112 => MissionAttributes.Gather | MissionAttributes.ReducedItems,
                     113 => MissionAttributes.Fish | MissionAttributes.Score_Variety | MissionAttributes.Score_TimeRemaining,
-                    114 or 115
-                         => MissionAttributes.Fish | MissionAttributes.Score_TimeRemaining,
+                    114 or 115 => MissionAttributes.Fish | MissionAttributes.Score_TimeRemaining,
                     116 => MissionAttributes.Fish | MissionAttributes.Limited | MissionAttributes.Score_Variety,
                     117 => MissionAttributes.Fish | MissionAttributes.Limited | MissionAttributes.Score_LargestSize,
                     118 => MissionAttributes.Fish | MissionAttributes.Limited | MissionAttributes.Collectables,
@@ -182,8 +173,8 @@ public sealed partial class ICE
                     122 => MissionAttributes.Fish | MissionAttributes.Collectables,
                     139 => gatherOrFish,            // Critical — job-dependent
                     141 => MissionAttributes.Fish,
-                    // Auxesia Tool Mastery gather missions (Geological/Botanical).
-                    // GreaterReach block below converts Chain+Boon into GreaterReach_Boon_Chain.
+
+                    // Auxesia Master Missions (currently)
                     312 or 313 => MissionAttributes.Gather | MissionAttributes.Score_Chain | MissionAttributes.Score_Boon,
                     314 => MissionAttributes.Gather | MissionAttributes.Collectables,
                     _ => gatherOrFish
@@ -195,16 +186,54 @@ public sealed partial class ICE
             attributes |= (startTime != 0 || endTime != 0) ? MissionAttributes.ProvisionalTimed : MissionAttributes.None;
             attributes |= previousMissionId != 0 ? MissionAttributes.ProvisionalSequential : MissionAttributes.None;
 
-            const MissionAttributes provisionalMask =
-                MissionAttributes.ProvisionalWeather |
-                MissionAttributes.ProvisionalTimed |
-                MissionAttributes.ProvisionalSequential;
+            const MissionAttributes provisionalMask = MissionAttributes.ProvisionalWeather | MissionAttributes.ProvisionalTimed | MissionAttributes.ProvisionalSequential;
 
             if (rank == 6 && (attributes & provisionalMask) == MissionAttributes.None)
                 attributes |= MissionAttributes.Master;
 
             tempActionId = missionToDo.TemporaryAction.RowId;
             tempActionCount = missionToDo.Unknown14;
+
+            ActionInfo tempAction = new();
+            if (tempActionId != 0 && ExcelHelper.ActionSheet.TryGetRow(tempActionId, out var actionSheet))
+            {
+                if (actionSheet.Icon is { } actionId)
+                {
+                    if (Svc.Texture.TryGetFromGameIcon((int)actionId, out var actionIcon))
+                    {
+                        tempAction.ActionId = tempActionId;
+                        tempAction.Icon = actionIcon;
+                        tempAction.UseAmount = tempActionCount;
+                        tempAction.Name = actionSheet.Name.ToString();
+                    }
+                }
+            }
+
+            List <SupplyInfo> missionSupplies = new();
+            for (int i = 0; i < 3; i++)
+            {
+                var supplyItems = entry.WKSMissionSupplyItem.Value;
+                var item = supplyItems.Item[i];
+                var count = supplyItems.ItemCount[i];
+
+                if (item.RowId != 0)
+                {
+                    // First item -> Value takes it to WKSItemInfo
+                    // Second item -> Value takes it to Item [Actual sheet we want]
+                    var itemSheet = item.Value.Item.Value;
+                    var itemId = item.Value.Item.RowId;
+                    Svc.Texture.TryGetFromGameIcon((int)itemSheet.Icon, out var itemIcon);
+                    SupplyInfo supplyInfo = new()
+                    {
+                        Icon = itemIcon,
+                        Name = itemSheet.Name.ToString(),
+                        Count = count,
+                        ItemId = itemId
+                    };
+                    missionSupplies.Add(supplyInfo);
+                }
+            }
+
 
             // - - - Crafter information - - - //
             var wksRecipeSheet = entry.WKSMissionRecipe;
@@ -250,6 +279,12 @@ public sealed partial class ICE
                         {
                             recipeIds.Add(recipeId);
                         }
+                    }
+
+                    if (keyId == 574)
+                    {
+                        string recipes = string.Join(",", recipeIds);
+                        IceLogging.Verbose($"RecipeIds in Mission 574 | {recipes}");
                     }
 
                     if (recipeIds.Count == 1)
@@ -364,7 +399,7 @@ public sealed partial class ICE
 
                         var crateId = preRecipeRow.Ingredient[0].RowId;
                         var pre_recipeInfo = CosmicHelper.SpecificRecipeInfo(craftJob, preRecipeId);
-                        var preCraftExpert = req_recipeInfo.Expert;
+                        var preCraftExpert = pre_recipeInfo.Expert;
                         var pre_itemIcon = preRecipeRow.ItemResult.Value.Icon;
                         var pre_itemName = preRecipeRow.ItemResult.Value.Name.ToString();
 
@@ -627,8 +662,8 @@ public sealed partial class ICE
                     Crafts_Pre = crafts_Pre,
                     IsExpert = isExpert,
 
-                    TemporaryActionId = tempActionId,
-                    TemporaryActionCount = tempActionCount,
+                    TemporaryAction = tempAction,
+                    Supplies = missionSupplies,
 
                     Gather_MapKey = marker_Gather,
                     Critical_MapKey = marker_Critical,
@@ -937,11 +972,6 @@ public sealed partial class ICE
                             foreach (var turnin in mission.Value.TurninRecords)
                             {
                                 turnin.State = TurninState.Master_Score;
-                            }
-                            if (mission.Value.TurninRecords.Any(x => x.State == TurninState.Master_Score) && mission.Value.Master_Completion == 0)
-                            {
-                                mission.Value.Master_Completion = mission.Value.TurninRecords.Where(x => x.State == TurninState.Master_Score).Count();
-                                mission.Value.BronzeCompletion = 0;
                                 anyChanged = true;
                             }
                         }

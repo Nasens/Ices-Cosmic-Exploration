@@ -33,7 +33,7 @@ namespace ICE.Scheduler.Tasks
                 (
                     new(() => Task_CheckScore.Fish(), "Checking Score: Fishing"),
                     new(() => Task_Gather.UseFood(), "Checking for food usage"),
-                    new(() => FishingCheck(), "Checking Fishing State")
+                    new(() => FishCheckV2(), "Checking Fishing State")
                 );
         }
 
@@ -106,23 +106,25 @@ namespace ICE.Scheduler.Tasks
                     IceLogging.Info("报告鱼饵已用完，继续放弃/交付任务");
                     SchedulerMain.State = IceState.AbandonMission;
                     SafetyThrottle = 0;
+                    P.AutoHook.Ah_State(false);
                     return true;
-                }
-                if (CosmicHelper.CurrentBait() == 0)
-                {
-                    if (EzThrottler.Throttle("Bait Message"))
-                        // IceLogging.Debug($"We are reporting we didn't have a bait equipped, please be patient as we equip it [{firstBait}]", handle);
-                        IceLogging.Debug($"报告未装备鱼饵，正在装备，请耐心等待 [{firstBait}]", handle);
-                    return false;
                 }
 
                 if (CosmicHelper.CurrentMissionInfo.Attributes.HasFlag(MissionAttributes.Collectables) && !PlayerHelper.HasStatusId(805))
                 {
+                    uint fishCollectable = 4101;
+
                     if (EzThrottler.Throttle("Collectable message"))
                     {
                         // IceLogging.Verbose("We might be missing collectors glove? Or it might still be being applied by autohook. Please give it time", handle);
                         IceLogging.Verbose("可能缺少收藏家手套？或 autohook 仍在应用中。请稍等", handle);
                     }
+                    if (PlayerHelper.CanUseAction(fishCollectable))
+                    {
+                        if (EzThrottler.Throttle("Attempting to turn on collectability"))
+                            ActionManager.Instance()->UseAction(ActionType.Action, fishCollectable);
+                    }
+                    return false;
                 }
                 if (_fishingDebug == null)
                 {
@@ -150,16 +152,16 @@ namespace ICE.Scheduler.Tasks
 
                     if (EzThrottler.Throttle("Start Fishing: AH", 500))
                     {
-                        // IceLogging.Verbose("We are telling autohook to start fishing via command...", handle);
-                        IceLogging.Verbose("正在通过命令通知 autohook 开始钓鱼……", handle);
-                        P.AutoHook.SetPluginState(true);
-                        Svc.Commands.ProcessCommand("/ahstart");
+                        // IceLogging.Verbose("We are telling autohook to start fishing via IPC...", handle);
+                        IceLogging.Verbose("正在通过 IPC 通知 autohook 开始钓鱼……", handle);
+                        P.AutoHook.Ah_State(true);
                     }
 
                     if (EzThrottler.Throttle("Started Fishing Throttle", 500))
                     {
-                        // IceLogging.Verbose($"+1 to waiting for fishing to actually start... {StartedFishing}", handle);
-                        IceLogging.Verbose($"+1 等待钓鱼实际开始……{StartedFishing}", handle);
+                        // IceLogging.Verbose($"+1 to waiting for fishing to actually start [Might be waiting on gp/buffs]... {StartedFishing}", handle);
+                        IceLogging.Verbose($"+1 等待钓鱼实际开始 [可能正在等待 GP/增益]……{StartedFishing}", handle);
+                        Svc.Commands.ProcessCommand("/ahstart");
                     }
                 }
                 else
@@ -351,7 +353,7 @@ namespace ICE.Scheduler.Tasks
             else
             {
                 // Means we are fishing, all we need to do is enable autohook then wait for us to get the amount of fish we need
-                P.AutoHook.SetPluginState(true);
+                P.AutoHook.Ah_State(true);
                 // IceLogging.Info("We're starting to fish. So kicking it over to checking the fish items", handle);
                 IceLogging.Info("开始钓鱼。因此转去检查鱼类物品", handle);
                 P.TaskManager.Insert(() => FinishFishing(), "Waiting till we actually start fishing", Utils.TaskConfig);

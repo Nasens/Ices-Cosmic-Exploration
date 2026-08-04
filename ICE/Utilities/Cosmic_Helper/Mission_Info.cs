@@ -86,6 +86,12 @@ public static partial class CosmicHelper
         public uint creditId { get; set; } = 0;
         public uint boxId { get; set; } = 0;
     }
+    public class TokenInfo
+    {
+        public uint tokenId { get; set; } = 0;
+        public uint bookletId { get; set; } = 0;
+        public uint mountId { get; set; } = 0;
+    }
 
     // General use functions used across the codebase, specifically tied to cosmic related functions
     public static void OpenStellarMission()
@@ -111,6 +117,7 @@ public static partial class CosmicHelper
     public class ClassInfo
     {
         public int Score { get; set; } = 0;
+        public int Mastery { get; set; } = 0;
         public int Stage_Current { get; set; } = 0;
         public int Stage_Next { get; set; } = 0;
         public Dictionary<int, ExpInfo> CurrentExp { get; set; } = new();
@@ -181,9 +188,19 @@ public static partial class CosmicHelper
                 ? maxStage
                 : (byte)(currentStage + 1);
 
+            // Mastery Score. Because ofc it's stored as a fucking item
+            var masteryScore = 0;
+            if (ExcelHelper.WKSScoreListSheet.TryGetRow((uint)i, out var scoreListSheet))
+            {
+                // Far right column aka Unknown5
+                var masteryItem = scoreListSheet.Unknown5;
+                PlayerHelper.GetItemCount(masteryItem, out masteryScore);
+            }
+
             ClassInfo entry = new()
             {
                 Score = score,
+                Mastery = masteryScore,
                 Stage_Current = currentStage,
                 Stage_Next = nextStage,
             };
@@ -214,43 +231,60 @@ public static partial class CosmicHelper
         foreach (var mission in CosmicHelper.SheetMissionDict)
             mission.Value.CompletionStatus = CosmicHandler.MissionStatus(mission.Key);
     }
+
+    /// <summary>Counts gold vs total for missions that are not provisional or critical on a hub/job.</summary>
+    public static (int Golded, int Total) CountStandardMissionGold(uint jobId, uint territoryId)
+    {
+        int golded = 0, total = 0;
+        foreach (var (_, info) in SheetMissionDict)
+        {
+            if (info.TerritoryId != territoryId || !info.Jobs.Contains(jobId))
+                continue;
+            if (info.IsProvisional || info.IsCritical)
+                continue;
+
+            total++;
+            if (info.CompletionStatus == Status.Gold)
+                golded++;
+        }
+
+        return (golded, total);
+    }
+
+    public static bool AllStandardMissionsGolded(uint jobId, uint territoryId)
+    {
+        var (golded, total) = CountStandardMissionGold(jobId, territoryId);
+        return total > 0 && golded == total;
+    }
+
     public static unsafe bool Task_UpdateRelicMissionInfo()
     {
         string tag = "Task: Update Cosmic Info";
 
-        if (PlayerHelper.IsInCosmicZone())
+        if (PlayerHelper.IsScreenReady())
         {
-            if (PlayerHelper.IsScreenReady())
+            var wksManagerPtr = WKSManager.Instance();
+            if (wksManagerPtr == null)
             {
-                var wksManagerPtr = WKSManager.Instance();
-                if (wksManagerPtr == null)
-                {
-                    if (EzThrottler.Throttle("Update Stats"))
-                        // IceLogging.Verbose("Waiting for the wksManager to be loaded", tag);
-                        IceLogging.Verbose("正在等待 wksManager 加载", tag);
+                if (EzThrottler.Throttle("Update Stats"))
+                    // IceLogging.Verbose("Waiting for the wksManager to be loaded", tag);
+                    IceLogging.Verbose("正在等待 wksManager 加载", tag);
 
-                    return false;
-                }
-                else
-                {
-                    Update_MissionCompletion();
-                    // IceLogging.Verbose("Updated cosmic dictionary to have proper values", tag);
-                    // IceLogging.Verbose("已将宇宙字典更新为正确的值", tag);
-                    return true;
-                }
+                return false;
             }
             else
             {
-                // IceLogging.Verbose("Waiting for screen to be ready...", tag);
-                IceLogging.Verbose("正在等待界面就绪……", tag);
-                return false;
+                Update_MissionCompletion();
+                // IceLogging.Verbose("Updated cosmic dictionary to have proper values", tag);
+                // IceLogging.Verbose("已将宇宙字典更新为正确的值", tag);
+                return true;
             }
         }
         else
         {
-            // IceLogging.Verbose("We're not in a cosmic area, so we're going to just exit this check", tag);
-            IceLogging.Verbose("我们不在宇宙区域，因此将直接退出此检查", tag);
-            return true;
+            // IceLogging.Verbose("Waiting for screen to be ready...", tag);
+            IceLogging.Verbose("正在等待界面就绪……", tag);
+            return false;
         }
     }
 }

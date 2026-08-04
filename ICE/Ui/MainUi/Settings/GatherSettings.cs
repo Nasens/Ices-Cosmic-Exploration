@@ -1,4 +1,5 @@
-﻿using Dalamud.Interface.Utility.Raii;
+﻿using Dalamud.Interface;
+using Dalamud.Interface.Utility.Raii;
 using ICE.Utilities.Cosmic_Helper;
 using ICE.Utilities.GatheringHelper;
 using ICE.Utilities.ImGuiTools;
@@ -361,6 +362,20 @@ namespace ICE.Ui.MainUi.Settings
                     ImGui.EndPopup();
                 }
             }
+
+            bool selfGather = C.Gather_NoNav;
+            if (ImGui.Checkbox("Disable Pathfinding Between Gathering Nodes", ref selfGather))
+            {
+                C.Gather_NoNav = selfGather;
+                C.SaveDebounced();
+            }
+            ImGui.SameLine();
+            ImGui_Ice.IconWithTooltip(FontAwesomeIcon.QuestionCircle,
+                "This will disable the pathfinding between the nodes WHILE in the mission\n" +
+                "But still allow the automation of skills/gathering actions/desynth between missions\n" +
+                "This is VERY testing beta, so there might be issues\n" +
+                "I swear on cuthulu's name if you enable this then ask \"Why it don't work\"" +
+                "You'll be banned by the shadow realm");
 
             ImGui.Separator();
 
@@ -1231,6 +1246,16 @@ namespace ICE.Ui.MainUi.Settings
                 "对大多数用户来说没问题，适用于不清楚如何配置的情况。" +
                 "若确认，请按住左 Shift 后点击应用"
             );
+
+            using (ImRaii.Disabled(!ImGui.IsKeyDown(ImGuiKey.LeftShift)))
+            {
+                if (ImGui.Button("Reset Fishing Presets"))
+                {
+                    ResetAllFisherProfiles();
+                }
+            }
+            ImGuiEx.HelpMarker("Will reset all fishing presets to their default internal settings\n" +
+                "Hold Left Shift to allow applying");
         }
 
         private static MissionKinds GetMissionKind(MissionAttributes attrs)
@@ -1306,6 +1331,17 @@ namespace ICE.Ui.MainUi.Settings
             GatherSettings.InitialSetupProfile(GreaterReach_Boon, MissionKinds.GreaterReach_Boon, out var _);
             GatherSettings.InitialSetupProfile(GreaterReach_BoonCh, MissionKinds.GreaterReach_Boon_Chain, out var _);
 
+        }
+
+        private static void ResetAllFisherProfiles()
+        {
+            IceLogging.Verbose("User has selected to reset all fishing presets, respecting request", "Gathering Settings");
+            foreach (var config in C.MissionConfig)
+            {
+                config.Value.Use_BuildinPreset = true;
+                config.Value.AutoHookPresetName = string.Empty;
+            }
+            C.SaveDebounced();
         }
     }
 }

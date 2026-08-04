@@ -130,28 +130,36 @@ public sealed partial class ICE : IDalamudPlugin
 
     private void Tick(object _)
     {
-        if (PlayerHelper.IsInCosmicZone())
+        if (Player.Available && PlayerHelper.IsInCosmicZone())
         {
-            if (Player.Available)
+            if (EzThrottler.Throttle("Update Character Stats"))
             {
-                if (EzThrottler.Throttle("Update Character Stats"))
-                {
-                    CosmicHelper.Task_UpdateRelicMissionInfo();
-                }
+                CosmicHelper.Task_UpdateRelicMissionInfo();
+            }
+            PlayerHandlers.Tick();
+            if (SchedulerMain.State != IceState.Idle)
+                SchedulerMain.Tick();
+            WeatherForecastHandler.Tick();
 
-
-                PlayerHandlers.Tick();
-                if (SchedulerMain.State != IceState.Idle)
-                    SchedulerMain.Tick();
-                WeatherForecastHandler.Tick();
+            if (C.FakeIncreaseFisher)
+            {
+                GlamourIpc.SetClownHead();
             }
             else
             {
-                if (SchedulerMain.State != IceState.Idle)
-                    PlayerHandlers.DisablePlugin();
-                if (PlayerHandlers.PlayerFirstCosmicZone)
-                    PlayerHandlers.PlayerFirstCosmicZone = false;
+                GlamourIpc.ResetClownHead();
             }
+        }
+        else if (!Player.Available)
+        {
+            if (SchedulerMain.State != IceState.Idle)
+                PlayerHandlers.DisablePlugin();
+            if (PlayerHandlers.PlayerFirstCosmicZone)
+                PlayerHandlers.PlayerFirstCosmicZone = false;
+        }
+
+        if (PlayerHelper.IsInCosmicZone())
+        {
             GenericManager.Tick();
             TextAdvancedManager.Tick();
             YesAlreadyManager.Tick();
@@ -160,6 +168,12 @@ public sealed partial class ICE : IDalamudPlugin
         {
             if (SchedulerMain.State != IceState.Idle)
                 SchedulerMain.DisablePlugin();
+        }
+
+        if (SchedulerMain.State == IceState.Idle && !GenericManager.Pandora_WasRestored)
+        {
+            if (EzThrottler.Throttle("Turning on pandora features"))
+                GenericManager.RestorePandoraStates();
         }
     }
 
@@ -333,6 +347,11 @@ public sealed partial class ICE : IDalamudPlugin
                                  // $"/ice flag (id) - opens the map and flags the mission (if it has one).\n";
                                  $"/ice flag (id) - 在地图上标记任务位置（若有标记）。\n";
             Svc.Chat.Print(helpMessage);
+        }
+        else if (firstArg.ToLower() == "overlay")
+        {
+            overlayWindow.IsOpen = false;
+            overlayWindow.IsOpen = true;
         }
     }
 

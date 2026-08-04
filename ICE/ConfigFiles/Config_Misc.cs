@@ -33,6 +33,7 @@ public partial class Config
     public float HubReturn_Distance { get; set; } = 75f;
     public bool UseRedAlertNpc { get; set; } = false;
     public bool HideRewardWindow { get; set; } = true;
+    public bool FakeIncreaseFisher { get; set; } = false;
 
     public class MissionCommand
     {

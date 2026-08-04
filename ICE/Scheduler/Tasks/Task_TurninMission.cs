@@ -129,14 +129,6 @@ namespace ICE.Scheduler.Tasks
                 // Complete the timer and get duration
                 var duration = P.MissionTimer.CompleteMission();
 
-                // Log the results
-                if (C.MissionConfig.TryGetValue(PreviousMissionId, out var config))
-                {
-                    if (config.BestTime != double.MaxValue)
-                        // IceLogging.Info($"Mission [{PreviousMissionId}] [{CosmicHelper.SheetMissionDict[PreviousMissionId].Name}] completed in {duration:mm\\:ss\\.ff} | Best: {TimeSpan.FromSeconds(config.BestTime):mm\\:ss\\.ff} | Avg: {TimeSpan.FromSeconds(config.AverageTime):mm\\:ss\\.ff}", $"{tag} [Mission Timer]");
-                        IceLogging.Info($"任务 [{PreviousMissionId}] [{CosmicHelper.SheetMissionDict[PreviousMissionId].Name}] 完成耗时 {duration:mm\\:ss\\.ff} | 最佳：{TimeSpan.FromSeconds(config.BestTime):mm\\:ss\\.ff} | 平均：{TimeSpan.FromSeconds(config.AverageTime):mm\\:ss\\.ff}", $"{tag} [Mission Timer]");
-                }
-
                 if (P.AutoHook.Installed)
                 {
                     P.AutoHook.DeleteAllAnonymousPresets();
@@ -261,6 +253,7 @@ namespace ICE.Scheduler.Tasks
                             var rank = Task_CheckScore.CurrentRank();
                             Mission_Settings.TurninState = (int)rank switch
                             {
+                                6 => TurninState.Master_Score,
                                 3 => TurninState.Gold,
                                 2 => TurninState.Silver,
                                 _ => TurninState.Bronze,
