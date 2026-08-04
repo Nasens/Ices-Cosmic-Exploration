@@ -270,11 +270,13 @@ namespace ICE.Ui.Debug_Tabs.Debug_Ui
             {
                 P.GlamourIpc.SetClownHead();
             }
-            if (ImGui.Button("Test Hat"))
+            // if (ImGui.Button("Test Hat"))
+            if (ImGui.Button("测试帽子"))
             {
                 P.GlamourIpc.SetHat();
             }
-            if (ImGui.Button("Test Visor"))
+            // if (ImGui.Button("Test Visor"))
+            if (ImGui.Button("测试帽檐"))
             {
                 P.GlamourIpc.SetVisor();
             }

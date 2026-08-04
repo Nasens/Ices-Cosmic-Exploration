@@ -10,7 +10,8 @@ namespace ICE.Ui.Debug_Tabs.Debug_Hud
     {
         public static void Draw()
         {
-            if (ImGui.Button("Update Shop"))
+            // if (ImGui.Button("Update Shop"))
+            if (ImGui.Button("更新商店"))
             {
                 UpdateShop();
             }
@@ -34,7 +35,8 @@ namespace ICE.Ui.Debug_Tabs.Debug_Hud
             var proxy = ShopEventHandler.AgentProxy.Instance();
             if (proxy == null || proxy->Handler == null)
             {
-                IceLogging.Info("Proxy or Handler was null");
+                // IceLogging.Info("Proxy or Handler was null");
+                IceLogging.Info("代理或处理器为空");
                 return;
             }
 
@@ -44,7 +46,8 @@ namespace ICE.Ui.Debug_Tabs.Debug_Hud
             {
                 ref var item = ref handler->Items[i];
 
-                IceLogging.Info($"[{i}] {item.ItemName} | Buy: {item.PriceBuy}g | Own: {item.NumOwned} | Stack: {item.StackSize}");
+                // IceLogging.Info($"[{i}] {item.ItemName} | Buy: {item.PriceBuy}g | Own: {item.NumOwned} | Stack: {item.StackSize}");
+                IceLogging.Info($"[{i}] {item.ItemName} | 购买价：{item.PriceBuy}g | 持有：{item.NumOwned} | 堆叠：{item.StackSize}");
             }
         }
     }

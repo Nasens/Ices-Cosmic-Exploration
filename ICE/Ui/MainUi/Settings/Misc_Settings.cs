@@ -40,13 +40,15 @@ namespace ICE.Ui.MainUi.Settings
             ImGui.Dummy(new (0, 5));
 
             bool showOverlay = C.ShowOverlay;
-            if (ImGui.Checkbox("Auto-Open Overlay", ref showOverlay))
+            // if (ImGui.Checkbox("Auto-Open Overlay", ref showOverlay))
+            if (ImGui.Checkbox("自动打开悬浮窗", ref showOverlay))
             {
                 C.ShowOverlay = showOverlay;
                 C.Save();
             }
             ImGui.SameLine();
-            if (ImGui.Button("Open Overlay"))
+            // if (ImGui.Button("Open Overlay"))
+            if (ImGui.Button("打开悬浮窗"))
             {
                 if (!P.overlayWindow.IsOpen)
                     P.overlayWindow.IsOpen = true;
@@ -104,7 +106,8 @@ namespace ICE.Ui.MainUi.Settings
             }
             ImGui.SameLine();
             bool showMasteryScore = C.ShowMasteryScore;
-            if (ImGui.Checkbox("Show Mastery Score", ref showMasteryScore))
+            // if (ImGui.Checkbox("Show Mastery Score", ref showMasteryScore))
+            if (ImGui.Checkbox("显示大师分数", ref showMasteryScore))
             {
                 C.ShowMasteryScore = showMasteryScore;
                 C.Save();
@@ -388,15 +391,19 @@ namespace ICE.Ui.MainUi.Settings
 
             var fakeFishing = C.FakeIncreaseFisher;
             ImGui.Dummy(new(0, 0));
-            if (ImGui.Checkbox("Increase Fishing Speed", ref fakeFishing))
+            // if (ImGui.Checkbox("Increase Fishing Speed", ref fakeFishing))
+            if (ImGui.Checkbox("提升捕鱼速度", ref fakeFishing))
             {
                 C.FakeIncreaseFisher = fakeFishing;
                 C.SaveDebounced();
             }
             ImGui.SameLine();
+            // ImGuiEx.IconWithTooltip(FontAwesomeIcon.QuestionCircle,
+            //     "This is your warning, this will just apply a clown head to you every minute or so from glamourer.\n" +
+            //     "100% a joke setting, don't take it seriously. I don't have the technology for this");
             ImGuiEx.IconWithTooltip(FontAwesomeIcon.QuestionCircle,
-                "This is your warning, this will just apply a clown head to you every minute or so from glamourer.\n" +
-                "100% a joke setting, don't take it seriously. I don't have the technology for this");
+                "提醒一下：此功能会每隔一分钟左右通过 glamourer 给你戴一个小丑头。\n" +
+                "纯属恶搞选项，别当真。我还没这技术");
         }
         private static void Separator()
         {

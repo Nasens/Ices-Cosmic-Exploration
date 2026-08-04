@@ -271,7 +271,7 @@ namespace ICE.Ui.Debug_Tabs.Debug_Ui
                 P.Artisan.CraftItem(36176, 1);
             }
             // if (ImGui.Button("RecipeNote"))
-            if (ImGui.Button("RecipeNote"))
+            if (ImGui.Button("配方笔记"))
             {
                 AddonHelper.OpenRecipeNote();
             }

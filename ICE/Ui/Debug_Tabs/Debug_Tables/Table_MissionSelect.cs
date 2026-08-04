@@ -24,7 +24,9 @@ namespace ICE.Ui.Debug_Tabs.Debug_Tables
             }
         }
 
-        private static string[] jobLabels = { "All Jobs", "CRP", "BSM", "ARM", "GSM", 
+        // private static string[] jobLabels = { "All Jobs", "CRP", "BSM", "ARM", "GSM",
+        //                                       "LTW", "WVR", "ALC", "CUL", "MIN", "BTN", "FSH" };
+        private static string[] jobLabels = { "全部职业", "CRP", "BSM", "ARM", "GSM",
                                               "LTW", "WVR", "ALC", "CUL", "MIN", "BTN", "FSH" };
         private static string[] jobLabelsZh = { "全部职业", "CRP", "BSM", "ARM", "GSM", 
                                               "LTW", "WVR", "ALC", "CUL", "MIN", "BTN", "FSH" };

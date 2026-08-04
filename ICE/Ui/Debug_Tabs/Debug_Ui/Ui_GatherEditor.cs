@@ -156,7 +156,7 @@ namespace ICE.Ui.Debug_Tabs.Debug_Ui
             }
             ImGui.SameLine();
             // if (ImGuiEx.IconButton(FontAwesomeIcon.Running, "Move To Navmesh"))
-            if (ImGuiEx.IconButton(FontAwesomeIcon.Running, "Move To Navmesh"))
+            if (ImGuiEx.IconButton(FontAwesomeIcon.Running, "移动至 Navmesh"))
             {
                 Svc.Commands.ProcessCommand("/vnav moveflag");
             }
@@ -270,7 +270,8 @@ namespace ICE.Ui.Debug_Tabs.Debug_Ui
                                 }
                             }
                             ImGui.SameLine();
-                            if (ImGuiEx.IconButton(FontAwesomeIcon.Trash, $"Remove {node.NodeId}"))
+                            // if (ImGuiEx.IconButton(FontAwesomeIcon.Trash, $"Remove {node.NodeId}"))
+                            if (ImGuiEx.IconButton(FontAwesomeIcon.Trash, $"删除 {node.NodeId}"))
                             {
                                 removeNode = node;
                             }
@@ -304,7 +305,8 @@ namespace ICE.Ui.Debug_Tabs.Debug_Ui
                     }
 
                     ImGui.SameLine();
-                    if (ImGui.Button("Move To [Smart]"))
+                    // if (ImGui.Button("Move To [Smart]"))
+                    if (ImGui.Button("移动至 [智能]"))
                     {
                         Task_NavmeshMove.ResetGatherMove();
                         var randomPosition = Task_NavmeshMove.Gather_RandomFanPosition(nodeInfo);
@@ -452,11 +454,13 @@ namespace ICE.Ui.Debug_Tabs.Debug_Ui
             if (nearest.HasValue)
             {
                 node.LandZone = nearest.Value;
-                _fanGenStatus += $" | LandZone: {nearest.Value.X:F1}, {nearest.Value.Y:F1}, {nearest.Value.Z:F1}";
+                // _fanGenStatus += $" | LandZone: {nearest.Value.X:F1}, {nearest.Value.Y:F1}, {nearest.Value.Z:F1}";
+                _fanGenStatus += $" | 落点：{nearest.Value.X:F1}, {nearest.Value.Y:F1}, {nearest.Value.Z:F1}";
             }
             else
             {
-                _fanGenStatus += " | LandZone pick failed, kept player pos";
+                // _fanGenStatus += " | LandZone pick failed, kept player pos";
+                _fanGenStatus += " | 落点选取失败，保留玩家位置";
             }
         }
         private static async Task GenerateFanForNode(NodeInfo route)
@@ -534,7 +538,8 @@ namespace ICE.Ui.Debug_Tabs.Debug_Ui
 
                 if (validDistances.Count == 0)
                 {
-                    _fanGenStatus = "No reachable points found around this node.";
+                    // _fanGenStatus = "No reachable points found around this node.";
+                    _fanGenStatus = "未在此节点周围找到可达点。";
                     return;
                 }
 
@@ -570,7 +575,8 @@ namespace ICE.Ui.Debug_Tabs.Debug_Ui
 
                 if (bestLen == 0)
                 {
-                    _fanGenStatus = "Could not find a contiguous arc of reachable angles.";
+                    // _fanGenStatus = "Could not find a contiguous arc of reachable angles.";
+                    _fanGenStatus = "未找到连续的可达角度弧段。";
                     return;
                 }
 
@@ -610,13 +616,15 @@ namespace ICE.Ui.Debug_Tabs.Debug_Ui
                 route.MaxDistance = MathF.Round(allMax, 1);
                 route.FanHeight = fanHeight;
 
-                _fanGenStatus = $"Generated! Angles: {ffxivStart}→{ffxivEnd} (arc {bestLen}°), Distance: {allMin:F1}→{allMax:F1}, Height: {fanHeight:F2}";
+                // _fanGenStatus = $"Generated! Angles: {ffxivStart}→{ffxivEnd} (arc {bestLen}°), Distance: {allMin:F1}→{allMax:F1}, Height: {fanHeight:F2}";
+                _fanGenStatus = $"已生成！角度：{ffxivStart}→{ffxivEnd}（弧段 {bestLen}°），距离：{allMin:F1}→{allMax:F1}，高度：{fanHeight:F2}";
                 // IceLogging.Info($"[FanGen] Node {route.Position}: FFXIV {ffxivStart}→{ffxivEnd}, dist {allMin:F1}→{allMax:F1}, height {fanHeight:F2}");
                 IceLogging.Info($"[FanGen] 节点 {route.Position}：FFXIV {ffxivStart}→{ffxivEnd}，距离 {allMin:F1}→{allMax:F1}，高度 {fanHeight:F2}");
             }
             catch (Exception ex)
             {
-                _fanGenStatus = $"Error: {ex.Message}";
+                // _fanGenStatus = $"Error: {ex.Message}";
+                _fanGenStatus = $"错误：{ex.Message}";
                 // IceLogging.Error($"[FanGen] Failed: {ex.Message}");
                 IceLogging.Error($"[FanGen] 失败：{ex.Message}");
             }

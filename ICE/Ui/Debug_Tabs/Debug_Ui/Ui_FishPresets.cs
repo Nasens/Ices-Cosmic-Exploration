@@ -111,7 +111,8 @@ namespace ICE.Ui.Debug_Tabs.Debug_Ui
                 }
 
                 ImGui.SameLine();
-                if (ImGui.Button("Export for wiki"))
+                // if (ImGui.Button("Export for wiki"))
+                if (ImGui.Button("导出为 Wiki 格式"))
                 {
                     var clipboard = ExportWiki();
                     ImGui.SetClipboardText(clipboard);
@@ -120,7 +121,8 @@ namespace ICE.Ui.Debug_Tabs.Debug_Ui
                 ImGui.AlignTextToFramePadding();
                 ImGui.Text($"[{selectedMission}] {missionInfo.Name}");
                 ImGui.SameLine();
-                if (ImGui.Button("Copy Mission Name"))
+                // if (ImGui.Button("Copy Mission Name"))
+                if (ImGui.Button("复制任务名称"))
                 {
                     ImGui.SetClipboardText($"[{selectedMission}] {missionInfo.Name}");
                 }
@@ -150,12 +152,14 @@ namespace ICE.Ui.Debug_Tabs.Debug_Ui
                     var preset = missionInfo.Fish_Presets[0];
                     if (preset.StartsWith("AHFOLDER"))
                     {
-                        IceLogging.Verbose("We found a folder! We're going to import that", "AH Import");
+                        // IceLogging.Verbose("We found a folder! We're going to import that", "AH Import");
+                        IceLogging.Verbose("发现文件夹！将导入该文件夹", "AH Import");
                         P.AutoHook.CreateAndSelectAnonymousFolder(preset);
                     }
                     else
                     {
-                        IceLogging.Verbose("Basic Fishing preset (bless) single import it is", "AH Import");
+                        // IceLogging.Verbose("Basic Fishing preset (bless) single import it is", "AH Import");
+                        IceLogging.Verbose("基础捕鱼预设（好耶），直接单个导入即可", "AH Import");
                         P.AutoHook.CreateAndSelectAnonymousPreset(preset);
                     }
                 }

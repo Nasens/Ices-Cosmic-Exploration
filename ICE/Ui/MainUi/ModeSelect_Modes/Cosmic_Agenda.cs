@@ -667,11 +667,13 @@ namespace ICE.Ui.MainUi.ModeSelect_Modes
                                 var masteryScore = CosmicHelper.Cosmic_ClassInfo();
                                 if (masteryScore.TryGetValue(agendaInfo.SelectedJob, out var job))
                                 {
-                                    ImGui.SetTooltip($"Current Mastery: {job.Mastery:N0}");
+                                    // ImGui.SetTooltip($"Current Mastery: {job.Mastery:N0}");
+                                    ImGui.SetTooltip($"当前大师分数：{job.Mastery:N0}");
                                 }
                                 else
                                 {
-                                    ImGui.SetTooltip("No Mastery info can be loaded");
+                                    // ImGui.SetTooltip("No Mastery info can be loaded");
+                                    ImGui.SetTooltip("无法加载大师分数信息");
                                 }
                             }
                         }

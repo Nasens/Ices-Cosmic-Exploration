@@ -44,7 +44,8 @@ namespace ICE.Ui.Debug_Tabs.Debug_Ui
                 UpdateGearsets();
             }
 
-            if (ImGui.BeginTable("Gearset Viewer", 3, ImGuiTableFlags.SizingFixedFit | ImGuiTableFlags.RowBg | ImGuiTableFlags.Borders))
+            // if (ImGui.BeginTable("Gearset Viewer", 3, ImGuiTableFlags.SizingFixedFit | ImGuiTableFlags.RowBg | ImGuiTableFlags.Borders))
+            if (ImGui.BeginTable("套装查看器", 3, ImGuiTableFlags.SizingFixedFit | ImGuiTableFlags.RowBg | ImGuiTableFlags.Borders))
             {
                 // ImGui.TableSetupColumn("ID");
                 ImGui.TableSetupColumn("ID");

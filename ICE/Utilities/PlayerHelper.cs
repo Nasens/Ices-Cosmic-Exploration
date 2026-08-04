@@ -254,7 +254,8 @@ public class PlayerHelper
         var am = ActionManager.Instance();
         if (am == null)
         {
-            IceLogging.Verbose("Action Manager is not valid... going to just say we can use it", tag);
+            // IceLogging.Verbose("Action Manager is not valid... going to just say we can use it", tag);
+            IceLogging.Verbose("动作管理器无效……直接视为可用", tag);
             return true;
         }
 

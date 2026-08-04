@@ -228,7 +228,8 @@ namespace ICE.Ui.DebugWindowTabs
 
             ImGui.Separator();
 
-            if (ImGui.Button("Update Macros"))
+            // if (ImGui.Button("Update Macros"))
+            if (ImGui.Button("更新宏"))
             {
                 MacroList = P.Artisan.MacroList();
             }
@@ -242,7 +243,8 @@ namespace ICE.Ui.DebugWindowTabs
             }
             else
             {
-                ImGui.Text($"No macro's loaded");
+                // ImGui.Text($"No macro's loaded");
+                ImGui.Text($"未加载任何宏");
             }
 
         }

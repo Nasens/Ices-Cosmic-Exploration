@@ -364,18 +364,25 @@ namespace ICE.Ui.MainUi.Settings
             }
 
             bool selfGather = C.Gather_NoNav;
-            if (ImGui.Checkbox("Disable Pathfinding Between Gathering Nodes", ref selfGather))
+            // if (ImGui.Checkbox("Disable Pathfinding Between Gathering Nodes", ref selfGather))
+            if (ImGui.Checkbox("禁用采集点之间寻路", ref selfGather))
             {
                 C.Gather_NoNav = selfGather;
                 C.SaveDebounced();
             }
             ImGui.SameLine();
+            // ImGui_Ice.IconWithTooltip(FontAwesomeIcon.QuestionCircle,
+            //     "This will disable the pathfinding between the nodes WHILE in the mission\n" +
+            //     "But still allow the automation of skills/gathering actions/desynth between missions\n" +
+            //     "This is VERY testing beta, so there might be issues\n" +
+            //     "I swear on cuthulu's name if you enable this then ask \"Why it don't work\"" +
+            //     "You'll be banned by the shadow realm");
             ImGui_Ice.IconWithTooltip(FontAwesomeIcon.QuestionCircle,
-                "This will disable the pathfinding between the nodes WHILE in the mission\n" +
-                "But still allow the automation of skills/gathering actions/desynth between missions\n" +
-                "This is VERY testing beta, so there might be issues\n" +
-                "I swear on cuthulu's name if you enable this then ask \"Why it don't work\"" +
-                "You'll be banned by the shadow realm");
+                "该功能会在任务内禁用采集点之间的寻路\n" +
+                "但任务之间仍会自动使用技能/采集动作/分解\n" +
+                "目前是超早期测试版，可能存在问题\n" +
+                "我以克苏鲁之名起誓，若你开启此功能后再问「为什么不能用」" +
+                "你会被放逐到暗影之境");
 
             ImGui.Separator();
 
@@ -549,7 +556,8 @@ namespace ICE.Ui.MainUi.Settings
 
                 #region Boon Increase 2
 
-                if (ImGui.CollapsingHeader("Pioneer's | Mountaineer's Gift II"))
+                // if (ImGui.CollapsingHeader("Pioneer's | Mountaineer's Gift II"))
+                if (ImGui.CollapsingHeader("沃土的馈赠 II / 富矿的馈赠 II"))
                 {
                     string buffName = "BoonIncrease2";
 
@@ -596,7 +604,8 @@ namespace ICE.Ui.MainUi.Settings
 
                 #region Boon Increase 1
 
-                if (ImGui.CollapsingHeader("Pioneer's | Mountaineer's Gift I"))
+                // if (ImGui.CollapsingHeader("Pioneer's | Mountaineer's Gift I"))
+                if (ImGui.CollapsingHeader("沃土的馈赠 I / 富矿的馈赠 I"))
                 {
                     string buffName = "BoonIncrease1";
 
@@ -649,7 +658,8 @@ namespace ICE.Ui.MainUi.Settings
 
                 #region Nophica's / Nald'thal's Tidings
 
-                if (ImGui.CollapsingHeader("Nophica's / Nald'thal's Tidings Buff"))
+                // if (ImGui.CollapsingHeader("Nophica's / Nald'thal's Tidings Buff"))
+                if (ImGui.CollapsingHeader("诺菲卡福音 / 纳尔札尔福音"))
                 {
                     string buffName = "Tidings";
 
@@ -702,7 +712,8 @@ namespace ICE.Ui.MainUi.Settings
 
                 #region Blessed / Kings Yield II
 
-                if (ImGui.CollapsingHeader("Blessed / Kings Yield II"))
+                // if (ImGui.CollapsingHeader("Blessed / Kings Yield II"))
+                if (ImGui.CollapsingHeader("天赐收成 II / 莫非王土 II"))
                 {
                     string buffName = "YieldII";
 
@@ -771,7 +782,8 @@ namespace ICE.Ui.MainUi.Settings
 
                 #region Blessed / Kings Yield I
 
-                if (ImGui.CollapsingHeader("Blessed / Kings Yield I"))
+                // if (ImGui.CollapsingHeader("Blessed / Kings Yield I"))
+                if (ImGui.CollapsingHeader("天赐收成 I / 莫非王土 I"))
                 {
                     string buffName = "YieldI";
 
@@ -840,7 +852,8 @@ namespace ICE.Ui.MainUi.Settings
 
                 #region Bonus Integrity
 
-                if (ImGui.CollapsingHeader("Ageless Words / Solid Reason"))
+                // if (ImGui.CollapsingHeader("Ageless Words / Solid Reason"))
+                if (ImGui.CollapsingHeader("不老的睿智 / 坚定的理由"))
                 {
                     string buffName = "BonusIntegrity";
 
@@ -904,7 +917,8 @@ namespace ICE.Ui.MainUi.Settings
 
                 #region Bountiful Yield II
 
-                if (ImGui.CollapsingHeader("Bountiful Yield II / Bountiful Harvest II"))
+                // if (ImGui.CollapsingHeader("Bountiful Yield II / Bountiful Harvest II"))
+                if (ImGui.CollapsingHeader("高产 II / 丰收 II"))
                 {
                     string buffName = "BountifulYieldII";
 
@@ -971,7 +985,8 @@ namespace ICE.Ui.MainUi.Settings
 
                 #region Field Mastery III
 
-                if (ImGui.CollapsingHeader("Field Mastery | Sharp Vision III"))
+                // if (ImGui.CollapsingHeader("Field Mastery | Sharp Vision III"))
+                if (ImGui.CollapsingHeader("环境探知 | 锐利视觉 III"))
                 {
                     string buffName = "FieldMasteryIII";
 
@@ -1027,7 +1042,8 @@ namespace ICE.Ui.MainUi.Settings
 
                 #region Field Mastery II
 
-                if (ImGui.CollapsingHeader("Field Mastery | Sharp Vision II"))
+                // if (ImGui.CollapsingHeader("Field Mastery | Sharp Vision II"))
+                if (ImGui.CollapsingHeader("环境探知 | 锐利视觉 II"))
                 {
                     string buffName = "FieldMasteryII";
 
@@ -1083,7 +1099,8 @@ namespace ICE.Ui.MainUi.Settings
 
                 #region Field Mastery I
 
-                if (ImGui.CollapsingHeader("Field Mastery | Sharp Vision I"))
+                // if (ImGui.CollapsingHeader("Field Mastery | Sharp Vision I"))
+                if (ImGui.CollapsingHeader("环境探知 | 锐利视觉 I"))
                 {
                     string buffName = "FieldMasteryI";
 
@@ -1139,7 +1156,8 @@ namespace ICE.Ui.MainUi.Settings
 
                 #region Field Mastery [Temp]
 
-                if (ImGui.CollapsingHeader("Flora Mastery | Clear Vision [Temp]"))
+                // if (ImGui.CollapsingHeader("Flora Mastery | Clear Vision [Temp]"))
+                if (ImGui.CollapsingHeader("植物大师 | 清澈视觉 [临时]"))
                 {
                     string buffName = "FieldMasteryTemp";
 
@@ -1249,13 +1267,16 @@ namespace ICE.Ui.MainUi.Settings
 
             using (ImRaii.Disabled(!ImGui.IsKeyDown(ImGuiKey.LeftShift)))
             {
-                if (ImGui.Button("Reset Fishing Presets"))
+                // if (ImGui.Button("Reset Fishing Presets"))
+                if (ImGui.Button("重置捕鱼预设"))
                 {
                     ResetAllFisherProfiles();
                 }
             }
-            ImGuiEx.HelpMarker("Will reset all fishing presets to their default internal settings\n" +
-                "Hold Left Shift to allow applying");
+            // ImGuiEx.HelpMarker("Will reset all fishing presets to their default internal settings\n" +
+            //     "Hold Left Shift to allow applying");
+            ImGuiEx.HelpMarker("将所有捕鱼预设重置为默认内部设置\n" +
+                "按住左 Shift 以允许应用");
         }
 
         private static MissionKinds GetMissionKind(MissionAttributes attrs)
@@ -1335,7 +1356,8 @@ namespace ICE.Ui.MainUi.Settings
 
         private static void ResetAllFisherProfiles()
         {
-            IceLogging.Verbose("User has selected to reset all fishing presets, respecting request", "Gathering Settings");
+            // IceLogging.Verbose("User has selected to reset all fishing presets, respecting request", "Gathering Settings");
+            IceLogging.Verbose("用户已选择重置所有捕鱼预设，尊重用户请求", "Gathering Settings");
             foreach (var config in C.MissionConfig)
             {
                 config.Value.Use_BuildinPreset = true;

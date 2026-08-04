@@ -257,7 +257,8 @@ namespace ICE.Scheduler.Tasks
                 if (Svc.Condition[ConditionFlag.Occupied39])
                 {
                     if (EzThrottler.Throttle("Waiting for repair"))
-                        IceLogging.Verbose("Waiting for us to finish repairs", tag);
+                        // IceLogging.Verbose("Waiting for us to finish repairs", tag);
+                        IceLogging.Verbose("正在等待修理完成", tag);
 
                     return false;
                 }
@@ -280,7 +281,8 @@ namespace ICE.Scheduler.Tasks
             else if (Svc.Condition[ConditionFlag.Occupied39])
             {
                 if (EzThrottler.Throttle("Waiting for repair"))
-                    IceLogging.Verbose("Waiting for us to finish repairs", tag);
+                    // IceLogging.Verbose("Waiting for us to finish repairs", tag);
+                    IceLogging.Verbose("正在等待修理完成", tag);
             }
             else if (GenericHelpers.TryGetAddonByName<AtkUnitBase>("SelectYesno", out var addon) && GenericHelpers.IsAddonReady(addon))
             {

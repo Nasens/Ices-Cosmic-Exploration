@@ -46,9 +46,11 @@ internal class DebugWindow : Window
 
     private readonly Dictionary<string, Dictionary<string, Action>> DebugViewGroups = new()
     {
-        ["Hud"] = new()
+        // ["Hud"] = new()
+        ["HUD"] = new()
         {
-            ["Shop"] = () => Hud_Shop.Draw(),
+            // ["Shop"] = () => Hud_Shop.Draw(),
+            ["HUD：商店"] = () => Hud_Shop.Draw(),
             // ["Moon Main"] = () => Hud_MainMoon.Draw(),
             ["HUD：星球主界面"] = () => Hud_MainMoon.Draw(),
             // ["Mission"] = () => Hud_Mission.Draw(),
@@ -63,10 +65,13 @@ internal class DebugWindow : Window
             ["HUD：采集收藏品"] = () => Hud_CollectableGathering.Draw(),
             // ["Item Exchange"] = () => Hud_ItemExchange.Draw(),
             ["HUD：物品兑换"] = () => Hud_ItemExchange.Draw(),
-            ["Token Exchange"] = () => Hud_ShopExchange.Draw(),
-            ["Aethernet"] = () => Hud_Aethernet.Draw(),
+            // ["Token Exchange"] = () => Hud_ShopExchange.Draw(),
+            ["代币兑换"] = () => Hud_ShopExchange.Draw(),
+            // ["Aethernet"] = () => Hud_Aethernet.Draw(),
+            ["以太之光"] = () => Hud_Aethernet.Draw(),
         },
-        ["Table"] = new()
+        // ["Table"] = new()
+        ["表格"] = new()
         {
             // ["Mission Info"] = () => Table_MissionInfo.Draw(),
             ["表格：任务信息"] = () => Table_MissionInfo.Draw(),
@@ -84,9 +89,11 @@ internal class DebugWindow : Window
             ["表格：练级任务"] = () => Table_LevelingMissions.Draw(),
             // ["Mission Select"] = () => Table_MissionSelect.Draw(),
             ["表格：任务选择"] = () => Table_MissionSelect.Draw(),
-            ["Mission V3"] = () => Table_MissionsV3.Draw(),
+            // ["Mission V3"] = () => Table_MissionsV3.Draw(),
+            ["任务 V3"] = () => Table_MissionsV3.Draw(),
         },
-        ["Ui"] = new()
+        // ["Ui"] = new()
+        ["界面"] = new()
         {
             // ["Select String"] = () => Ui_RedAlertString.Draw(),
             ["界面：选项字符串"] = () => Ui_RedAlertString.Draw(),
@@ -113,7 +120,8 @@ internal class DebugWindow : Window
             // ["Aethernet Test"] = () => Ui_Aethernet.Draw(),
             ["以太之光测试"] = () => Ui_Aethernet.Draw(),
         },
-        ["Misc"] = new()
+        // ["Misc"] = new()
+        ["杂项"] = new()
         {
             // ["CS: Timer Info"] = () => CS_TimerInfo.Draw(),
             ["客户端：计时信息"] = () => CS_TimerInfo.Draw(),
@@ -138,7 +146,8 @@ internal class DebugWindow : Window
         },
     };
 
-    private string _selectedGroup = "Hud";
+    // private string _selectedGroup = "Hud";
+    private string _selectedGroup = "HUD";
     // private string _selectedView = "Moon Main";
     private string _selectedView = "HUD：星球主界面";
 
@@ -179,7 +188,8 @@ internal class DebugWindow : Window
         if (!table || !table.Success)
             return;
 
-        ImGui.TableSetupColumn("Group"u8, ImGuiTableColumnFlags.WidthStretch);
+        // ImGui.TableSetupColumn("Group"u8, ImGuiTableColumnFlags.WidthStretch);
+        ImGui.TableSetupColumn("分组"u8, ImGuiTableColumnFlags.WidthStretch);
 
         foreach (var (groupName, views) in DebugViewGroups)
         {

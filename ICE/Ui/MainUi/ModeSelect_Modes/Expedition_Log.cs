@@ -46,7 +46,8 @@ namespace ICE.Ui.MainUi.ModeSelect_Modes
 
             if (ImGui.BeginChild("Detailed Class View", new(rightPanelWidth, childHeight), true))
             {
-                if (ImGui_Ice.SliderButton("Hide Completed", "Hide Completed", ref HideCompleted))
+                // if (ImGui_Ice.SliderButton("Hide Completed", "Hide Completed", ref HideCompleted))
+                if (ImGui_Ice.SliderButton("Hide Completed", "隐藏已完成", ref HideCompleted))
                 {
                     ResetCompletionTable();
                 }
@@ -332,7 +333,8 @@ namespace ICE.Ui.MainUi.ModeSelect_Modes
                     // ImGui.TableSetupColumn("Score");
                     ImGui.TableSetupColumn("分数");
                     ImGui.TableSetupColumn("##Score_XPBar");
-                    ImGui.TableSetupColumn("Mastery");
+                    // ImGui.TableSetupColumn("Mastery");
+                    ImGui.TableSetupColumn("大师");
                     ImGui.TableSetupColumn("##Mastery_XPBar");
 
                     ImGui.TableHeadersRow();
@@ -448,7 +450,8 @@ namespace ICE.Ui.MainUi.ModeSelect_Modes
 
                     ImGui.TableNextRow();
                     ImGui.TableSetColumnIndex(0);
-                    ImGui_Ice.Table_FullCenterText($"Mastery Score");
+                    // ImGui_Ice.Table_FullCenterText($"Mastery Score");
+                    ImGui_Ice.Table_FullCenterText($"大师分数");
 
                     ImGui.TableNextRow();
                     ImGui.TableSetColumnIndex(0);

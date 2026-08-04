@@ -35,8 +35,10 @@ namespace ICE.Ui.Debug_Tabs.Debug_Ui
                 foreach (var info in teleportAgent->TeleportList)
                 {
                     var row = sheet.GetRow(info.AetheryteId);
-                    var territory = row.Territory.Value.PlaceName.Value.Name.ToString() ?? "unknown";
-                    var name = row.PlaceName.Value.Name.ToString() ?? "unknown";
+                    // var territory = row.Territory.Value.PlaceName.Value.Name.ToString() ?? "unknown";
+                    var territory = row.Territory.Value.PlaceName.Value.Name.ToString() ?? "未知";
+                    // var name = row.PlaceName.Value.Name.ToString() ?? "unknown";
+                    var name = row.PlaceName.Value.Name.ToString() ?? "未知";
                     // IceLogging.Info($"ID: {info.AetheryteId}, Name: {name}, Territory: {territory}, IsAetheryte: {row.IsAetheryte}", "[Aethernet Debug]");
                     IceLogging.Info($"ID：{info.AetheryteId}，名称：{name}，区域：{territory}，IsAetheryte：{row.IsAetheryte}", "[Aethernet Debug]");
                 }
@@ -72,7 +74,8 @@ namespace ICE.Ui.Debug_Tabs.Debug_Ui
                 {
                     ImGui.TableNextRow();
                     ImGui.TableSetColumnIndex(0);
-                    ImGui.Text("ID:");
+                    // ImGui.Text("ID:");
+                    ImGui.Text("ID：");
 
                     ImGui.TableNextColumn();
                     ImGui.Text($"{zone.Key}");

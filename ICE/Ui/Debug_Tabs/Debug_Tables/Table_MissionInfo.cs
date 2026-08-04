@@ -67,10 +67,12 @@ namespace ICE.Ui.Debug_Tabs.Debug_Tables
                 if (count > 0)
                 {
                     ImGui.SetClipboardText(text);
-                    statusMessage = $"Copied {count} missing MissionScores rows (bronze) to clipboard";
+                    // statusMessage = $"Copied {count} missing MissionScores rows (bronze) to clipboard";
+                    statusMessage = $"已将 {count} 行缺失的 MissionScores 数据（铜牌）复制到剪贴板";
                 }
                 else
-                    statusMessage = "No missing rows — embedded CSV covers all missions with bronze scores.";
+                    // statusMessage = "No missing rows — embedded CSV covers all missions with bronze scores.";
+                    statusMessage = "没有缺失行——内置 CSV 已覆盖所有含铜牌分数的任务。";
             }
             if (ImGui.IsItemHovered())
             {
@@ -92,10 +94,12 @@ namespace ICE.Ui.Debug_Tabs.Debug_Tables
                 if (count > 0)
                 {
                     ImGui.SetClipboardText(text);
-                    statusMessage = $"Copied {count} Auxesia rows to clipboard";
+                    // statusMessage = $"Copied {count} Auxesia rows to clipboard";
+                    statusMessage = $"已将 {count} 行 Auxesia 数据复制到剪贴板";
                 }
                 else
-                    statusMessage = "No missing Auxesia MissionScores rows.";
+                    // statusMessage = "No missing Auxesia MissionScores rows.";
+                    statusMessage = "没有缺失的 Auxesia MissionScores 行。";
             }
 
             ImGui.SameLine();
@@ -165,7 +169,8 @@ namespace ICE.Ui.Debug_Tabs.Debug_Tables
             if (ImGui.Button("导出缺失 CSV"))
             {
                 if (string.IsNullOrWhiteSpace(exportPath))
-                    statusMessage = "Set export path first (or use Copy Missing CSV)";
+                    // statusMessage = "Set export path first (or use Copy Missing CSV)";
+                    statusMessage = "请先设置导出路径（或使用「复制缺失 CSV」）";
                 else if (MissionScoresGenerator.TryExportMissingRows(exportPath, out var msg))
                     statusMessage = msg;
                 else
@@ -182,7 +187,7 @@ namespace ICE.Ui.Debug_Tabs.Debug_Tables
             if (!string.IsNullOrEmpty(statusMessage))
             {
                 ImGui.TextColored(
-                    statusMessage.Contains("Success") ? new System.Numerics.Vector4(0, 1, 0, 1) : new System.Numerics.Vector4(1, 0, 0, 1),
+                    statusMessage.Contains("成功") ? new System.Numerics.Vector4(0, 1, 0, 1) : new System.Numerics.Vector4(1, 0, 0, 1),
                     statusMessage
                 );
             }
@@ -437,7 +442,8 @@ namespace ICE.Ui.Debug_Tabs.Debug_Tables
                         if (ImGui.IsItemHovered())
                         {
                             ImGui.BeginTooltip();
-                            ImGui.Text($"Id: {item.Key}");
+                            // ImGui.Text($"Id: {item.Key}");
+                            ImGui.Text($"ID：{item.Key}");
                             ImGui.EndTooltip();
                         }
 
@@ -551,7 +557,8 @@ namespace ICE.Ui.Debug_Tabs.Debug_Tables
             {
                 if (string.IsNullOrWhiteSpace(exportPath))
                 {
-                    statusMessage = "Error: Please specify an export path";
+                    // statusMessage = "Error: Please specify an export path";
+                    statusMessage = "错误：请指定导出路径";
                     return;
                 }
 
@@ -581,11 +588,13 @@ namespace ICE.Ui.Debug_Tabs.Debug_Tables
                 }
 
                 File.WriteAllText(exportPath, csv.ToString(), Encoding.UTF8);
-                statusMessage = $"Success: Exported {CosmicHelper.SheetMissionDict.Count} missions to {exportPath}";
+                // statusMessage = $"Success: Exported {CosmicHelper.SheetMissionDict.Count} missions to {exportPath}";
+                statusMessage = $"成功：已将 {CosmicHelper.SheetMissionDict.Count} 个任务导出至 {exportPath}";
             }
             catch (Exception ex)
             {
-                statusMessage = $"Error: {ex.Message}";
+                // statusMessage = $"Error: {ex.Message}";
+                statusMessage = $"错误：{ex.Message}";
             }
         }
 

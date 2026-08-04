@@ -30,13 +30,15 @@ namespace ICE.Ui.MainUi.HelpFolder.Tips_Folder
                     ImGui.EndTabItem();
                 }
 
-                if (ImGui.BeginTabItem("Leveling Mode"))
+                // if (ImGui.BeginTabItem("Leveling Mode"))
+                if (ImGui.BeginTabItem("练级模式"))
                 {
                     LevelingMode();
                     ImGui.EndTabItem();
                 }
 
-                if (ImGui.BeginTabItem("Gold Completion Grind"))
+                // if (ImGui.BeginTabItem("Gold Completion Grind"))
+                if (ImGui.BeginTabItem("金牌完成模式"))
                 {
                     GoldCompletion();
                     ImGui.EndTabItem();
@@ -102,65 +104,100 @@ namespace ICE.Ui.MainUi.HelpFolder.Tips_Folder
             ImGui.BulletText("法恩娜 — 最高 V 级");
             // ImGui.BulletText("Oizys   — Rank VI Max");
             ImGui.BulletText("奥伊兹 — 最高 VI 级");
-            ImGui.BulletText("Auxesia - Rank VII Max");
-            ImGui.TextWrapped("So make sure that you're on the correct planet to accomodate for the exp that you need" +
-                "and to allow for completion your relic.");
+            // ImGui.BulletText("Auxesia - Rank VII Max");
+            ImGui.BulletText("Auxesia — 最高 VII 级");
+            // ImGui.TextWrapped("So make sure that you're on the correct planet to accomodate for the exp that you need" +
+            //     "and to allow for completion your relic.");
+            ImGui.TextWrapped("请务必待在正确的星球上，以满足所需经验" +
+                "并完成你的 Relic。");
         }
 
         public static void GoldCompletion()
         {
             ImGui.Dummy(new(0, 5));
-            ImGuiEx.IconWithText(FontAwesomeIcon.Trophy, "Gold Completion");
+            // ImGuiEx.IconWithText(FontAwesomeIcon.Trophy, "Gold Completion");
+            ImGuiEx.IconWithText(FontAwesomeIcon.Trophy, "金牌完成");
 
+            // ImGui.TextWrapped(
+            //     "A very direct mode of aiming to get a gold completion of every single mission that is not currently gold-completed." +
+            //     "Removed the need of selecting each mission that you want to do, and will automatically pick->choose the missions based on" +
+            //     "the priority that you currently have set.");
             ImGui.TextWrapped(
-                "A very direct mode of aiming to get a gold completion of every single mission that is not currently gold-completed." +
-                "Removed the need of selecting each mission that you want to do, and will automatically pick->choose the missions based on" +
-                "the priority that you currently have set.");
-            ImGui.TextWrapped("PLEASE NOTE: that this has no other internal logic. It has no way to tell it can't do the mission due to either" +
-                "a set of missing stats, no food... ect. This is just meant to be the most direct \"auto select missions that it can do\"." +
-                "If you want some control over WHICH missions that you know you can do, select standard mode and choose the missions that need completed");
-            ImGui.TextWrapped("This mode also respects the settings of being able to grind off class provisionals");
+                "一种非常直接的模式，目标是把每一项尚未金牌完成的任务全部刷到金牌。" +
+                "无需手动选择任务，插件会根据你当前设置的优先级自动挑选任务。");
+            // ImGui.TextWrapped("PLEASE NOTE: that this has no other internal logic. It has no way to tell it can't do the mission due to either" +
+            //     "a set of missing stats, no food... ect. This is just meant to be the most direct \"auto select missions that it can do\"." +
+            //     "If you want some control over WHICH missions that you know you can do, select standard mode and choose the missions that need completed");
+            ImGui.TextWrapped("请注意：此模式没有其他内部逻辑。它无法判断任务是否因属性不足、没有食物等原因而无法完成。" +
+                "它只是最直接的「自动选择能做的任务」。" +
+                "若想控制具体选择哪些任务，请使用标准模式并勾选需要完成的任务");
+            // ImGui.TextWrapped("This mode also respects the settings of being able to grind off class provisionals");
+            ImGui.TextWrapped("此模式同样遵循跨职业刷临时任务的相关设置");
 
         }
 
         public static void LevelingMode()
         {
             ImGui.Dummy(new(0, 5));
-            ImGuiEx.IconWithText(FontAwesomeIcon.Leaf, "Leveling Mode");
+            // ImGuiEx.IconWithText(FontAwesomeIcon.Leaf, "Leveling Mode");
+            ImGuiEx.IconWithText(FontAwesomeIcon.Leaf, "练级模式");
 
-            ImGui.TextWrapped("A mode designed around selecting the best missions that give both the most experience, while also" +
-                "choosing the missions that can be done the quickest. These are all completed on bronze completion (aka the fastest you can complete a mission)" +
-                "because experience doesn't scale off of the level of turnin. Meaning if a mission gives 125% exp, it'll alwayws give that");
+            // ImGui.TextWrapped("A mode designed around selecting the best missions that give both the most experience, while also" +
+            //     "choosing the missions that can be done the quickest. These are all completed on bronze completion (aka the fastest you can complete a mission)" +
+            //     "because experience doesn't scale off of the level of turnin. Meaning if a mission gives 125% exp, it'll alwayws give that");
+            ImGui.TextWrapped("该模式旨在选择经验收益最高、同时完成速度最快的任务。" +
+                "任务均以铜牌完成（即最快完成方式）" +
+                "因为经验不随交付等级变化——任务给 125% 经验，就始终给 125%。");
 
             ImGui.Dummy(new(0, 5));
-            ImGui.Text("Crafters");
-            ImGui.BulletText("Missions are selected with the lowest progress");
-            ImGui.BulletText("Quality DOES NOT MATTER for these");
-            ImGui.BulletText("YOU WILL NEED TO GO UNLOCK COLLECTABLES IN MOR DHONA AT LV. 50 IF YOU HAVEN'T ALREADY");
-            ImGui.BulletText("You can get away with leveling up your gear at the following levels if you really wanna be stingy like me:");
+            // ImGui.Text("Crafters");
+            ImGui.Text("制作职业");
+            // ImGui.BulletText("Missions are selected with the lowest progress");
+            ImGui.BulletText("选择进度最低的任务");
+            // ImGui.BulletText("Quality DOES NOT MATTER for these");
+            ImGui.BulletText("这些任务的品质无关紧要");
+            // ImGui.BulletText("YOU WILL NEED TO GO UNLOCK COLLECTABLES IN MOR DHONA AT LV. 50 IF YOU HAVEN'T ALREADY");
+            ImGui.BulletText("若尚未解锁，需在 50 级时前往摩杜纳解锁收藏品");
+            // ImGui.BulletText("You can get away with leveling up your gear at the following levels if you really wanna be stingy like me:");
+            ImGui.BulletText("如果你也想和我一样省事，以下等级再更换装备完全够用：");
+            // ImGui.BulletText("Lv. 10 -> 35 -> 52 -> 80");
             ImGui.BulletText("Lv. 10 -> 35 -> 52 -> 80");
-            ImGui.BulletText("These are the points where I found i could just get away with, if you want to make it go faster absolutely can grab gear more often between but.");
+            // ImGui.BulletText("These are the points where I found i could just get away with, if you want to make it go faster absolutely can grab gear more often between but.");
+            ImGui.BulletText("这些是我实测可以凑合的节点；若想更快，也可以更频繁地更换装备。");
 
             ImGui.Dummy(new(0, 5));
-            ImGui.Text("Gathering");
-            ImGui.BulletText("A bit more tedious, and defitenly not the fastest, but it's the safest so far.");
-            ImGui.BulletText("Fisher has profiles already built into the plugin, and Btn/Min will auto set profiles to be able to turnin missions ASAP");
-            ImGui.BulletText("You NEED to get gear more often here than crafters, about every 5-7 levels below lv 50, then about every 3 levels after");
+            // ImGui.Text("Gathering");
+            ImGui.Text("采集职业");
+            // ImGui.BulletText("A bit more tedious, and defitenly not the fastest, but it's the safest so far.");
+            ImGui.BulletText("稍显繁琐，肯定不是最快的，但至今最稳妥。");
+            // ImGui.BulletText("Fisher has profiles already built into the plugin, and Btn/Min will auto set profiles to be able to turnin missions ASAP");
+            ImGui.BulletText("捕鱼已有插件内置配置，BTN/MIN 会自动设置配置以尽快交付任务");
+            // ImGui.BulletText("You NEED to get gear more often here than crafters, about every 5-7 levels below lv 50, then about every 3 levels after");
+            ImGui.BulletText("这里比制作更需要频繁更新装备：50 级前约每 5-7 级换一次，之后约每 3 级一次");
         }
 
         public static void CosmicAgenda()
         {
             ImGui.Dummy(new(0, 5));
-            ImGuiEx.IconWithText(FontAwesomeIcon.ClipboardList, "Cosmic Agenda | Agenda Mode");
+            // ImGuiEx.IconWithText(FontAwesomeIcon.ClipboardList, "Cosmic Agenda | Agenda Mode");
+            ImGuiEx.IconWithText(FontAwesomeIcon.ClipboardList, "宇宙议程 | 议程模式");
 
-            ImGui.TextWrapped("The mode to help combine (most) of the other modes into one little playlist so you can set and forget." +
-                "The purpose of this is to allow you to organize when and what order you want to do things");
-            ImGui.TextWrapped("This includes but not limited to:");
-            ImGui.BulletText("Leveling selected classes to to a specific level");
-            ImGui.BulletText("Farming specific classes scores to 500k");
-            ImGui.BulletText("Completed relics on all classes");
-            ImGui.TextWrapped("You can specify the modes that you want to use these from, and it will run continue attempting to do that class until that objective is complete." +
-                "This will respect any setting that you currently have enabled, it's jsut a fancy way of letting you the user choose what to do");
+            // ImGui.TextWrapped("The mode to help combine (most) of the other modes into one little playlist so you can set and forget." +
+            //     "The purpose of this is to allow you to organize when and what order you want to do things");
+            ImGui.TextWrapped("该模式将（大部分）其他模式整合进一个简易播放列表，设置好后即可放手。" +
+                "目的在于让你安排执行的时间与先后顺序");
+            // ImGui.TextWrapped("This includes but not limited to:");
+            ImGui.TextWrapped("包括但不限于：");
+            // ImGui.BulletText("Leveling selected classes to to a specific level");
+            ImGui.BulletText("将所选职业练到指定等级");
+            // ImGui.BulletText("Farming specific classes scores to 500k");
+            ImGui.BulletText("将指定职业分数刷到 500k");
+            // ImGui.BulletText("Completed relics on all classes");
+            ImGui.BulletText("完成所有职业的 Relic");
+            // ImGui.TextWrapped("You can specify the modes that you want to use these from, and it will run continue attempting to do that class until that objective is complete." +
+            //     "This will respect any setting that you currently have enabled, it's jsut a fancy way of letting you the user choose what to do");
+            ImGui.TextWrapped("可指定使用哪些模式来完成目标，插件会持续运行该职业直至目标达成。" +
+                "它会尊重你当前启用的所有设置，只是用更灵活的方式让你自行决定做什么");
         }
     }
 }

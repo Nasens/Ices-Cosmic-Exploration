@@ -116,18 +116,25 @@ namespace ICE.Ui.MainUi.Settings.Settings_Table
                 "其他数值则在该角度范围内选择（若可用）", false);
 
             bool selfGather = C.Gather_NoNav;
-            if (ImGui.Checkbox("Disable Pathfinding Between Gathering Nodes", ref selfGather))
+            // if (ImGui.Checkbox("Disable Pathfinding Between Gathering Nodes", ref selfGather))
+            if (ImGui.Checkbox("禁用采集点之间寻路", ref selfGather))
             {
                 C.Gather_NoNav = selfGather;
                 C.SaveDebounced();
             }
             ImGui.SameLine();
+            // ImGui_Ice.IconWithTooltip(FontAwesomeIcon.QuestionCircle,
+            //     "This will disable the pathfinding between the nodes WHILE in the mission\n" +
+            //     "But still allow the automation of skills/gathering actions/desynth between missions\n" +
+            //     "This is VERY testing beta, so there might be issues\n" +
+            //     "I swear on cuthulu's name if you enable this then ask \"Why it don't work\"" +
+            //     "You'll be banned by the shadow realm");
             ImGui_Ice.IconWithTooltip(FontAwesomeIcon.QuestionCircle,
-                "This will disable the pathfinding between the nodes WHILE in the mission\n" +
-                "But still allow the automation of skills/gathering actions/desynth between missions\n" +
-                "This is VERY testing beta, so there might be issues\n" +
-                "I swear on cuthulu's name if you enable this then ask \"Why it don't work\"" +
-                "You'll be banned by the shadow realm");
+                "该功能会在任务内禁用采集点之间的寻路\n" +
+                "但任务之间仍会自动使用技能/采集动作/分解\n" +
+                "目前是超早期测试版，可能存在问题\n" +
+                "我以克苏鲁之名起誓，若你开启此功能后再问「为什么不能用」" +
+                "你会被放逐到暗影之境");
 
 
             bool useHubReturn = C.UseHubReturn;

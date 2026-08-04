@@ -162,7 +162,8 @@ namespace ICE.Ui.MainUi.ModeSelect_Modes
                             // ImGui.BulletText($"Stop once relic completed");
                             ImGui.BulletText($"Relic 完成时停止");
                         if (C.StopOnceStandardMissionsGolded)
-                            ImGui.BulletText("Stop when all standard missions are golded");
+                            // ImGui.BulletText("Stop when all standard missions are golded");
+                            ImGui.BulletText("所有标准任务金牌后停止");
 
                         // ImGui.Text("So if you stop and you're unsure why... this might be why");
                         ImGui.Text("若插件意外停止，可能是以下原因");

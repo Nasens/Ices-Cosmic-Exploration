@@ -53,7 +53,8 @@ namespace ICE.Ui.MainUi.Settings
             {
                 ImGui.SetNextItemWidth(150);
                 ImGui.SameLine();
-                if (ImGui.SliderInt("ms###Mission", ref delayAmount, 0, 1000))
+                // if (ImGui.SliderInt("ms###Mission", ref delayAmount, 0, 1000))
+                if (ImGui.SliderInt("毫秒###Mission", ref delayAmount, 0, 1000))
                 {
                     if (C.DelayIncrease != delayAmount)
                     {
@@ -80,7 +81,8 @@ namespace ICE.Ui.MainUi.Settings
             {
                 ImGui.SetNextItemWidth(150);
                 ImGui.SameLine();
-                if (ImGui.SliderInt("ms###Crafting", ref delayCraftAmount, 500, 5000))
+                // if (ImGui.SliderInt("ms###Crafting", ref delayCraftAmount, 500, 5000))
+                if (ImGui.SliderInt("毫秒###Crafting", ref delayCraftAmount, 500, 5000))
                 {
                     if (C.DelayCraftIncrease != delayCraftAmount)
                     {

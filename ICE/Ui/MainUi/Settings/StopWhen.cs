@@ -151,7 +151,8 @@ namespace ICE.Ui.MainUi.Settings
             #region Mastery Score
 
             bool stopMastery = C.StopWhenMasteryComplete;
-            if (ImGui.Checkbox("Stop When Mastery Complete", ref stopMastery))
+            // if (ImGui.Checkbox("Stop When Mastery Complete", ref stopMastery))
+            if (ImGui.Checkbox("大师分数完成时停止", ref stopMastery))
             {
                 C.StopWhenMasteryComplete = stopMastery;
                 C.SaveDebounced();
@@ -171,14 +172,18 @@ namespace ICE.Ui.MainUi.Settings
             #region Standard Missions Golded
 
             bool standardGoldStop = C.StopOnceStandardMissionsGolded;
-            if (ImGui.Checkbox("Stop when all standard missions are golded", ref standardGoldStop))
+            // if (ImGui.Checkbox("Stop when all standard missions are golded", ref standardGoldStop))
+            if (ImGui.Checkbox("所有标准任务金牌后停止", ref standardGoldStop))
             {
                 C.StopOnceStandardMissionsGolded = standardGoldStop;
                 C.Save();
             }
+            // ImGuiEx.HelpMarker(
+            //     "Stops when every non-provisional, non-critical mission for your selected job on the current moon is gold.\n" +
+            //     "Timed, weather, sequence, and red alert missions are not counted.");
             ImGuiEx.HelpMarker(
-                "Stops when every non-provisional, non-critical mission for your selected job on the current moon is gold.\n" +
-                "Timed, weather, sequence, and red alert missions are not counted.");
+                "当前星球上所选职业的所有非临时、非紧急任务均为金牌时停止。\n" +
+                "限时、天气、序列和紧急通告任务不计入。");
 
             #endregion
 

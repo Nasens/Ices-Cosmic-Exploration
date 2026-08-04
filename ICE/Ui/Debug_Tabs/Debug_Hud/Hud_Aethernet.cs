@@ -23,7 +23,8 @@ namespace ICE.Ui.Debug_Tabs.Debug_Hud
 
                 string ids = string.Join(",", entry.Value.BaseId);
 
-                ImGuiEx.IconWithText(mark, $"Aetheryte ID: {ids} | Name: {entry.Value.Name}");
+                // ImGuiEx.IconWithText(mark, $"Aetheryte ID: {ids} | Name: {entry.Value.Name}")
+                ImGuiEx.IconWithText(mark, $"以太水晶 ID：{ids} | 名称：{entry.Value.Name}");
             }
         }
 

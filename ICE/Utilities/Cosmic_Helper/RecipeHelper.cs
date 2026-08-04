@@ -28,7 +28,8 @@ public static partial class CosmicHelper
         info.Expert = recipeSheet.IsExpert;
         if (recipeId == 36990)
         {
-            IceLogging.Verbose("Just... putting this here for my own sanity\n" +
+            // IceLogging.Verbose("Just... putting this here for my own sanity\n" +
+            IceLogging.Verbose("只是……留在这里让我自己安心\n" +
                 $"RecipeID: {recipeId}\n" +
                 $"Name: {recipeSheet.ItemResult.Value.Name.ToString()}\n" +
                 $"Is Expert: {info.Expert} | {recipeSheet.IsExpert}\n" +

@@ -79,21 +79,25 @@ namespace ICE.Ui.DebugWindowTabs
 
                 // Column 1
                 ImGui.TableSetColumnIndex(1);
-                ImGui.TableHeader("CosmoCredits");
+                // ImGui.TableHeader("CosmoCredits");
+                ImGui.TableHeader("宇宙点数");
                 if (ImGui.IsItemHovered())
                 {
                     ImGui.BeginTooltip();
-                    ImGui.Text("Unknown0");
+                    // ImGui.Text("Unknown0");
+                    ImGui.Text("未知 0");
                     ImGui.EndTooltip();
                 }
 
                 // Column 2
                 ImGui.TableSetColumnIndex(2);
-                ImGui.TableHeader("PlanetCredits");
+                // ImGui.TableHeader("PlanetCredits");
+                ImGui.TableHeader("行星点数");
                 if (ImGui.IsItemHovered())
                 {
                     ImGui.BeginTooltip();
-                    ImGui.Text("Unknown1");
+                    // ImGui.Text("Unknown1");
+                    ImGui.Text("未知 1");
                     ImGui.EndTooltip();
                 }
 
@@ -104,7 +108,8 @@ namespace ICE.Ui.DebugWindowTabs
                 if (ImGui.IsItemHovered())
                 {
                     ImGui.BeginTooltip();
-                    ImGui.Text("Unknown2");
+                    // ImGui.Text("Unknown2");
+                    ImGui.Text("未知 2");
                     ImGui.EndTooltip();
                 }
 
@@ -115,7 +120,8 @@ namespace ICE.Ui.DebugWindowTabs
                 if (ImGui.IsItemHovered())
                 {
                     ImGui.BeginTooltip();
-                    ImGui.Text("Unknown3");
+                    // ImGui.Text("Unknown3");
+                    ImGui.Text("未知 3");
                     ImGui.EndTooltip();
                 }
 
@@ -126,7 +132,8 @@ namespace ICE.Ui.DebugWindowTabs
                 if (ImGui.IsItemHovered())
                 {
                     ImGui.BeginTooltip();
-                    ImGui.Text("Unknown4");
+                    // ImGui.Text("Unknown4");
+                    ImGui.Text("未知 4");
                     ImGui.EndTooltip();
                 }
 
@@ -137,7 +144,8 @@ namespace ICE.Ui.DebugWindowTabs
                 if (ImGui.IsItemHovered())
                 {
                     ImGui.BeginTooltip();
-                    ImGui.Text("Unknown8");
+                    // ImGui.Text("Unknown8");
+                    ImGui.Text("未知 8");
                     ImGui.EndTooltip();
                 }
 
@@ -148,7 +156,8 @@ namespace ICE.Ui.DebugWindowTabs
                 if (ImGui.IsItemHovered())
                 {
                     ImGui.BeginTooltip();
-                    ImGui.Text("Unknown9");
+                    // ImGui.Text("Unknown9");
+                    ImGui.Text("未知 9");
                     ImGui.EndTooltip();
                 }
 
@@ -159,7 +168,8 @@ namespace ICE.Ui.DebugWindowTabs
                 if (ImGui.IsItemHovered())
                 {
                     ImGui.BeginTooltip();
-                    ImGui.Text("Unknown10");
+                    // ImGui.Text("Unknown10");
+                    ImGui.Text("未知 10");
                     ImGui.EndTooltip();
                 }
 
@@ -170,7 +180,8 @@ namespace ICE.Ui.DebugWindowTabs
                 if (ImGui.IsItemHovered())
                 {
                     ImGui.BeginTooltip();
-                    ImGui.Text("Unknown11");
+                    // ImGui.Text("Unknown11");
+                    ImGui.Text("未知 11");
                     ImGui.EndTooltip();
                 }
 
@@ -181,7 +192,8 @@ namespace ICE.Ui.DebugWindowTabs
                 if (ImGui.IsItemHovered())
                 {
                     ImGui.BeginTooltip();
-                    ImGui.Text("Unknown12");
+                    // ImGui.Text("Unknown12");
+                    ImGui.Text("未知 12");
                     ImGui.EndTooltip();
                 }
 
@@ -192,7 +204,8 @@ namespace ICE.Ui.DebugWindowTabs
                 if (ImGui.IsItemHovered())
                 {
                     ImGui.BeginTooltip();
-                    ImGui.Text("Unknown13");
+                    // ImGui.Text("Unknown13");
+                    ImGui.Text("未知 13");
                     ImGui.EndTooltip();
                 }
 
@@ -203,7 +216,8 @@ namespace ICE.Ui.DebugWindowTabs
                 if (ImGui.IsItemHovered())
                 {
                     ImGui.BeginTooltip();
-                    ImGui.Text("Unknown14");
+                    // ImGui.Text("Unknown14");
+                    ImGui.Text("未知 14");
                     ImGui.EndTooltip();
                 }
 
@@ -214,7 +228,8 @@ namespace ICE.Ui.DebugWindowTabs
                 if (ImGui.IsItemHovered())
                 {
                     ImGui.BeginTooltip();
-                    ImGui.Text("Unknown15");
+                    // ImGui.Text("Unknown15");
+                    ImGui.Text("未知 15");
                     ImGui.EndTooltip();
                 }
 
@@ -225,7 +240,8 @@ namespace ICE.Ui.DebugWindowTabs
                 if (ImGui.IsItemHovered())
                 {
                     ImGui.BeginTooltip();
-                    ImGui.Text("Unknown16");
+                    // ImGui.Text("Unknown16");
+                    ImGui.Text("未知 16");
                     ImGui.EndTooltip();
                 }
 
@@ -236,7 +252,8 @@ namespace ICE.Ui.DebugWindowTabs
                 if (ImGui.IsItemHovered())
                 {
                     ImGui.BeginTooltip();
-                    ImGui.Text("Unknown17");
+                    // ImGui.Text("Unknown17");
+                    ImGui.Text("未知 17");
                     ImGui.EndTooltip();
                 }
 
@@ -247,7 +264,8 @@ namespace ICE.Ui.DebugWindowTabs
                 if (ImGui.IsItemHovered())
                 {
                     ImGui.BeginTooltip();
-                    ImGui.Text("Unknown18");
+                    // ImGui.Text("Unknown18");
+                    ImGui.Text("未知 18");
                     ImGui.EndTooltip();
                 }
 
@@ -257,7 +275,8 @@ namespace ICE.Ui.DebugWindowTabs
                 if (ImGui.IsItemHovered())
                 {
                     ImGui.BeginTooltip();
-                    ImGui.Text("Unknown19");
+                    // ImGui.Text("Unknown19");
+                    ImGui.Text("未知 19");
                     ImGui.EndTooltip();
                 }
 

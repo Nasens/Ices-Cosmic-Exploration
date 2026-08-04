@@ -298,7 +298,8 @@ namespace ICE.Scheduler.Tasks
                     bool potentionalTurnin = relicInfo.Stage_Current < relicInfo.Stage_Next;
                     bool canTurnin = true;
 
-                    IceLogging.Verbose("Reporting back relic level", tag);
+                    // IceLogging.Verbose("Reporting back relic level", tag);
+                    IceLogging.Verbose("正在回报 Relic 等级", tag);
                     IceLogging.Verbose($"Current Lv: {relicInfo.Stage_Current} | Next Lv: {relicInfo.Stage_Next}", tag);
 
                     if (potentionalTurnin)
@@ -671,7 +672,8 @@ namespace ICE.Scheduler.Tasks
                 var relicInfo = relicProgress[jobId];
 
                 bool isUpgradable = relicInfo.Stage_Current < relicInfo.Stage_Next;
-                IceLogging.Verbose("Reporting Relic Info Progress", tag);
+                // IceLogging.Verbose("Reporting Relic Info Progress", tag);
+                IceLogging.Verbose("正在回报 Relic 信息进度", tag);
                 IceLogging.Verbose($"Job: [{CosmicHelper.GetJobName(jobId)} | {jobId}]", tag);
                 IceLogging.Verbose($"Current Stage: [{relicInfo.Stage_Current}] | Next Stage [{relicInfo.Stage_Next}]");
 

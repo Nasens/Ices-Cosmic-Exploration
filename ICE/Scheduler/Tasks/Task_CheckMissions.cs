@@ -97,7 +97,8 @@ namespace ICE.Scheduler.Tasks
         {
             if (SchedulerMain.State != IceState.Waiting)
             {
-                IceLogging.Info("Gold completion grind: waiting for a timed, weather, or critical mission to appear on the board.", tag);
+                // IceLogging.Info("Gold completion grind: waiting for a timed, weather, or critical mission to appear on the board.", tag);
+                IceLogging.Info("金牌任务刷取：等待限时、天气或紧急任务出现在任务板上。", tag);
                 SchedulerMain.State = IceState.Waiting;
             }
 
@@ -118,7 +119,8 @@ namespace ICE.Scheduler.Tasks
                 return false;
 
             CosmicHandler.EnsureStandardMissionTab(Mission_Settings.SelectedJob);
-            IceLogging.Verbose("Rechecking mission board for timed/weather/critical missions", tag);
+            // IceLogging.Verbose("Rechecking mission board for timed/weather/critical missions", tag);
+            IceLogging.Verbose("正在重新检查任务板上的限时/天气/紧急任务", tag);
             SchedulerMain.State = IceState.GrabMission;
             return true;
         }

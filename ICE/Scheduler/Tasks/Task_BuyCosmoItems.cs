@@ -503,7 +503,8 @@ namespace ICE.Scheduler.Tasks
                 {
                     if (EzThrottler.Throttle("Request attempt"))
                     {
-                        IceLogging.Verbose("Attempting to turnin request", tag);
+                        // IceLogging.Verbose("Attempting to turnin request", tag);
+                        IceLogging.Verbose("正在尝试交付请求", tag);
                     }
                 }
                 else if (GenericHelpers.TryGetAddonMaster<SelectYesno>("SelectYesno", out var YesNo) && YesNo.IsAddonReady)
@@ -531,7 +532,8 @@ namespace ICE.Scheduler.Tasks
                 {
                     if (EzThrottler.Throttle("Buy Item", 500))
                     {
-                        IceLogging.Verbose("Buying the item");
+                        // IceLogging.Verbose("Buying the item");
+                        IceLogging.Verbose("正在购买物品");
                         shopExchangeDialog.Exchange();
                         WaitCounter = true;
                     }
@@ -549,12 +551,14 @@ namespace ICE.Scheduler.Tasks
                             {
                                 if (MergeItems())
                                 {
-                                    IceLogging.Verbose("Merged split stacks, will re-check next pass", tag);
+                                    // IceLogging.Verbose("Merged split stacks, will re-check next pass", tag);
+                                    IceLogging.Verbose("已合并拆分堆叠，将在下一轮复查", tag);
                                 }
                                 else
                                 {
                                     NeedsMergeCheck = false;
-                                    IceLogging.Verbose("Inventory confirmed clean, proceeding to buy", tag);
+                                    // IceLogging.Verbose("Inventory confirmed clean, proceeding to buy", tag);
+                                    IceLogging.Verbose("背包已确认整洁，开始购买", tag);
                                 }
                             }
 
@@ -579,7 +583,8 @@ namespace ICE.Scheduler.Tasks
                             }
                             else
                             {
-                                IceLogging.Verbose("We have reached the end of buying tokens, exiting out of the process", tag);
+                                // IceLogging.Verbose("We have reached the end of buying tokens, exiting out of the process", tag);
+                                IceLogging.Verbose("代币购买已全部完成，退出流程", tag);
                                 if (CanExchangeMount())
                                     P.TaskManager.Insert(BuyPlanetMount, "Buying Planet Mount");
                                 return true;
@@ -588,7 +593,8 @@ namespace ICE.Scheduler.Tasks
                     }
                     else
                     {
-                        IceLogging.Verbose("We've reached the limit of buying booklets, going to exit out", tag);
+                        // IceLogging.Verbose("We've reached the limit of buying booklets, going to exit out", tag);
+                        IceLogging.Verbose("书册购买已达上限，即将退出", tag);
                         if (CanExchangeMount())
                             P.TaskManager.Insert(BuyPlanetMount, "Buying Planet Mount");
                         return true;
@@ -610,7 +616,8 @@ namespace ICE.Scheduler.Tasks
                 {
                     if (EzThrottler.Throttle("Request attempt"))
                     {
-                        IceLogging.Verbose("Attempting to turnin request", tag);
+                        // IceLogging.Verbose("Attempting to turnin request", tag);
+                        IceLogging.Verbose("正在尝试交付请求", tag);
                     }
                 }
                 else if (GenericHelpers.TryGetAddonMaster<SelectYesno>("SelectYesno", out var YesNo) && YesNo.IsAddonReady)
@@ -638,7 +645,8 @@ namespace ICE.Scheduler.Tasks
                 {
                     if (EzThrottler.Throttle("Buy Item", 500))
                     {
-                        IceLogging.Verbose("Buying the item");
+                        // IceLogging.Verbose("Buying the item");
+                        IceLogging.Verbose("正在购买物品");
                         shopExchangeDialog.Exchange();
                         WaitCounter = true;
                     }
@@ -673,14 +681,16 @@ namespace ICE.Scheduler.Tasks
                             }
                             else
                             {
-                                IceLogging.Verbose("We have reached the end of buying tokens, exiting out of the process", tag);
+                                // IceLogging.Verbose("We have reached the end of buying tokens, exiting out of the process", tag);
+                                IceLogging.Verbose("代币购买已全部完成，退出流程", tag);
                                 return true;
                             }
                         }
                     }
                     else
                     {
-                        IceLogging.Verbose("We've reached the limit of buying booklets, going to exit out", tag);
+                        // IceLogging.Verbose("We've reached the limit of buying booklets, going to exit out", tag);
+                        IceLogging.Verbose("书册购买已达上限，即将退出", tag);
                         return true;
                     }
                 }

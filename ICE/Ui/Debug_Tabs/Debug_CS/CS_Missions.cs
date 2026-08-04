@@ -37,7 +37,8 @@ namespace ICE.Ui.Debug_Tabs.Debug_CS
                 }
             }
 
-            if (ImGui.BeginTable("CS: Missions Avaialble", 4, ImGuiTableFlags.SizingFixedFit | ImGuiTableFlags.RowBg | ImGuiTableFlags.Borders))
+            // if (ImGui.BeginTable("CS: Missions Avaialble", 4, ImGuiTableFlags.SizingFixedFit | ImGuiTableFlags.RowBg | ImGuiTableFlags.Borders))
+            if (ImGui.BeginTable("CS：可用任务", 4, ImGuiTableFlags.SizingFixedFit | ImGuiTableFlags.RowBg | ImGuiTableFlags.Borders))
             {
                 // ImGui.TableSetupColumn("Job");
                 ImGui.TableSetupColumn("职业");

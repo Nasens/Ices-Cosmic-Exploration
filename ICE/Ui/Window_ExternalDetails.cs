@@ -105,7 +105,8 @@ namespace ICE.Ui
 
                 if (ImGui.BeginTabBar("Mission Details Master Tabs"))
                 {
-                    if (ImGui.BeginTabItem("Details"))
+                    // if (ImGui.BeginTabItem("Details"))
+                    if (ImGui.BeginTabItem("详情"))
                     {
                         MissionDetails(sheetInfo);
                         ImGui.EndTabItem();
@@ -113,7 +114,8 @@ namespace ICE.Ui
 
                     if (CosmicHelper.CrafterJobList.ContainsAny(sheetInfo.Jobs))
                     {
-                        if (ImGui.BeginTabItem("Craft Details"))
+                        // if (ImGui.BeginTabItem("Craft Details"))
+                        if (ImGui.BeginTabItem("制作详情"))
                         {
                             CraftDetails(sheetInfo);
                             ImGui.EndTabItem();
@@ -123,7 +125,8 @@ namespace ICE.Ui
                     var statsFlag = _openStatsTab ? ImGuiTabItemFlags.SetSelected : ImGuiTabItemFlags.None;
                     _openStatsTab = false;
 
-                    if (ImGui.BeginTabItem("Completion Stats", statsFlag))
+                    // if (ImGui.BeginTabItem("Completion Stats", statsFlag))
+                    if (ImGui.BeginTabItem("完成统计", statsFlag))
                     {
                         StatInfo(sheetInfo);
                         ImGui.EndTabItem();
@@ -244,8 +247,10 @@ namespace ICE.Ui
 
             if (ImGui.BeginTable("Detailed Mission Info", 2, ImGuiTableFlags.SizingFixedFit | ImGuiTableFlags.Borders))
             {
-                ImGui.TableSetupColumn("Name");
-                ImGui.TableSetupColumn("Info");
+                // ImGui.TableSetupColumn("Name");
+                ImGui.TableSetupColumn("名称");
+                // ImGui.TableSetupColumn("Info");
+                ImGui.TableSetupColumn("信息");
 
                 // Cosmocredits
                 ItemInfo(45690, mission.CosmoCredit);
@@ -268,12 +273,14 @@ namespace ICE.Ui
 
                 RelicInfo();
 
-                ScoreInfo(TurninState.Gold, "Class Score", mission.ClassScore);
+                // ScoreInfo(TurninState.Gold, "Class Score", mission.ClassScore)
+                ScoreInfo(TurninState.Gold, "职业分数", mission.ClassScore);
 
                 ImGui.TableNextRow();
                 ImGui.TableSetColumnIndex(0);
                 ImGui.AlignTextToFramePadding();
-                ImGui.Text($"Job(s)");
+                // ImGui.Text($"Job(s)")
+                ImGui.Text($"职业");
 
                 ImGui.TableNextColumn();
                 ImGui_Ice.DrawJobIconButton("Jobs", mission.Jobs);
@@ -281,14 +288,18 @@ namespace ICE.Ui
                 ImGui.TableNextRow();
                 ImGui.TableSetColumnIndex(0);
                 ImGui.AlignTextToFramePadding();
-                ImGui.Text($"Completed:");
+                // ImGui.Text($"Completed:")
+                ImGui.Text($"已完成：");
 
                 ImGui.TableNextColumn();
                 ImGui_Ice.CompletionStatusIcon(mission);
 
-                ScoreInfo(TurninState.Bronze, "Bronze Requirement", mission.BronzeScore);
-                ScoreInfo(TurninState.Silver, "Silver Requirement", mission.SilverScore);
-                ScoreInfo(TurninState.Gold, "Gold Requirement", mission.GoldScore);
+                // ScoreInfo(TurninState.Bronze, "Bronze Requirement", mission.BronzeScore)
+                ScoreInfo(TurninState.Bronze, "铜牌要求", mission.BronzeScore);
+                // ScoreInfo(TurninState.Silver, "Silver Requirement", mission.SilverScore)
+                ScoreInfo(TurninState.Silver, "银牌要求", mission.SilverScore);
+                // ScoreInfo(TurninState.Gold, "Gold Requirement", mission.GoldScore)
+                ScoreInfo(TurninState.Gold, "金牌要求", mission.GoldScore);
 
                 if (mission.MarkerId != 0)
                 {
@@ -327,13 +338,15 @@ namespace ICE.Ui
                 {
                     ImGui.TableNextRow();
                     ImGui.TableSetColumnIndex(0);
-                    ImGui.Text("Mission Skill");
+                    // ImGui.Text("Mission Skill")
+                    ImGui.Text("任务技能");
 
                     ImGui.TableNextColumn();
                     ImGui_Ice.ImageButtonWithText(mission.TemporaryAction.Icon.GetWrapOrEmpty(), $"{mission.TemporaryAction.Name}", "tempAction", size);
                     if (ImGui.IsItemHovered() && mission.TemporaryAction.UseAmount != 0)
                     {
-                        ImGui.SetTooltip($"Max Use: {mission.TemporaryAction.UseAmount}");
+                        // ImGui.SetTooltip($"Max Use: {mission.TemporaryAction.UseAmount}")
+                        ImGui.SetTooltip($"最大使用次数：{mission.TemporaryAction.UseAmount}");
                     }
                 }
 
@@ -341,7 +354,8 @@ namespace ICE.Ui
                 {
                     ImGui.TableNextRow();
                     ImGui.TableSetColumnIndex(0);
-                    ImGui.Text("Supplied Items");
+                    // ImGui.Text("Supplied Items")
+                    ImGui.Text("补给物品");
 
                     ImGui.TableNextColumn();
                     for (int i = 0; i < mission.Supplies.Count(); i++)
@@ -351,8 +365,10 @@ namespace ICE.Ui
                         if (ImGui.IsItemHovered())
                         {
                             ImGui.BeginTooltip();
-                            ImGui.Text($"ItemId: {supply.ItemId}");
-                            ImGui.Text($"Name: {supply.Name}");
+                            // ImGui.Text($"ItemId: {supply.ItemId}")
+                            ImGui.Text($"物品 ID：{supply.ItemId}");
+                            // ImGui.Text($"Name: {supply.Name}")
+                            ImGui.Text($"名称：{supply.Name}");
                             ImGui.EndTooltip();
                         }
                         if (i+1 < mission.Supplies.Count())
@@ -366,7 +382,8 @@ namespace ICE.Ui
 
                 ImGui.TableNextRow();
                 ImGui.TableSetColumnIndex(0);
-                ImGui.Text($"Notes [Hover over]");
+                // ImGui.Text($"Notes [Hover over]")
+                ImGui.Text($"备注 [悬停查看]");
 
                 ImGui.TableNextColumn();
                 var HasSPM = mission.BestSPM.SPM > 0;
@@ -379,7 +396,8 @@ namespace ICE.Ui
                     if (ImGui.IsItemHovered())
                     {
                         ImGui.BeginTooltip();
-                        ImGui.Text($"Average SPM: {mission.BestSPM.SPM:N2}");
+                        // ImGui.Text($"Average SPM: {mission.BestSPM.SPM:N2}")
+                        ImGui.Text($"平均每分钟得分：{mission.BestSPM.SPM:N2}");
                         ImGui.Text($"{mission.BestSPM.NoteInfo}");
                         ImGui.EndTooltip();
                     }
@@ -395,7 +413,8 @@ namespace ICE.Ui
                         ImGui.BeginTooltip();
                         if (mission.SequenceMissions_Next.Count() > 0)
                         {
-                            ImGui.Text("Next Sequence:");
+                            // ImGui.Text("Next Sequence:")
+                            ImGui.Text("后续序列：");
                             foreach (var missionSeq in mission.SequenceMissions_Next)
                             {
                                 var seqInfo = CosmicHelper.SheetMissionDict[missionSeq];
@@ -404,7 +423,8 @@ namespace ICE.Ui
                         }
                         if (mission.SequenceMissions_Previous.Count() > 0)
                         {
-                            ImGui.Text("Previous Sequence:");
+                            // ImGui.Text("Previous Sequence:")
+                            ImGui.Text("前置序列：");
                             foreach (var missionSeq in mission.SequenceMissions_Previous)
                             {
                                 var seqInfo = CosmicHelper.SheetMissionDict[missionSeq];
@@ -431,7 +451,8 @@ namespace ICE.Ui
                     if (ImGui.IsItemHovered())
                     {
                         ImGui.BeginTooltip();
-                        ImGui.Text("The following missions are required to have gold before you can do this one");
+                        // ImGui.Text("The following missions are required to have gold before you can do this one")
+                        ImGui.Text("以下任务需要达成金牌后才能执行本任务");
                         foreach (var missionUnlock in mission.MissionUnlock)
                         {
                             ImGui_Ice.CompletionStatusIcon(CosmicHelper.SheetMissionDict[missionUnlock]);
@@ -449,8 +470,10 @@ namespace ICE.Ui
             {
                 if (ImGui.BeginTable("Exp Rewards", 2, ImGuiTableFlags.SizingFixedFit | ImGuiTableFlags.Borders))
                 {
-                    ImGui.TableSetupColumn("Class Exp");
-                    ImGui.TableSetupColumn("% of Level");
+                    // ImGui.TableSetupColumn("Class Exp")
+                    ImGui.TableSetupColumn("职业经验");
+                    // ImGui.TableSetupColumn("% of Level")
+                    ImGui.TableSetupColumn("等级百分比");
 
                     ImGui.TableHeadersRow();
 
@@ -458,7 +481,8 @@ namespace ICE.Ui
                     {
                         ImGui.TableNextRow();
                         ImGui.TableSetColumnIndex(0);
-                        ImGui.Text("Lv. 10-49");
+                        // ImGui.Text("Lv. 10-49")
+                        ImGui.Text("等级 10-49");
 
                         ImGui.TableNextColumn();
                         ImGui.Text($"{mission.ExpModifier_1}%");
@@ -468,7 +492,8 @@ namespace ICE.Ui
                     {
                         ImGui.TableNextRow();
                         ImGui.TableSetColumnIndex(0);
-                        ImGui.Text("Lv. 50-89");
+                        // ImGui.Text("Lv. 50-89")
+                        ImGui.Text("等级 50-89");
 
                         ImGui.TableNextColumn();
                         ImGui.Text($"{mission.ExpModifier_2}%");
@@ -478,7 +503,8 @@ namespace ICE.Ui
                     {
                         ImGui.TableNextRow();
                         ImGui.TableSetColumnIndex(0);
-                        ImGui.Text("Lv. 90-99");
+                        // ImGui.Text("Lv. 90-99")
+                        ImGui.Text("等级 90-99");
 
                         ImGui.TableNextColumn();
                         ImGui.Text($"{mission.ExpModifier_3}%");
@@ -488,10 +514,12 @@ namespace ICE.Ui
                 }
             }
 
-            ImGui.Text("Mission Atributes");
+            // ImGui.Text("Mission Atributes")
+            ImGui.Text("任务属性");
             if (mission.Attributes == MissionAttributes.None)
             {
-                ImGui.Text("None");
+                // ImGui.Text("None")
+                ImGui.Text("无");
                 return;
             }
             else
@@ -520,7 +548,8 @@ namespace ICE.Ui
 
                 using (ImRaii.Disabled(!allowDelete))
                 {
-                    if (ImGui.Button("Reset Stats"))
+                    // if (ImGui.Button("Reset Stats"))
+                    if (ImGui.Button("重置统计"))
                     {
                         P.MissionTimer.ResetTimers(SelectedMission);
                     }
@@ -528,40 +557,53 @@ namespace ICE.Ui
                 if (ImGui.IsItemHovered(ImGuiHoveredFlags.AllowWhenDisabled))
                 {
                     ImGui.BeginTooltip();
-                    ImGui.Text("Hold Shift + Control");
+                    // ImGui.Text("Hold Shift + Control")
+                    ImGui.Text("按住 Shift + Control");
                     ImGui.EndTooltip();
                 }
 
                 if (config.TurninRecords.Count > 0)
                 {
-                    ImGui.Text($"Best Time: {TimeSpan.FromSeconds(config.BestTimeOverall()):mm\\:ss\\.ff}");
-                    ImGui.Text($"Average Time: {TimeSpan.FromSeconds(config.AverageTime()):mm\\:ss\\.ff}");
+                    // ImGui.Text($"Best Time: {TimeSpan.FromSeconds(config.BestTimeOverall()):mm\\:ss\\.ff}");
+                    ImGui.Text($"最佳用时：{TimeSpan.FromSeconds(config.BestTimeOverall()):mm\\:ss\\.ff}");
+                    // ImGui.Text($"Average Time: {TimeSpan.FromSeconds(config.AverageTime()):mm\\:ss\\.ff}");
+                    ImGui.Text($"平均用时：{TimeSpan.FromSeconds(config.AverageTime()):mm\\:ss\\.ff}");
                 }
                 else
                 {
-                    ImGui.Text("Best Time: --:--:--");
-                    ImGui.Text("Average Time: --:--:--");
+                    // ImGui.Text("Best Time: --:--:--")
+                    ImGui.Text("最佳用时：--:--:--");
+                    // ImGui.Text("Average Time: --:--:--")
+                    ImGui.Text("平均用时：--:--:--");
                 }
 
-                ImGui.Text($"Times Completed: {config.TotalCompletions}");
-                ImGui.Text($"Times Attempted: {config.TotalAttempts}");
+                // ImGui.Text($"Times Completed: {config.TotalCompletions}")
+                ImGui.Text($"完成次数：{config.TotalCompletions}");
+                // ImGui.Text($"Times Attempted: {config.TotalAttempts}")
+                ImGui.Text($"尝试次数：{config.TotalAttempts}");
 
                 var baseScore = missionInfo.ClassScore;
                 var comsoCredit = missionInfo.CosmoCredit;
                 var planetCredit = missionInfo.LunarCredit;
 
                 ImGui.Separator();
-                ImGui.Text("Estimated Score Per Hour:");
+                // ImGui.Text("Estimated Score Per Hour:")
+                ImGui.Text("预估每小时得分：");
                 ImGui.SameLine();
                 ImGui.TextDisabled("?");
                 if (ImGui.IsItemHovered())
                 {
                     ImGui.BeginTooltip();
-                    ImGui.Text("This is ASSUMING:");
-                    ImGui.Text("1: You have immaculate rng of getting the mission you want every time");
-                    ImGui.Text("2: You're hitting the threshold every time");
-                    ImGui.Text("This is based on your average time.\n" +
-                               "So get a good couple of runs to get a good feel for the timing");
+                    // ImGui.Text("This is ASSUMING:")
+                    ImGui.Text("以下为假设前提：");
+                    // ImGui.Text("1: You have immaculate rng of getting the mission you want every time")
+                    ImGui.Text("1：每次都好运刷到你想要的任务");
+                    // ImGui.Text("2: You're hitting the threshold every time")
+                    ImGui.Text("2：每次都达到分数门槛");
+                    // ImGui.Text("This is based on your average time.\n" +
+                    //        "So get a good couple of runs to get a good feel for the timing")
+                    ImGui.Text("该数值基于你的平均用时。\n" +
+                               "多跑几次以获得更准确的估算");
                     ImGui.EndTooltip();
                 }
                 if (ImGui.BeginTable("Score Info: External Details", 5, ImGuiTableFlags.SizingFixedFit | ImGuiTableFlags.RowBg | ImGuiTableFlags.Borders))
@@ -601,7 +643,8 @@ namespace ICE.Ui
                         if (ImGui.BeginTabBar("Completion Stats"))
                         {
                             // "All" tab always shown if there are any records
-                            if (ImGui.BeginTabItem("All"))
+                            // if (ImGui.BeginTabItem("All"))
+                            if (ImGui.BeginTabItem("全部"))
                             {
                                 DrawTurninTable(config.TurninRecords);
                                 ImGui.EndTabItem();
@@ -672,8 +715,10 @@ namespace ICE.Ui
                 return;
 
             ImGui.TableSetupScrollFreeze(0, 1);
-            ImGui.TableSetupColumn("Time");
-            ImGui.TableSetupColumn("State", ImGuiTableColumnFlags.WidthStretch, 100f);
+            // ImGui.TableSetupColumn("Time");
+            ImGui.TableSetupColumn("用时");
+            // ImGui.TableSetupColumn("State", ImGuiTableColumnFlags.WidthStretch, 100f);
+            ImGui.TableSetupColumn("状态", ImGuiTableColumnFlags.WidthStretch, 100f);
             ImGui.TableHeadersRow();
 
             foreach (var record in records)

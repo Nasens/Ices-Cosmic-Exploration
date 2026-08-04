@@ -142,12 +142,14 @@ namespace ICE.Scheduler.Tasks
             var preset = presetList[0];
             if (preset.StartsWith("AHFOLDER"))
             {
-                IceLogging.Verbose("We found a folder! We're going to import that", "AH Import");
+                // IceLogging.Verbose("We found a folder! We're going to import that", "AH Import");
+                IceLogging.Verbose("发现文件夹！将导入该文件夹", "AH Import");
                 P.AutoHook.CreateAndSelectAnonymousFolder(preset);
             }
             else
             {
-                IceLogging.Verbose("Basic Fishing preset (bless) single import it is", "AH Import");
+                // IceLogging.Verbose("Basic Fishing preset (bless) single import it is", "AH Import");
+                IceLogging.Verbose("基础钓鱼预设，单个导入即可", "AH Import");
                 P.AutoHook.CreateAndSelectAnonymousPreset(preset);
             }
         }
