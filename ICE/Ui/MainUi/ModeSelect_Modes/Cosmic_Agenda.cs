@@ -65,23 +65,23 @@ namespace ICE.Ui.MainUi.ModeSelect_Modes
 
                     if (standard)
                         // modeType = "Standard";
-                        modeType = "标准模式";
+                        modeType = "标准";
                     else if (relicMode)
                     {
                         // modeType = "Relic Grind";
-                        modeType = "Relic 刷取模式";
+                        modeType = "宇宙工具刷取";
                         modeIcon = FontAwesomeIcon.ArrowUpRightDots;
                     }
                     else if (xpLeveling)
                     {
                         // modeType = "Leveling Grind";
-                        modeType = "练级模式";
+                        modeType = "练级";
                         modeIcon = FontAwesomeIcon.Leaf;
                     }
                     else if (goldMode)
                     {
                         // modeType = "Gold Completion Grind";
-                        modeType = "金牌完成模式";
+                        modeType = "金牌完成";
                         modeIcon = FontAwesomeIcon.Trophy;
                     }
                     else if (agendaMode)
@@ -92,7 +92,7 @@ namespace ICE.Ui.MainUi.ModeSelect_Modes
                     }
 
                     // ImGuiEx.IconWithText(modeIcon, $"{modeType} Mode");
-                    ImGuiEx.IconWithText(modeIcon, $"{modeType} 模式");
+                    ImGuiEx.IconWithText(modeIcon, $"{modeType}模式");
 
                     ImGui.SameLine(0, 10 * scale);
 

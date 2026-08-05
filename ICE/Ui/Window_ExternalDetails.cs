@@ -62,7 +62,7 @@ namespace ICE.Ui
         public static int jokeId = 0;
 
         // public Window_ExternalDetails() : base($"Ice's Cosmic Exploration | Mission Details")
-        public Window_ExternalDetails() : base($"Ice 宇宙探索 | 任务详情")
+        public Window_ExternalDetails() : base($"Ice's Cosmic Exploration | 任务详情")
         {
             Flags = ImGuiWindowFlags.None;
             SizeConstraints = new()
@@ -705,7 +705,7 @@ namespace ICE.Ui
                 // MissionAttributes.ProvisionalWeather => "Weather Required",
                 MissionAttributes.ProvisionalWeather => "需特定天气",
                 // MissionAttributes.ProvisionalSequential => "Sequential Missions Required",
-                MissionAttributes.ProvisionalSequential => "需完成前置序列任务",
+                MissionAttributes.ProvisionalSequential => "需完成前置连续任务",
                 _ => attribute.ToString()
             };
         }

@@ -77,23 +77,23 @@ namespace ICE.Ui.MainUi.ModeSelect_Modes
 
                 if (standard)
                     // modeType = "Standard";
-                    modeType = "标准模式";
+                    modeType = "标准";
                 else if (relicMode)
                 {
                     // modeType = "Relic Grind";
-                    modeType = "Relic 刷取模式";
+                    modeType = "宇宙工具刷取";
                     modeIcon = FontAwesomeIcon.ArrowUpRightDots;
                 }
                 else if (xpLeveling)
                 {
                     // modeType = "Leveling Grind";
-                    modeType = "练级模式";
+                    modeType = "练级";
                     modeIcon = FontAwesomeIcon.Leaf;
                 }
                 else if (goldMode)
                 {
                     // modeType = "Gold Completion Grind";
-                    modeType = "金牌完成模式";
+                    modeType = "金牌完成";
                     modeIcon = FontAwesomeIcon.Trophy;
                 }
                 else if (agendaMode)
@@ -104,7 +104,7 @@ namespace ICE.Ui.MainUi.ModeSelect_Modes
                 }
 
                 // ImGuiEx.IconWithText(modeIcon, $"{modeType} Mode");
-                ImGuiEx.IconWithText(modeIcon, $"{modeType} 模式");
+                ImGuiEx.IconWithText(modeIcon, $"{modeType}模式");
 
                 ImGui.SameLine(0, 10 * scale);
 
@@ -160,7 +160,7 @@ namespace ICE.Ui.MainUi.ModeSelect_Modes
                             ImGui.BulletText($"达到行星点数时停止 [{C.LunarCreditsCap:N0}]");
                         if (C.StopOnceRelicFinished)
                             // ImGui.BulletText($"Stop once relic completed");
-                            ImGui.BulletText($"Relic 完成时停止");
+                            ImGui.BulletText($"宇宙工具完成时停止");
                         if (C.StopOnceStandardMissionsGolded)
                             // ImGui.BulletText("Stop when all standard missions are golded");
                             ImGui.BulletText("所有标准任务金牌后停止");
@@ -320,7 +320,7 @@ namespace ICE.Ui.MainUi.ModeSelect_Modes
                     ImGui.Checkbox("当前任务完成后停止", ref Mission_Settings.StopAfterCurrent);
                     bool relicTurnin = C.TurninRelic;
                     // if (ImGui.Checkbox($"Turnin if relic is complete##RelicTurnin_GeneralSetting", ref relicTurnin))
-                    if (ImGui.Checkbox($"Relic 完成时自动交付##RelicTurnin_GeneralSetting", ref relicTurnin))
+                    if (ImGui.Checkbox($"宇宙工具完成时自动交付##RelicTurnin_GeneralSetting", ref relicTurnin))
                     {
                         C.TurninRelic = relicTurnin;
                         C.Save();
@@ -340,7 +340,7 @@ namespace ICE.Ui.MainUi.ModeSelect_Modes
                                          "1：按当前实际职业（非菜单选择）检测 Relic 交付。\n" +
                                          "2：未装备工具时才能全自动运行。\n" +
                                          "\t- 暂未实现装备工具时的自动逻辑。\n" +
-                                         "3：若与「Relic 完成时停止」同时启用，将优先交付而非停止。\n" +
+                                         "3：若与「宇宙工具完成时停止」同时启用，将优先交付而非停止。\n" +
                                          "4：制作职业交付后会返回交付前的制作位置。\n" +
                                          "\t- 可选行为，可按需关闭。");
                     }
@@ -348,7 +348,7 @@ namespace ICE.Ui.MainUi.ModeSelect_Modes
                     ImGui.Separator();
                     bool relic_AllowRedAlert = C.Relic_IncludeCriticals;
                     // if (ImGui.Checkbox("Relic Mode: Allow Red Alerts", ref relic_AllowRedAlert))
-                    if (ImGui.Checkbox("Relic 模式：允许紧急通告", ref relic_AllowRedAlert))
+                    if (ImGui.Checkbox("宇宙工具模式：允许紧急探索任务", ref relic_AllowRedAlert))
                     {
                         C.Relic_IncludeCriticals = relic_AllowRedAlert;
                         C.Save();
@@ -356,7 +356,7 @@ namespace ICE.Ui.MainUi.ModeSelect_Modes
 
                     bool OnlySelected = C.XPRelicOnlyEnabled;
                     // if (ImGui.Checkbox("Relic Mode: Only Enabled", ref OnlySelected))
-                    if (ImGui.Checkbox("Relic 模式：仅已启用任务", ref OnlySelected))
+                    if (ImGui.Checkbox("宇宙工具模式：仅已启用任务", ref OnlySelected))
                     {
                         C.XPRelicOnlyEnabled = OnlySelected;
                         C.Save();

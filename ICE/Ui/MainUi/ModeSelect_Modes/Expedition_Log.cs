@@ -327,7 +327,7 @@ namespace ICE.Ui.MainUi.ModeSelect_Modes
                     // ImGui.TableSetupColumn("Job");
                     ImGui.TableSetupColumn("职业");
                     // ImGui.TableSetupColumn("Relic");
-                    ImGui.TableSetupColumn("Relic 工具");
+                    ImGui.TableSetupColumn("宇宙工具");
                     // ImGui.TableSetupColumn("##Relic_XPBar");
                     ImGui.TableSetupColumn("##Relic_XPBar");
                     // ImGui.TableSetupColumn("Score");

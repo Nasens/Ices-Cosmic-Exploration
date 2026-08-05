@@ -213,7 +213,7 @@ namespace ICE.Ui.MainUi.Settings
 
             bool AutoCordial = C.AutoCordial;
             // if (ImGui.Checkbox("Auto Cordial", ref AutoCordial))
-            if (ImGui.Checkbox("自动使用 cordial", ref AutoCordial))
+            if (ImGui.Checkbox("自动使用强心剂", ref AutoCordial))
             {
                 C.AutoCordial = AutoCordial;
                 C.Save();

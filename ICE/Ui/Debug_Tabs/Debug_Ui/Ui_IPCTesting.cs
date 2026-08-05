@@ -152,7 +152,7 @@ namespace ICE.Ui.Debug_Tabs.Debug_Ui
                 P.IceIpc.OnlyMissions(missionListIds);
             }
             // if (ImGui.Button("Change to gamba"))
-            if (ImGui.Button("切换至赌博"))
+            if (ImGui.Button("切换至好运道"))
             {
                 SchedulerMain.State = IceState.Gambling;
             }

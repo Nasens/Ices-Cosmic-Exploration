@@ -68,7 +68,7 @@ internal class DebugWindow : Window
             // ["Token Exchange"] = () => Hud_ShopExchange.Draw(),
             ["代币兑换"] = () => Hud_ShopExchange.Draw(),
             // ["Aethernet"] = () => Hud_Aethernet.Draw(),
-            ["以太之光"] = () => Hud_Aethernet.Draw(),
+            ["星内以太之光"] = () => Hud_Aethernet.Draw(),
         },
         // ["Table"] = new()
         ["表格"] = new()
@@ -110,15 +110,15 @@ internal class DebugWindow : Window
             // ["Player Info"] = () => Ui_PlayerInfo.Draw(),
             ["玩家信息"] = () => Ui_PlayerInfo.Draw(),
             // ["Relic Info"] = () => Ui_RelicInfo.Draw(),
-            ["Relic 信息"] = () => Ui_RelicInfo.Draw(),
+            ["宇宙工具信息"] = () => Ui_RelicInfo.Draw(),
             // ["Relic Info V2"] = () => Ui_ClassInfo.Draw(),
-            ["Relic 信息 V2"] = () => Ui_ClassInfo.Draw(),
+            ["宇宙工具信息 V2"] = () => Ui_ClassInfo.Draw(),
             // ["NPC Box Viewer"] = () => Ui_NpcViewer.Draw(),
             ["NPC 框查看器"] = () => Ui_NpcViewer.Draw(),
             // ["Oizyr Map Stuff"] = () => Ui_OyzinMap.Draw(),
             ["Oizys 地图"] = () => Ui_OyzinMap.Draw(),
             // ["Aethernet Test"] = () => Ui_Aethernet.Draw(),
-            ["以太之光测试"] = () => Ui_Aethernet.Draw(),
+            ["星内以太之光测试"] = () => Ui_Aethernet.Draw(),
         },
         // ["Misc"] = new()
         ["杂项"] = new()

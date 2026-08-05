@@ -19,10 +19,10 @@ namespace ICE.Ui
         public MainWindow() :
 #if DEBUG
         // base($"Ice's Cosmic Exploration {P.GetType().Assembly.GetName().Version} [Debug Build] ###ICEMainWindow2")
-        base($"Ice 宇宙探索 {P.GetType().Assembly.GetName().Version} [调试版] ###ICEMainWindow2")
+        base($"Ice's Cosmic Exploration {P.GetType().Assembly.GetName().Version} [调试版] ###ICEMainWindow2")
 #else
         // base($"Ice's Cosmic Exploration {P.GetType().Assembly.GetName().Version} ###ICEMainWindow2")
-        base($"Ice 宇宙探索 {P.GetType().Assembly.GetName().Version} ###ICEMainWindow2")
+        base($"Ice's Cosmic Exploration {P.GetType().Assembly.GetName().Version} ###ICEMainWindow2")
 #endif
         {
             Flags = ImGuiWindowFlags.NoScrollbar;
@@ -122,7 +122,7 @@ namespace ICE.Ui
             }
             ImGuiEx.HelpMarker(HelpInfoText(ModeSelect.Standard));
             // if (ImGui.RadioButton("Relic Grind", relicMode))
-            if (ImGui.RadioButton("Relic 刷取模式", relicMode))
+            if (ImGui.RadioButton("宇宙工具刷取模式", relicMode))
             {
                 C.SelectedMode = ModeSelect.RelicMode;
                 C.Save();
@@ -181,7 +181,7 @@ namespace ICE.Ui
                     "**使用这些模式时会自动临时调整相关设置**",
                 ModeSelect.RelicMode =>
                     // "Relic Grind\n" +
-                    "Relic 刷取模式\n" +
+                    "宇宙工具刷取模式\n" +
                     // "-> Automatically select which missions that are best to finish up your relic\n" +
                     "-> 自动选择最适合完成 Relic 进度的任务\n" +
                     // "-> These are weighed based on what is needed to complete the tool to the next step\n" +

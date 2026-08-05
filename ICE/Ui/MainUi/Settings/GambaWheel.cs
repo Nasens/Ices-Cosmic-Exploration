@@ -16,7 +16,7 @@ namespace ICE.Ui.MainUi.Settings
         public static unsafe void Draw_Old()
         {
             // if (ImGui.Checkbox("Enable Auto Gamba", ref gambaEnabled))
-            if (ImGui.Checkbox("启用自动赌博", ref gambaEnabled))
+            if (ImGui.Checkbox("启用自动好运道", ref gambaEnabled))
             {
                 C.GambaEnabled = gambaEnabled;
                 C.Save();
@@ -108,7 +108,7 @@ namespace ICE.Ui.MainUi.Settings
         {
             bool gambaEnabled = C.GambaEnabled;
             // if (ImGui.Checkbox("Enable Auto Gamba Wheel", ref gambaEnabled))
-            if (ImGui.Checkbox("启用自动赌博转盘", ref gambaEnabled))
+            if (ImGui.Checkbox("启用自动好运道转盘", ref gambaEnabled))
             {
                 C.GambaEnabled = gambaEnabled;
                 C.Save();

@@ -7,7 +7,7 @@ namespace ICE.Ui.Debug_Tabs.Debug_Hud
         public static void Draw()
         {
             // if (ImGui.Button($"Auto Gamba"))
-            if (ImGui.Button($"自动赌博"))
+            if (ImGui.Button($"自动好运道"))
             {
                 Task_Gamba.Enqueue();
             }
@@ -38,7 +38,7 @@ namespace ICE.Ui.Debug_Tabs.Debug_Hud
                 }
 
                 // if (ImGui.Button($"Auto Gamba"))
-                if (ImGui.Button($"自动赌博"))
+                if (ImGui.Button($"自动好运道"))
                 {
                     Task_Gamba.Enqueue();
                 }

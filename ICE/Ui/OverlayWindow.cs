@@ -701,7 +701,7 @@ namespace ICE.Ui
                 {
                     bool stopWhen = C.StopAtRelicLv;
                     // if (ImGui.Checkbox("Stop At Relic Lv.", ref stopWhen))
-                    if (ImGui.Checkbox("达到 Relic 等级时停止", ref stopWhen))
+                    if (ImGui.Checkbox("达到宇宙工具等级时停止", ref stopWhen))
                     {
                         C.StopAtRelicLv = stopWhen;
                         C.Save();

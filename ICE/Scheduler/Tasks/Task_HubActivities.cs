@@ -38,7 +38,7 @@ namespace ICE.Scheduler
                 P.TaskManager.Enqueue(() => IceLogging.Info("在 NPC 处开始神器交付任务", "Task_HubActivities"));
                 Task_RelicTurnin.Enqueue();
                 // P.TaskManager.Enqueue(() => IceLogging.Info("Task_Relic turnin is Complete"));
-                P.TaskManager.Enqueue(() => IceLogging.Info("Task_Relic 交付完成"));
+                P.TaskManager.Enqueue(() => IceLogging.Info("Task_宇宙工具交付完成"));
             }
             if (CosmoBuy)
             {
@@ -49,7 +49,7 @@ namespace ICE.Scheduler
             if (CanGamba)
             {
                 // P.TaskManager.Enqueue(() => IceLogging.Info("Starting Gamba task at the npc", "Task_HubActivities"));
-                P.TaskManager.Enqueue(() => IceLogging.Info("在 NPC 处开始赌博任务", "Task_HubActivities"));
+                P.TaskManager.Enqueue(() => IceLogging.Info("在 NPC 处开始好运道任务", "Task_HubActivities"));
                 Task_Gamba.Enqueue();
             }
             if (CanBuyDrones)

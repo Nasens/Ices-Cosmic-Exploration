@@ -321,7 +321,7 @@ namespace ICE.Scheduler.Tasks
                 if (modeSelected == ModeSelect.RelicMode && C.XPRelicOnlyEnabled)
                 {
                     // IceLogging.ChatInfo("\"Only selected missions\" is enabled for Relic Grind, but no selected missions match your current job. Please select missions for this job, switch jobs, or disable the option.", "[I.C.E.]");
-                    IceLogging.ChatInfo("Relic 刷取模式已启用「仅已启用任务」，但当前职业无匹配任务。请为该职业选择任务、切换职业，或关闭此选项。", "[I.C.E.]");
+                    IceLogging.ChatInfo("宇宙工具刷取模式已启用「仅已启用任务」，但当前职业无匹配任务。请为该职业选择任务、切换职业，或关闭此选项。", "[I.C.E.]");
                     if (C.PlaySoundAlert)
                     {
                         _ = SoundPlayer.PlaySoundAsync();

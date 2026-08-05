@@ -106,13 +106,13 @@ namespace ICE.Ui.MainUi
                 if (ImGui_Ice.Sidebar_CollaspableHeader("中枢活动", SidebarTabs.HubActivites, icon: FontAwesomeIcon.Home))
                 {
                     // ImGui_Ice.DrawSelectable_Image(65112, "Credit Shopping", WindowSelection.CreditShopping);
-                    ImGui_Ice.DrawSelectable_Image(65112, "点数购物", WindowSelection.CreditShopping);
+                    ImGui_Ice.DrawSelectable_Image(65112, "信用点购物", WindowSelection.CreditShopping);
                     // ImGui_Ice.DrawSelectable_Image(65127, "Gambling Settings", WindowSelection.GambaShopping);
-                    ImGui_Ice.DrawSelectable_Image(65127, "赌博设置", WindowSelection.GambaShopping);
+                    ImGui_Ice.DrawSelectable_Image(65127, "好运道设置", WindowSelection.GambaShopping);
 
                     if (ShowDronebitSettings())
                         // ImGui_Ice.DrawSelectable_Image(65138, "Dronebit Settings", WindowSelection.DroneShopping);
-                        ImGui_Ice.DrawSelectable_Image(65138, "无人机代币设置", WindowSelection.DroneShopping);
+                        ImGui_Ice.DrawSelectable_Image(65138, "无人机晶片设置", WindowSelection.DroneShopping);
 
                     ImGui_Ice.DrawSelectable_Image(26176, "Mount Tokens", WindowSelection.MountShopping);
                 }
@@ -180,7 +180,7 @@ namespace ICE.Ui.MainUi
                     }
                 }
                 // if (ImGui_Ice.Sidebar_CollaspableHeader("Current Tool XP", SidebarTabs.ExpInfo, FontAwesomeIcon.ArrowUpRightDots))
-                if (ImGui_Ice.Sidebar_CollaspableHeader("当前工具经验", SidebarTabs.ExpInfo, FontAwesomeIcon.ArrowUpRightDots))
+                if (ImGui_Ice.Sidebar_CollaspableHeader("当前宇宙工具经验", SidebarTabs.ExpInfo, FontAwesomeIcon.ArrowUpRightDots))
                 {
                     ImGui_Ice.Draw_ExpTable(currentClass);
                 }

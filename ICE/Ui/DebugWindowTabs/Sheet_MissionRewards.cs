@@ -80,7 +80,7 @@ namespace ICE.Ui.DebugWindowTabs
                 // Column 1
                 ImGui.TableSetColumnIndex(1);
                 // ImGui.TableHeader("CosmoCredits");
-                ImGui.TableHeader("宇宙点数");
+                ImGui.TableHeader("宇宙信用点");
                 if (ImGui.IsItemHovered())
                 {
                     ImGui.BeginTooltip();
@@ -92,7 +92,7 @@ namespace ICE.Ui.DebugWindowTabs
                 // Column 2
                 ImGui.TableSetColumnIndex(2);
                 // ImGui.TableHeader("PlanetCredits");
-                ImGui.TableHeader("行星点数");
+                ImGui.TableHeader("行星信用点");
                 if (ImGui.IsItemHovered())
                 {
                     ImGui.BeginTooltip();

@@ -24,7 +24,7 @@ namespace ICE.Ui.MainUi.HelpFolder.Tips_Folder
                 }
 
                 // if (ImGui.BeginTabItem("Relic Grind"))
-                if (ImGui.BeginTabItem("Relic 刷取"))
+                if (ImGui.BeginTabItem("宇宙工具刷取"))
                 {
                     RelicGrind();
                     ImGui.EndTabItem();
@@ -83,13 +83,13 @@ namespace ICE.Ui.MainUi.HelpFolder.Tips_Folder
         {
             ImGui.Dummy(new(0, 5));
             // ImGuiEx.IconWithText(FontAwesomeIcon.ArrowUpRightDots, "Relic Grind");
-            ImGuiEx.IconWithText(FontAwesomeIcon.ArrowUpRightDots, "Relic 刷取");
+            ImGuiEx.IconWithText(FontAwesomeIcon.ArrowUpRightDots, "宇宙工具刷取");
 
             ImGui.TextWrapped(
                 // "A mode designed to automate mission selection for relic progression with minimal intervention. " +
                 // "It scans all available missions, evaluates the experience each one provides, and picks whichever " +
                 // "yields the most for your current level.");
-                "专为 Relic 进度自动化任务选择而设计的模式，干预最少。" +
+                "专为宇宙工具进度自动化任务选择而设计的模式，干预最少。" +
                 "它会扫描所有可用任务，评估每个任务提供的经验，并选择对当前等级收益最大的任务。");
             ImGui.TextWrapped(
                 // "If you're high enough level to need the next rank category but haven't unlocked it yet " +
@@ -109,7 +109,7 @@ namespace ICE.Ui.MainUi.HelpFolder.Tips_Folder
             // ImGui.TextWrapped("So make sure that you're on the correct planet to accomodate for the exp that you need" +
             //     "and to allow for completion your relic.");
             ImGui.TextWrapped("请务必待在正确的星球上，以满足所需经验" +
-                "并完成你的 Relic。");
+                "并完成你的宇宙工具。");
         }
 
         public static void GoldCompletion()
@@ -193,7 +193,7 @@ namespace ICE.Ui.MainUi.HelpFolder.Tips_Folder
             // ImGui.BulletText("Farming specific classes scores to 500k");
             ImGui.BulletText("将指定职业分数刷到 500k");
             // ImGui.BulletText("Completed relics on all classes");
-            ImGui.BulletText("完成所有职业的 Relic");
+            ImGui.BulletText("完成所有职业的宇宙工具");
             // ImGui.TextWrapped("You can specify the modes that you want to use these from, and it will run continue attempting to do that class until that objective is complete." +
             //     "This will respect any setting that you currently have enabled, it's jsut a fancy way of letting you the user choose what to do");
             ImGui.TextWrapped("可指定使用哪些模式来完成目标，插件会持续运行该职业直至目标达成。" +

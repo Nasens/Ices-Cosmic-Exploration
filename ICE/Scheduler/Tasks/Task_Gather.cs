@@ -1022,7 +1022,7 @@ namespace ICE.Scheduler.Tasks
                         foreach (var cordial in C.inverseCordialPrio ? cordials.Reverse() : cordials)
                         {
                             // IceLogging.Verbose($"Checking Cordial: {cordial.Value.Name}", tag);
-                            IceLogging.Verbose($"检查酒：{cordial.Value.Name}", tag);
+                            IceLogging.Verbose($"检查强心剂：{cordial.Value.Name}", tag);
                             bool hq = cordial.Key >= 1_000_000;
                             uint baseId = hq ? cordial.Key - 1_000_000 : cordial.Key;
 
@@ -1052,7 +1052,7 @@ namespace ICE.Scheduler.Tasks
                                                 if (item->ItemId == baseId && (hq == false || item->Flags.HasFlag(InventoryItem.ItemFlags.HighQuality)))
                                                 {
                                                     // IceLogging.Verbose($"We're using a cordial: ID: {cordial.Key} | Name: {cordial.Value.Name}", tag);
-                                                    IceLogging.Verbose($"正在使用酒：ID：{cordial.Key} | 名称：{cordial.Value.Name}", tag);
+                                                    IceLogging.Verbose($"正在使用强心剂：ID：{cordial.Key} | 名称：{cordial.Value.Name}", tag);
                                                     AgentInventoryContext.Instance()->UseItem(cordial.Key, invType, (uint)i, 0);
                                                     return true;
                                                 }

@@ -173,7 +173,7 @@ namespace ICE.Scheduler.Tasks
                     {
                         // IceLogging.ChatInfo($"You've either hit the Lunar Credit threshold, or gone above it.\n" +
                         //                     $"Stopping I.C.E.", "[I.C.E.]");
-                        IceLogging.ChatInfo($"已达到或超过行星点数阈值。\n" +
+                        IceLogging.ChatInfo($"已达到或超过行星信用点阈值。\n" +
                                             $"正在停止 ICE。", "[I.C.E.]");
                         SchedulerMain.State = IceState.Idle;
                         if (C.PlaySoundAlert)
@@ -188,7 +188,7 @@ namespace ICE.Scheduler.Tasks
                     if (GenericHelpers.TryGetAddonMaster<WKSHud>("WKSHud", out var hud) && hud.IsAddonReady && (hud.CosmoCredit >= C.CosmoCreditsCap))
                     {
                         // IceLogging.ChatInfo($"Stopping the plugin as you have {hud.CosmoCredit} Cosmocredits.", "[I.C.E.]");
-                        IceLogging.ChatInfo($"宇宙点数已达 {hud.CosmoCredit}，正在停止插件。", "[I.C.E.]");
+                        IceLogging.ChatInfo($"宇宙信用点已达 {hud.CosmoCredit}，正在停止插件。", "[I.C.E.]");
                         SchedulerMain.State = IceState.Idle;
                         if (C.PlaySoundAlert)
                         {
@@ -274,7 +274,7 @@ namespace ICE.Scheduler.Tasks
                     {
                         // IceLogging.ChatInfo($"You've either hit the Lunar Credit threshold, or gone above it.\n" +
                         //                     $"Stopping I.C.E.", "[I.C.E.]");
-                        IceLogging.ChatInfo($"已达到或超过行星点数阈值。\n" +
+                        IceLogging.ChatInfo($"已达到或超过行星信用点阈值。\n" +
                                             $"正在停止 ICE。", "[I.C.E.]");
                         SchedulerMain.State = IceState.Idle;
                         PlaySoundbit();
@@ -286,7 +286,7 @@ namespace ICE.Scheduler.Tasks
                     if (GenericHelpers.TryGetAddonMaster<WKSHud>("WKSHud", out var hud) && hud.IsAddonReady && (hud.CosmoCredit >= C.CosmoCreditsCap))
                     {
                         // IceLogging.ChatInfo($"Stopping the plugin as you have {hud.CosmoCredit} Cosmocredits.", "[I.C.E.]");
-                        IceLogging.ChatInfo($"宇宙点数已达 {hud.CosmoCredit}，正在停止插件。", "[I.C.E.]");
+                        IceLogging.ChatInfo($"宇宙信用点已达 {hud.CosmoCredit}，正在停止插件。", "[I.C.E.]");
                         SchedulerMain.State = IceState.Idle;
                         PlaySoundbit();
                         return true;
@@ -331,7 +331,7 @@ namespace ICE.Scheduler.Tasks
                                 else
                                 {
                                     // IceLogging.ChatInfo("We're at the point we can turn in the relic! Please do so, or disable stop when at relic turnin", tag);
-                                    IceLogging.ChatInfo("Relic 已可交付！请手动交付，或关闭「Relic 完成时停止」。", tag);
+                                    IceLogging.ChatInfo("宇宙工具已可交付！请手动交付，或关闭「宇宙工具完成时停止」。", tag);
                                     SchedulerMain.State = IceState.Idle;
                                     PlaySoundbit();
                                     return true;
@@ -717,7 +717,7 @@ namespace ICE.Scheduler.Tasks
                 IceLogging.Info("有理由返回基地，因此正在返回。\n" +
                                   $"可购买无人机：{BuyDrones}\n" +
                                   $"抽奖转盘：{GambaWheel}\n" +
-                                  $"购买宇宙点数/坐骑物品：{BuyItems}\n" +
+                                  $"购买宇宙信用点/坐骑物品：{BuyItems}\n" +
                                   $"在商人处修理：{RepairVendor}\n" +
                                   $"交付 Relic：{TurninRelic}", tag);
                 Task_HubActivities.CanBuyDrones = BuyDrones;

@@ -46,7 +46,7 @@ namespace ICE.Ui.MainUi.Settings.Settings_Table
 
             bool stellarSprint = C.MoonSprint;
             // if (ImGui.Checkbox("Auto-Use Stellar Sprint", ref stellarSprint))
-            if (ImGui.Checkbox("自动使用星界冲刺", ref stellarSprint))
+            if (ImGui.Checkbox("自动使用宇宙冲刺", ref stellarSprint))
             {
                 C.MoonSprint = stellarSprint;
                 C.Save();
@@ -147,7 +147,7 @@ namespace ICE.Ui.MainUi.Settings.Settings_Table
             ImGui.SameLine();
             bool useAethernet = C.UseAethernet;
             // if (ImGui.Checkbox("Use Aethernet", ref useAethernet))
-            if (ImGui.Checkbox("使用以太之光", ref useAethernet))
+            if (ImGui.Checkbox("使用星内以太之光", ref useAethernet))
             {
                 C.UseAethernet = useAethernet;
                 C.Save();
@@ -155,7 +155,7 @@ namespace ICE.Ui.MainUi.Settings.Settings_Table
 
             bool useRedAlertNpc = C.UseRedAlertNpc;
             // if (ImGui.Checkbox("Use Red Alert NPC for travel", ref useRedAlertNpc))
-            if (ImGui.Checkbox("使用红警 NPC 传送", ref useRedAlertNpc))
+            if (ImGui.Checkbox("使用紧急探索任务 NPC 传送", ref useRedAlertNpc))
             {
                 C.UseRedAlertNpc = useRedAlertNpc;
                 C.Save();

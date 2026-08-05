@@ -71,7 +71,7 @@ namespace ICE.Ui.MainUi.Settings
 
             bool runDroneFinder = C.Cosmodrone_Run;
             // if (ImGui.Checkbox("Automate cosmodrone", ref runDroneFinder))
-            if (ImGui.Checkbox("自动化 cosmodrone", ref runDroneFinder))
+            if (ImGui.Checkbox("自动化宇宙无人机", ref runDroneFinder))
             {
                 C.Cosmodrone_Run = runDroneFinder;
                 C.Save();

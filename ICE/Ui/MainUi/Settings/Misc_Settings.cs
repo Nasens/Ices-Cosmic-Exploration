@@ -199,7 +199,7 @@ namespace ICE.Ui.MainUi.Settings
 
             bool DisableLunarAura = C.RemoveStellarStatus;
             // if (ImGui.Checkbox("Auto-Remove Stellar Status", ref DisableLunarAura))
-            if (ImGui.Checkbox("自动移除星界状态", ref DisableLunarAura))
+            if (ImGui.Checkbox("自动移除贡献之星状态", ref DisableLunarAura))
             {
                 C.RemoveStellarStatus = DisableLunarAura;
                 C.Save();
@@ -247,7 +247,7 @@ namespace ICE.Ui.MainUi.Settings
             {
                 bool keepARanks = C.KeepARanks;
                 // if (ImGui.Checkbox("Keep \"A Rank\" missions and below", ref keepARanks))
-                if (ImGui.Checkbox("保留 A 级及以下任务", ref keepARanks))
+                if (ImGui.Checkbox("保留 A 类及以下任务", ref keepARanks))
                 {
                     C.KeepARanks = keepARanks;
                     C.Save();
